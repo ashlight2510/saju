@@ -38,13 +38,16 @@
         margin: 0;
         min-height: 100vh;
         font-family: var(--font-body);
-        background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
+        background: radial-gradient(1200px 600px at 10% -10%, #1f3a4d 0%, transparent 60%),
+          radial-gradient(900px 500px at 90% 0%, #1a2b3b 0%, transparent 55%),
+          linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
         color: rgba(255, 255, 255, 0.92);
+        font-size: 16px;
       }
       .wrap {
-        max-width: 980px;
+        max-width: 1040px;
         margin: 0 auto;
-        padding: 24px 18px 40px;
+        padding: 28px 18px 48px;
       }
       h1,
       h2,
@@ -55,6 +58,13 @@
         font-family: var(--font-title);
         font-weight: 800;
         letter-spacing: 0.02em;
+        font-size: 30px;
+      }
+      h2 {
+        font-size: 22px;
+      }
+      h3 {
+        font-size: 18px;
       }
       .hero {
         display: flex;
@@ -68,16 +78,16 @@
         font-weight: 800;
         letter-spacing: 0.14em;
         text-transform: uppercase;
-        padding: 8px 10px;
+        padding: 10px 12px;
         border-radius: 999px;
         background: rgba(255, 255, 255, 0.12);
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
       .card {
-        background: var(--card);
+        background: rgba(255, 255, 255, 0.98);
         color: var(--text);
         border-radius: var(--radius);
-        padding: 18px;
+        padding: 24px;
         margin-bottom: 16px;
         border: 1px solid rgba(255, 255, 255, 0.25);
         box-shadow: var(--shadow);
@@ -89,19 +99,20 @@
         gap: 12px;
       }
       .score {
-        font-size: 28px;
+        font-size: 32px;
         font-weight: 800;
         color: var(--accent);
       }
       .lead {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
         font-weight: 800;
-        line-height: 1.5;
+        line-height: 1.65;
       }
       .mini {
-        font-size: 0.85rem;
+        font-size: 0.95rem;
         color: var(--muted);
         font-weight: 700;
+        line-height: 1.6;
       }
       .row {
         display: flex;
@@ -110,13 +121,14 @@
         align-items: center;
       }
       .btn {
-        padding: 10px 14px;
+        padding: 12px 16px;
         border-radius: 999px;
         border: none;
         font-weight: 800;
         cursor: pointer;
         background: var(--text);
         color: #fff;
+        font-size: 15px;
       }
       .btn.outline {
         background: #fff;
@@ -131,16 +143,18 @@
       select,
       input[type="range"],
       input[type="date"],
-      input[type="time"] {
-        padding: 8px 10px;
-        border-radius: 10px;
+      input[type="time"],
+      input[type="number"] {
+        padding: 12px 12px;
+        border-radius: 12px;
         border: 1px solid rgba(15, 23, 42, 0.16);
         font-weight: 700;
+        font-size: 15px;
       }
       .rule-card {
         border: 1px solid var(--line);
         border-radius: 12px;
-        padding: 12px;
+        padding: 14px;
         margin-bottom: 10px;
         background: rgba(255, 255, 255, 0.96);
       }
@@ -164,6 +178,9 @@
         margin: 12px auto 0;
         display: block;
       }
+      .elements-radar {
+        max-width: 360px;
+      }
       .grid-2 {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -179,9 +196,9 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 800;
-        padding: 6px 10px;
+        padding: 8px 12px;
         border-radius: 999px;
         background: rgba(15, 23, 42, 0.06);
         border: 1px solid rgba(15, 23, 42, 0.1);
@@ -195,8 +212,81 @@
       }
       .pdf-area {
         background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
-        padding: 14px 14px 2px;
+        padding: 18px 18px 8px;
         border-radius: 16px;
+      }
+      .step {
+        display: none;
+      }
+      .step.active {
+        display: block;
+      }
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .menu-btn {
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        background: #f8fafc;
+        color: var(--text);
+        border-radius: 18px;
+        padding: 18px 16px;
+        text-align: left;
+        cursor: pointer;
+        font-weight: 800;
+        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+      }
+      .menu-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
+        border-color: rgba(37, 99, 235, 0.3);
+      }
+      .loading-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 18, 26, 0.82);
+        backdrop-filter: blur(6px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+      }
+      .loading-overlay.active {
+        display: flex;
+      }
+      .loading-card {
+        background: rgba(255, 255, 255, 0.96);
+        color: var(--text);
+        border-radius: 18px;
+        padding: 22px 24px;
+        min-width: 280px;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+      .spinner {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 4px solid rgba(37, 99, 235, 0.2);
+        border-top-color: var(--accent);
+        margin: 0 auto 12px;
+        animation: spin 0.9s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .menu-btn small {
+        display: block;
+        margin-top: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(15, 23, 42, 0.6);
+      }
+      .hidden {
+        display: none !important;
       }
 
       @media (max-width: 720px) {
@@ -207,6 +297,9 @@
           flex-direction: column;
           align-items: flex-start;
         }
+        .menu-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -214,143 +307,291 @@
   <body>
     <div class="wrap">
       <div class="hero">
-        <div class="badge">Local Only</div>
+        <div class="badge">사 주 팔 자</div>
         <div class="badge" id="todayBadge"></div>
       </div>
 
-      <div class="card" id="inputCard">
-        <div class="card-head">
-          <div>
-            <h1>🔮 궁합 리포트</h1>
-            <p class="mini">출생 정보 입력 → 로컬 계산</p>
-          </div>
-          <button class="btn" id="calcBtn">계산하기</button>
-        </div>
-
-        <div class="grid-2" style="margin-top: 12px">
-          <div class="rule-card">
-            <h3>A 정보</h3>
-            <div class="row">
-              <input id="aDate" type="date" />
-              <input id="aTime" type="time" step="60" />
-            </div>
-            <div class="row" style="margin-top: 8px">
-              <select id="aZiMode">
-                <option value="2300" selected>자시: 23:00</option>
-                <option value="2330">야자시: 23:30</option>
-              </select>
-              <select id="aHiddenMode">
-                <option value="on" selected>장간 반영</option>
-                <option value="off">장간 미반영</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="rule-card">
-            <h3>B 정보</h3>
-            <div class="row">
-              <input id="bDate" type="date" />
-              <input id="bTime" type="time" step="60" />
-            </div>
-            <div class="row" style="margin-top: 8px">
-              <select id="bZiMode">
-                <option value="2300" selected>자시: 23:00</option>
-                <option value="2330">야자시: 23:30</option>
-              </select>
-              <select id="bHiddenMode">
-                <option value="on" selected>장간 반영</option>
-                <option value="off">장간 미반영</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top: 12px">
-          <span class="mini">톤</span>
-          <select id="toneSelect">
-            <option value="couple" selected>커플 모드</option>
-            <option value="biz">동업자 모드</option>
-          </select>
-          <span class="mini">* Asia/Seoul(UTC+9) · 1988 DST 반영</span>
-        </div>
-      </div>
-
-      <div id="pdfArea" class="pdf-area">
+      <!-- Step 1: 메뉴 -->
+      <section id="stepMenu" class="step active">
         <div class="card">
           <div class="card-head">
             <div>
-              <h2>궁합 요약</h2>
-              <p class="mini" id="summarySub">Asia/Seoul 기준 · 절기/오행 규칙</p>
+              <h1>🔮 오늘 뭐 볼래?</h1>
+              <p class="mini">
+                궁합/신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를
+                보여줄게.
+              </p>
             </div>
-            <div class="score" id="totalScore">—</div>
           </div>
-          <p class="lead" id="summaryMain">—</p>
-          <div class="pill-row" id="summaryPills"></div>
+          <div class="menu-grid" style="margin-top: 14px">
+            <button class="menu-btn" data-mode="compat">
+              궁합 보기
+              <small>두 사람 입력 → 궁합/오늘운세/공유</small>
+            </button>
+            <button class="menu-btn" data-mode="newyear">
+              신년운세
+              <small>한 사람 입력 → 월별 흐름</small>
+            </button>
+            <button class="menu-btn" data-mode="today">
+              오늘운세
+              <small>한 사람 입력 → 오늘 한 줄</small>
+            </button>
+          </div>
         </div>
+      </section>
 
-        <div class="card">
-          <div class="row" style="justify-content: space-between">
+      <!-- Step 2: 입력 -->
+      <section id="stepInput" class="step">
+        <div class="card" id="inputCard">
+          <div class="card-head">
             <div>
-              <h2>오늘 운세 (궁합 결합)</h2>
-              <p class="lead" id="todayCoupleLine">—</p>
-              <p class="mini" id="todayCoupleMeta">—</p>
+              <h1 id="inputTitle">입력</h1>
+              <p class="mini" id="inputDesc">출생 정보 입력 → 로컬 계산</p>
             </div>
-            <button class="btn ghost" id="todayLuckBtn">오늘 다시 보기</button>
-          </div>
-        </div>
-
-        <div class="grid-2">
-          <div class="card">
-            <h2>섹션별 균형</h2>
-            <svg id="sectionRadarSvg" class="radar" viewBox="0 0 320 320"></svg>
-            <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
-          </div>
-
-          <div class="card">
-            <h2>A/B 사주 요약</h2>
-            <div class="grid-2" style="gap: 8px">
-              <div>
-                <div class="section-title">A</div>
-                <div id="aPillars" class="mini"></div>
-              </div>
-              <div>
-                <div class="section-title">B</div>
-                <div id="bPillars" class="mini"></div>
-              </div>
+            <div class="row">
+              <button class="btn outline" id="backToMenu">메뉴로</button>
+              <button class="btn ghost" id="clearSaved">저장 초기화</button>
+              <button class="btn" id="calcBtn">계산하기</button>
             </div>
           </div>
+
+          <div class="grid-2" style="margin-top: 12px">
+            <div class="rule-card" id="panelA">
+              <h3>A 정보</h3>
+              <div class="row">
+                <input id="aDate" type="date" />
+                <select id="aHourBranch">
+                  <option value="자">자 (00:00-01:30)</option>
+                  <option value="축">축 (01:31-03:30)</option>
+                  <option value="인">인 (03:31-05:30)</option>
+                  <option value="묘">묘 (05:31-07:30)</option>
+                  <option value="진">진 (07:31-09:30)</option>
+                  <option value="사">사 (09:31-11:30)</option>
+                  <option value="오">오 (11:31-13:30)</option>
+                  <option value="미">미 (13:31-15:30)</option>
+                  <option value="신">신 (15:31-17:30)</option>
+                  <option value="유">유 (17:31-19:30)</option>
+                  <option value="술">술 (19:31-21:30)</option>
+                  <option value="해">해 (21:31-23:30)</option>
+                </select>
+              </div>
+              <p class="mini">시간은 12간지만 선택하면 돼. 해당 구간의 중간 시각으로 계산한다.</p>
+              <div class="row" style="margin-top: 8px">
+                <select id="aHiddenMode">
+                  <option value="on" selected>장간 반영</option>
+                  <option value="off">장간 미반영</option>
+                </select>
+              </div>
+              <div class="row" style="margin-top: 8px">
+                <input
+                  id="aTzOffset"
+                  type="number"
+                  min="-12"
+                  max="14"
+                  step="0.5"
+                  value="9"
+                  placeholder="UTC+9"
+                />
+                <select id="aDstMode">
+                  <option value="off" selected>DST 미반영</option>
+                  <option value="kr1988">한국 DST(1988) 반영</option>
+                </select>
+              </div>
+              <p class="mini">
+                장간은 지지 안에 섞여 있는 보조 기운까지 같이 더해서, 오행 분포를 현실적으로 맞추는 옵션이야.
+              </p>
+              <p class="mini">출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로 계산해.</p>
+            </div>
+
+            <div class="rule-card" id="panelB">
+              <h3>B 정보</h3>
+              <div class="row">
+                <input id="bDate" type="date" />
+                <select id="bHourBranch">
+                  <option value="자">자 (00:00-01:30)</option>
+                  <option value="축">축 (01:31-03:30)</option>
+                  <option value="인">인 (03:31-05:30)</option>
+                  <option value="묘">묘 (05:31-07:30)</option>
+                  <option value="진">진 (07:31-09:30)</option>
+                  <option value="사">사 (09:31-11:30)</option>
+                  <option value="오">오 (11:31-13:30)</option>
+                  <option value="미">미 (13:31-15:30)</option>
+                  <option value="신">신 (15:31-17:30)</option>
+                  <option value="유">유 (17:31-19:30)</option>
+                  <option value="술">술 (19:31-21:30)</option>
+                  <option value="해">해 (21:31-23:30)</option>
+                </select>
+              </div>
+              <p class="mini">시간은 12간지만 선택하면 돼. 해당 구간의 중간 시각으로 계산한다.</p>
+              <div class="row" style="margin-top: 8px">
+                <select id="bHiddenMode">
+                  <option value="on" selected>장간 반영</option>
+                  <option value="off">장간 미반영</option>
+                </select>
+              </div>
+              <div class="row" style="margin-top: 8px">
+                <input
+                  id="bTzOffset"
+                  type="number"
+                  min="-12"
+                  max="14"
+                  step="0.5"
+                  value="9"
+                  placeholder="UTC+9"
+                />
+                <select id="bDstMode">
+                  <option value="off" selected>DST 미반영</option>
+                  <option value="kr1988">한국 DST(1988) 반영</option>
+                </select>
+              </div>
+              <p class="mini">
+                장간은 지지 안에 섞여 있는 보조 기운까지 같이 더해서, 오행 분포를 현실적으로 맞추는 옵션이야.
+              </p>
+              <p class="mini">출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로 계산해.</p>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: 12px" id="toneRow">
+            <span class="mini">톤</span>
+            <select id="toneSelect">
+              <option value="couple" selected>커플 모드</option>
+              <option value="biz">동업자 모드</option>
+            </select>
+            <span class="mini">* 시간대 선택 가능 · 1988 한국 DST 옵션 제공</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 3: 결과 -->
+      <section id="stepResult" class="step">
+        <div class="row" style="margin-bottom: 12px">
+          <button class="btn outline" id="backToInput">입력 수정</button>
+          <button class="btn outline" id="restartFlow">메뉴로</button>
         </div>
 
-        <div class="card">
-          <h2>궁합 포인트</h2>
-          <div id="ruleList"></div>
+        <div id="pdfArea" class="pdf-area">
+          <div class="card" id="resultElementsCard">
+            <h2>오행 기운 분석</h2>
+            <p class="lead" id="elementsSummary">—</p>
+            <svg
+              id="elementsRadarSvg"
+              class="radar elements-radar"
+              viewBox="0 0 320 320"
+            ></svg>
+            <p class="mini" id="elementsDetail">—</p>
+          </div>
+          <div class="card" id="resultDeepCard">
+            <h2>심화 분석 (간이)</h2>
+            <div id="deepAnalysis"></div>
+          </div>
+          <div class="card" id="resultLuckCard">
+            <h2>대운 · 세운 (간이)</h2>
+            <div id="luckFlow"></div>
+          </div>
+          <div class="card" id="resultSummaryCard">
+            <div class="card-head">
+              <div>
+                <h2 id="resultTitle">궁합 요약</h2>
+                <p class="mini" id="summarySub">
+                  입력 시간대 기준 · 절기/오행 규칙
+                </p>
+              </div>
+              <div class="score" id="totalScore">—</div>
+            </div>
+            <p class="lead" id="summaryMain">—</p>
+            <div class="pill-row" id="summaryPills"></div>
+          </div>
+
+          <div class="card" id="resultTodayCard">
+            <div class="row" style="justify-content: space-between">
+              <div>
+                <h2>오늘 운세</h2>
+                <p class="lead" id="todayCoupleLine">—</p>
+                <p class="mini" id="todayCoupleMeta">—</p>
+              </div>
+              <button class="btn ghost" id="todayLuckBtn">
+                오늘 다시 보기
+              </button>
+            </div>
+          </div>
+
+          <div class="grid-2" id="resultCompatGrid">
+            <div class="card" id="resultRadarCard">
+              <h2>섹션별 균형</h2>
+              <svg
+                id="sectionRadarSvg"
+                class="radar"
+                viewBox="0 0 320 320"
+              ></svg>
+              <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
+            </div>
+
+            <div class="card" id="resultABCard">
+              <h2>A/B 사주 요약</h2>
+              <div class="grid-2" style="gap: 8px">
+                <div>
+                  <div class="section-title">A</div>
+                  <div id="aPillars" class="mini"></div>
+                </div>
+                <div>
+                  <div class="section-title">B</div>
+                  <div id="bPillars" class="mini"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" id="resultRulesCard">
+            <h2>궁합 포인트</h2>
+            <div id="ruleList"></div>
+          </div>
+
+          <div class="card" id="resultMonthlyCard">
+            <h2>2026 신년운세 (월별)</h2>
+            <div id="monthlyList"></div>
+          </div>
         </div>
 
-        <div class="card">
-          <h2>2026 신년운세 (월별)</h2>
-          <div id="monthlyList"></div>
+        <div class="card" id="tuningCard">
+          <h2>튜닝 (학습 느낌)</h2>
+          <div class="row">
+            <span class="mini">튜닝 강도</span>
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.1"
+              value="1"
+              id="tuneStrength"
+            />
+            <span id="tuneLabel" class="mini">1.0</span>
+            <button class="btn outline" id="tuneReset">초기화</button>
+          </div>
+          <p class="mini" id="tuneStatus"></p>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>튜닝 (학습 느낌)</h2>
-        <div class="row">
-          <span class="mini">튜닝 강도</span>
-          <input type="range" min="0" max="2" step="0.1" value="1" id="tuneStrength" />
-          <span id="tuneLabel" class="mini">1.0</span>
-          <button class="btn outline" id="tuneReset">초기화</button>
+        <div class="card" id="shareCard">
+          <h2>공유 · PDF</h2>
+          <div class="row">
+            <button class="btn" id="shareBtn">공유 카드 만들기</button>
+            <button class="btn outline" id="pdfBtn">PDF 저장</button>
+          </div>
+          <p class="mini share-note" id="shareStatus"></p>
+          <canvas
+            id="shareCanvas"
+            width="1080"
+            height="1350"
+            style="display: none"
+          ></canvas>
         </div>
-        <p class="mini" id="tuneStatus"></p>
-      </div>
+      </section>
+    </div>
 
-      <div class="card">
-        <h2>공유 · PDF</h2>
-        <div class="row">
-          <button class="btn" id="shareBtn">공유 카드 만들기</button>
-          <button class="btn outline" id="pdfBtn">PDF 저장</button>
-        </div>
-        <p class="mini share-note" id="shareStatus"></p>
-        <canvas id="shareCanvas" width="1080" height="1350" style="display: none"></canvas>
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+      <div class="loading-card">
+        <div class="spinner"></div>
+        <div class="lead" style="margin-bottom: 6px">오행 균형 계산 중</div>
+        <div class="mini">절기 기준으로 정밀하게 맞추는 중이야…</div>
       </div>
     </div>
 
@@ -364,17 +605,42 @@
       const todayBadge = document.getElementById("todayBadge");
       todayBadge.textContent = new Date().toISOString().slice(0, 10);
 
+      const stepMenu = document.getElementById("stepMenu");
+      const stepInput = document.getElementById("stepInput");
+      const stepResult = document.getElementById("stepResult");
+
+      const inputTitle = document.getElementById("inputTitle");
+      const inputDesc = document.getElementById("inputDesc");
+      const panelA = document.getElementById("panelA");
+      const panelB = document.getElementById("panelB");
+      const toneRow = document.getElementById("toneRow");
+
       const aDate = document.getElementById("aDate");
-      const aTime = document.getElementById("aTime");
-      const aZiMode = document.getElementById("aZiMode");
+      const aHourBranch = document.getElementById("aHourBranch");
       const aHiddenMode = document.getElementById("aHiddenMode");
+      const aTzOffset = document.getElementById("aTzOffset");
+      const aDstMode = document.getElementById("aDstMode");
       const bDate = document.getElementById("bDate");
-      const bTime = document.getElementById("bTime");
-      const bZiMode = document.getElementById("bZiMode");
+      const bHourBranch = document.getElementById("bHourBranch");
       const bHiddenMode = document.getElementById("bHiddenMode");
+      const bTzOffset = document.getElementById("bTzOffset");
+      const bDstMode = document.getElementById("bDstMode");
       const toneSelect = document.getElementById("toneSelect");
       const calcBtn = document.getElementById("calcBtn");
+      const backToMenu = document.getElementById("backToMenu");
+      const clearSaved = document.getElementById("clearSaved");
+      const backToInput = document.getElementById("backToInput");
+      const restartFlow = document.getElementById("restartFlow");
 
+      const resultTitle = document.getElementById("resultTitle");
+      const resultElementsCard = document.getElementById("resultElementsCard");
+      const resultDeepCard = document.getElementById("resultDeepCard");
+      const resultLuckCard = document.getElementById("resultLuckCard");
+      const elementsSummary = document.getElementById("elementsSummary");
+      const elementsRadarSvg = document.getElementById("elementsRadarSvg");
+      const elementsDetail = document.getElementById("elementsDetail");
+      const deepAnalysis = document.getElementById("deepAnalysis");
+      const luckFlow = document.getElementById("luckFlow");
       const todayCoupleLine = document.getElementById("todayCoupleLine");
       const todayCoupleMeta = document.getElementById("todayCoupleMeta");
       const sectionRadarSvg = document.getElementById("sectionRadarSvg");
@@ -395,11 +661,20 @@
       const aPillarsEl = document.getElementById("aPillars");
       const bPillarsEl = document.getElementById("bPillars");
 
+      const resultTodayCard = document.getElementById("resultTodayCard");
+      const resultRadarCard = document.getElementById("resultRadarCard");
+      const resultABCard = document.getElementById("resultABCard");
+      const resultRulesCard = document.getElementById("resultRulesCard");
+      const resultMonthlyCard = document.getElementById("resultMonthlyCard");
+      const tuningCard = document.getElementById("tuningCard");
+      const loadingOverlay = document.getElementById("loadingOverlay");
+
       /* ======================================================
   1. 상태
 ====================================================== */
-      const INPUT_KEY = "compat:inputs:v1";
+      const INPUT_KEY = "compat:inputs:v2";
       const state = {
+        mode: "compat",
         A: null,
         B: null,
         aResult: null,
@@ -487,7 +762,9 @@
       };
 
       function hasPair(a, b, table) {
-        return table.some(([x, y]) => (a === x && b === y) || (a === y && b === x));
+        return table.some(
+          ([x, y]) => (a === x && b === y) || (a === y && b === x)
+        );
       }
       function isLiuhe(a, b) {
         return hasPair(a, b, LIUHE);
@@ -539,6 +816,11 @@
       function clamp01(x) {
         return Math.max(0, Math.min(1, x));
       }
+      function parseTzOffsetMinutes(v, fallback = 540) {
+        const num = Number(v);
+        if (!Number.isFinite(num)) return fallback;
+        return Math.round(num * 60);
+      }
       function hashToIndex(str, mod) {
         let h = 2166136261;
         for (let i = 0; i < str.length; i++) {
@@ -549,23 +831,68 @@
         return mod ? h % mod : 0;
       }
       function escapeHtml(s) {
-        return String(s).replace(/[&<>"']/g, (c) => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c]);
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[c])
+        );
       }
       function fillTokens(text, tokens) {
         return text.replace(/\{([^}]+)\}/g, (_, key) => tokens[key] ?? "");
+      }
+      function hourBranchToTime(branch) {
+        const map = {
+          자: "00:45",
+          축: "02:30",
+          인: "04:30",
+          묘: "06:30",
+          진: "08:30",
+          사: "10:30",
+          오: "12:30",
+          미: "14:30",
+          신: "16:30",
+          유: "18:30",
+          술: "20:30",
+          해: "22:30",
+        };
+        return map[branch] || "00:30";
       }
 
       /* ======================================================
   3. 일진(오늘 운세)
 ====================================================== */
-      const STEMS = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
-      const BRANCHES = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+      const STEMS = [
+        "갑",
+        "을",
+        "병",
+        "정",
+        "무",
+        "기",
+        "경",
+        "신",
+        "임",
+        "계",
+      ];
+      const BRANCHES = [
+        "자",
+        "축",
+        "인",
+        "묘",
+        "진",
+        "사",
+        "오",
+        "미",
+        "신",
+        "유",
+        "술",
+        "해",
+      ];
       const GANJI_60 = (() => {
         const arr = [];
         for (let i = 0; i < 60; i++) {
@@ -596,7 +923,9 @@
       }
 
       function getTodayGanji(date = new Date()) {
-        const kst = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+        const kst = new Date(
+          date.toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+        );
         const adj = applyDST(kst);
         const days = Math.floor((adj - BASE_GAPJA_DAY) / (24 * 3600 * 1000));
         const idx = ((days % 60) + 60) % 60;
@@ -616,8 +945,10 @@
         const flow = getTodayElementFlow(date);
         const key1 = flow.stemElem;
         const key2 = flow.branchElem;
-        const scoreA = aPerson.elements[key1] * 1.0 + aPerson.elements[key2] * 0.7;
-        const scoreB = bPerson.elements[key1] * 1.0 + bPerson.elements[key2] * 0.7;
+        const scoreA =
+          aPerson.elements[key1] * 1.0 + aPerson.elements[key2] * 0.7;
+        const scoreB =
+          bPerson.elements[key1] * 1.0 + bPerson.elements[key2] * 0.7;
         const diff = scoreA - scoreB;
         const TH = 0.35;
 
@@ -645,17 +976,52 @@
         return `오늘은 ${k1}/${k2} 흐름인데, A/B 둘 다 비슷하게 받는다. 맞춰가는 게 이득이야.`;
       }
 
+      function todayLuckLine(person) {
+        const flow = getTodayElementFlow();
+        const myTop = person.topElem;
+        if (myTop === flow.stemElem || myTop === flow.branchElem) {
+          return "오늘은 네 기운이 잘 받쳐주는 날이야. 중요한 건 오늘 처리하는 게 좋아.";
+        }
+        return "오늘은 무리하면 손해 보는 날. 속도 줄이고 확인부터 하면 이득이야.";
+      }
+
       function renderTodayCoupleBox(aPerson, bPerson) {
         const t = todayAdvantage(aPerson, bPerson);
         todayCoupleLine.textContent = t.line;
-        todayCoupleMeta.textContent = `A ${t.scoreA} vs B ${t.scoreB} (오늘 오행: ${t.keys.join("/")})`;
+        todayCoupleMeta.textContent = `A ${t.scoreA} vs B ${
+          t.scoreB
+        } (오늘 오행: ${t.keys.join("/")})`;
       }
 
       /* ======================================================
   4. 사주 계산 (정밀 절기 기반)
 ====================================================== */
-      const STEMS_H = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
-      const BRANCHES_H = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+      const STEMS_H = [
+        "갑",
+        "을",
+        "병",
+        "정",
+        "무",
+        "기",
+        "경",
+        "신",
+        "임",
+        "계",
+      ];
+      const BRANCHES_H = [
+        "자",
+        "축",
+        "인",
+        "묘",
+        "진",
+        "사",
+        "오",
+        "미",
+        "신",
+        "유",
+        "술",
+        "해",
+      ];
 
       const BRANCH_MAIN_ELEM = {
         자: "수",
@@ -818,67 +1184,98 @@
       }
 
       function computeMonthBoundaryTimesUTC(year) {
-        return MONTH_BOUNDARIES.map((b) => ({ ...b, timeUTC: findSolarLongitudeTimeUTC(year, b.lon) }));
+        return MONTH_BOUNDARIES.map((b) => ({
+          ...b,
+          timeUTC: findSolarLongitudeTimeUTC(year, b.lon),
+        }));
       }
 
-      function computeSajuFiveElements(birthUTCDate, { ziMode, hiddenMode }) {
-        const birthKST = toKSTDateParts(birthUTCDate);
-        const year = birthKST.y;
+      function computeSajuFiveElements(
+        birthUTCDate,
+        { ziMode, hiddenMode, tzOffsetMinutes, dstMode }
+      ) {
+        const birthLocal = toLocalDateParts(
+          birthUTCDate,
+          tzOffsetMinutes,
+          dstMode
+        );
+        const year = birthLocal.y;
         const boundariesThisYearUTC = computeMonthBoundaryTimesUTC(year);
         const boundariesPrevYearUTC = computeMonthBoundaryTimesUTC(year - 1);
 
-        const ipchunThisKST = toKSTMillis(boundariesThisYearUTC[0].timeUTC);
-        const birthMillisKST = kstMillisFromParts(birthKST);
+        const ipchunThisLocal = toLocalMillis(
+          boundariesThisYearUTC[0].timeUTC,
+          tzOffsetMinutes,
+          dstMode
+        );
+        const birthMillisLocal = localMillisFromParts(birthLocal);
 
-        const sajuYear = birthMillisKST >= ipchunThisKST ? year : year - 1;
-        const bdsUTC = sajuYear === year ? boundariesThisYearUTC : boundariesPrevYearUTC;
-        const bdsKST = bdsUTC.map((x) => ({ ...x, kst: toKSTMillis(x.timeUTC) }));
+        const sajuYear = birthMillisLocal >= ipchunThisLocal ? year : year - 1;
+        const bdsUTC =
+          sajuYear === year ? boundariesThisYearUTC : boundariesPrevYearUTC;
+        const bdsLocal = bdsUTC.map((x) => ({
+          ...x,
+          local: toLocalMillis(x.timeUTC, tzOffsetMinutes, dstMode),
+        }));
 
         let monthBranch = "인";
         let monthStartName = "입춘";
-        let monthStartKST = bdsKST[0].kst;
-        for (let i = 0; i < bdsKST.length; i++) {
-          const cur = bdsKST[i];
-          const next = bdsKST[(i + 1) % bdsKST.length];
-          const nextKST =
-            i === bdsKST.length - 1
-              ? toKSTMillis(computeMonthBoundaryTimesUTC(sajuYear + 1)[0].timeUTC)
-              : next.kst;
+        let monthStartLocal = bdsLocal[0].local;
+        for (let i = 0; i < bdsLocal.length; i++) {
+          const cur = bdsLocal[i];
+          const next = bdsLocal[(i + 1) % bdsLocal.length];
+          const nextLocal =
+            i === bdsLocal.length - 1
+              ? toLocalMillis(
+                  computeMonthBoundaryTimesUTC(sajuYear + 1)[0].timeUTC,
+                  tzOffsetMinutes,
+                  dstMode
+                )
+              : next.local;
 
-          if (birthMillisKST >= cur.kst && birthMillisKST < nextKST) {
+          if (birthMillisLocal >= cur.local && birthMillisLocal < nextLocal) {
             monthBranch = cur.branch;
             monthStartName = cur.name;
-            monthStartKST = cur.kst;
+            monthStartLocal = cur.local;
             break;
           }
-          if (i === bdsKST.length - 1 && birthMillisKST >= cur.kst) {
+          if (i === bdsLocal.length - 1 && birthMillisLocal >= cur.local) {
             monthBranch = cur.branch;
             monthStartName = cur.name;
-            monthStartKST = cur.kst;
+            monthStartLocal = cur.local;
           }
-          if (i === bdsKST.length - 1 && birthMillisKST < bdsKST[0].kst) {
+          if (i === bdsLocal.length - 1 && birthMillisLocal < bdsLocal[0].local) {
             monthBranch = "축";
             monthStartName = "소한";
-            monthStartKST = cur.kst;
+            monthStartLocal = cur.local;
           }
         }
 
         const yearPillar = ganzhiYear(sajuYear);
         const monthPillar = ganzhiMonth(yearPillar.stem, monthBranch);
-        const adjustedForDay = adjustForZiDayBoundary(birthKST, ziMode);
-        const dayPillar = ganzhiDayFromGregorian(adjustedForDay.y, adjustedForDay.m, adjustedForDay.d);
-        const hourBranch = getHourBranch(birthKST.hh, birthKST.mm, ziMode);
+        const adjustedForDay = adjustForZiDayBoundary(birthLocal, ziMode);
+        const dayPillar = ganzhiDayFromGregorian(
+          adjustedForDay.y,
+          adjustedForDay.m,
+          adjustedForDay.d
+        );
+        const hourBranch = getHourBranch(birthLocal.hh, birthLocal.mm, ziMode);
         const hourPillar = ganzhiHour(dayPillar.stem, hourBranch);
 
-        const elements = tallyElements({ yearPillar, monthPillar, dayPillar, hourPillar }, { hiddenMode });
+        const elements = tallyElements(
+          { yearPillar, monthPillar, dayPillar, hourPillar },
+          { hiddenMode }
+        );
 
         return {
           input: {
-            kst: `${pad2(birthKST.y)}-${pad2(birthKST.m)}-${pad2(birthKST.d)} ${pad2(birthKST.hh)}:${pad2(
-              birthKST.mm
-            )}`,
+            local: `${pad2(birthLocal.y)}-${pad2(birthLocal.m)}-${pad2(
+              birthLocal.d
+            )} ${pad2(birthLocal.hh)}:${pad2(birthLocal.mm)}`,
             ziMode,
             hiddenMode,
+            tzOffsetMinutes,
+            dstMode,
             sajuYear,
             monthStartName,
           },
@@ -888,7 +1285,7 @@
             day: dayPillar,
             hour: hourPillar,
             monthMeta: {
-              start: new Date(monthStartKST).toISOString(),
+              start: new Date(monthStartLocal).toISOString(),
               startName: monthStartName,
             },
           },
@@ -916,10 +1313,27 @@
           계: "갑",
         };
         const startStem = startStemByYearStem[yearStem] || "병";
-        const order = ["인", "묘", "진", "사", "오", "미", "신", "유", "술", "해", "자", "축"];
+        const order = [
+          "인",
+          "묘",
+          "진",
+          "사",
+          "오",
+          "미",
+          "신",
+          "유",
+          "술",
+          "해",
+          "자",
+          "축",
+        ];
         const mIdx = order.indexOf(monthBranch);
         const stemIdx = (STEMS_H.indexOf(startStem) + mIdx) % 10;
-        return { stem: STEMS_H[stemIdx], branch: monthBranch, text: `${STEMS_H[stemIdx]}${monthBranch}` };
+        return {
+          stem: STEMS_H[stemIdx],
+          branch: monthBranch,
+          text: `${STEMS_H[stemIdx]}${monthBranch}`,
+        };
       }
 
       function ganzhiDayFromGregorian(y, m, d) {
@@ -943,10 +1357,27 @@
           계: "임",
         };
         const startStem = startStemByDayStem[dayStem] || "갑";
-        const order = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+        const order = [
+          "자",
+          "축",
+          "인",
+          "묘",
+          "진",
+          "사",
+          "오",
+          "미",
+          "신",
+          "유",
+          "술",
+          "해",
+        ];
         const hIdx = order.indexOf(hourBranch);
         const stemIdx = (STEMS_H.indexOf(startStem) + hIdx) % 10;
-        return { stem: STEMS_H[stemIdx], branch: hourBranch, text: `${STEMS_H[stemIdx]}${hourBranch}` };
+        return {
+          stem: STEMS_H[stemIdx],
+          branch: hourBranch,
+          text: `${STEMS_H[stemIdx]}${hourBranch}`,
+        };
       }
 
       function ganzhiFromIndex(idx) {
@@ -962,7 +1393,19 @@
           return "자";
         }
         const base = ziMode === "2330" ? 90 : 60;
-        const order = ["축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+        const order = [
+          "축",
+          "인",
+          "묘",
+          "진",
+          "사",
+          "오",
+          "미",
+          "신",
+          "유",
+          "술",
+          "해",
+        ];
         const delta = minutes - base;
         const idx = Math.floor(delta / 120);
         return order[Math.max(0, Math.min(order.length - 1, idx))] || "축";
@@ -972,7 +1415,9 @@
         if (ziMode !== "2330") return kstParts;
         const minutes = kstParts.hh * 60 + kstParts.mm;
         if (minutes < 23 * 60 + 30) return kstParts;
-        const dt = new Date(Date.UTC(kstParts.y, kstParts.m - 1, kstParts.d, 12, 0, 0));
+        const dt = new Date(
+          Date.UTC(kstParts.y, kstParts.m - 1, kstParts.d, 12, 0, 0)
+        );
         dt.setUTCDate(dt.getUTCDate() + 1);
         return {
           y: dt.getUTCFullYear(),
@@ -988,7 +1433,12 @@
         function addElem(elem, w = 1) {
           base[elem] = (base[elem] || 0) + w;
         }
-        const list = [pillars.yearPillar, pillars.monthPillar, pillars.dayPillar, pillars.hourPillar];
+        const list = [
+          pillars.yearPillar,
+          pillars.monthPillar,
+          pillars.dayPillar,
+          pillars.hourPillar,
+        ];
         list.forEach((p) => addElem(STEM_ELEM[p.stem], 1));
         list.forEach((p) => addElem(BRANCH_MAIN_ELEM[p.branch], 1));
         if (hiddenMode === "on") {
@@ -1001,29 +1451,46 @@
         return { raw: base, sorted };
       }
 
-      function parseKSTDateTime(dateStr, timeStr) {
+      function parseLocalDateTime(dateStr, timeStr, baseOffsetMin, dstMode) {
         const [y, m, d] = dateStr.split("-").map(Number);
         const [hh, mm] = timeStr.split(":").map(Number);
-        const offsetMin = kstOffsetMinutesForLocal(y, m, d, hh, mm);
-        const utcMillis = Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin * 60 * 1000;
+        const offsetMin = getLocalOffsetMinutes(
+          y,
+          m,
+          d,
+          hh,
+          mm,
+          baseOffsetMin,
+          dstMode
+        );
+        const utcMillis =
+          Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin * 60 * 1000;
         return new Date(utcMillis);
       }
 
-      function kstOffsetMinutesForLocal(y, m, d, hh, mm) {
-        let offset = 540;
-        if (y === 1988) {
+      function getLocalOffsetMinutes(
+        y,
+        m,
+        d,
+        hh,
+        mm,
+        baseOffsetMin,
+        dstMode
+      ) {
+        let offset = baseOffsetMin;
+        if (dstMode === "kr1988" && y === 1988) {
           const t = Date.UTC(y, m - 1, d, hh, mm, 0);
           const start = Date.UTC(1988, 4, 8, 2, 0, 0);
           const end = Date.UTC(1988, 9, 9, 3, 0, 0);
           if (t >= start && t < end) {
-            offset = 600;
+            offset = baseOffsetMin + 60;
           }
         }
         return offset;
       }
 
-      function toKSTDateParts(utcDate) {
-        let ms = utcDate.getTime() + 540 * 60 * 1000;
+      function toLocalDateParts(utcDate, baseOffsetMin, dstMode) {
+        let ms = utcDate.getTime() + baseOffsetMin * 60 * 1000;
         let d = new Date(ms);
         const y = d.getUTCFullYear();
         const m = d.getUTCMonth() + 1;
@@ -1031,7 +1498,15 @@
         const hh = d.getUTCHours();
         const mm = d.getUTCMinutes();
 
-        const off = kstOffsetMinutesForLocal(y, m, dd, hh, mm);
+        const off = getLocalOffsetMinutes(
+          y,
+          m,
+          dd,
+          hh,
+          mm,
+          baseOffsetMin,
+          dstMode
+        );
         ms = utcDate.getTime() + off * 60 * 1000;
         d = new Date(ms);
 
@@ -1044,12 +1519,12 @@
         };
       }
 
-      function toKSTMillis(utcDate) {
-        const parts = toKSTDateParts(utcDate);
+      function toLocalMillis(utcDate, baseOffsetMin, dstMode) {
+        const parts = toLocalDateParts(utcDate, baseOffsetMin, dstMode);
         return Date.UTC(parts.y, parts.m - 1, parts.d, parts.hh, parts.mm, 0);
       }
 
-      function kstMillisFromParts(p) {
+      function localMillisFromParts(p) {
         return Date.UTC(p.y, p.m - 1, p.d, p.hh, p.mm, 0);
       }
 
@@ -1074,7 +1549,12 @@
         const B = 2 - A + Math.floor(A / 4);
         const dayFrac = (hh + (mm + ss / 60) / 60) / 24;
         const JD =
-          Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + dayFrac + B - 1524.5;
+          Math.floor(365.25 * (Y + 4716)) +
+          Math.floor(30.6001 * (M + 1)) +
+          d +
+          dayFrac +
+          B -
+          1524.5;
         return JD;
       }
 
@@ -1097,52 +1577,93 @@
       function pad2(n) {
         return String(n).padStart(2, "0");
       }
+      function formatTzOffset(mins) {
+        const sign = mins >= 0 ? "+" : "-";
+        const abs = Math.abs(mins);
+        const hh = Math.floor(abs / 60);
+        const mm = abs % 60;
+        return `${sign}${pad2(hh)}:${pad2(mm)}`;
+      }
 
       /* ======================================================
   5. 룰 + 튜닝 + 요약 (50개)
 ====================================================== */
-      const SECTION_WEIGHT = { 성향: 0.25, 관계: 0.25, 돈: 0.15, 일: 0.2, 건강: 0.15 };
+      const SECTION_WEIGHT = {
+        성향: 0.25,
+        관계: 0.25,
+        돈: 0.15,
+        일: 0.2,
+        건강: 0.15,
+      };
 
       const RULES = [
         {
           id: "ELEM_TOP_SAME",
           section: "성향",
           priority: 88,
-          when: (a, b) => a.topElem === b.topElem && a.topScore >= 1.2 && b.topScore >= 1.2,
-          evidence: "둘 다 {topElem} 기운이 가장 강해 기준과 속도가 비슷해.",
-          copies: ["기본 결이 잘 맞아. 같이 움직이면 빠르다.", "둘 다 몰입할 땐 브레이크만 맞추면 완벽해."],
+          when: (a, b) =>
+            a.topElem === b.topElem && a.topScore >= 1.2 && b.topScore >= 1.2,
+          evidence: "둘 다 {topElem}가 가장 강해 결정 기준이 비슷해.",
+          copies: [
+            "시작 속도와 판단이 잘 맞아.",
+            "고집 붙을 땐 신호 하나만 맞추자.",
+          ],
         },
         {
           id: "ELEM_TOP_COMPLEMENT",
           section: "관계",
           priority: 82,
-          when: (a, b) => GENERATE[a.topElem] === b.topElem || GENERATE[b.topElem] === a.topElem,
-          evidence: "상생 관계의 강점이 서로 맞물려 있어.",
-          copies: ["서로 없는 걸 채워주는 구조라 오래 가기 좋아.", "역할 분담만 잘 되면 시너지가 크게 난다."],
+          when: (a, b) =>
+            GENERATE[a.topElem] === b.topElem ||
+            GENERATE[b.topElem] === a.topElem,
+          evidence: "상생 관계인 오행이 서로의 최고점이야.",
+          copies: [
+            "서로 밀어주고 받쳐주는 구조.",
+            "역할 분담이 잘 되면 성과가 크다.",
+          ],
         },
         {
           id: "ELEM_TOP_CLASH",
           section: "관계",
           priority: 62,
-          when: (a, b) => OVERCOME[a.topElem] === b.topElem || OVERCOME[b.topElem] === a.topElem,
-          evidence: "서로의 강점이 부딪히는 상극 조합이야.",
-          copies: ["진짜 중요한 얘기는 타이밍 맞추는 게 핵심.", "감정 올라올 땐 한 박자 쉬자."],
+          when: (a, b) =>
+            OVERCOME[a.topElem] === b.topElem ||
+            OVERCOME[b.topElem] === a.topElem,
+          evidence: "상극 관계의 강점이 부딪히는 편이야.",
+          copies: [
+            "의견이 갈릴 땐 순서만 정하면 된다.",
+            "감정 올라올 땐 잠깐 멈추고 다시.",
+          ],
         },
         {
           id: "ELEM_WEAK_SAME",
           section: "건강",
           priority: 60,
-          when: (a, b) => a.weakElem === b.weakElem && a.weakScore <= 0.7 && b.weakScore <= 0.7,
-          evidence: "둘 다 {weakElem} 기운이 낮아 같은 부분에서 흔들리기 쉬워.",
-          copies: ["약점이 같아서 이해는 잘 된다.", "이 부분만 약속으로 관리하면 충분히 커버돼."],
+          when: (a, b) =>
+            a.weakElem === b.weakElem &&
+            a.weakScore <= 0.7 &&
+            b.weakScore <= 0.7,
+          evidence: "둘 다 {weakElem}가 약해서 같은 지점에서 흔들려.",
+          copies: [
+            "약점이 겹쳐서 이해는 빠르다.",
+            "이 구간은 루틴으로 보완하자.",
+          ],
+        },
+        {
+          id: "ELEM_WEAK_COMPLEMENT",
+          section: "건강",
+          priority: 70,
+          when: (a, b) => a.weakElem === b.topElem || b.weakElem === a.topElem,
+          evidence: "한쪽 약점을 다른 쪽 강점이 메워줄 수 있어.",
+          copies: ["서로 빈칸을 채우는 타입.", "힘 빠질 때 보완이 잘 된다."],
         },
         {
           id: "BALANCE_SIMILAR",
           section: "성향",
           priority: 78,
           when: (a, b) => Math.abs(a.balance - b.balance) <= 0.15,
-          evidence: "오행 분포 균형도가 거의 비슷해.",
-          copies: ["일상 리듬이 비슷해서 편한 조합.", "같이 있어도 피로도가 적다."],
+          evidence: "오행 분포 균형도가 비슷한 편이야.",
+          copies: ["생활 리듬이 잘 맞는 편.", "일상 궁합이 부드럽다."],
         },
         {
           id: "BALANCE_DIFF",
@@ -1150,55 +1671,101 @@
           priority: 60,
           when: (a, b) => Math.abs(a.balance - b.balance) >= 0.45,
           evidence: "한쪽은 치우치고 한쪽은 안정형이야.",
-          copies: ["방식은 다른데 목적은 같다.", "설명만 조금 더 하면 오히려 장점이 된다."],
+          copies: [
+            "방식은 달라도 목적은 같다.",
+            "설명만 조금 더 하면 장점이 된다.",
+          ],
+        },
+        {
+          id: "BALANCE_BOTH_STABLE",
+          section: "성향",
+          priority: 76,
+          when: (a, b) => a.balance <= 0.25 && b.balance <= 0.25,
+          evidence: "둘 다 균형형이라 기복이 크지 않아.",
+          copies: ["장기적으로 편한 조합.", "무리만 안 하면 안정적이야."],
+        },
+        {
+          id: "BALANCE_BOTH_SPIKY",
+          section: "성향",
+          priority: 60,
+          when: (a, b) => a.balance >= 0.6 && b.balance >= 0.6,
+          evidence: "둘 다 치우친 편이라 변수가 많을 수 있어.",
+          copies: [
+            "집중력은 좋지만 과열만 조심.",
+            "리듬을 같이 맞추면 훨씬 좋아.",
+          ],
         },
         {
           id: "A_DOMINANT",
           section: "관계",
           priority: 64,
           when: (a, b) => a.balance - b.balance >= 0.25,
-          evidence: "A의 기운이 전반적으로 더 강해.",
-          copies: ["A가 방향 잡고 B가 보완하는 구조.", "주도권만 조심하면 안정적이야."],
+          evidence: "A의 에너지가 전반적으로 더 강해.",
+          copies: [
+            "A가 방향을 잡고 B가 보완하면 안정적.",
+            "주도권만 과하게 치우치지 않게.",
+          ],
         },
         {
           id: "B_DOMINANT",
           section: "관계",
           priority: 64,
           when: (a, b) => b.balance - a.balance >= 0.25,
-          evidence: "B의 기운이 전반적으로 더 강해.",
-          copies: ["B가 방향 잡고 A가 보완하는 구조.", "주도권만 조심하면 안정적이야."],
+          evidence: "B의 에너지가 전반적으로 더 강해.",
+          copies: [
+            "B가 방향을 잡고 A가 보완하면 안정적.",
+            "주도권만 과하게 치우치지 않게.",
+          ],
         },
         {
           id: "SEASON_SUPPORT",
           section: "관계",
           priority: 80,
-          when: (a, b) => a.seasonTopElem === b.topElem || b.seasonTopElem === a.topElem,
-          evidence: "한쪽 계절 흐름이 상대 강점을 밀어주는 구조야.",
-          copies: ["요즘 특히 잘 맞는 궁합.", "같이 있을수록 흐름을 탄다."],
+          when: (a, b) =>
+            a.seasonTopElem === b.topElem || b.seasonTopElem === a.topElem,
+          evidence: "계절 흐름이 상대 강점을 밀어주는 구조야.",
+          copies: [
+            "요즘 궁합이 특히 잘 맞는 편.",
+            "같이 움직일수록 흐름을 탄다.",
+          ],
         },
         {
           id: "SEASON_CLASH",
           section: "관계",
           priority: 58,
-          when: (a, b) => isSeasonClash(a.seasonTopElem, b.topElem) || isSeasonClash(b.seasonTopElem, a.topElem),
-          evidence: "계절 흐름과 상대 강점이 상극으로 부딪혀.",
-          copies: ["요즘 유독 안 맞는 느낌이 날 수 있어.", "시기 지나면 완화된다."],
+          when: (a, b) =>
+            isSeasonClash(a.seasonTopElem, b.topElem) ||
+            isSeasonClash(b.seasonTopElem, a.topElem),
+          evidence: "계절 흐름이 상대 강점과 상극이야.",
+          copies: ["요즘 텐션이 생길 수 있어.", "시기 지나면 완화된다."],
+        },
+        {
+          id: "SEASON_SAME",
+          section: "관계",
+          priority: 72,
+          when: (a, b) =>
+            a.seasonTopElem && a.seasonTopElem === b.seasonTopElem,
+          evidence: "둘 다 같은 계절 오행 영향이라 템포가 비슷해.",
+          copies: ["지금 시기에 호흡이 잘 맞아.", "계획을 같이 잡으면 빠르다."],
         },
         {
           id: "BOTH_STRONG_MOK",
           section: "성향",
           priority: 76,
           when: (a, b) => a.elements["목"] >= 1.4 && b.elements["목"] >= 1.4,
-          evidence: "둘 다 목 기운이 강해서 성장/시도가 빠른 편이야.",
-          copies: ["시작은 빠르다. 마무리 체크만 하자.", "계획을 1개로 줄이면 훨씬 강해."],
+          evidence: "둘 다 목 기운이 강해 확장/시도가 빠른 편이야.",
+          copies: [
+            "아이디어가 많아지기 쉬워.",
+            "우선순위만 잡으면 잘 굴러간다.",
+          ],
         },
         {
           id: "BOTH_STRONG_HWA",
           section: "일",
           priority: 76,
           when: (a, b) => a.elements["화"] >= 1.4 && b.elements["화"] >= 1.4,
-          evidence: "둘 다 화 기운이 강해서 추진력이 좋다.",
-          copies: ["속도는 최고. 과열만 조심하면 된다.", "피드백 타이밍만 맞추자."],
+          evidence: "둘 다 화 기운이 강해 추진력이 세다.",
+          copies: ["결정은 빠르다.", "과열만 조심하면 성과가 크다."],
         },
         {
           id: "BOTH_STRONG_TO",
@@ -1206,15 +1773,15 @@
           priority: 74,
           when: (a, b) => a.elements["토"] >= 1.4 && b.elements["토"] >= 1.4,
           evidence: "둘 다 토 기운이 강해 안정감이 있다.",
-          copies: ["기초를 단단히 만들면 오래 간다.", "장기 계획에 강한 조합."],
+          copies: ["꾸준히 쌓는 데 강하다.", "장기 계획에 유리."],
         },
         {
           id: "BOTH_STRONG_GEUM",
           section: "돈",
           priority: 74,
           when: (a, b) => a.elements["금"] >= 1.4 && b.elements["금"] >= 1.4,
-          evidence: "둘 다 금 기운이 강해서 관리 감각이 좋다.",
-          copies: ["지출 통제가 잘 되는 조합.", "돈 얘기만 규칙으로 정하면 편해."],
+          evidence: "둘 다 금 기운이 강해 관리 감각이 좋다.",
+          copies: ["지출 기준이 잘 맞는다.", "원칙 합의가 쉬운 편."],
         },
         {
           id: "BOTH_STRONG_SU",
@@ -1222,23 +1789,23 @@
           priority: 74,
           when: (a, b) => a.elements["수"] >= 1.4 && b.elements["수"] >= 1.4,
           evidence: "둘 다 수 기운이 강해 회복 탄력이 좋다.",
-          copies: ["쉬는 타이밍만 맞추면 최강.", "수면만 지켜도 크게 이득."],
+          copies: ["쉬는 타이밍만 맞추면 편하다.", "컨디션 회복이 빠르다."],
         },
         {
           id: "BOTH_WEAK_MOK",
           section: "성향",
           priority: 60,
           when: (a, b) => a.elements["목"] <= 0.7 && b.elements["목"] <= 0.7,
-          evidence: "둘 다 목 기운이 약해서 시작이 느릴 수 있어.",
-          copies: ["시작만 잘 잡으면 안정적이다.", "처음 1주일만 밀어주자."],
+          evidence: "둘 다 목 기운이 약해 시작이 느릴 수 있어.",
+          copies: ["첫 단추만 잡으면 안정.", "초반 추진을 서로 밀자."],
         },
         {
           id: "BOTH_WEAK_HWA",
           section: "일",
           priority: 60,
           when: (a, b) => a.elements["화"] <= 0.7 && b.elements["화"] <= 0.7,
-          evidence: "둘 다 화 기운이 약해 추진력이 떨어질 수 있어.",
-          copies: ["실행 속도만 의식적으로 올리자.", "일단 시작하면 흐름이 붙는다."],
+          evidence: "둘 다 화 기운이 약해 실행 속도가 낮을 수 있어.",
+          copies: ["작게 시작하면 속도 붙는다.", "일단 착수하는 약속이 필요."],
         },
         {
           id: "BOTH_WEAK_TO",
@@ -1246,15 +1813,15 @@
           priority: 60,
           when: (a, b) => a.elements["토"] <= 0.7 && b.elements["토"] <= 0.7,
           evidence: "둘 다 토 기운이 약해 리듬이 흔들릴 수 있어.",
-          copies: ["루틴이 답이다.", "식사/수면만 고정하면 안정된다."],
+          copies: ["루틴 고정하면 안정.", "식사/수면만 지키자."],
         },
         {
           id: "BOTH_WEAK_GEUM",
           section: "돈",
           priority: 58,
           when: (a, b) => a.elements["금"] <= 0.7 && b.elements["금"] <= 0.7,
-          evidence: "둘 다 금 기운이 약해 관리가 느슨해질 수 있어.",
-          copies: ["지출 규칙만 세우자.", "큰돈은 공동 결정으로."],
+          evidence: "둘 다 금 기운이 약해 기준이 느슨해질 수 있어.",
+          copies: ["지출 기준부터 맞추자.", "큰돈은 합의로."],
         },
         {
           id: "BOTH_WEAK_SU",
@@ -1262,7 +1829,7 @@
           priority: 58,
           when: (a, b) => a.elements["수"] <= 0.7 && b.elements["수"] <= 0.7,
           evidence: "둘 다 수 기운이 약해 회복이 느릴 수 있어.",
-          copies: ["쉬는 날을 예약하자.", "수면과 물 섭취가 핵심."],
+          copies: ["휴식 일정을 공유하자.", "컨디션 관리가 핵심."],
         },
         {
           id: "A_STRONG_MOK",
@@ -1270,7 +1837,7 @@
           priority: 62,
           when: (a, b) => a.elements["목"] >= 1.5 && b.elements["목"] <= 0.8,
           evidence: "A의 목 기운이 강해 방향을 제시하는 쪽이야.",
-          copies: ["A가 시작하면 B가 안정적으로 따라간다.", "역할만 명확히 하면 좋아."],
+          copies: ["A가 시작, B가 정리하면 좋다.", "역할만 나누면 편하다."],
         },
         {
           id: "A_STRONG_HWA",
@@ -1278,7 +1845,7 @@
           priority: 62,
           when: (a, b) => a.elements["화"] >= 1.5 && b.elements["화"] <= 0.8,
           evidence: "A의 추진력이 더 강해.",
-          copies: ["속도 차이만 조절하면 된다.", "A가 먼저 치고 B가 정리."],
+          copies: ["A가 속도, B가 안정.", "타이밍만 맞추면 된다."],
         },
         {
           id: "A_STRONG_TO",
@@ -1286,23 +1853,7 @@
           priority: 62,
           when: (a, b) => a.elements["토"] >= 1.5 && b.elements["토"] <= 0.8,
           evidence: "A가 안정과 관리 쪽을 잡아주기 좋아.",
-          copies: ["계획은 A가 세우고 B가 실행하면 안정적.", "장기 계획에 강해."],
-        },
-        {
-          id: "A_STRONG_GEUM",
-          section: "돈",
-          priority: 62,
-          when: (a, b) => a.elements["금"] >= 1.5 && b.elements["금"] <= 0.8,
-          evidence: "A가 돈 관리 감각이 더 뚜렷해.",
-          copies: ["재정 관리 역할 분담이 필요해.", "큰돈은 A가 체크하면 안전."],
-        },
-        {
-          id: "A_STRONG_SU",
-          section: "건강",
-          priority: 62,
-          when: (a, b) => a.elements["수"] >= 1.5 && b.elements["수"] <= 0.8,
-          evidence: "A가 회복/정서 쪽을 잘 받쳐줘.",
-          copies: ["A의 리듬을 참고하면 컨디션이 좋아져.", "휴식 약속을 만들자."],
+          copies: ["계획은 A가 잡고 B가 실행.", "장기 운영에 유리."],
         },
         {
           id: "B_STRONG_MOK",
@@ -1310,7 +1861,7 @@
           priority: 62,
           when: (a, b) => b.elements["목"] >= 1.5 && a.elements["목"] <= 0.8,
           evidence: "B의 목 기운이 강해 방향을 제시하는 쪽이야.",
-          copies: ["B가 시작하면 A가 안정적으로 따라간다.", "역할만 명확히 하면 좋아."],
+          copies: ["B가 시작, A가 정리하면 좋다.", "역할만 나누면 편하다."],
         },
         {
           id: "B_STRONG_HWA",
@@ -1318,7 +1869,7 @@
           priority: 62,
           when: (a, b) => b.elements["화"] >= 1.5 && a.elements["화"] <= 0.8,
           evidence: "B의 추진력이 더 강해.",
-          copies: ["속도 차이만 조절하면 된다.", "B가 먼저 치고 A가 정리."],
+          copies: ["B가 속도, A가 안정.", "타이밍만 맞추면 된다."],
         },
         {
           id: "B_STRONG_TO",
@@ -1326,23 +1877,7 @@
           priority: 62,
           when: (a, b) => b.elements["토"] >= 1.5 && a.elements["토"] <= 0.8,
           evidence: "B가 안정과 관리 쪽을 잡아주기 좋아.",
-          copies: ["계획은 B가 세우고 A가 실행하면 안정적.", "장기 계획에 강해."],
-        },
-        {
-          id: "B_STRONG_GEUM",
-          section: "돈",
-          priority: 62,
-          when: (a, b) => b.elements["금"] >= 1.5 && a.elements["금"] <= 0.8,
-          evidence: "B가 돈 관리 감각이 더 뚜렷해.",
-          copies: ["재정 관리 역할 분담이 필요해.", "큰돈은 B가 체크하면 안전."],
-        },
-        {
-          id: "B_STRONG_SU",
-          section: "건강",
-          priority: 62,
-          when: (a, b) => b.elements["수"] >= 1.5 && a.elements["수"] <= 0.8,
-          evidence: "B가 회복/정서 쪽을 잘 받쳐줘.",
-          copies: ["B의 리듬을 참고하면 컨디션이 좋아져.", "휴식 약속을 만들자."],
+          copies: ["계획은 B가 잡고 A가 실행.", "장기 운영에 유리."],
         },
         {
           id: "BRANCH_LIUHE",
@@ -1350,7 +1885,7 @@
           priority: 90,
           when: (a, b) => isLiuhe(a.dayBranch, b.dayBranch),
           evidence: "일지 기준 육합이 성립돼 기본 호흡이 편해.",
-          copies: ["같이 있으면 이유 없이 편하다.", "생활 궁합이 좋은 타입."],
+          copies: ["같이 있으면 이유 없이 편하다.", "생활 템포가 잘 맞는다."],
         },
         {
           id: "BRANCH_SAMHAP",
@@ -1358,7 +1893,7 @@
           priority: 80,
           when: (a, b) => isSamhap(a.dayBranch, b.dayBranch),
           evidence: "삼합 구조라 목표를 향해 힘이 모여.",
-          copies: ["같은 목표만 있으면 폭발력이 좋다.", "프로젝트 궁합이 최고야."],
+          copies: ["같은 목표일 때 폭발력이 좋다.", "팀플에 강한 조합."],
         },
         {
           id: "BRANCH_CHUNG",
@@ -1366,7 +1901,7 @@
           priority: 62,
           when: (a, b) => isChung(a.dayBranch, b.dayBranch),
           evidence: "지지 충으로 타이밍이 자주 엇갈릴 수 있어.",
-          copies: ["맞는 말도 타이밍이 어긋나면 싸움이 된다.", "중요한 얘기는 컨디션 좋을 때."],
+          copies: ["중요한 얘기는 컨디션 좋을 때.", "속도보다 타이밍 맞추자."],
         },
         {
           id: "BRANCH_HAE",
@@ -1374,15 +1909,16 @@
           priority: 58,
           when: (a, b) => isHae(a.dayBranch, b.dayBranch),
           evidence: "해 관계가 있어 오해가 쌓일 수 있어.",
-          copies: ["작은 말이 크게 들릴 수 있다.", "사실 확인 먼저 하면 괜찮아."],
+          copies: ["확인 한 번 더 하면 해결.", "문장보다 얼굴 보고."],
         },
         {
           id: "BRANCH_SELF_PUNISH",
           section: "건강",
           priority: 55,
-          when: (a, b) => a.dayBranch === b.dayBranch && isSelfPunish(a.dayBranch),
+          when: (a, b) =>
+            a.dayBranch === b.dayBranch && isSelfPunish(a.dayBranch),
           evidence: "같은 지지라 감정을 안으로 쌓기 쉬운 구조야.",
-          copies: ["참는 게 문제 포인트.", "기분은 그날그날 푸는 게 답."],
+          copies: ["기분을 바로 풀자.", "참는 게 문제 포인트."],
         },
         {
           id: "BRANCH_SAME",
@@ -1390,23 +1926,37 @@
           priority: 70,
           when: (a, b) => a.dayBranch === b.dayBranch,
           evidence: "일지가 같아서 감정 코드가 비슷해.",
-          copies: ["같이 있으면 말이 줄어도 통한다.", "단, 고집이 부딪히면 멈추자."],
+          copies: ["말이 줄어도 통하는 편.", "고집 붙으면 잠깐 멈추자."],
         },
         {
           id: "BRANCH_ELEM_SAME",
           section: "성향",
           priority: 66,
           when: (a, b) => BRANCH_ELEM[a.dayBranch] === BRANCH_ELEM[b.dayBranch],
-          evidence: "일지 오행이 같아 감정 표현 방식이 유사해.",
-          copies: ["말이 잘 통하는 조합.", "표현 방식이 비슷해 오해가 적다."],
+          evidence: "일지 오행이 같아 표현 방식이 유사해.",
+          copies: ["소통 스타일이 맞는다.", "오해가 적은 편."],
         },
         {
           id: "BRANCH_ELEM_CLASH",
           section: "관계",
           priority: 60,
-          when: (a, b) => OVERCOME[BRANCH_ELEM[a.dayBranch]] === BRANCH_ELEM[b.dayBranch],
+          when: (a, b) =>
+            OVERCOME[BRANCH_ELEM[a.dayBranch]] === BRANCH_ELEM[b.dayBranch],
           evidence: "일지 오행이 상극이라 기분이 부딪힐 수 있어.",
-          copies: ["감정 올라오면 한 박자 쉬자.", "중요한 얘기는 컨디션 좋은 날."],
+          copies: ["감정 올라오면 속도 줄이자.", "중요한 얘기는 준비된 날."],
+        },
+        {
+          id: "BRANCH_ELEM_SUPPORT",
+          section: "관계",
+          priority: 70,
+          when: (a, b) =>
+            BRANCH_ELEM[a.dayBranch] === b.topElem ||
+            BRANCH_ELEM[b.dayBranch] === a.topElem,
+          evidence: "한쪽의 일지 기운이 상대 강점을 받쳐줘.",
+          copies: [
+            "상대 장점을 잘 살려주는 조합.",
+            "서로의 페이스를 살리면 좋다.",
+          ],
         },
         {
           id: "MONEY_STYLE_MATCH",
@@ -1422,7 +1972,7 @@
           priority: 62,
           when: (a, b) => Math.abs(a.moneyStyle - b.moneyStyle) >= 1.0,
           evidence: "돈 쓰는 기준이 꽤 다를 수 있어.",
-          copies: ["규칙만 정하면 문제 없다.", "큰돈은 함께, 작은 건 각자."],
+          copies: ["약속만 정하면 문제 없다.", "큰돈은 함께, 작은 건 각자."],
         },
         {
           id: "MONEY_SAVING_GOOD",
@@ -1430,15 +1980,18 @@
           priority: 76,
           when: (a, b) => a.elements["토"] >= 1.2 && b.elements["토"] >= 1.2,
           evidence: "둘 다 토가 받쳐서 안정형 저축에 강해.",
-          copies: ["장기 계획 세우기 좋다.", "적금/비상금 관리에 강한 조합."],
+          copies: ["장기 계획 세우기 좋다.", "비상금 관리에 강한 조합."],
         },
         {
           id: "MONEY_LEAK_RISK",
           section: "돈",
           priority: 58,
           when: (a, b) => a.elements["금"] <= 0.7 && b.elements["금"] <= 0.7,
-          evidence: "둘 다 금 기운이 약해 지출 통제가 느슨할 수 있어.",
-          copies: ["자동이체/한도 설정이 답이야.", "소액이라도 기록해두면 훨씬 안정돼."],
+          evidence: "둘 다 금 기운이 약해 지출 통제가 느슨해질 수 있어.",
+          copies: [
+            "자동이체/한도 설정이 답이야.",
+            "소액이라도 기록해두면 안정돼.",
+          ],
         },
         {
           id: "WORK_SPEED_MATCH",
@@ -1454,23 +2007,23 @@
           priority: 62,
           when: (a, b) => Math.abs(a.elements["화"] - b.elements["화"]) >= 0.8,
           evidence: "일 처리 속도 차이가 커서 마찰이 생길 수 있어.",
-          copies: ["기한만 분명하게 맞추자.", "속도 차이는 역할 분담으로 해결된다."],
+          copies: [
+            "기한만 분명하게 맞추자.",
+            "속도 차이는 역할 분담으로 해결된다.",
+          ],
         },
         {
           id: "WORK_IDEA_SUPPORT",
           section: "일",
           priority: 72,
-          when: (a, b) => (a.elements["목"] >= 1.3 && b.elements["화"] >= 1.3) || (b.elements["목"] >= 1.3 && a.elements["화"] >= 1.3),
+          when: (a, b) =>
+            (a.elements["목"] >= 1.3 && b.elements["화"] >= 1.3) ||
+            (b.elements["목"] >= 1.3 && a.elements["화"] >= 1.3),
           evidence: "한쪽은 아이디어, 한쪽은 실행에 강해.",
-          copies: ["기획과 실행이 잘 맞는 조합.", "역할만 명확히 하면 속도가 난다."],
-        },
-        {
-          id: "WORK_STRESS_CLASH",
-          section: "일",
-          priority: 60,
-          when: (a, b) => a.elements["화"] >= 1.5 && b.elements["금"] <= 0.8 && b.elements["화"] >= 1.5 && a.elements["금"] <= 0.8,
-          evidence: "둘 다 속도는 빠른데 제어가 약해.",
-          copies: ["과열만 조심하면 성과는 확실해.", "체크리스트를 한 장씩만 써도 좋아."],
+          copies: [
+            "기획과 실행이 잘 맞는 조합.",
+            "역할만 명확히 하면 속도가 난다.",
+          ],
         },
         {
           id: "HEALTH_RECOVERY_GOOD",
@@ -1478,7 +2031,10 @@
           priority: 76,
           when: (a, b) => a.elements["수"] >= 1.2 && b.elements["수"] >= 1.2,
           evidence: "둘 다 회복 탄력이 좋은 편이야.",
-          copies: ["쉬는 날만 맞추면 컨디션이 확 좋아진다.", "수면만 지켜도 반은 성공."],
+          copies: [
+            "쉬는 날만 맞추면 컨디션이 확 좋아진다.",
+            "수면만 지켜도 반은 성공.",
+          ],
         },
         {
           id: "HEALTH_RHYTHM_GAP",
@@ -1486,7 +2042,10 @@
           priority: 58,
           when: (a, b) => Math.abs(a.elements["수"] - b.elements["수"]) >= 0.8,
           evidence: "회복 리듬 차이가 커서 피로가 엇갈릴 수 있어.",
-          copies: ["컨디션 좋은 날에 중요한 일 배치.", "각자 쉬는 타이밍을 존중하자."],
+          copies: [
+            "컨디션 좋은 날에 중요한 일 배치.",
+            "각자 쉬는 타이밍을 존중하자.",
+          ],
         },
         {
           id: "HEALTH_DIGEST",
@@ -1494,15 +2053,23 @@
           priority: 58,
           when: (a, b) => a.elements["토"] <= 0.8 && b.elements["토"] <= 0.8,
           evidence: "둘 다 토 기운이 약해 컨디션이 흔들릴 수 있어.",
-          copies: ["식사/수면 루틴만 잡아도 안정된다.", "무리한 약속을 줄이자."],
+          copies: [
+            "식사/수면 루틴만 잡아도 안정된다.",
+            "무리한 약속을 줄이자.",
+          ],
         },
         {
           id: "HEALTH_BALANCE_HELP",
           section: "건강",
           priority: 70,
-          when: (a, b) => (a.elements["토"] >= 1.3 && b.elements["수"] >= 1.3) || (b.elements["토"] >= 1.3 && a.elements["수"] >= 1.3),
+          when: (a, b) =>
+            (a.elements["토"] >= 1.3 && b.elements["수"] >= 1.3) ||
+            (b.elements["토"] >= 1.3 && a.elements["수"] >= 1.3),
           evidence: "한쪽의 안정감과 한쪽의 회복력이 잘 맞아.",
-          copies: ["생활 리듬을 공유하면 컨디션이 좋아진다.", "규칙적인 휴식이 강점."],
+          copies: [
+            "생활 리듬을 공유하면 컨디션이 좋아진다.",
+            "꾸준한 휴식이 강점.",
+          ],
         },
       ];
 
@@ -1521,7 +2088,11 @@
       }
       function loadTuneCfg() {
         try {
-          return JSON.parse(localStorage.getItem(TUNE_CFG_KEY) || "{}") || { strength: 1 };
+          return (
+            JSON.parse(localStorage.getItem(TUNE_CFG_KEY) || "{}") || {
+              strength: 1,
+            }
+          );
         } catch {
           return { strength: 1 };
         }
@@ -1579,7 +2150,9 @@
 
       function calcSectionScores(firedRules) {
         const result = {};
-        Object.keys(SECTION_WEIGHT).forEach((s) => (result[s] = { sum: 0, cnt: 0 }));
+        Object.keys(SECTION_WEIGHT).forEach(
+          (s) => (result[s] = { sum: 0, cnt: 0 })
+        );
         firedRules.forEach((r) => {
           if (result[r.section]) {
             result[r.section].sum += r.tunedPriority;
@@ -1588,7 +2161,9 @@
         });
         const scores = {};
         Object.keys(result).forEach((s) => {
-          scores[s] = result[s].cnt ? Math.round(result[s].sum / result[s].cnt) : 50;
+          scores[s] = result[s].cnt
+            ? Math.round(result[s].sum / result[s].cnt)
+            : 50;
         });
         return scores;
       }
@@ -1602,9 +2177,12 @@
       }
 
       function generateSummary(score) {
-        if (score >= 85) return "전반적으로 궁합이 강해. 기본 결이 잘 맞고, 장기적으로 안정적이야.";
-        if (score >= 70) return "좋은 편이야. 포인트 몇 가지만 맞추면 훨씬 편해질 수 있어.";
-        if (score >= 55) return "무난해. 약속만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
+        if (score >= 85)
+          return "전반적으로 궁합이 강해. 기본 결이 잘 맞고, 장기적으로 안정적이야.";
+        if (score >= 70)
+          return "좋은 편이야. 포인트 몇 가지만 맞추면 훨씬 편해질 수 있어.";
+        if (score >= 55)
+          return "무난해. 약속만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
         return "노력이 필요한 궁합이야. 대신 기준만 맞추면 의외로 단단해질 수 있어.";
       }
 
@@ -1620,8 +2198,14 @@
               .replaceAll("기한", "타이밍")
               .replaceAll("리스크", "조심 포인트"),
           tips: {
-            conflict: ["감정 올라오면 한 박자 쉬고 말하자.", "문자보다 얼굴 보고 얘기하는 게 답."],
-            money: ["돈 얘기는 기준을 먼저 맞추는 게 편해.", "큰돈만 같이 결정하고 나머진 자유로 가자."],
+            conflict: [
+              "감정 올라오면 한 박자 쉬고 말하자.",
+              "문자보다 얼굴 보고 얘기하는 게 답.",
+            ],
+            money: [
+              "돈 얘기는 기준을 먼저 맞추는 게 편해.",
+              "큰돈만 같이 결정하고 나머진 자유로 가자.",
+            ],
           },
         },
         biz: {
@@ -1632,8 +2216,14 @@
               .replaceAll("서로", "양측")
               .replaceAll("오해", "정보 비대칭"),
           tips: {
-            conflict: ["의사결정 프로세스를 문서로 박아.", "회의는 의제 1개씩만 잡자."],
-            money: ["재무는 룰이 아니라 정책이다.", "지출 기준/승인권자/한도를 고정해."],
+            conflict: [
+              "의사결정 프로세스를 문서로 박아.",
+              "회의는 의제 1개씩만 잡자.",
+            ],
+            money: [
+              "재무는 룰이 아니라 정책이다.",
+              "지출 기준/승인권자/한도를 고정해.",
+            ],
           },
         },
       };
@@ -1661,12 +2251,24 @@
         svg.innerHTML = "";
 
         const ang = (i) => ((Math.PI * 2) / 5) * i - Math.PI / 2;
-        const pt = (v, i) => [cx + R * v * Math.cos(ang(i)), cy + R * v * Math.sin(ang(i))];
+        const pt = (v, i) => [
+          cx + R * v * Math.cos(ang(i)),
+          cy + R * v * Math.sin(ang(i)),
+        ];
         const polyPoints = (arr, scale = 1) =>
-          arr.map((v, i) => pt(v * scale, i).map((n) => n.toFixed(2)).join(",")).join(" ");
+          arr
+            .map((v, i) =>
+              pt(v * scale, i)
+                .map((n) => n.toFixed(2))
+                .join(",")
+            )
+            .join(" ");
 
         const el = (name, attrs = {}) => {
-          const e = document.createElementNS("http://www.w3.org/2000/svg", name);
+          const e = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            name
+          );
           Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
           return e;
         };
@@ -1685,7 +2287,14 @@
         keys.forEach((name, i) => {
           const [x, y] = pt(1, i);
           svg.appendChild(
-            el("line", { x1: cx, y1: cy, x2: x, y2: y, stroke: "rgba(15,23,42,0.22)", "stroke-width": "1" })
+            el("line", {
+              x1: cx,
+              y1: cy,
+              x2: x,
+              y2: y,
+              stroke: "rgba(15,23,42,0.22)",
+              "stroke-width": "1",
+            })
           );
           const [lx, ly] = pt(1.18, i);
           const text = el("text", {
@@ -1728,30 +2337,61 @@
         const { month, seasonElem, top, weak, relTop, relWeak } = ctx;
         let mode = "steady";
         if (relTop === "생" || relTop === "동") mode = "push";
-        if (relWeak === "생" || relWeak === "동") mode = mode === "push" ? "pushPlus" : "recover";
+        if (relWeak === "생" || relWeak === "동")
+          mode = mode === "push" ? "pushPlus" : "recover";
         if (relTop === "극" || relTop === "눌림") mode = "brake";
 
         const monthLabel = `${month}월`;
         const templates = {
           push: [
-            [`${monthLabel}은 흐름이 네 편이야. 밀어붙이면 성과가 난다.`, "가장 중요한 일 1개만 먼저 끝내."],
-            [`${monthLabel}은 속도가 붙는 달이야. 미루던 거 처리하기 딱 좋아.`, "연락/결정/정리 중 하나는 이번 달에 끝내."],
+            [
+              `${monthLabel}은 흐름이 네 편이야. 밀어붙이면 성과가 난다.`,
+              "가장 중요한 일 1개만 먼저 끝내.",
+            ],
+            [
+              `${monthLabel}은 속도가 붙는 달이야. 미루던 거 처리하기 딱 좋아.`,
+              "연락/결정/정리 중 하나는 이번 달에 끝내.",
+            ],
           ],
           pushPlus: [
-            [`${monthLabel}은 좋은 흐름 + 회복까지 같이 오는 달이야.`, "욕심내도 되는데, 수면만은 꼭 지켜."],
-            [`${monthLabel}은 잘 풀리면서 편해지는 달이야.`, "새로 벌리기보다 기존 걸 업그레이드하면 크게 남아."],
+            [
+              `${monthLabel}은 좋은 흐름 + 회복까지 같이 오는 달이야.`,
+              "욕심내도 되는데, 수면만은 꼭 지켜.",
+            ],
+            [
+              `${monthLabel}은 잘 풀리면서 편해지는 달이야.`,
+              "새로 벌리기보다 기존 걸 업그레이드하면 크게 남아.",
+            ],
           ],
           recover: [
-            [`${monthLabel}은 회복이 복이다. 컨디션만 잡아도 일이 풀린다.`, "무리한 약속 줄이고 루틴 하나 붙여."],
-            [`${monthLabel}은 정리하면 운이 붙는 달이야.`, "공간/돈/일정 중 하나만 정리해도 체감 온다."],
+            [
+              `${monthLabel}은 회복이 복이다. 컨디션만 잡아도 일이 풀린다.`,
+              "무리한 약속 줄이고 루틴 하나 붙여.",
+            ],
+            [
+              `${monthLabel}은 정리하면 운이 붙는 달이야.`,
+              "공간/돈/일정 중 하나만 정리해도 체감 온다.",
+            ],
           ],
           brake: [
-            [`${monthLabel}은 무리하면 손해 보는 달이야. 속도 줄이는 게 이득.`, "큰 결정은 2주만 미루고 확인부터 해."],
-            [`${monthLabel}은 신중이 곧 돈이다.`, "계약/투자/충동구매는 한 번 더 체크."],
+            [
+              `${monthLabel}은 무리하면 손해 보는 달이야. 속도 줄이는 게 이득.`,
+              "큰 결정은 2주만 미루고 확인부터 해.",
+            ],
+            [
+              `${monthLabel}은 신중이 곧 돈이다.`,
+              "계약/투자/충동구매는 한 번 더 체크.",
+            ],
           ],
           steady: [
-            [`${monthLabel}은 유지가 이기는 달이야. 기본만 지켜도 충분해.`, "루틴 3개(수면/식사/정리)만 챙겨."],
-            [`${monthLabel}은 큰 변화보다 작은 개선이 맞아.`, "5% 개선 목표로 가면 꾸준히 이긴다."],
+            [
+              `${monthLabel}은 유지가 이기는 달이야. 기본만 지켜도 충분해.`,
+              "루틴 3개(수면/식사/정리)만 챙겨.",
+            ],
+            [
+              `${monthLabel}은 큰 변화보다 작은 개선이 맞아.`,
+              "5% 개선 목표로 가면 꾸준히 이긴다.",
+            ],
           ],
         };
 
@@ -1770,7 +2410,14 @@
           const s = flow.seasonTop;
           const relTop = relationElem(top, s);
           const relWeak = relationElem(weak, s);
-          const { oneLine, tip, tags } = pickMonthlyCopy({ month: m, seasonElem: s, top, weak, relTop, relWeak });
+          const { oneLine, tip, tags } = pickMonthlyCopy({
+            month: m,
+            seasonElem: s,
+            top,
+            weak,
+            relTop,
+            relWeak,
+          });
           months.push({
             month: m,
             seasonElem: s,
@@ -1789,7 +2436,9 @@
             (m) => `
             <div class="rule-card">
               <div class="row" style="justify-content: space-between">
-                <div class="section-title">${m.month}월 · ${m.seasonElem} 흐름</div>
+                <div class="section-title">${m.month}월 · ${
+              m.seasonElem
+            } 흐름</div>
                 <span class="mini">${m.tags.join(" · ")}</span>
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
@@ -1806,7 +2455,7 @@
         const summary = generateSummary(totalScore);
         totalScoreEl.textContent = `${totalScore}점`;
         summaryMain.textContent = summary;
-        summarySub.textContent = "Asia/Seoul 기준 · 절기/오행 규칙";
+        summarySub.textContent = "입력 시간대 기준 · 절기/오행 규칙";
 
         const { top, weak } = getTopWeak(coupleElements);
         const pills = [
@@ -1815,7 +2464,9 @@
           `발동 룰: ${firedRules.length}개`,
           TONE[toneKey]?.title || "커플 모드",
         ];
-        summaryPills.innerHTML = pills.map((p) => `<span class="pill">${escapeHtml(p)}</span>`).join("");
+        summaryPills.innerHTML = pills
+          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
+          .join("");
       }
 
       function renderRules(firedRules, toneKey, tokens) {
@@ -1829,7 +2480,10 @@
           .map((r) => {
             const evidence = applyTone(fillTokens(r.evidence, tokens), toneKey);
             const copy = applyTone(r.copies[0], toneKey);
-            const extra = r.section === "돈" ? toneExtraTip("money", toneKey) : toneExtraTip("conflict", toneKey);
+            const extra =
+              r.section === "돈"
+                ? toneExtraTip("money", toneKey)
+                : toneExtraTip("conflict", toneKey);
             return `
             <div class="rule-card">
               <div class="rule-head">
@@ -1837,7 +2491,11 @@
                 <button class="like-btn" data-rule="${r.id}">공감 👍</button>
               </div>
               <p class="mini">근거: ${escapeHtml(evidence)}</p>
-              <p>${escapeHtml(copy)}${extra ? `<br/><span class="mini">+ ${escapeHtml(extra)}</span>` : ""}</p>
+              <p>${escapeHtml(copy)}${
+              extra
+                ? `<br/><span class="mini">+ ${escapeHtml(extra)}</span>`
+                : ""
+            }</p>
             </div>`;
           })
           .join("");
@@ -1849,14 +2507,347 @@
           return;
         }
         const p = result.pillars;
-        targetEl.innerHTML = `입력: ${result.input.kst}<br/>
+        const tzText = formatTzOffset(result.input.tzOffsetMinutes);
+        targetEl.innerHTML = `입력: ${result.input.local} (UTC${tzText})<br/>
           연: ${p.year.text} / 월: ${p.month.text}<br/>
           일: ${p.day.text} / 시: ${p.hour.text}`;
       }
 
-      function renderAll() {
-        if (!state.A || !state.B) return;
+      function renderElementsAnalysis(elements) {
+        const keys = ["목", "화", "토", "금", "수"];
+        const values = keys.map((k) => elements[k] || 0);
+        const maxVal = Math.max(...values, 1);
+        const topIdx = values.indexOf(Math.max(...values));
+        const lowIdx = values.indexOf(Math.min(...values));
+        const top = keys[topIdx];
+        const low = keys[lowIdx];
+        const personality = getElementPersonality(top, low);
 
+        const rounded = keys.reduce((acc, k) => {
+          acc[k] = Math.round((elements[k] || 0) * 10) / 10;
+          return acc;
+        }, {});
+
+        elementsSummary.textContent = `지금은 ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야.`;
+        renderElementsRadar(elements);
+
+        const detailLines = [
+          `오행 분포: 목 ${rounded["목"]} · 화 ${rounded["화"]} · 토 ${rounded["토"]} · 금 ${rounded["금"]} · 수 ${rounded["수"]}`,
+          `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top}는 현재 전체의 약 ${Math.round(
+            (values[topIdx] / maxVal) * 100
+          )}% 수준이야.`,
+          `약한 ${low}: 루틴/환경 보완으로 충분히 메꿀 수 있어. ${low}는 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.`,
+          `성향 요약: ${personality}`,
+          `균형 팁: 상생 구조를 따라 ${top}의 장점을 살리되, ${low}를 받쳐줄 생활 습관을 하나만 고정하면 흐름이 안정돼.`,
+        ];
+        elementsDetail.innerHTML = detailLines.map((l) => escapeHtml(l)).join("<br/>");
+      }
+
+      function getElementPersonality(top, low) {
+        const topMap = {
+          목: "확장형. 아이디어/개척에 강하고, 빠르게 움직여.",
+          화: "표현형. 추진/열정이 강하고, 분위기를 주도해.",
+          토: "안정형. 조율/관리 중심이며, 신뢰가 자산이야.",
+          금: "정밀형. 기준/원칙이 뚜렷하고, 결정이 빠른 편이야.",
+          수: "분석형. 정보/흐름을 읽고, 유연하게 대응해.",
+        };
+        const lowMap = {
+          목: "새로운 시도는 쉬는데 마무리가 약해질 수 있어.",
+          화: "흥이 떨어지면 동력이 급감할 수 있어.",
+          토: "루틴이 흐트러지면 불안정해질 수 있어.",
+          금: "결정 기준이 흔들리면 스트레스가 커질 수 있어.",
+          수: "과한 정보 탐색으로 결정이 늦어질 수 있어.",
+        };
+        const topLine = topMap[top] || "기질의 중심이 되는 성향이 또렷해.";
+        const lowLine = lowMap[low] || "약한 축을 보완하면 안정감이 올라가.";
+        return `${topLine} ${lowLine}`;
+      }
+
+      function renderElementsRadar(elements) {
+        const svg = elementsRadarSvg;
+        const keys = ["목", "화", "토", "금", "수"];
+        const values = keys.map((k) => elements[k] || 0);
+        const maxVal = Math.max(...values, 1);
+        const vals = values.map((v) => clamp01(v / maxVal));
+        const cx = 160;
+        const cy = 160;
+        const R = 110;
+        svg.innerHTML = "";
+
+        const ang = (i) => ((Math.PI * 2) / 5) * i - Math.PI / 2;
+        const pt = (v, i) => [
+          cx + R * v * Math.cos(ang(i)),
+          cy + R * v * Math.sin(ang(i)),
+        ];
+        const polyPoints = (arr, scale = 1) =>
+          arr
+            .map((v, i) =>
+              pt(v * scale, i)
+                .map((n) => n.toFixed(2))
+                .join(",")
+            )
+            .join(" ");
+
+        const el = (name, attrs = {}) => {
+          const e = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            name
+          );
+          Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+          return e;
+        };
+
+        for (let r = 1; r <= 4; r++) {
+          svg.appendChild(
+            el("polygon", {
+              points: polyPoints([r / 4, r / 4, r / 4, r / 4, r / 4]),
+              fill: "none",
+              stroke: "rgba(15,23,42,0.14)",
+              "stroke-width": "1",
+            })
+          );
+        }
+
+        keys.forEach((name, i) => {
+          const [x, y] = pt(1, i);
+          svg.appendChild(
+            el("line", {
+              x1: cx,
+              y1: cy,
+              x2: x,
+              y2: y,
+              stroke: "rgba(15,23,42,0.22)",
+              "stroke-width": "1",
+            })
+          );
+          const [lx, ly] = pt(1.18, i);
+          const text = el("text", {
+            x: lx,
+            y: ly,
+            "text-anchor": "middle",
+            "dominant-baseline": "middle",
+            "font-size": "13",
+            "font-weight": "900",
+            fill: "#0f172a",
+          });
+          text.textContent = `${name} ${Math.round((elements[name] || 0) * 10) / 10}`;
+          svg.appendChild(text);
+        });
+
+        const poly = el("polygon", {
+          points: polyPoints(vals, 0.02),
+          fill: "rgba(245,158,11,0.25)",
+          stroke: "rgba(217,119,6,0.95)",
+          "stroke-width": "2",
+          "stroke-linejoin": "round",
+        });
+        svg.appendChild(poly);
+
+        const dots = vals.map((v, i) => {
+          const dot = el("circle", {
+            cx: cx,
+            cy: cy,
+            r: "3.5",
+            fill: "rgba(217,119,6,0.95)",
+          });
+          svg.appendChild(dot);
+          return { dot, v, i };
+        });
+
+        let p = 0.02;
+        function anim() {
+          p += 0.05;
+          if (p > 1) p = 1;
+          poly.setAttribute("points", polyPoints(vals, p));
+          dots.forEach(({ dot, v, i }) => {
+            const [dx, dy] = pt(v * p, i);
+            dot.setAttribute("cx", dx.toFixed(2));
+            dot.setAttribute("cy", dy.toFixed(2));
+          });
+          if (p < 1) requestAnimationFrame(anim);
+        }
+        requestAnimationFrame(anim);
+      }
+
+      function getGenerator(elem) {
+        const map = { 화: "목", 토: "화", 금: "토", 수: "금", 목: "수" };
+        return map[elem] || "";
+      }
+
+      function getOvercomeElem(elem) {
+        const entries = Object.entries(OVERCOME);
+        const found = entries.find(([, v]) => v === elem);
+        return found ? found[0] : "";
+      }
+
+      function getYongshinSuggestion(person) {
+        const suggestions = [];
+        const genWeak = getGenerator(person.weakElem);
+        const controlTop = getOvercomeElem(person.topElem);
+        if (person.weakScore <= 0.8 && genWeak) {
+          suggestions.push({
+            elem: genWeak,
+            reason: `약한 ${person.weakElem} 보완`,
+          });
+        }
+        if (person.topScore >= 1.4 && controlTop) {
+          suggestions.push({
+            elem: controlTop,
+            reason: `강한 ${person.topElem} 조절`,
+          });
+        }
+        if (!suggestions.length && genWeak) {
+          suggestions.push({
+            elem: genWeak,
+            reason: `균형 유지`,
+          });
+        }
+        return suggestions;
+      }
+
+      function renderDeepAnalysisCard(a, b) {
+        const blocks = [];
+        if (a) blocks.push(renderDeepBlock("A", a));
+        if (b) blocks.push(renderDeepBlock("B", b));
+        deepAnalysis.innerHTML = blocks.join("");
+      }
+
+      function renderDeepBlock(label, person) {
+        const yongshin = getYongshinSuggestion(person);
+        const yongText = yongshin.length
+          ? yongshin.map((y) => `${y.elem}(${y.reason})`).join(", ")
+          : "—";
+        const season =
+          person.monthBranch && person.seasonTopElem
+            ? `${person.monthBranch}(${person.seasonTopElem})`
+            : "—";
+        const seasonLine =
+          person.seasonTopElem && person.topElem === person.seasonTopElem
+            ? "월령과 강점이 같아 자연스럽게 힘이 실리는 타입."
+            : "월령과 강점이 달라 조율·보완이 중요해.";
+
+        return `
+          <div class="rule-card">
+            <div class="section-title">${label} 심화 요약</div>
+            <div class="mini">간이 용신: ${escapeHtml(yongText)}</div>
+            <div class="mini">격국(간이): 월지 ${escapeHtml(
+              season
+            )} 중심. ${escapeHtml(seasonLine)}</div>
+          </div>
+        `;
+      }
+
+      function getLocalNowYear(tzOffsetMinutes, dstMode) {
+        const parts = toLocalDateParts(new Date(), tzOffsetMinutes, dstMode);
+        return parts.y;
+      }
+
+      function pickYearMode(relTop, relWeak) {
+        let mode = "steady";
+        if (relTop === "생" || relTop === "동") mode = "push";
+        if (relWeak === "생" || relWeak === "동")
+          mode = mode === "push" ? "pushPlus" : "recover";
+        if (relTop === "극" || relTop === "눌림") mode = "brake";
+        return mode;
+      }
+
+      function yearModeText(mode) {
+        const map = {
+          push: "확장/추진에 유리",
+          pushPlus: "성과+회복 동시",
+          recover: "정리/회복에 유리",
+          brake: "속도 조절 필요",
+          steady: "기본 유지",
+        };
+        return map[mode] || "기본 유지";
+      }
+
+      function buildYearFlows(person, tzOffsetMinutes, dstMode) {
+        const startYear = getLocalNowYear(tzOffsetMinutes, dstMode);
+        const flows = [];
+        for (let i = 0; i < 10; i++) {
+          const year = startYear + i;
+          const pillar = ganzhiYear(year);
+          const yearElem = STEM_ELEM[pillar.stem];
+          const relTop = relationElem(yearElem, person.topElem);
+          const relWeak = relationElem(yearElem, person.weakElem);
+          const mode = pickYearMode(relTop, relWeak);
+          flows.push({
+            year,
+            pillar,
+            yearElem,
+            mode,
+          });
+        }
+        return flows;
+      }
+
+      function summarizeDecades(flows) {
+        const buckets = {};
+        flows.forEach((f) => {
+          const start = f.year - (f.year % 10);
+          if (!buckets[start]) buckets[start] = [];
+          buckets[start].push(f);
+        });
+        return Object.entries(buckets).map(([start, list]) => {
+          const counts = list.reduce((acc, cur) => {
+            acc[cur.mode] = (acc[cur.mode] || 0) + 1;
+            return acc;
+          }, {});
+          const topMode = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+          return {
+            range: `${start}~${Number(start) + 9}`,
+            mode: topMode,
+          };
+        });
+      }
+
+      function renderLuckFlowCard(a, b) {
+        const blocks = [];
+        if (a) blocks.push(renderLuckBlock("A", a));
+        if (b) blocks.push(renderLuckBlock("B", b));
+        luckFlow.innerHTML = blocks.join("");
+      }
+
+      function renderLuckBlock(label, person) {
+        const tzOffsetMinutes = person.tzOffsetMinutes ?? 540;
+        const dstMode = person.dstMode || "off";
+        const flows = buildYearFlows(person, tzOffsetMinutes, dstMode);
+        const decades = summarizeDecades(flows);
+        const yearLines = flows
+          .map(
+            (f) =>
+              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${yearModeText(
+                f.mode
+              )}`
+          )
+          .join("<br/>");
+        const decadeLines = decades
+          .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
+          .join(" · ");
+
+        return `
+          <div class="rule-card">
+            <div class="section-title">${label} 대운/세운</div>
+            <div class="mini">대운(10년): ${escapeHtml(decadeLines)}</div>
+            <div class="mini">세운(10년): ${yearLines}</div>
+          </div>
+        `;
+      }
+
+      function setResultVisibility(mode) {
+        resultElementsCard.classList.toggle("hidden", !state.A);
+        resultDeepCard.classList.toggle("hidden", !state.A);
+        resultLuckCard.classList.toggle("hidden", !state.A);
+        resultTodayCard.classList.toggle("hidden", mode === "newyear");
+        resultRadarCard.classList.toggle("hidden", mode !== "compat");
+        resultABCard.classList.toggle("hidden", mode !== "compat");
+        resultRulesCard.classList.toggle("hidden", mode !== "compat");
+        resultMonthlyCard.classList.toggle("hidden", mode === "today");
+        tuningCard.classList.toggle("hidden", mode !== "compat");
+      }
+
+      function renderCompat() {
         const a = buildPerson(state.A);
         const b = buildPerson(state.B);
         const toneKey = toneSelect.value;
@@ -1866,6 +2857,10 @@
         const coupleElements = combineElements(a.elements, b.elements);
         const coupleStats = getTopWeak(coupleElements);
 
+        resultTitle.textContent = "궁합 요약";
+        renderElementsAnalysis(coupleElements);
+        renderDeepAnalysisCard(a, b);
+        renderLuckFlowCard(a, b);
         renderSummary(totalScore, firedRules, toneKey, coupleElements);
         renderTodayCoupleBox(a, b);
         renderRadar(sectionScores);
@@ -1885,7 +2880,66 @@
         renderPillars(aPillarsEl, state.aResult);
         renderPillars(bPillarsEl, state.bResult);
 
-        return { totalScore, firedRules, sectionScores, coupleElements };
+        return { totalScore, firedRules, coupleElements };
+      }
+
+      function renderNewYear() {
+        const a = buildPerson(state.A);
+        const { top, weak } = getTopWeak(a.elements);
+        resultTitle.textContent = "신년운세 요약";
+        renderElementsAnalysis(a.elements);
+        renderDeepAnalysisCard(a, null);
+        renderLuckFlowCard(a, null);
+        totalScoreEl.textContent = "—";
+        summarySub.textContent = "2026 흐름 · 월별 운세";
+        summaryMain.textContent = `2026년은 ${top} 기운이 힘이 되고, ${weak} 쪽을 보완하면 흐름이 좋아져.`;
+        summaryPills.innerHTML = [
+          `핵심 오행: ${top}`,
+          `약한 오행: ${weak}`,
+          "2026 월별 흐름",
+        ]
+          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
+          .join("");
+
+        todayCoupleLine.textContent = "—";
+        todayCoupleMeta.textContent = "";
+        renderMonthly({ elements: a.elements });
+        renderPillars(aPillarsEl, state.aResult);
+        bPillarsEl.textContent = "";
+
+        return { totalScore: null, coupleElements: a.elements };
+      }
+
+      function renderTodayOnly() {
+        const a = buildPerson(state.A);
+        resultTitle.textContent = "오늘운세 요약";
+        renderElementsAnalysis(a.elements);
+        renderDeepAnalysisCard(a, null);
+        renderLuckFlowCard(a, null);
+        totalScoreEl.textContent = "—";
+        summarySub.textContent = "오늘 일진 기반";
+        summaryMain.textContent = todayLuckLine(a);
+        summaryPills.innerHTML = [
+          `핵심 오행: ${a.topElem}`,
+          `약한 오행: ${a.weakElem}`,
+        ]
+          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
+          .join("");
+
+        todayCoupleLine.textContent = todayLuckLine(a);
+        todayCoupleMeta.textContent = `오늘 오행: ${
+          getTodayElementFlow().stemElem
+        }/${getTodayElementFlow().branchElem}`;
+        renderPillars(aPillarsEl, state.aResult);
+        bPillarsEl.textContent = "";
+      }
+
+      function renderAll() {
+        if (!state.A) return;
+        setResultVisibility(state.mode);
+        if (state.mode === "compat") return renderCompat();
+        if (state.mode === "newyear") return renderNewYear();
+        return renderTodayOnly();
       }
 
       /* ======================================================
@@ -1935,7 +2989,15 @@
         const cardY = pad;
         const cardW = c.width - pad * 2;
         const cardH = c.height - pad * 2;
-        roundRect(ctx, cardX, cardY, cardW, cardH, 40, "rgba(255,255,255,0.92)");
+        roundRect(
+          ctx,
+          cardX,
+          cardY,
+          cardW,
+          cardH,
+          40,
+          "rgba(255,255,255,0.92)"
+        );
 
         ctx.fillStyle = "#0f172a";
         ctx.font = "800 52px IBM Plex Sans KR";
@@ -1945,24 +3007,38 @@
         ctx.fillStyle = "rgba(15,23,42,0.7)";
         ctx.fillText(payload.toneLabel, cardX + 50, cardY + 170);
 
-        ctx.font = "800 130px IBM Plex Sans KR";
+        ctx.font = "800 110px IBM Plex Sans KR";
         ctx.fillStyle = "#0f172a";
-        ctx.fillText(String(payload.score), cardX + 50, cardY + 320);
-        ctx.font = "700 32px IBM Plex Sans KR";
+        ctx.fillText(String(payload.scoreText), cardX + 50, cardY + 300);
+        ctx.font = "700 30px IBM Plex Sans KR";
         ctx.fillStyle = "rgba(15,23,42,0.7)";
-        ctx.fillText("궁합 점수", cardX + 50, cardY + 370);
+        ctx.fillText(payload.scoreLabel, cardX + 50, cardY + 350);
 
         ctx.font = "700 32px IBM Plex Sans KR";
         ctx.fillStyle = "rgba(15,23,42,0.85)";
-        ctx.fillText(`핵심 오행: ${payload.topElem}`, cardX + 50, cardY + 450);
+        ctx.fillText(`핵심 오행: ${payload.topElem}`, cardX + 50, cardY + 430);
 
         ctx.font = "700 32px IBM Plex Sans KR";
         ctx.fillStyle = "rgba(15,23,42,0.9)";
-        wrapText(ctx, `총평: ${payload.summary}`, cardX + 50, cardY + 530, cardW - 100, 44);
+        wrapText(
+          ctx,
+          `요약: ${payload.summary}`,
+          cardX + 50,
+          cardY + 510,
+          cardW - 100,
+          44
+        );
 
         ctx.font = "700 28px IBM Plex Sans KR";
         ctx.fillStyle = "rgba(15,23,42,0.78)";
-        wrapText(ctx, `오늘: ${payload.todayLine}`, cardX + 50, cardY + 720, cardW - 100, 40);
+        wrapText(
+          ctx,
+          payload.todayLine,
+          cardX + 50,
+          cardY + 700,
+          cardW - 100,
+          40
+        );
 
         ctx.font = "700 26px IBM Plex Sans KR";
         ctx.fillStyle = "rgba(15,23,42,0.6)";
@@ -1971,31 +3047,63 @@
         return new Promise((resolve) => c.toBlob(resolve, "image/png", 1.0));
       }
 
-      async function shareCard() {
-        if (!state.A || !state.B) {
-          alert("A/B 입력 후 계산해줘.");
-          return;
+      function getSharePayload(snapshot) {
+        if (state.mode === "compat") {
+          return {
+            title: "궁합 리포트",
+            toneLabel: TONE[toneSelect.value]?.title || "커플 모드",
+            scoreText: snapshot.totalScore,
+            scoreLabel: "궁합 점수",
+            summary: summaryMain.textContent,
+            todayLine: todayCoupleLine.textContent,
+            topElem: getTopWeak(snapshot.coupleElements).top,
+          };
         }
-        const toneKey = toneSelect.value;
-        const stateSnapshot = renderAll();
-        const topElem = getTopWeak(stateSnapshot.coupleElements).top;
-        const blob = await generateShareCard({
-          title: "궁합 리포트",
-          score: stateSnapshot.totalScore,
+        if (state.mode === "newyear") {
+          const topElem = getTopWeak(state.A.elements).top;
+          return {
+            title: "신년운세 리포트",
+            toneLabel: "2026 흐름",
+            scoreText: "—",
+            scoreLabel: "운세 요약",
+            summary: summaryMain.textContent,
+            todayLine: "월별 흐름으로 계획 세우기 좋다.",
+            topElem,
+          };
+        }
+        const topElem = getTopWeak(state.A.elements).top;
+        return {
+          title: "오늘운세",
+          toneLabel: "일진 기반",
+          scoreText: "—",
+          scoreLabel: "오늘 흐름",
           summary: summaryMain.textContent,
           todayLine: todayCoupleLine.textContent,
           topElem,
-          toneLabel: TONE[toneKey]?.title || "커플 모드",
-        });
+        };
+      }
+
+      async function shareCard() {
+        if (!state.A) {
+          alert("입력 후 계산해줘.");
+          return;
+        }
+        const snapshot = renderAll() || {
+          totalScore: "—",
+          coupleElements: state.A.elements,
+        };
+        const blob = await generateShareCard(getSharePayload(snapshot));
 
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `궁합카드_${new Date().toISOString().slice(0, 10)}.png`;
+        a.download = `운세카드_${new Date().toISOString().slice(0, 10)}.png`;
         a.click();
 
         try {
-          await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+          await navigator.clipboard.write([
+            new ClipboardItem({ "image/png": blob }),
+          ]);
           shareStatus.textContent = "카드를 생성하고 클립보드에 복사했어.";
         } catch {
           shareStatus.textContent = "카드를 생성했어. 다운로드를 확인해줘.";
@@ -2006,8 +3114,8 @@
   11. PDF 저장 (html2canvas + jsPDF)
 ====================================================== */
       async function savePdfPretty() {
-        if (!state.A || !state.B) {
-          alert("A/B 입력 후 계산해줘.");
+        if (!state.A) {
+          alert("입력 후 계산해줘.");
           return;
         }
         if (!window.html2canvas || !window.jspdf) {
@@ -2042,7 +3150,9 @@
           }
         }
 
-        const fileName = `궁합리포트_${new Date().toISOString().slice(0, 10)}.pdf`;
+        const fileName = `운세리포트_${new Date()
+          .toISOString()
+          .slice(0, 10)}.pdf`;
         pdf.save(fileName);
       }
 
@@ -2063,60 +3173,135 @@
       function setInputs(data) {
         if (!data) return;
         aDate.value = data.aDate || "";
-        aTime.value = data.aTime || "";
-        aZiMode.value = data.aZiMode || "2300";
+        aHourBranch.value = data.aHourBranch || "자";
         aHiddenMode.value = data.aHiddenMode || "on";
+        aTzOffset.value = data.aTzOffset ?? "9";
+        aDstMode.value = data.aDstMode || "off";
         bDate.value = data.bDate || "";
-        bTime.value = data.bTime || "";
-        bZiMode.value = data.bZiMode || "2300";
+        bHourBranch.value = data.bHourBranch || "자";
         bHiddenMode.value = data.bHiddenMode || "on";
+        bTzOffset.value = data.bTzOffset ?? "9";
+        bDstMode.value = data.bDstMode || "off";
         toneSelect.value = data.tone || "couple";
       }
 
       function getInputData() {
         return {
           aDate: aDate.value,
-          aTime: aTime.value,
-          aZiMode: aZiMode.value,
+          aHourBranch: aHourBranch.value,
           aHiddenMode: aHiddenMode.value,
+          aTzOffset: aTzOffset.value,
+          aDstMode: aDstMode.value,
           bDate: bDate.value,
-          bTime: bTime.value,
-          bZiMode: bZiMode.value,
+          bHourBranch: bHourBranch.value,
           bHiddenMode: bHiddenMode.value,
+          bTzOffset: bTzOffset.value,
+          bDstMode: bDstMode.value,
           tone: toneSelect.value,
+          mode: state.mode,
         };
       }
 
-      function computePair() {
+      function configureInputForMode(mode) {
+        if (mode === "compat") {
+          inputTitle.textContent = "궁합 입력";
+          inputDesc.textContent = "A/B 출생 정보 입력 → 궁합 계산";
+          panelB.classList.remove("hidden");
+          toneRow.classList.remove("hidden");
+        } else if (mode === "newyear") {
+          inputTitle.textContent = "신년운세 입력";
+          inputDesc.textContent = "한 사람 출생 정보 입력 → 2026 흐름";
+          panelB.classList.add("hidden");
+          toneRow.classList.add("hidden");
+        } else {
+          inputTitle.textContent = "오늘운세 입력";
+          inputDesc.textContent = "한 사람 출생 정보 입력 → 오늘 한 줄";
+          panelB.classList.add("hidden");
+          toneRow.classList.add("hidden");
+        }
+      }
+
+      function showStep(name) {
+        stepMenu.classList.toggle("active", name === "menu");
+        stepInput.classList.toggle("active", name === "input");
+        stepResult.classList.toggle("active", name === "result");
+      }
+
+      async function computePair() {
         const data = getInputData();
-        if (!data.aDate || !data.aTime || !data.bDate || !data.bTime) {
-          alert("A/B 날짜와 시간을 모두 입력해줘.");
+        if (!data.aDate || !data.aHourBranch) {
+          alert("A 날짜와 12간지를 선택해줘.");
+          return;
+        }
+        if (state.mode === "compat" && (!data.bDate || !data.bHourBranch)) {
+          alert("B 날짜와 12간지를 선택해줘.");
           return;
         }
         saveInputs(data);
 
-        const aBirth = parseKSTDateTime(data.aDate, data.aTime);
-        const bBirth = parseKSTDateTime(data.bDate, data.bTime);
+        loadingOverlay.classList.add("active");
+        loadingOverlay.setAttribute("aria-hidden", "false");
+        await new Promise((r) => setTimeout(r, 700));
 
-        const aResult = computeSajuFiveElements(aBirth, { ziMode: data.aZiMode, hiddenMode: data.aHiddenMode });
-        const bResult = computeSajuFiveElements(bBirth, { ziMode: data.bZiMode, hiddenMode: data.bHiddenMode });
-
+        const aTime = hourBranchToTime(data.aHourBranch);
+        const aOffsetMin = parseTzOffsetMinutes(data.aTzOffset, 540);
+        const aBirth = parseLocalDateTime(
+          data.aDate,
+          aTime,
+          aOffsetMin,
+          data.aDstMode
+        );
+        const aResult = computeSajuFiveElements(aBirth, {
+          ziMode: "2300",
+          hiddenMode: data.aHiddenMode,
+          tzOffsetMinutes: aOffsetMin,
+          dstMode: data.aDstMode,
+        });
         state.aResult = aResult;
-        state.bResult = bResult;
         state.A = {
           name: "A",
           elements: aResult.elements.raw,
           dayBranch: aResult.pillars.day.branch,
           monthBranch: aResult.pillars.month.branch,
-        };
-        state.B = {
-          name: "B",
-          elements: bResult.elements.raw,
-          dayBranch: bResult.pillars.day.branch,
-          monthBranch: bResult.pillars.month.branch,
+          tzOffsetMinutes: aOffsetMin,
+          dstMode: data.aDstMode,
         };
 
+        if (state.mode === "compat") {
+          const bTime = hourBranchToTime(data.bHourBranch);
+          const bOffsetMin = parseTzOffsetMinutes(data.bTzOffset, 540);
+          const bBirth = parseLocalDateTime(
+            data.bDate,
+            bTime,
+            bOffsetMin,
+            data.bDstMode
+          );
+          const bResult = computeSajuFiveElements(bBirth, {
+            ziMode: "2300",
+            hiddenMode: data.bHiddenMode,
+            tzOffsetMinutes: bOffsetMin,
+            dstMode: data.bDstMode,
+          });
+          state.bResult = bResult;
+          state.B = {
+            name: "B",
+            elements: bResult.elements.raw,
+            dayBranch: bResult.pillars.day.branch,
+            monthBranch: bResult.pillars.month.branch,
+            tzOffsetMinutes: bOffsetMin,
+            dstMode: data.bDstMode,
+          };
+        } else {
+          state.bResult = null;
+          state.B = null;
+        }
+
+        showStep("result");
         renderAll();
+
+        await new Promise((r) => setTimeout(r, 400));
+        loadingOverlay.classList.remove("active");
+        loadingOverlay.setAttribute("aria-hidden", "true");
       }
 
       /* ======================================================
@@ -2129,10 +3314,39 @@
         updateTuneStatus();
         const saved = loadInputs();
         setInputs(saved);
-        if (saved.aDate && saved.aTime && saved.bDate && saved.bTime) {
-          computePair();
+        if (saved.mode) {
+          state.mode = saved.mode;
+          configureInputForMode(state.mode);
+          showStep("input");
         }
       }
+
+      document.querySelectorAll(".menu-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.mode = btn.dataset.mode;
+          configureInputForMode(state.mode);
+          showStep("input");
+        });
+      });
+
+      backToMenu.addEventListener("click", () => showStep("menu"));
+      clearSaved.addEventListener("click", () => {
+        localStorage.removeItem(INPUT_KEY);
+        aDate.value = "";
+        aHourBranch.value = "자";
+        aHiddenMode.value = "on";
+        aTzOffset.value = "9";
+        aDstMode.value = "off";
+        bDate.value = "";
+        bHourBranch.value = "자";
+        bHiddenMode.value = "on";
+        bTzOffset.value = "9";
+        bDstMode.value = "off";
+        toneSelect.value = "couple";
+        alert("저장된 입력을 초기화했어.");
+      });
+      backToInput.addEventListener("click", () => showStep("input"));
+      restartFlow.addEventListener("click", () => showStep("menu"));
 
       document.addEventListener("click", (e) => {
         const btn = e.target.closest(".like-btn");
@@ -2148,22 +3362,29 @@
         tuneLabel.textContent = v.toFixed(1);
         saveTuneCfg({ strength: v });
         updateTuneStatus();
-        renderAll();
+        if (state.mode === "compat") renderAll();
       });
 
       tuneReset.addEventListener("click", () => {
         localStorage.removeItem(TUNE_KEY);
         updateTuneStatus();
-        renderAll();
+        if (state.mode === "compat") renderAll();
       });
 
       toneSelect.addEventListener("change", () => {
         saveInputs(getInputData());
-        renderAll();
+        if (state.mode === "compat") renderAll();
       });
 
       todayLuckBtn.addEventListener("click", () => {
-        if (state.A && state.B) renderTodayCoupleBox(buildPerson(state.A), buildPerson(state.B));
+        if (state.mode === "compat" && state.A && state.B) {
+          renderTodayCoupleBox(buildPerson(state.A), buildPerson(state.B));
+        } else if (state.A) {
+          todayCoupleLine.textContent = todayLuckLine(buildPerson(state.A));
+          todayCoupleMeta.textContent = `오늘 오행: ${
+            getTodayElementFlow().stemElem
+          }/${getTodayElementFlow().branchElem}`;
+        }
       });
 
       shareBtn.addEventListener("click", shareCard);
