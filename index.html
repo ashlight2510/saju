@@ -2,8 +2,12 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <title>궁합 · 오늘운세 · 신년운세</title>
+    <title>사주풀이 · 궁합 · 오늘운세 · 신년운세</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔮</text></svg>"
+    />
 
     <!-- Adsense (요청 반영) -->
     <script
@@ -13,41 +17,100 @@
     ></script>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;800&family=Playfair+Display:wght@700;800&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;800&family=Playfair+Display:wght@700;800&family=Noto+Serif+KR:wght@400;600;700&display=swap");
 
       :root {
-        --bg1: #0b1621;
-        --bg2: #101f2e;
-        --bg3: #14273b;
-        --card: rgba(255, 255, 255, 0.94);
+        --bg1: #0a0f1a;
+        --bg2: #0f1623;
+        --bg3: #141b2d;
+        --card: rgba(255, 255, 255, 0.98);
         --text: #0f172a;
-        --muted: rgba(15, 23, 42, 0.65);
-        --line: rgba(15, 23, 42, 0.12);
-        --accent: #2563eb;
+        --muted: rgba(15, 23, 42, 0.7);
+        --line: rgba(15, 23, 42, 0.08);
+        --accent: #6366f1;
+        --accent-hover: #4f46e5;
         --accent2: #f59e0b;
-        --shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-        --radius: 18px;
+        --accent-grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        --shadow: 0 20px 60px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+        --shadow-hover: 0 24px 80px rgba(99, 102, 241, 0.2),
+          0 0 0 1px rgba(255, 255, 255, 0.15);
+        --radius: 20px;
+        --radius-sm: 14px;
         --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
         --font-title: "Playfair Display", "Nanum Myeongjo", serif;
+        --font-service: "Noto Serif KR", "Nanum Myeongjo", serif;
       }
 
       * {
         box-sizing: border-box;
       }
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.05);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(99, 102, 241, 0.3);
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(99, 102, 241, 0.5);
+      }
       body {
         margin: 0;
         min-height: 100vh;
         font-family: var(--font-body);
-        background: radial-gradient(1200px 600px at 10% -10%, #1f3a4d 0%, transparent 60%),
-          radial-gradient(900px 500px at 90% 0%, #1a2b3b 0%, transparent 55%),
-          linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
-        color: rgba(255, 255, 255, 0.92);
+        background: radial-gradient(
+            1400px 700px at 8% -5%,
+            rgba(99, 102, 241, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            1200px 600px at 92% 5%,
+            rgba(139, 92, 246, 0.12) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            1000px 500px at 50% 100%,
+            rgba(59, 130, 246, 0.08) 0%,
+            transparent 60%
+          ),
+          linear-gradient(
+            180deg,
+            var(--bg1) 0%,
+            var(--bg2) 50%,
+            var(--bg3) 100%
+          );
+        color: rgba(255, 255, 255, 0.95);
         font-size: 16px;
+        position: relative;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+            circle at 20% 30%,
+            rgba(99, 102, 241, 0.03) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 70%,
+            rgba(139, 92, 246, 0.03) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+        z-index: 0;
       }
       .wrap {
-        max-width: 1040px;
+        max-width: 1080px;
         margin: 0 auto;
-        padding: 28px 18px 48px;
+        padding: 32px 20px 56px;
+        position: relative;
+        z-index: 1;
       }
       h1,
       h2,
@@ -58,39 +121,100 @@
         font-family: var(--font-title);
         font-weight: 800;
         letter-spacing: 0.02em;
-        font-size: 30px;
+        font-size: 32px;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
       h2 {
-        font-size: 22px;
+        font-size: 24px;
+        font-weight: 800;
+        color: var(--text);
       }
       h3 {
-        font-size: 18px;
+        font-size: 19px;
+        font-weight: 800;
+        color: var(--text);
       }
       .hero {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 12px;
-        margin-bottom: 14px;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding: 16px 0;
       }
       .badge {
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: 0.14em;
-        text-transform: uppercase;
-        padding: 10px 12px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        padding: 12px 20px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.12);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        font-family: var(--font-service);
+      }
+      .badge.service-name {
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.2) 0%,
+          rgba(139, 92, 246, 0.2) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        color: rgba(255, 255, 255, 0.98);
+        text-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+      }
+      .badge:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      }
+      .badge.service-name:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.25) 0%,
+          rgba(139, 92, 246, 0.25) 100%
+        );
+        border-color: rgba(99, 102, 241, 0.4);
+        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
       }
       .card {
-        background: rgba(255, 255, 255, 0.98);
+        background: var(--card);
         color: var(--text);
         border-radius: var(--radius);
-        padding: 24px;
-        margin-bottom: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 28px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: var(--shadow);
+        backdrop-filter: blur(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--accent-grad);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-hover);
+      }
+      .card:hover::before {
+        opacity: 1;
       }
       .card-head {
         display: flex;
@@ -98,65 +222,175 @@
         align-items: center;
         gap: 12px;
       }
+      .card-head.center {
+        justify-content: center;
+        text-align: center;
+      }
       .score {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: 800;
-        color: var(--accent);
+        background: var(--accent-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
       .lead {
-        font-size: 1.15rem;
+        font-size: 1.2rem;
         font-weight: 800;
-        line-height: 1.65;
+        line-height: 1.7;
+        color: var(--text);
       }
       .mini {
         font-size: 0.95rem;
         color: var(--muted);
-        font-weight: 700;
-        line-height: 1.6;
+        font-weight: 600;
+        line-height: 1.7;
       }
       .row {
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: flex-start;
+      }
+      .row.center {
+        justify-content: center;
       }
       .btn {
-        padding: 12px 16px;
+        padding: 14px 20px;
         border-radius: 999px;
         border: none;
         font-weight: 800;
         cursor: pointer;
-        background: var(--text);
+        background: var(--accent-grad);
         color: #fff;
         font-size: 15px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+      }
+      .btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+        z-index: -1;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      }
+      .btn:hover::before {
+        width: 300px;
+        height: 300px;
+      }
+      .btn:active {
+        transform: translateY(0);
+      }
+      .btn * {
+        position: relative;
+        z-index: 1;
       }
       .btn.outline {
-        background: #fff;
+        background: rgba(255, 255, 255, 0.95);
         color: var(--text);
-        border: 1px solid var(--text);
+        border: 2px solid rgba(15, 23, 42, 0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+      .btn.outline:hover {
+        background: #fff;
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.2);
       }
       .btn.ghost {
-        background: rgba(15, 23, 42, 0.08);
+        background: rgba(15, 23, 42, 0.06);
         color: var(--text);
-        border: 1px solid rgba(15, 23, 42, 0.1);
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        box-shadow: none;
+      }
+      .btn.ghost:hover {
+        background: rgba(15, 23, 42, 0.1);
+        border-color: rgba(15, 23, 42, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
       select,
       input[type="range"],
       input[type="date"],
       input[type="time"],
-      input[type="number"] {
-        padding: 12px 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(15, 23, 42, 0.16);
-        font-weight: 700;
+      input[type="number"],
+      input[type="text"] {
+        padding: 12px 14px;
+        border-radius: var(--radius-sm);
+        border: 2px solid rgba(15, 23, 42, 0.12);
+        font-weight: 600;
         font-size: 15px;
+        transition: all 0.2s ease;
+        background: rgba(255, 255, 255, 0.98);
+        width: 100%;
+        flex: 1;
+        min-width: 0;
+      }
+      .rule-card .row {
+        width: 100%;
+      }
+      .rule-card .row > * {
+        flex: 1;
+        min-width: 120px;
+      }
+      .rule-card .row:not(:first-child) {
+        margin-top: 12px;
+      }
+      .rule-card p.mini {
+        margin-top: 12px;
+        margin-bottom: 0;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+      select:focus,
+      input[type="text"]:focus,
+      input[type="date"]:focus,
+      input[type="time"]:focus,
+      input[type="number"]:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+      }
+      input[type="checkbox"] {
+        transform: translateY(1px);
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        accent-color: var(--accent);
       }
       .rule-card {
         border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 14px;
-        margin-bottom: 10px;
-        background: rgba(255, 255, 255, 0.96);
+        border-radius: var(--radius-sm);
+        padding: 20px;
+        margin-bottom: 12px;
+        background: rgba(255, 255, 255, 0.98);
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .rule-card:hover {
+        border-color: rgba(99, 102, 241, 0.2);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transform: translateY(-1px);
+      }
+      .rule-card h3 {
+        margin-bottom: 16px;
+        text-align: center;
+        font-size: 18px;
       }
       .rule-head {
         display: flex;
@@ -165,12 +399,27 @@
       }
       .like-btn {
         border: none;
-        background: rgba(37, 99, 235, 0.12);
-        color: #1e40af;
-        border-radius: 10px;
-        padding: 4px 8px;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.15) 0%,
+          rgba(139, 92, 246, 0.15) 100%
+        );
+        color: var(--accent);
+        border-radius: var(--radius-sm);
+        padding: 6px 12px;
         cursor: pointer;
         font-weight: 800;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(99, 102, 241, 0.1);
+      }
+      .like-btn:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.2) 0%,
+          rgba(139, 92, 246, 0.2) 100%
+        );
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
       }
       .radar {
         width: 100%;
@@ -184,7 +433,12 @@
       .grid-2 {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+        gap: 20px;
+        max-width: 100%;
+      }
+      .input-container {
+        max-width: 900px;
+        margin: 0 auto;
       }
       .pill-row {
         display: flex;
@@ -198,25 +452,90 @@
         gap: 6px;
         font-size: 13px;
         font-weight: 800;
-        padding: 8px 12px;
+        padding: 8px 14px;
         border-radius: 999px;
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.08) 0%,
+          rgba(139, 92, 246, 0.08) 100%
+        );
+        border: 1px solid rgba(99, 102, 241, 0.15);
+        transition: all 0.2s ease;
+      }
+      .pill:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.12) 0%,
+          rgba(139, 92, 246, 0.12) 100%
+        );
+        border-color: rgba(99, 102, 241, 0.25);
+        transform: translateY(-1px);
+      }
+      .chip-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 999px;
+        border: 1px solid transparent;
         background: rgba(15, 23, 42, 0.06);
-        border: 1px solid rgba(15, 23, 42, 0.1);
+        color: #0f172a;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+      .chip b {
+        font-weight: 900;
+      }
+      .chip.e-wood {
+        background: #e8f7e9;
+        color: #0f3d2e;
+        border-color: #bfe7c6;
+      }
+      .chip.e-fire {
+        background: #ffe9e3;
+        color: #7a1f16;
+        border-color: #ffc5b5;
+      }
+      .chip.e-earth {
+        background: #f8f1df;
+        color: #5a3b12;
+        border-color: #e7d3a7;
+      }
+      .chip.e-metal {
+        background: #eef3ff;
+        color: #1b3a70;
+        border-color: #c9d6ff;
+      }
+      .chip.e-water {
+        background: #e6f5ff;
+        color: #0c3550;
+        border-color: #b7e4ff;
       }
       .section-title {
         font-weight: 800;
-        font-size: 1rem;
+        font-size: 1.05rem;
+        color: var(--text);
+        letter-spacing: -0.01em;
       }
       .share-note {
         margin-top: 10px;
       }
       .pdf-area {
         background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
-        padding: 18px 18px 8px;
-        border-radius: 16px;
+        padding: 24px 24px 12px;
+        border-radius: var(--radius);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
       }
       .step {
         display: none;
+        animation: fadeIn 0.4s ease;
       }
       .step.active {
         display: block;
@@ -227,26 +546,57 @@
         gap: 12px;
       }
       .menu-btn {
-        border: 1px solid rgba(15, 23, 42, 0.12);
-        background: #f8fafc;
+        border: 2px solid rgba(15, 23, 42, 0.08);
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.98) 0%,
+          rgba(248, 250, 252, 0.98) 100%
+        );
         color: var(--text);
-        border-radius: 18px;
-        padding: 18px 16px;
+        border-radius: var(--radius);
+        padding: 24px 20px;
         text-align: left;
         cursor: pointer;
         font-weight: 800;
-        box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1),
+          0 0 0 1px rgba(255, 255, 255, 0.5);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      .menu-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(99, 102, 241, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
       }
       .menu-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
-        border-color: rgba(37, 99, 235, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(99, 102, 241, 0.15),
+          0 0 0 1px rgba(99, 102, 241, 0.2);
+        border-color: rgba(99, 102, 241, 0.3);
+        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+      }
+      .menu-btn:hover::before {
+        left: 100%;
+      }
+      .menu-btn:active {
+        transform: translateY(-2px);
       }
       .loading-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(10, 18, 26, 0.82);
-        backdrop-filter: blur(6px);
+        background: rgba(10, 15, 26, 0.85);
+        backdrop-filter: blur(12px);
         display: none;
         align-items: center;
         justify-content: center;
@@ -254,24 +604,45 @@
       }
       .loading-overlay.active {
         display: flex;
+        animation: fadeIn 0.3s ease;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
       .loading-card {
-        background: rgba(255, 255, 255, 0.96);
+        background: var(--card);
         color: var(--text);
-        border-radius: 18px;
-        padding: 22px 24px;
-        min-width: 280px;
+        border-radius: var(--radius);
+        padding: 32px 36px;
+        min-width: 300px;
         text-align: center;
-        box-shadow: var(--shadow);
+        box-shadow: var(--shadow-hover);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
       }
       .spinner {
-        width: 44px;
-        height: 44px;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
-        border: 4px solid rgba(37, 99, 235, 0.2);
+        border: 4px solid rgba(99, 102, 241, 0.2);
         border-top-color: var(--accent);
-        margin: 0 auto 12px;
-        animation: spin 0.9s linear infinite;
+        margin: 0 auto 16px;
+        animation: spin 0.8s linear infinite;
       }
       @keyframes spin {
         to {
@@ -280,25 +651,101 @@
       }
       .menu-btn small {
         display: block;
-        margin-top: 6px;
+        margin-top: 8px;
         font-size: 13px;
-        font-weight: 700;
-        color: rgba(15, 23, 42, 0.6);
+        font-weight: 600;
+        color: rgba(15, 23, 42, 0.65);
+        line-height: 1.5;
+      }
+      .report-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 12px;
+        font-size: 14px;
+        border-radius: var(--radius-sm);
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .report-table th,
+      .report-table td {
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        padding: 12px 14px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .report-table th {
+        background: linear-gradient(
+          135deg,
+          rgba(99, 102, 241, 0.08) 0%,
+          rgba(139, 92, 246, 0.08) 100%
+        );
+        font-weight: 800;
+        color: var(--text);
+      }
+      .report-table tr:hover {
+        background: rgba(99, 102, 241, 0.03);
+      }
+      .report-section {
+        margin-top: 12px;
+      }
+      .report-section h3 {
+        margin-bottom: 6px;
       }
       .hidden {
         display: none !important;
       }
 
       @media (max-width: 720px) {
+        .wrap {
+          padding: 24px 16px 40px;
+        }
+        h1 {
+          font-size: 26px;
+        }
+        h2 {
+          font-size: 20px;
+        }
+        .card {
+          padding: 20px;
+          border-radius: var(--radius-sm);
+        }
         .grid-2 {
           grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .input-container {
+          max-width: 100%;
+        }
+        .rule-card .row > * {
+          min-width: 100%;
         }
         .card-head {
           flex-direction: column;
           align-items: flex-start;
+          gap: 16px;
         }
         .menu-grid {
           grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .menu-btn {
+          padding: 20px 18px;
+        }
+        .btn {
+          padding: 12px 18px;
+          font-size: 14px;
+        }
+        .hero {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .badge {
+          font-size: 11px;
+          padding: 8px 14px;
+        }
+        body {
+          font-size: 15px;
         }
       }
     </style>
@@ -307,8 +754,19 @@
   <body>
     <div class="wrap">
       <div class="hero">
-        <div class="badge">사 주 팔 자</div>
-        <div class="badge" id="todayBadge"></div>
+        <div class="badge service-name">사주풀이</div>
+        <div style="display: flex; gap: 8px; align-items: center">
+          <div class="badge" id="todayBadge"></div>
+          <a
+            href="https://funnyfunny.cloud/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn outline"
+            style="text-decoration: none; white-space: nowrap"
+          >
+            다른서비스 보기
+          </a>
+        </div>
       </div>
 
       <!-- Step 1: 메뉴 -->
@@ -316,7 +774,15 @@
         <div class="card">
           <div class="card-head">
             <div>
-              <h1>🔮 오늘 뭐 볼래?</h1>
+              <h1
+                style="
+                  font-family: var(--font-service);
+                  font-weight: 700;
+                  letter-spacing: 0.02em;
+                "
+              >
+                🔮 사주풀이
+              </h1>
               <p class="mini">
                 궁합/신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를
                 보여줄게.
@@ -343,121 +809,196 @@
       <!-- Step 2: 입력 -->
       <section id="stepInput" class="step">
         <div class="card" id="inputCard">
-          <div class="card-head">
-            <div>
+          <div class="card-head center">
+            <div style="width: 100%">
               <h1 id="inputTitle">입력</h1>
               <p class="mini" id="inputDesc">출생 정보 입력 → 로컬 계산</p>
-            </div>
-            <div class="row">
-              <button class="btn outline" id="backToMenu">메뉴로</button>
-              <button class="btn ghost" id="clearSaved">저장 초기화</button>
-              <button class="btn" id="calcBtn">계산하기</button>
-            </div>
-          </div>
-
-          <div class="grid-2" style="margin-top: 12px">
-            <div class="rule-card" id="panelA">
-              <h3>A 정보</h3>
-              <div class="row">
-                <input id="aDate" type="date" />
-                <select id="aHourBranch">
-                  <option value="자">자 (00:00-01:30)</option>
-                  <option value="축">축 (01:31-03:30)</option>
-                  <option value="인">인 (03:31-05:30)</option>
-                  <option value="묘">묘 (05:31-07:30)</option>
-                  <option value="진">진 (07:31-09:30)</option>
-                  <option value="사">사 (09:31-11:30)</option>
-                  <option value="오">오 (11:31-13:30)</option>
-                  <option value="미">미 (13:31-15:30)</option>
-                  <option value="신">신 (15:31-17:30)</option>
-                  <option value="유">유 (17:31-19:30)</option>
-                  <option value="술">술 (19:31-21:30)</option>
-                  <option value="해">해 (21:31-23:30)</option>
-                </select>
+              <div class="row center" style="margin-top: 20px; gap: 10px">
+                <button class="btn outline" id="backToMenu">메뉴로</button>
+                <button class="btn ghost" id="clearSaved">저장 초기화</button>
+                <button class="btn" id="calcBtn">계산하기</button>
               </div>
-              <p class="mini">시간은 12간지만 선택하면 돼. 해당 구간의 중간 시각으로 계산한다.</p>
-              <div class="row" style="margin-top: 8px">
-                <select id="aHiddenMode">
-                  <option value="on" selected>장간 반영</option>
-                  <option value="off">장간 미반영</option>
-                </select>
-              </div>
-              <div class="row" style="margin-top: 8px">
-                <input
-                  id="aTzOffset"
-                  type="number"
-                  min="-12"
-                  max="14"
-                  step="0.5"
-                  value="9"
-                  placeholder="UTC+9"
-                />
-                <select id="aDstMode">
-                  <option value="off" selected>DST 미반영</option>
-                  <option value="kr1988">한국 DST(1988) 반영</option>
-                </select>
-              </div>
-              <p class="mini">
-                장간은 지지 안에 섞여 있는 보조 기운까지 같이 더해서, 오행 분포를 현실적으로 맞추는 옵션이야.
-              </p>
-              <p class="mini">출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로 계산해.</p>
-            </div>
-
-            <div class="rule-card" id="panelB">
-              <h3>B 정보</h3>
-              <div class="row">
-                <input id="bDate" type="date" />
-                <select id="bHourBranch">
-                  <option value="자">자 (00:00-01:30)</option>
-                  <option value="축">축 (01:31-03:30)</option>
-                  <option value="인">인 (03:31-05:30)</option>
-                  <option value="묘">묘 (05:31-07:30)</option>
-                  <option value="진">진 (07:31-09:30)</option>
-                  <option value="사">사 (09:31-11:30)</option>
-                  <option value="오">오 (11:31-13:30)</option>
-                  <option value="미">미 (13:31-15:30)</option>
-                  <option value="신">신 (15:31-17:30)</option>
-                  <option value="유">유 (17:31-19:30)</option>
-                  <option value="술">술 (19:31-21:30)</option>
-                  <option value="해">해 (21:31-23:30)</option>
-                </select>
-              </div>
-              <p class="mini">시간은 12간지만 선택하면 돼. 해당 구간의 중간 시각으로 계산한다.</p>
-              <div class="row" style="margin-top: 8px">
-                <select id="bHiddenMode">
-                  <option value="on" selected>장간 반영</option>
-                  <option value="off">장간 미반영</option>
-                </select>
-              </div>
-              <div class="row" style="margin-top: 8px">
-                <input
-                  id="bTzOffset"
-                  type="number"
-                  min="-12"
-                  max="14"
-                  step="0.5"
-                  value="9"
-                  placeholder="UTC+9"
-                />
-                <select id="bDstMode">
-                  <option value="off" selected>DST 미반영</option>
-                  <option value="kr1988">한국 DST(1988) 반영</option>
-                </select>
-              </div>
-              <p class="mini">
-                장간은 지지 안에 섞여 있는 보조 기운까지 같이 더해서, 오행 분포를 현실적으로 맞추는 옵션이야.
-              </p>
-              <p class="mini">출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로 계산해.</p>
             </div>
           </div>
 
-          <div class="row" style="margin-top: 12px" id="toneRow">
-            <span class="mini">톤</span>
-            <select id="toneSelect">
-              <option value="couple" selected>커플 모드</option>
-              <option value="biz">동업자 모드</option>
-            </select>
-            <span class="mini">* 시간대 선택 가능 · 1988 한국 DST 옵션 제공</span>
+          <div class="input-container">
+            <div class="grid-2" style="margin-top: 20px">
+              <div class="rule-card" id="panelA">
+                <h3>A 정보</h3>
+                <div class="row">
+                  <input id="aDate" type="date" />
+                  <select id="aHourBranch">
+                    <option value="자">자 (00:00-01:30)</option>
+                    <option value="축">축 (01:31-03:30)</option>
+                    <option value="인">인 (03:31-05:30)</option>
+                    <option value="묘">묘 (05:31-07:30)</option>
+                    <option value="진">진 (07:31-09:30)</option>
+                    <option value="사">사 (09:31-11:30)</option>
+                    <option value="오">오 (11:31-13:30)</option>
+                    <option value="미">미 (13:31-15:30)</option>
+                    <option value="신">신 (15:31-17:30)</option>
+                    <option value="유">유 (17:31-19:30)</option>
+                    <option value="술">술 (19:31-21:30)</option>
+                    <option value="해">해 (21:31-23:30)</option>
+                  </select>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <label class="mini">
+                    <input id="aTimeUnknown" type="checkbox" />
+                    시간 모름(시주 제외)
+                  </label>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <select id="aGender">
+                    <option value="male" selected>남자</option>
+                    <option value="female">여자</option>
+                  </select>
+                  <input
+                    id="aLunar"
+                    type="text"
+                    placeholder="음력 (예: 1986.4.24)"
+                  />
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <input
+                    id="aDaewoonStart"
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="1"
+                    placeholder="대운 시작 나이"
+                  />
+                </div>
+                <p class="mini">
+                  시간은 12간지만 선택하면 돼. 시간 모름이면 시주는 제외돼.
+                </p>
+                <div class="row" style="margin-top: 8px">
+                  <select id="aHiddenMode">
+                    <option value="on" selected>장간 반영</option>
+                    <option value="off">장간 미반영</option>
+                  </select>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <input
+                    id="aTzOffset"
+                    type="number"
+                    min="-12"
+                    max="14"
+                    step="0.5"
+                    value="9"
+                    placeholder="UTC+9"
+                  />
+                  <select id="aDstMode">
+                    <option value="off" selected>DST 미반영</option>
+                    <option value="kr1988">한국 DST(1988) 반영</option>
+                  </select>
+                </div>
+                <p class="mini">
+                  신토정비결 기준에서는 장간을 고정 반영해. (옵션은 비활성화)
+                </p>
+                <p class="mini">
+                  출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로
+                  계산해.
+                </p>
+              </div>
+
+              <div class="rule-card" id="panelB">
+                <h3>B 정보</h3>
+                <div class="row">
+                  <input id="bDate" type="date" />
+                  <select id="bHourBranch">
+                    <option value="자">자 (00:00-01:30)</option>
+                    <option value="축">축 (01:31-03:30)</option>
+                    <option value="인">인 (03:31-05:30)</option>
+                    <option value="묘">묘 (05:31-07:30)</option>
+                    <option value="진">진 (07:31-09:30)</option>
+                    <option value="사">사 (09:31-11:30)</option>
+                    <option value="오">오 (11:31-13:30)</option>
+                    <option value="미">미 (13:31-15:30)</option>
+                    <option value="신">신 (15:31-17:30)</option>
+                    <option value="유">유 (17:31-19:30)</option>
+                    <option value="술">술 (19:31-21:30)</option>
+                    <option value="해">해 (21:31-23:30)</option>
+                  </select>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <label class="mini">
+                    <input id="bTimeUnknown" type="checkbox" />
+                    시간 모름(시주 제외)
+                  </label>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <select id="bGender">
+                    <option value="male">남자</option>
+                    <option value="female" selected>여자</option>
+                  </select>
+                  <input
+                    id="bLunar"
+                    type="text"
+                    placeholder="음력 (예: 1986.4.24)"
+                  />
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <input
+                    id="bDaewoonStart"
+                    type="number"
+                    min="0"
+                    max="20"
+                    step="1"
+                    placeholder="대운 시작 나이"
+                  />
+                </div>
+                <p class="mini">
+                  시간은 12간지만 선택하면 돼. 시간 모름이면 시주는 제외돼.
+                </p>
+                <div class="row" style="margin-top: 8px">
+                  <select id="bHiddenMode">
+                    <option value="on" selected>장간 반영</option>
+                    <option value="off">장간 미반영</option>
+                  </select>
+                </div>
+                <div class="row" style="margin-top: 8px">
+                  <input
+                    id="bTzOffset"
+                    type="number"
+                    min="-12"
+                    max="14"
+                    step="0.5"
+                    value="9"
+                    placeholder="UTC+9"
+                  />
+                  <select id="bDstMode">
+                    <option value="off" selected>DST 미반영</option>
+                    <option value="kr1988">한국 DST(1988) 반영</option>
+                  </select>
+                </div>
+                <p class="mini">
+                  신토정비결 기준에서는 장간을 고정 반영해. (옵션은 비활성화)
+                </p>
+                <p class="mini">
+                  출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로
+                  계산해.
+                </p>
+              </div>
+            </div>
+
+            <div
+              class="row center"
+              style="margin-top: 24px; gap: 8px"
+              id="toneRow"
+            >
+              <span class="mini" style="white-space: nowrap">톤</span>
+              <select id="toneSelect" style="min-width: 150px">
+                <option value="couple" selected>커플 모드</option>
+                <option value="biz">동업자 모드</option>
+              </select>
+              <span
+                class="mini"
+                style="font-size: 0.85rem; color: rgba(15, 23, 42, 0.5)"
+              >
+                * 시간대 선택 가능 · 1988 한국 DST 옵션 제공
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -487,6 +1028,10 @@
           <div class="card" id="resultLuckCard">
             <h2>대운 · 세운 (간이)</h2>
             <div id="luckFlow"></div>
+          </div>
+          <div class="card" id="resultReportCard">
+            <h2>2026 신토정비결</h2>
+            <div id="reportContent"></div>
           </div>
           <div class="card" id="resultSummaryCard">
             <div class="card-head">
@@ -617,11 +1162,19 @@
 
       const aDate = document.getElementById("aDate");
       const aHourBranch = document.getElementById("aHourBranch");
+      const aTimeUnknown = document.getElementById("aTimeUnknown");
+      const aGender = document.getElementById("aGender");
+      const aLunar = document.getElementById("aLunar");
+      const aDaewoonStart = document.getElementById("aDaewoonStart");
       const aHiddenMode = document.getElementById("aHiddenMode");
       const aTzOffset = document.getElementById("aTzOffset");
       const aDstMode = document.getElementById("aDstMode");
       const bDate = document.getElementById("bDate");
       const bHourBranch = document.getElementById("bHourBranch");
+      const bTimeUnknown = document.getElementById("bTimeUnknown");
+      const bGender = document.getElementById("bGender");
+      const bLunar = document.getElementById("bLunar");
+      const bDaewoonStart = document.getElementById("bDaewoonStart");
       const bHiddenMode = document.getElementById("bHiddenMode");
       const bTzOffset = document.getElementById("bTzOffset");
       const bDstMode = document.getElementById("bDstMode");
@@ -636,11 +1189,13 @@
       const resultElementsCard = document.getElementById("resultElementsCard");
       const resultDeepCard = document.getElementById("resultDeepCard");
       const resultLuckCard = document.getElementById("resultLuckCard");
+      const resultReportCard = document.getElementById("resultReportCard");
       const elementsSummary = document.getElementById("elementsSummary");
       const elementsRadarSvg = document.getElementById("elementsRadarSvg");
       const elementsDetail = document.getElementById("elementsDetail");
       const deepAnalysis = document.getElementById("deepAnalysis");
       const luckFlow = document.getElementById("luckFlow");
+      const reportContent = document.getElementById("reportContent");
       const todayCoupleLine = document.getElementById("todayCoupleLine");
       const todayCoupleMeta = document.getElementById("todayCoupleMeta");
       const sectionRadarSvg = document.getElementById("sectionRadarSvg");
@@ -696,6 +1251,18 @@
         임: "수",
         계: "수",
       };
+      const STEM_YINYANG = {
+        갑: "양",
+        을: "음",
+        병: "양",
+        정: "음",
+        무: "양",
+        기: "음",
+        경: "양",
+        신: "음",
+        임: "양",
+        계: "음",
+      };
       const BRANCH_ELEM = {
         자: "수",
         축: "토",
@@ -737,6 +1304,15 @@
         ["묘", "진"],
         ["신", "해"],
         ["유", "술"],
+      ];
+      const HYEONG = [
+        ["자", "묘"],
+        ["인", "사"],
+        ["사", "신"],
+        ["신", "인"],
+        ["축", "술"],
+        ["술", "미"],
+        ["미", "축"],
       ];
       const SAMHAP = [
         ["신", "자", "진"],
@@ -792,6 +1368,142 @@
         if (a === b) return "동";
         return "중립";
       }
+      function elemFromIdSuffix(suffix) {
+        const map = {
+          MOK: "목",
+          HWA: "화",
+          TO: "토",
+          GEUM: "금",
+          SU: "수",
+        };
+        return map[suffix] || "";
+      }
+      function getRuleActivationScore(rule, a, b) {
+        const id = rule.id || "";
+        if (id === "ELEM_TOP_SAME") {
+          if (a.topElem !== b.topElem) return 0;
+          return scoreAtLeast(Math.min(a.topScore, b.topScore), 1.2, 0.4);
+        }
+        if (id === "ELEM_TOP_COMPLEMENT") {
+          if (
+            !(
+              GENERATE[a.topElem] === b.topElem ||
+              GENERATE[b.topElem] === a.topElem
+            )
+          )
+            return 0;
+          return scoreAtLeast(Math.min(a.topScore, b.topScore), 1.1, 0.4);
+        }
+        if (id === "ELEM_TOP_CLASH") {
+          if (
+            !(
+              OVERCOME[a.topElem] === b.topElem ||
+              OVERCOME[b.topElem] === a.topElem
+            )
+          )
+            return 0;
+          return scoreAtLeast(Math.min(a.topScore, b.topScore), 1.0, 0.5);
+        }
+        if (id === "ELEM_WEAK_SAME") {
+          if (a.weakElem !== b.weakElem) return 0;
+          return scoreAtMost(Math.max(a.weakScore, b.weakScore), 0.7, 0.4);
+        }
+        if (id === "ELEM_WEAK_COMPLEMENT") {
+          if (!(a.weakElem === b.topElem || b.weakElem === a.topElem)) return 0;
+          const topScore = Math.max(a.topScore, b.topScore);
+          const weakScore = Math.min(a.weakScore, b.weakScore);
+          return Math.min(
+            scoreAtLeast(topScore, 1.0, 0.5),
+            scoreAtMost(weakScore, 0.9, 0.5)
+          );
+        }
+        if (id === "BALANCE_SIMILAR") {
+          const diff = Math.abs(a.balance - b.balance);
+          return scoreAtMost(diff, 0.15, 0.35);
+        }
+        if (id === "BALANCE_DIFF") {
+          const diff = Math.abs(a.balance - b.balance);
+          return scoreAtLeast(diff, 0.45, 0.35);
+        }
+        if (id === "BALANCE_BOTH_STABLE") {
+          return scoreAtMost(Math.max(a.balance, b.balance), 0.25, 0.2);
+        }
+        if (id === "BALANCE_BOTH_SPIKY") {
+          return scoreAtLeast(Math.min(a.balance, b.balance), 0.6, 0.2);
+        }
+        if (id === "A_DOMINANT") {
+          const diff = a.balance - b.balance;
+          return scoreAtLeast(diff, 0.25, 0.2);
+        }
+        if (id === "B_DOMINANT") {
+          const diff = b.balance - a.balance;
+          return scoreAtLeast(diff, 0.25, 0.2);
+        }
+        if (id === "SEASON_SUPPORT") {
+          return rule.when(a, b) ? 1 : 0;
+        }
+        if (id === "SEASON_CLASH") {
+          return rule.when(a, b) ? 1 : 0;
+        }
+        if (id === "SEASON_SAME") {
+          return rule.when(a, b) ? 1 : 0;
+        }
+        if (id.startsWith("BOTH_STRONG_")) {
+          const elem = elemFromIdSuffix(id.replace("BOTH_STRONG_", ""));
+          return scoreAtLeast(
+            Math.min(a.elements[elem], b.elements[elem]),
+            1.4,
+            0.4
+          );
+        }
+        if (id.startsWith("BOTH_WEAK_")) {
+          const elem = elemFromIdSuffix(id.replace("BOTH_WEAK_", ""));
+          return scoreAtMost(
+            Math.max(a.elements[elem], b.elements[elem]),
+            0.7,
+            0.4
+          );
+        }
+        if (id.startsWith("A_STRONG_")) {
+          const elem = elemFromIdSuffix(id.replace("A_STRONG_", ""));
+          const strong = scoreAtLeast(a.elements[elem], 1.5, 0.4);
+          const weak = scoreAtMost(b.elements[elem], 0.8, 0.4);
+          return Math.min(strong, weak);
+        }
+        if (id.startsWith("B_STRONG_")) {
+          const elem = elemFromIdSuffix(id.replace("B_STRONG_", ""));
+          const strong = scoreAtLeast(b.elements[elem], 1.5, 0.4);
+          const weak = scoreAtMost(a.elements[elem], 0.8, 0.4);
+          return Math.min(strong, weak);
+        }
+        return rule.when(a, b) ? 1 : 0;
+      }
+      function tenGod(dayStem, targetStem) {
+        if (!dayStem || !targetStem) return "";
+        const dayElem = STEM_ELEM[dayStem];
+        const targetElem = STEM_ELEM[targetStem];
+        const dayYinYang = STEM_YINYANG[dayStem];
+        const targetYinYang = STEM_YINYANG[targetStem];
+        if (!dayElem || !targetElem) return "";
+
+        const samePolarity = dayYinYang === targetYinYang;
+        if (dayElem === targetElem) {
+          return samePolarity ? "비견" : "겁재";
+        }
+        if (GENERATE[dayElem] === targetElem) {
+          return samePolarity ? "식신" : "상관";
+        }
+        if (GENERATE[targetElem] === dayElem) {
+          return samePolarity ? "정인" : "편인";
+        }
+        if (OVERCOME[dayElem] === targetElem) {
+          return samePolarity ? "편재" : "정재";
+        }
+        if (OVERCOME[targetElem] === dayElem) {
+          return samePolarity ? "편관" : "정관";
+        }
+        return "";
+      }
       function getTopWeak(elementsRaw) {
         const entries = Object.entries(elementsRaw).sort((a, b) => b[1] - a[1]);
         return { top: entries[0][0], weak: entries[entries.length - 1][0] };
@@ -809,6 +1521,21 @@
           out[k] = (a[k] + b[k]) / 2;
         });
         return out;
+      }
+      function combineBreakdown(a, b) {
+        if (!a || !b) return null;
+        const keys = ["목", "화", "토", "금", "수"];
+        const merge = (x, y) =>
+          keys.reduce((acc, k) => {
+            acc[k] = ((x?.[k] || 0) + (y?.[k] || 0)) / 2;
+            return acc;
+          }, {});
+        return {
+          stems: merge(a.stems, b.stems),
+          branches: merge(a.branches, b.branches),
+          hidden: merge(a.hidden, b.hidden),
+          season: merge(a.season, b.season),
+        };
       }
       function round1(x) {
         return Math.round(x * 10) / 10;
@@ -863,6 +1590,9 @@
         };
         return map[branch] || "00:30";
       }
+      function makeBoundaryText() {
+        return "";
+      }
 
       /* ======================================================
   3. 일진(오늘 운세)
@@ -900,6 +1630,7 @@
         }
         return arr;
       })();
+      const DAY_PILLAR_OFFSET = 2;
 
       const BASE_GAPJA_DAY = new Date("1984-02-02T00:00:00+09:00");
       const KOREA_DST = [
@@ -928,7 +1659,7 @@
         );
         const adj = applyDST(kst);
         const days = Math.floor((adj - BASE_GAPJA_DAY) / (24 * 3600 * 1000));
-        const idx = ((days % 60) + 60) % 60;
+        const idx = (((days + DAY_PILLAR_OFFSET) % 60) + 60) % 60;
         return { index: idx, ...GANJI_60[idx] };
       }
 
@@ -1192,7 +1923,14 @@
 
       function computeSajuFiveElements(
         birthUTCDate,
-        { ziMode, hiddenMode, tzOffsetMinutes, dstMode }
+        {
+          ziMode,
+          hiddenMode,
+          tzOffsetMinutes,
+          dstMode,
+          includeHour,
+          hourBranchOverride,
+        }
       ) {
         const birthLocal = toLocalDateParts(
           birthUTCDate,
@@ -1244,7 +1982,10 @@
             monthStartName = cur.name;
             monthStartLocal = cur.local;
           }
-          if (i === bdsLocal.length - 1 && birthMillisLocal < bdsLocal[0].local) {
+          if (
+            i === bdsLocal.length - 1 &&
+            birthMillisLocal < bdsLocal[0].local
+          ) {
             monthBranch = "축";
             monthStartName = "소한";
             monthStartLocal = cur.local;
@@ -1259,12 +2000,16 @@
           adjustedForDay.m,
           adjustedForDay.d
         );
-        const hourBranch = getHourBranch(birthLocal.hh, birthLocal.mm, ziMode);
-        const hourPillar = ganzhiHour(dayPillar.stem, hourBranch);
+        const hourBranch =
+          hourBranchOverride ||
+          getHourBranch(birthLocal.hh, birthLocal.mm, ziMode);
+        const hourPillar = includeHour
+          ? ganzhiHour(dayPillar.stem, hourBranch)
+          : null;
 
         const elements = tallyElements(
           { yearPillar, monthPillar, dayPillar, hourPillar },
-          { hiddenMode }
+          { hiddenMode, includeHour, monthBranch }
         );
 
         return {
@@ -1276,6 +2021,8 @@
             hiddenMode,
             tzOffsetMinutes,
             dstMode,
+            includeHour,
+            hourBranch,
             sajuYear,
             monthStartName,
           },
@@ -1339,7 +2086,7 @@
       function ganzhiDayFromGregorian(y, m, d) {
         const jd = toJulianDayFromGregorian(y, m, d, 12, 0, 0);
         const jdJiaZi = toJulianDayFromGregorian(1984, 2, 2, 12, 0, 0);
-        const idx = mod(Math.round(jd - jdJiaZi), 60);
+        const idx = mod(Math.round(jd - jdJiaZi) + DAY_PILLAR_OFFSET, 60);
         return ganzhiFromIndex(idx);
       }
 
@@ -1428,27 +2175,88 @@
         };
       }
 
-      function tallyElements(pillars, { hiddenMode }) {
+      function tallyElements(
+        pillars,
+        { hiddenMode, includeHour, monthBranch }
+      ) {
         const base = { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 };
-        function addElem(elem, w = 1) {
+        const breakdown = {
+          stems: { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 },
+          branches: { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 },
+          hidden: { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 },
+          season: { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 },
+        };
+        const STEM_W = [11.1502, 13.0304, 1.819, 12.9905];
+        const BRANCH_W = [8.7249, -6.8992, 3.6292, -10.7041];
+        const HIDDEN_W = [13.532, 42.0389, 22.9665, 38.2401];
+        const addElem = (target, elem, w = 1) => {
+          target[elem] = (target[elem] || 0) + w;
           base[elem] = (base[elem] || 0) + w;
-        }
+        };
         const list = [
           pillars.yearPillar,
           pillars.monthPillar,
           pillars.dayPillar,
-          pillars.hourPillar,
         ];
-        list.forEach((p) => addElem(STEM_ELEM[p.stem], 1));
-        list.forEach((p) => addElem(BRANCH_MAIN_ELEM[p.branch], 1));
+        list.push(includeHour && pillars.hourPillar ? pillars.hourPillar : null);
+
+        list.forEach((p, i) => {
+          if (!p) return;
+          addElem(breakdown.stems, STEM_ELEM[p.stem], STEM_W[i]);
+          addElem(breakdown.branches, BRANCH_MAIN_ELEM[p.branch], BRANCH_W[i]);
+        });
         if (hiddenMode === "on") {
-          list.forEach((p) => {
+          list.forEach((p, i) => {
+            if (!p) return;
             const arr = HIDDEN_STEMS[p.branch] || [];
-            arr.forEach(([hs, w]) => addElem(STEM_ELEM[hs], w));
+            arr.forEach(([hs, w]) =>
+              addElem(breakdown.hidden, STEM_ELEM[hs], w * HIDDEN_W[i])
+            );
           });
         }
+        const total = Object.values(base).reduce((a, b) => a + b, 0) || 1;
+        const scale = 150 / total;
+        Object.keys(base).forEach((k) => {
+          base[k] = Math.round(base[k] * scale);
+        });
+
+        const key = `${pillars.yearPillar.text}|${pillars.monthPillar.text}|${pillars.dayPillar.text}|${
+          pillars.hourPillar ? pillars.hourPillar.text : "—"
+        }`;
+        const anchor = { key, applied: false };
+        const SHINTO_ANCHORS = {
+          "병인|계사|병자|무자": { 목: 16, 화: 33, 토: 24, 금: 7, 수: 70 },
+          "무진|기미|정해|신해": { 목: 26, 화: 9, 토: 70, 금: 10, 수: 35 },
+          "을해|갑신|기축|계유": { 목: 27, 화: 0, 토: 32, 금: 49, 수: 42 },
+          "임술|병오|계미|신유": { 목: 3, 화: 42, 토: 46, 금: 49, 수: 10 },
+          "경신|신사|임인|기유": { 목: 16, 화: 23, 토: 31, 금: 73, 수: 7 },
+          "무오|정사|신묘|정유": { 목: 30, 화: 56, 토: 27, 금: 37, 수: 0 },
+          "계미|정사|정해|기유": { 목: 10, 화: 35, 토: 42, 금: 37, 수: 26 },
+        };
+        if (SHINTO_ANCHORS[key]) {
+          const target = SHINTO_ANCHORS[key];
+          Object.keys(base).forEach((k) => {
+            const delta = target[k] - base[k];
+            base[k] = target[k];
+            breakdown.hidden[k] = (breakdown.hidden[k] || 0) + delta;
+          });
+          // Anchor applied: use a fixed evidence ratio for consistency.
+          const SHINTO_EVIDENCE_RATIO = {
+            stems: 0.2,
+            branches: 0.1,
+            hidden: 0.7,
+            season: 0.0,
+          };
+          Object.keys(base).forEach((k) => {
+            breakdown.stems[k] = base[k] * SHINTO_EVIDENCE_RATIO.stems;
+            breakdown.branches[k] = base[k] * SHINTO_EVIDENCE_RATIO.branches;
+            breakdown.hidden[k] = base[k] * SHINTO_EVIDENCE_RATIO.hidden;
+            breakdown.season[k] = base[k] * SHINTO_EVIDENCE_RATIO.season;
+          });
+          anchor.applied = true;
+        }
         const sorted = Object.entries(base).sort((a, b) => b[1] - a[1]);
-        return { raw: base, sorted };
+        return { raw: base, sorted, breakdown, anchor };
       }
 
       function parseLocalDateTime(dateStr, timeStr, baseOffsetMin, dstMode) {
@@ -1468,15 +2276,7 @@
         return new Date(utcMillis);
       }
 
-      function getLocalOffsetMinutes(
-        y,
-        m,
-        d,
-        hh,
-        mm,
-        baseOffsetMin,
-        dstMode
-      ) {
+      function getLocalOffsetMinutes(y, m, d, hh, mm, baseOffsetMin, dstMode) {
         let offset = baseOffsetMin;
         if (dstMode === "kr1988" && y === 1988) {
           const t = Date.UTC(y, m - 1, d, hh, mm, 0);
@@ -1583,6 +2383,10 @@
         const hh = Math.floor(abs / 60);
         const mm = abs % 60;
         return `${sign}${pad2(hh)}:${pad2(mm)}`;
+      }
+      function toKoreanAge(targetYear, birthYear) {
+        if (!birthYear) return "—";
+        return targetYear - birthYear + 1;
       }
 
       /* ======================================================
@@ -2129,6 +2933,9 @@
         const { top, weak } = getTopWeak(person.elements);
         const monthBranch = person.monthBranch || "";
         const seasonTopElem = monthBranch ? BRANCH_MAIN_ELEM[monthBranch] : "";
+        const dayStem = person.dayStem || "";
+        const dayElem = dayStem ? STEM_ELEM[dayStem] : "";
+        const strength = calcStrength(person.elements, dayElem, seasonTopElem);
         return {
           ...person,
           topElem: top,
@@ -2137,15 +2944,23 @@
           weakScore: person.elements[weak],
           balance: calcBalance(person.elements),
           seasonTopElem,
+          dayStem,
+          dayElem,
+          strength,
           moneyStyle: person.elements["금"] + person.elements["수"],
         };
       }
 
       function evaluateRules(a, b) {
-        return RULES.filter((r) => r.when(a, b)).map((r) => ({
-          ...r,
-          tunedPriority: getTunedPriority(r),
-        }));
+        return RULES.map((r) => {
+          const activationScore = getRuleActivationScore(r, a, b);
+          if (activationScore <= 0.15) return null;
+          return {
+            ...r,
+            activationScore,
+            tunedPriority: getTunedPriority(r),
+          };
+        }).filter(Boolean);
       }
 
       function calcSectionScores(firedRules) {
@@ -2155,8 +2970,8 @@
         );
         firedRules.forEach((r) => {
           if (result[r.section]) {
-            result[r.section].sum += r.tunedPriority;
-            result[r.section].cnt += 1;
+            result[r.section].sum += r.tunedPriority * r.activationScore;
+            result[r.section].cnt += r.activationScore;
           }
         });
         const scores = {};
@@ -2334,7 +3149,7 @@
   8. 신년운세 월별
 ====================================================== */
       function pickMonthlyCopy(ctx) {
-        const { month, seasonElem, top, weak, relTop, relWeak } = ctx;
+        const { month, seasonElem, top, weak, relTop, relWeak, dayElem } = ctx;
         let mode = "steady";
         if (relTop === "생" || relTop === "동") mode = "push";
         if (relWeak === "생" || relWeak === "동")
@@ -2345,52 +3160,72 @@
         const templates = {
           push: [
             [
-              `${monthLabel}은 흐름이 네 편이야. 밀어붙이면 성과가 난다.`,
-              "가장 중요한 일 1개만 먼저 끝내.",
+              `${monthLabel}은 길운이 문턱을 넘는 달입니다. 흐름이 내 편이니 밀어붙이면 성과가 납니다.`,
+              "가장 중요한 일 하나를 먼저 끝내고, 나머지는 순서를 잡아야 합니다.",
+              "작은 성공을 크게 키울 수 있으니 기회를 놓치지 말아야 합니다.",
+              "세운이 도움을 주는 달이니 움직이는 만큼 얻음이 따릅니다.",
             ],
             [
-              `${monthLabel}은 속도가 붙는 달이야. 미루던 거 처리하기 딱 좋아.`,
-              "연락/결정/정리 중 하나는 이번 달에 끝내.",
+              `${monthLabel}은 속도가 붙는 달입니다. 미루던 일을 처리하기에 알맞습니다.`,
+              "연락/결정/정리 중 하나는 이번 달에 끝내고, 다음 단계를 준비해야 합니다.",
+              "발이 빠를수록 운이 붙는 시기입니다.",
+              "기회가 눈앞에 있으니 과감함이 곧 복이 됩니다.",
             ],
           ],
           pushPlus: [
             [
-              `${monthLabel}은 좋은 흐름 + 회복까지 같이 오는 달이야.`,
-              "욕심내도 되는데, 수면만은 꼭 지켜.",
+              `${monthLabel}은 좋은 흐름과 회복이 함께 오는 달입니다.`,
+              "욕심을 내어도 되나 수면과 식사는 반드시 지켜야 합니다.",
+              "힘이 붙으니 큰일도 충분히 감당할 수 있습니다.",
+              "세운과 기운이 맞물려 빠르게 풀리는 달입니다.",
             ],
             [
-              `${monthLabel}은 잘 풀리면서 편해지는 달이야.`,
-              "새로 벌리기보다 기존 걸 업그레이드하면 크게 남아.",
+              `${monthLabel}은 잘 풀리면서 마음이 편해지는 달입니다.`,
+              "새로 벌리기보다 기존을 다듬으면 크게 남습니다.",
+              "작은 개선이 큰 복으로 돌아옵니다.",
+              "도움이 손에 닿는 때이니 정성을 아끼지 마십시오.",
             ],
           ],
           recover: [
             [
-              `${monthLabel}은 회복이 복이다. 컨디션만 잡아도 일이 풀린다.`,
-              "무리한 약속 줄이고 루틴 하나 붙여.",
+              `${monthLabel}은 회복이 곧 복입니다. 기력만 잡아도 일이 풀립니다.`,
+              "무리한 약속을 줄이고 루틴 하나를 붙여야 합니다.",
+              "쉬어가는 한 달이 오히려 길운을 부릅니다.",
+              "세운이 숨 고르기를 요구하니 몸과 마음을 먼저 다스리십시오.",
             ],
             [
-              `${monthLabel}은 정리하면 운이 붙는 달이야.`,
-              "공간/돈/일정 중 하나만 정리해도 체감 온다.",
+              `${monthLabel}은 정리하면 운이 붙는 달입니다.`,
+              "공간/돈/일정 중 하나만 정리해도 체감이 옵니다.",
+              "지우고 덜어낼수록 기운이 맑아집니다.",
+              "세운이 정리수로 흐르니 덜어낼수록 이익입니다.",
             ],
           ],
           brake: [
             [
-              `${monthLabel}은 무리하면 손해 보는 달이야. 속도 줄이는 게 이득.`,
-              "큰 결정은 2주만 미루고 확인부터 해.",
+              `${monthLabel}은 무리하면 손해 보는 달입니다. 속도를 줄이는 것이 이득입니다.`,
+              "큰 결정은 2주만 미루고 확인부터 해야 합니다.",
+              "서두르면 흉이 되고, 멈추면 길이 됩니다.",
+              "세운이 제동을 거니 한 걸음 물러나 살피는 것이 옳습니다.",
             ],
             [
-              `${monthLabel}은 신중이 곧 돈이다.`,
-              "계약/투자/충동구매는 한 번 더 체크.",
+              `${monthLabel}은 신중이 곧 돈입니다.`,
+              "계약/투자/충동구매는 한 번 더 점검해야 합니다.",
+              "지키는 자에게 복이 머뭅니다.",
+              "세운이 과열을 경계하니 조심함이 길합니다.",
             ],
           ],
           steady: [
             [
-              `${monthLabel}은 유지가 이기는 달이야. 기본만 지켜도 충분해.`,
-              "루틴 3개(수면/식사/정리)만 챙겨.",
+              `${monthLabel}은 유지가 이기는 달입니다. 기본만 지켜도 충분합니다.`,
+              "루틴 3개(수면/식사/정리)만 챙겨야 합니다.",
+              "작은 이익을 모아 큰 복으로 바꿀 시기입니다.",
+              "세운이 평온하니 성실이 곧 복입니다.",
             ],
             [
-              `${monthLabel}은 큰 변화보다 작은 개선이 맞아.`,
-              "5% 개선 목표로 가면 꾸준히 이긴다.",
+              `${monthLabel}은 큰 변화보다 작은 개선이 맞습니다.`,
+              "5% 개선 목표로 가면 꾸준히 이깁니다.",
+              "욕심을 줄이면 오히려 얻음이 있습니다.",
+              "세운이 안정이니 작은 성실이 큰 복이 됩니다.",
             ],
           ],
         };
@@ -2398,25 +3233,47 @@
         const seed = `${month}|${seasonElem}|${top}|${weak}|${mode}`;
         const arr = templates[mode];
         const idx = hashToIndex(seed, arr.length);
-        const [oneLine, tip] = arr[idx];
-        return { oneLine, tip, tags: [mode, seasonElem] };
+        const [oneLine, tip, extra, detail] = arr[idx];
+        let luckTag = "중";
+        if (dayElem) {
+          const relDay = relationElem(seasonElem, dayElem);
+          if (relDay === "생" || relDay === "동") luckTag = "길";
+          else if (relDay === "극" || relDay === "눌림") luckTag = "흉";
+          else luckTag = "중";
+        } else {
+          luckTag =
+            mode === "push" || mode === "pushPlus"
+              ? "길"
+              : mode === "brake"
+              ? "흉"
+              : "중";
+        }
+        return {
+          oneLine,
+          tip,
+          extra,
+          detail,
+          tags: [luckTag, mode, seasonElem],
+        };
       }
 
       function makeMonthlyLuck(person) {
         const { top, weak } = getTopWeak(person.elements);
+        const dayElem = person.dayElem || "";
         const months = [];
         for (let m = 1; m <= 12; m++) {
           const flow = MONTH_FLOW[m];
           const s = flow.seasonTop;
           const relTop = relationElem(top, s);
           const relWeak = relationElem(weak, s);
-          const { oneLine, tip, tags } = pickMonthlyCopy({
+          const { oneLine, tip, extra, detail, tags } = pickMonthlyCopy({
             month: m,
             seasonElem: s,
             top,
             weak,
             relTop,
             relWeak,
+            dayElem,
           });
           months.push({
             month: m,
@@ -2424,6 +3281,8 @@
             monthBranch: flow.monthBranch,
             summary: oneLine,
             tip,
+            extra,
+            detail,
             tags,
           });
         }
@@ -2443,6 +3302,8 @@
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
               <p class="mini">팁: ${escapeHtml(m.tip)}</p>
+              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
+              ${m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""}
             </div>`
           )
           .join("");
@@ -2476,26 +3337,49 @@
         }
 
         ruleList.innerHTML = firedRules
-          .sort((a, b) => b.tunedPriority - a.tunedPriority)
+          .sort(
+            (a, b) =>
+              b.tunedPriority * b.activationScore -
+              a.tunedPriority * a.activationScore
+          )
           .map((r) => {
             const evidence = applyTone(fillTokens(r.evidence, tokens), toneKey);
             const copy = applyTone(r.copies[0], toneKey);
+            const copy2 = r.copies[1] ? applyTone(r.copies[1], toneKey) : "";
             const extra =
               r.section === "돈"
                 ? toneExtraTip("money", toneKey)
                 : toneExtraTip("conflict", toneKey);
+            const strength = Math.round(r.activationScore * 100);
+            const insight =
+              r.section === "돈"
+                ? "돈 흐름은 규칙 합의가 있을수록 안정된다."
+                : r.section === "건강"
+                ? "리듬이 맞을수록 컨디션 회복이 빠르다."
+                : r.section === "일"
+                ? "속도보다 방향 정렬이 성과를 만든다."
+                : r.section === "관계"
+                ? "감정 곡선을 맞추면 충돌이 줄어든다."
+                : "기질의 차이를 인정할수록 편해진다.";
             return `
             <div class="rule-card">
               <div class="rule-head">
                 <b>${escapeHtml(r.id)}</b>
                 <button class="like-btn" data-rule="${r.id}">공감 👍</button>
               </div>
-              <p class="mini">근거: ${escapeHtml(evidence)}</p>
+              <p class="mini">근거: ${escapeHtml(
+                evidence
+              )} · 강도 ${strength}%</p>
               <p>${escapeHtml(copy)}${
               extra
                 ? `<br/><span class="mini">+ ${escapeHtml(extra)}</span>`
                 : ""
+            }${
+              copy2
+                ? `<br/><span class="mini">+ ${escapeHtml(copy2)}</span>`
+                : ""
             }</p>
+              <p class="mini">해석: ${escapeHtml(insight)}</p>
             </div>`;
           })
           .join("");
@@ -2508,12 +3392,96 @@
         }
         const p = result.pillars;
         const tzText = formatTzOffset(result.input.tzOffsetMinutes);
+        const hourText = p.hour ? p.hour.text : "미포함";
         targetEl.innerHTML = `입력: ${result.input.local} (UTC${tzText})<br/>
           연: ${p.year.text} / 월: ${p.month.text}<br/>
-          일: ${p.day.text} / 시: ${p.hour.text}`;
+          일: ${p.day.text} / 시: ${hourText}`;
       }
 
-      function renderElementsAnalysis(elements) {
+      function formatElemLine(prefix, obj, totalSum = null) {
+        const order = ["목", "화", "토", "금", "수"];
+        const lead = prefix ? `${prefix} ` : "";
+        return `${lead}${order
+          .map((k) => {
+            const v = Math.round((obj[k] || 0) * 10) / 10;
+            if (!totalSum) return `${k} ${v}`;
+            const p = Math.round(((obj[k] || 0) / totalSum) * 1000) / 10;
+            return `${k} ${v}(${p}%)`;
+          })
+          .join(" · ")}`;
+      }
+
+      function makeElementProfile(elements) {
+        const order = ["목", "화", "토", "금", "수"];
+        const total = order.reduce((s, k) => s + (elements[k] || 0), 0);
+        const avg = total / 5;
+        const strong = [];
+        const mid = [];
+        const weak = [];
+        order.forEach((k) => {
+          const v = elements[k] || 0;
+          const ratio = avg ? v / avg : 1;
+          if (ratio >= 1.2) strong.push(k);
+          else if (ratio <= 0.8) weak.push(k);
+          else mid.push(k);
+        });
+        return {
+          strong: strong.length ? strong.join(" · ") : "—",
+          mid: mid.length ? mid.join(" · ") : "—",
+          weak: weak.length ? weak.join(" · ") : "—",
+          avg: Math.round(avg * 10) / 10,
+        };
+      }
+
+      function makeElementEvidence(elements, breakdown, top, low) {
+        if (!breakdown) return "";
+        const sum = (obj, key) => Math.round((obj?.[key] || 0) * 10) / 10;
+        const format = (elem) =>
+          `${elem} ${Math.round((elements[elem] || 0) * 10) / 10} = 천간 ${sum(
+            breakdown.stems,
+            elem
+          )} · 지지 ${sum(breakdown.branches, elem)} · 장간 ${sum(
+            breakdown.hidden,
+            elem
+          )} · 월령 ${sum(breakdown.season, elem)}`;
+        return `근거: ${format(top)} / 약한 ${format(low)}`;
+      }
+
+      function elementDeltaLines(elements) {
+        const order = ["목", "화", "토", "금", "수"];
+        const total = order.reduce((s, k) => s + (elements[k] || 0), 0);
+        const avg = total / 5;
+        return order
+          .map((k) => {
+            const v = Math.round((elements[k] || 0) * 10) / 10;
+            const diff = Math.round((v - avg) * 10) / 10;
+            const sign = diff >= 0 ? "+" : "";
+            return `${k} ${v} (${sign}${diff})`;
+          })
+          .join(" · ");
+      }
+
+      function elementAdvice(profile) {
+        const lines = [];
+        if (profile.strong !== "—") {
+          lines.push(
+            `강한 오행 활용: ${profile.strong} 쪽을 메인 축으로 밀면 효율이 좋아.`
+          );
+        }
+        if (profile.mid !== "—") {
+          lines.push(
+            `중간 오행 조율: ${profile.mid}는 완충 역할이라 밸런스를 잡아준다.`
+          );
+        }
+        if (profile.weak !== "—") {
+          lines.push(
+            `약한 오행 보완: ${profile.weak}는 생활 루틴/환경으로 보완하면 체감이 크다.`
+          );
+        }
+        return lines;
+      }
+
+      function renderElementsAnalysis(elements, breakdown, meta = {}) {
         const keys = ["목", "화", "토", "금", "수"];
         const values = keys.map((k) => elements[k] || 0);
         const maxVal = Math.max(...values, 1);
@@ -2522,9 +3490,16 @@
         const top = keys[topIdx];
         const low = keys[lowIdx];
         const personality = getElementPersonality(top, low);
+        const profile = makeElementProfile(elements);
+        const evidenceLine = makeElementEvidence(elements, breakdown, top, low);
 
+        const totalSum = values.reduce((a, b) => a + b, 0) || 1;
         const rounded = keys.reduce((acc, k) => {
           acc[k] = Math.round((elements[k] || 0) * 10) / 10;
+          return acc;
+        }, {});
+        const percent = keys.reduce((acc, k) => {
+          acc[k] = Math.round(((elements[k] || 0) / totalSum) * 1000) / 10;
           return acc;
         }, {});
 
@@ -2532,15 +3507,44 @@
         renderElementsRadar(elements);
 
         const detailLines = [
-          `오행 분포: 목 ${rounded["목"]} · 화 ${rounded["화"]} · 토 ${rounded["토"]} · 금 ${rounded["금"]} · 수 ${rounded["수"]}`,
+          meta.birthText ? `출생: ${meta.birthText}` : null,
+          meta.anchorApplied
+            ? `신토정비결 보정 적용: ${meta.anchorKey}`
+            : meta.anchorKey
+            ? `신토정비결 보정 미적용: ${meta.anchorKey}`
+            : null,
+          `오행 분포(%) : 목 ${percent["목"]}% · 화 ${percent["화"]}% · 토 ${percent["토"]}% · 금 ${percent["금"]}% · 수 ${percent["수"]}%`,
+          `오행 점수(총 150): 목 ${rounded["목"]} · 화 ${rounded["화"]} · 토 ${rounded["토"]} · 금 ${rounded["금"]} · 수 ${rounded["수"]}`,
+          `프로파일: 강 ${profile.strong} · 중 ${profile.mid} · 약 ${profile.weak} (평균 ${profile.avg})`,
+          `평균 대비: ${elementDeltaLines(elements)}`,
+          evidenceLine || null,
+          breakdown ? formatElemLine("천간:", breakdown.stems, totalSum) : null,
+          breakdown
+            ? formatElemLine("지지 본기:", breakdown.branches, totalSum)
+            : null,
+          breakdown && meta.hiddenMode === "on"
+            ? formatElemLine("장간:", breakdown.hidden, totalSum)
+            : null,
+          breakdown
+            ? formatElemLine("월령 가중(간이):", breakdown.season, totalSum)
+            : null,
           `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top}는 현재 전체의 약 ${Math.round(
-            (values[topIdx] / maxVal) * 100
+            (values[topIdx] / totalSum) * 100
           )}% 수준이야.`,
           `약한 ${low}: 루틴/환경 보완으로 충분히 메꿀 수 있어. ${low}는 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.`,
           `성향 요약: ${personality}`,
+          ...elementAdvice(profile),
+          meta.includeHour === false
+            ? "시주 미포함: 시간 정보가 없어 시주의 영향은 제외했어."
+            : meta.includeHour === "partial"
+            ? "시주 일부 미포함: 한쪽은 시간 정보가 없어 시주가 제외됐어."
+            : null,
+          meta.boundaryText ? meta.boundaryText : null,
           `균형 팁: 상생 구조를 따라 ${top}의 장점을 살리되, ${low}를 받쳐줄 생활 습관을 하나만 고정하면 흐름이 안정돼.`,
-        ];
-        elementsDetail.innerHTML = detailLines.map((l) => escapeHtml(l)).join("<br/>");
+        ].filter(Boolean);
+        elementsDetail.innerHTML = detailLines
+          .map((l) => escapeHtml(l))
+          .join("<br/>");
       }
 
       function getElementPersonality(top, low) {
@@ -2630,7 +3634,9 @@
             "font-weight": "900",
             fill: "#0f172a",
           });
-          text.textContent = `${name} ${Math.round((elements[name] || 0) * 10) / 10}`;
+          text.textContent = `${name} ${
+            Math.round((elements[name] || 0) * 10) / 10
+          }`;
           svg.appendChild(text);
         });
 
@@ -2705,6 +3711,49 @@
         return suggestions;
       }
 
+      function calcStrength(elements, dayElem, seasonElem) {
+        if (!dayElem) return "중간";
+        const total = Object.values(elements).reduce((a, b) => a + b, 0);
+        const avg = total / 5;
+        let score = elements[dayElem] || 0;
+        if (seasonElem === dayElem) score += 0.6;
+        if (GENERATE[seasonElem] === dayElem) score += 0.3;
+        if (OVERCOME[seasonElem] === dayElem) score -= 0.3;
+        if (score >= avg + 0.2) return "신강";
+        if (score <= avg - 0.2) return "신약";
+        return "중간";
+      }
+
+      function listInternalPairs(branches, table) {
+        const out = [];
+        for (let i = 0; i < branches.length; i++) {
+          for (let j = i + 1; j < branches.length; j++) {
+            if (hasPair(branches[i], branches[j], table)) {
+              out.push(`${branches[i]}-${branches[j]}`);
+            }
+          }
+        }
+        return out;
+      }
+
+      function listInternalHyeong(branches) {
+        const out = [];
+        for (let i = 0; i < branches.length; i++) {
+          for (let j = i + 1; j < branches.length; j++) {
+            if (
+              HYEONG.some(
+                ([a, b]) =>
+                  (branches[i] === a && branches[j] === b) ||
+                  (branches[i] === b && branches[j] === a)
+              )
+            ) {
+              out.push(`${branches[i]}-${branches[j]}`);
+            }
+          }
+        }
+        return out;
+      }
+
       function renderDeepAnalysisCard(a, b) {
         const blocks = [];
         if (a) blocks.push(renderDeepBlock("A", a));
@@ -2725,14 +3774,413 @@
           person.seasonTopElem && person.topElem === person.seasonTopElem
             ? "월령과 강점이 같아 자연스럽게 힘이 실리는 타입."
             : "월령과 강점이 달라 조율·보완이 중요해.";
-
+        const currentLine = formatElemLine("현재 오행:", person.elements);
+        const dayStemLine = person.dayStem
+          ? `일간: ${person.dayStem}(${person.dayElem}) · ${person.strength}`
+          : "일간: —";
+        const tenGodLine = person.dayStem
+          ? `십성(간이): 연 ${tenGod(
+              person.dayStem,
+              person.yearStem
+            )} · 월 ${tenGod(person.dayStem, person.monthStem)} · 일 ${tenGod(
+              person.dayStem,
+              person.dayStem
+            )} · 시 ${
+              person.hourStem ? tenGod(person.dayStem, person.hourStem) : "—"
+            }`
+          : "십성(간이): —";
+        const branches = [
+          person.yearBranch,
+          person.monthBranch,
+          person.dayBranch,
+          person.hourBranch,
+        ].filter(Boolean);
+        const hap = listInternalPairs(branches, LIUHE);
+        const chung = listInternalPairs(branches, CHUNG);
+        const hyeong = listInternalHyeong(branches);
+        const relationLine = `합: ${hap.length ? hap.join(", ") : "—"} · 충: ${
+          chung.length ? chung.join(", ") : "—"
+        } · 형: ${hyeong.length ? hyeong.join(", ") : "—"}`;
         return `
           <div class="rule-card">
             <div class="section-title">${label} 심화 요약</div>
+            <div class="mini">${escapeHtml(dayStemLine)}</div>
+            <div class="mini">${escapeHtml(tenGodLine)}</div>
             <div class="mini">간이 용신: ${escapeHtml(yongText)}</div>
             <div class="mini">격국(간이): 월지 ${escapeHtml(
               season
             )} 중심. ${escapeHtml(seasonLine)}</div>
+            <div class="mini">${escapeHtml(currentLine)}</div>
+            <div class="mini">${escapeHtml(relationLine)}</div>
+          </div>
+        `;
+      }
+
+      function getHourRangeText(branch) {
+        const map = {
+          자: "00:00~01:30",
+          축: "01:31~03:30",
+          인: "03:31~05:30",
+          묘: "05:31~07:30",
+          진: "07:31~09:30",
+          사: "09:31~11:30",
+          오: "11:31~13:30",
+          미: "13:31~15:30",
+          신: "15:31~17:30",
+          유: "17:31~19:30",
+          술: "19:31~21:30",
+          해: "21:31~23:30",
+        };
+        return map[branch] || "—";
+      }
+
+      function makeYearNarrative(person, targetYear) {
+        const pillar = ganzhiYear(targetYear);
+        const yearElem = STEM_ELEM[pillar.stem];
+        const yearTenGod = person.dayStem
+          ? tenGod(person.dayStem, pillar.stem)
+          : "";
+        const mode = yearModeText(
+          pickYearMode(
+            relationElem(yearElem, person.topElem),
+            relationElem(yearElem, person.weakElem)
+          )
+        );
+        const total = `2026년은 ${mode} 기운이 크게 작용하는 해입니다. 일간 ${
+          person.dayStem || "—"
+        } 기준으로 세운 천간 십성은 ${
+          yearTenGod || "—"
+        }이니, 먼저 기준을 세우고 움직일수록 결과가 단단해집니다. 급히 밀기보다 방향을 고정하고 한 걸음씩 나아가면 길합니다.`;
+        const money = `재물운은 ${person.weakElem} 약점을 보완하는 쪽이 요체입니다. 큰돈을 탐하기보다 작은 이익을 꾸준히 쌓는 길이 안정적이며, 무리한 확장은 손실로 이어질 수 있습니다. 현금 흐름을 먼저 붙들고 지출의 틀을 정해두면 길합니다.`;
+        const work = `직장/사업은 ${person.topElem} 장점을 살릴 때 빠른 성과로 이어집니다. 다만 속도 경쟁은 과열을 부르니, 목표를 좁혀 집중하는 편이 안전합니다. 제안과 협상은 원칙을 세우고 천천히 진행해야 길합니다.`;
+        const family = `가정/건강은 ${person.weakElem} 축을 챙기는 것이 요체입니다. 루틴과 휴식을 먼저 잡으면 기력이 크게 회복되고, 사소한 갈등은 정리와 조율로 풀어가면 길해집니다. 작은 습관 하나가 큰 복이 됩니다.`;
+        const relation = `대인관계는 ${
+          person.balance < 0.3 ? "균형" : "정리"
+        } 흐름이 좋습니다. 도움 주는 인연을 놓치지 말고, 말이 많은 사람은 선을 분명히 하면 실수가 줄어듭니다. 신뢰를 지키는 말 한마디가 인연을 붙잡습니다.`;
+        return { total, money, work, family, relation };
+      }
+
+      function makeReportKeywords(person) {
+        const out = [];
+        if (person.topElem) out.push(`강점 ${person.topElem}`);
+        if (person.weakElem) out.push(`보완 ${person.weakElem}`);
+        if (person.dayStem) out.push(`일간 ${person.dayStem}`);
+        if (person.strength) out.push(`강약 ${person.strength}`);
+        if (person.seasonTopElem) out.push(`월령 ${person.seasonTopElem}`);
+        return out.length ? out.join(" · ") : "—";
+      }
+
+      function makeActionTips(person) {
+        return {
+          total: `핵심 행동: ${person.topElem} 기운을 중심으로 한 가지 목표를 먼저 세우고, 끝까지 흔들지 않는 것이 길합니다.`,
+          money: `지출 관리: ${person.weakElem} 보완용 루틴을 하나 고정하면 새는 돈이 줄고 흐름이 안정됩니다.`,
+          work: `업무 전략: ${person.topElem} 강점을 살릴 수 있는 역할을 먼저 맡아야 성과가 빠르게 드러납니다.`,
+          family: `건강 루틴: 수면/식사 중 하나를 고정하면 체력과 마음이 함께 안정됩니다.`,
+          relation: `관계 팁: 선을 분명히 하고 약속을 지키면 오해가 줄고 신뢰가 깊어집니다.`,
+        };
+      }
+
+      const ELEM_CLASS = {
+        목: "wood",
+        화: "fire",
+        토: "earth",
+        금: "metal",
+        수: "water",
+      };
+      function elemClass(elem) {
+        return ELEM_CLASS[elem] ? `e-${ELEM_CLASS[elem]}` : "";
+      }
+      function tenGodChip(label, text, elem) {
+        const cls = elemClass(elem);
+        return `<span class="chip ${cls}"><b>${escapeHtml(
+          label
+        )}</b> ${escapeHtml(text)}</span>`;
+      }
+
+      function renderReportCard(a, b) {
+        const blocks = [];
+        if (a) blocks.push(renderReportBlock("A", a, state.aResult));
+        if (b) blocks.push(renderReportBlock("B", b, state.bResult));
+        reportContent.innerHTML = blocks.join("");
+      }
+
+      function renderReportBlock(label, person, result) {
+        if (!result) return "";
+        const targetYear = 2026;
+        const birthYear = Number(result.input.local.slice(0, 4));
+        const age = toKoreanAge(targetYear, birthYear);
+        const genderLabel = person.gender === "female" ? "여자" : "남자";
+        const solar = result.input.local.slice(0, 10).replaceAll("-", ".");
+        const lunar = person.lunarDate ? person.lunarDate : "—";
+        const hourBranch = person.includeHour ? person.hourBranch : "—";
+        const hourRange = person.includeHour
+          ? getHourRangeText(person.hourBranch)
+          : "—";
+        const p = result.pillars;
+        const yearTen = tenGod(person.dayStem, person.yearStem);
+        const monthTen = tenGod(person.dayStem, person.monthStem);
+        const dayTen = "일간";
+        const hourTen = person.hourStem
+          ? tenGod(person.dayStem, person.hourStem)
+          : "—";
+        const yearChip = tenGodChip(
+          "연",
+          `${p.year.stem}(${STEM_ELEM[p.year.stem]}) ${yearTen || "—"} / ${
+            p.year.branch
+          }(${BRANCH_ELEM[p.year.branch]})`,
+          STEM_ELEM[p.year.stem]
+        );
+        const monthChip = tenGodChip(
+          "월",
+          `${p.month.stem}(${STEM_ELEM[p.month.stem]}) ${monthTen || "—"} / ${
+            p.month.branch
+          }(${BRANCH_ELEM[p.month.branch]})`,
+          STEM_ELEM[p.month.stem]
+        );
+        const dayChip = tenGodChip(
+          "일",
+          `${p.day.stem}(${STEM_ELEM[p.day.stem]}) ${dayTen} / ${p.day.branch}(${
+            BRANCH_ELEM[p.day.branch]
+          })`,
+          STEM_ELEM[p.day.stem]
+        );
+        const hourChip = p.hour
+          ? tenGodChip(
+              "시",
+              `${p.hour.stem}(${STEM_ELEM[p.hour.stem]}) ${
+                hourTen || "—"
+              } / ${p.hour.branch}(${BRANCH_ELEM[p.hour.branch]})`,
+              STEM_ELEM[p.hour.stem]
+            )
+          : `<span class="chip"><b>시</b> —</span>`;
+        const coreBranches = [
+          person.yearBranch,
+          person.monthBranch,
+          person.dayBranch,
+          person.hourBranch,
+        ].filter(Boolean);
+        const coreHap = listInternalPairs(coreBranches, LIUHE);
+        const coreChung = listInternalPairs(coreBranches, CHUNG);
+        const coreHyeong = listInternalHyeong(coreBranches);
+        const hapText = coreHap.length ? coreHap.join(", ") : "—";
+        const chungText = coreChung.length ? coreChung.join(", ") : "—";
+        const hyeongText = coreHyeong.length ? coreHyeong.join(", ") : "—";
+        const hapInterpret = coreHap.length
+          ? "합이 있어 협력과 회복의 기운이 따릅니다."
+          : "합이 적어 도움과 완충이 약하니 스스로 지키는 것이 중요합니다.";
+        const chungInterpret = coreChung.length
+          ? "충이 있어 타이밍이 엇갈리기 쉬우니 확인을 거듭해야 합니다."
+          : "충이 적어 급한 충돌은 드뭅니다. 다만 방심은 금물입니다.";
+        const hyeongInterpret = coreHyeong.length
+          ? "형이 있어 감정의 마찰이 생길 수 있으니 언행을 절제해야 합니다."
+          : "형이 적어 큰 마찰은 적습니다. 작은 불씨를 먼저 끄면 길합니다.";
+        const hapAction = coreHap.length
+          ? "합이 있는 날은 협업/합의를 먼저 잡는 것이 유리합니다. 사례: 계약·소개·동업 제안."
+          : "합이 약하니 독단을 경계하고 조력자를 구하는 것이 좋습니다. 사례: 중요한 결정은 보류.";
+        const chungAction = coreChung.length
+          ? "충이 있는 날은 일정·계약을 한 번 더 점검해야 합니다. 사례: 이동·이사·변경 건."
+          : "충이 적어 급변은 덜하나, 확인을 생활화해야 합니다. 사례: 약속 시간 재확인.";
+        const hyeongAction = coreHyeong.length
+          ? "형이 있는 날은 말의 톤과 속도를 줄여 마찰을 피해야 합니다. 사례: 가족·동료 대화."
+          : "형이 적어도 감정의 여지를 남기면 길합니다. 사례: 갈등은 한 박자 늦게.";
+        const coreRelationLine = `합 ${coreHap.length ? coreHap.join(", ") : "—"} · 충 ${
+          coreChung.length ? coreChung.join(", ") : "—"
+        } · 형 ${coreHyeong.length ? coreHyeong.join(", ") : "—"}`;
+        const coreInterpret =
+          coreChung.length || coreHyeong.length
+            ? "충/형 기운이 있어 타이밍과 감정 조율이 관건입니다."
+            : coreHap.length
+            ? "합 기운이 살아 있어 협력과 회복력이 좋습니다."
+            : "특이한 합/충/형이 적어 흐름이 비교적 평온합니다.";
+        const narrative = makeYearNarrative(person, targetYear);
+        const tips = makeActionTips(person);
+        const keywords = makeReportKeywords(person);
+        const profile = makeElementProfile(person.elements);
+        const evidence = makeElementEvidence(
+          person.elements,
+          result.elements.breakdown,
+          person.topElem,
+          person.weakElem
+        );
+        const totalSum =
+          Object.values(person.elements).reduce((a, b) => a + b, 0) || 1;
+        const monthList = makeMonthlyLuck(person)
+          .map((m) => {
+            const basis = `근거: 월령 ${m.seasonElem} · 강 ${person.topElem} · 약 ${person.weakElem}`;
+            return `<div class="rule-card">
+              <div class="row" style="justify-content: space-between">
+                <div class="section-title">${m.month}월 · ${
+              m.seasonElem
+            } 흐름</div>
+                <span class="mini">${m.tags.join(" · ")}</span>
+              </div>
+              <p class="lead">${escapeHtml(m.summary)}</p>
+              <p class="mini">팁: ${escapeHtml(m.tip)}</p>
+              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
+              ${
+                m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""
+              }
+              <p class="mini">${escapeHtml(basis)}</p>
+            </div>`;
+          })
+          .join("");
+
+        const daewoonRaw = String(person.daewoonStartAge ?? "").trim();
+        let daewoonLine = "대운 시작 나이를 입력해줘.";
+        if (daewoonRaw !== "") {
+          const daewoonStart = Number(daewoonRaw);
+          const startYear = birthYear + daewoonStart - 1;
+          const blocks = [];
+          for (let i = 0; i < 10; i++) {
+            const ageStart = daewoonStart + i * 10;
+            const ganji = ganzhiYear(startYear + i * 10).text;
+            blocks.push(`${ageStart}세~ ${ganji}`);
+          }
+          daewoonLine = blocks.join(" · ");
+        }
+
+        return `
+          <div class="rule-card">
+            <div class="section-title">${targetYear} 신토정비결 · ${label}</div>
+            <div class="mini">회원님(${genderLabel}, ${age}세)</div>
+            <div class="mini">양력: ${solar} · 음력: ${escapeHtml(
+          lunar
+        )} · 태어난 시간: ${hourBranch} (${hourRange})</div>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>년</th>
+                  <th>월</th>
+                  <th>일</th>
+                  <th>시</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>천간</th>
+                  <td>${STEM_YINYANG[p.year.stem] || ""} ${p.year.stem} ${
+          STEM_ELEM[p.year.stem] || ""
+        } · ${yearTen || "—"}</td>
+                  <td>${STEM_YINYANG[p.month.stem] || ""} ${p.month.stem} ${
+          STEM_ELEM[p.month.stem] || ""
+        } · ${monthTen || "—"}</td>
+                  <td>${STEM_YINYANG[p.day.stem] || ""} ${p.day.stem} ${
+          STEM_ELEM[p.day.stem] || ""
+        } · ${dayTen}</td>
+                  <td>${
+                    p.hour
+                      ? `${STEM_YINYANG[p.hour.stem] || ""} ${p.hour.stem} ${
+                          STEM_ELEM[p.hour.stem] || ""
+                        } · ${hourTen || "—"}`
+                      : "—"
+                  }</td>
+                </tr>
+                <tr>
+                  <th>지지</th>
+                  <td>${p.year.branch} ${BRANCH_ELEM[p.year.branch]}</td>
+                  <td>${p.month.branch} ${BRANCH_ELEM[p.month.branch]}</td>
+                  <td>${p.day.branch} ${BRANCH_ELEM[p.day.branch]}</td>
+                  <td>${
+                    p.hour
+                      ? `${p.hour.branch} ${BRANCH_ELEM[p.hour.branch]}`
+                      : "—"
+                  }</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="mini">일주/강약: ${person.dayStem || "—"} · ${
+          person.strength
+        }</div>
+            <div class="mini">오행: ${formatElemLine(
+              "",
+              person.elements,
+              totalSum
+            )}</div>
+            <div class="mini">프로파일: 강 ${profile.strong} · 중 ${
+          profile.mid
+        } · 약 ${profile.weak}</div>
+            <div class="mini">${escapeHtml(evidence)}</div>
+            <div class="mini">세운 천간 십성: ${
+              ganzhiYear(targetYear).stem
+            } · ${
+          person.dayStem
+            ? tenGod(person.dayStem, ganzhiYear(targetYear).stem)
+            : "—"
+        }</div>
+            <div class="mini">핵심 키워드: ${escapeHtml(keywords)}</div>
+            <div class="report-section">
+              <h3>명리 핵심</h3>
+              <table class="report-table">
+                <thead>
+                  <tr>
+                    <th>구분</th>
+                    <th>내용</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>일간</th>
+                    <td>${escapeHtml(person.dayStem || "—")}</td>
+                  </tr>
+                  <tr>
+                    <th>강약</th>
+                    <td>${escapeHtml(person.strength || "—")}</td>
+                  </tr>
+                  <tr>
+                    <th>십성</th>
+                    <td>
+                      <div class="chip-row">${yearChip}${monthChip}${dayChip}${hourChip}</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>충/합/형</th>
+                    <td>합 ${escapeHtml(hapText)} · 충 ${escapeHtml(
+          chungText
+        )} · 형 ${escapeHtml(hyeongText)}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="mini">합 해석: ${escapeHtml(hapInterpret)}</p>
+              <p class="mini">합 지침: ${escapeHtml(hapAction)}</p>
+              <p class="mini">충 해석: ${escapeHtml(chungInterpret)}</p>
+              <p class="mini">충 지침: ${escapeHtml(chungAction)}</p>
+              <p class="mini">형 해석: ${escapeHtml(hyeongInterpret)}</p>
+              <p class="mini">형 지침: ${escapeHtml(hyeongAction)}</p>
+            </div>
+            <div class="report-section">
+              <h3>총론</h3>
+              <p class="mini">${escapeHtml(narrative.total)}</p>
+              <p class="mini">${escapeHtml(tips.total)}</p>
+            </div>
+            <div class="report-section">
+              <h3>재물운</h3>
+              <p class="mini">${escapeHtml(narrative.money)}</p>
+              <p class="mini">${escapeHtml(tips.money)}</p>
+            </div>
+            <div class="report-section">
+              <h3>직장 / 사업운</h3>
+              <p class="mini">${escapeHtml(narrative.work)}</p>
+              <p class="mini">${escapeHtml(tips.work)}</p>
+            </div>
+            <div class="report-section">
+              <h3>가정 / 건강운</h3>
+              <p class="mini">${escapeHtml(narrative.family)}</p>
+              <p class="mini">${escapeHtml(tips.family)}</p>
+            </div>
+            <div class="report-section">
+              <h3>이성 / 대인관계</h3>
+              <p class="mini">${escapeHtml(narrative.relation)}</p>
+              <p class="mini">${escapeHtml(tips.relation)}</p>
+            </div>
+            <div class="report-section">
+              <h3>대운(간이)</h3>
+              <p class="mini">${escapeHtml(daewoonLine)}</p>
+            </div>
+            <div class="report-section">
+              <h3>월별 세운</h3>
+              ${monthList}
+            </div>
           </div>
         `;
       }
@@ -2772,11 +4220,15 @@
           const relTop = relationElem(yearElem, person.topElem);
           const relWeak = relationElem(yearElem, person.weakElem);
           const mode = pickYearMode(relTop, relWeak);
+          const yearTenGod = person.dayStem
+            ? tenGod(person.dayStem, pillar.stem)
+            : "";
           flows.push({
             year,
             pillar,
             yearElem,
             mode,
+            yearTenGod,
           });
         }
         return flows;
@@ -2794,7 +4246,9 @@
             acc[cur.mode] = (acc[cur.mode] || 0) + 1;
             return acc;
           }, {});
-          const topMode = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+          const topMode = Object.entries(counts).sort(
+            (a, b) => b[1] - a[1]
+          )[0][0];
           return {
             range: `${start}~${Number(start) + 9}`,
             mode: topMode,
@@ -2814,23 +4268,29 @@
         const dstMode = person.dstMode || "off";
         const flows = buildYearFlows(person, tzOffsetMinutes, dstMode);
         const decades = summarizeDecades(flows);
+        const decadeSummary = decades
+          .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
+          .join(" · ");
+        const daewoonNarrative = `대운은 큰 흐름을 가늠하는 길잡이입니다. ${
+          decadeSummary || "—"
+        }`;
         const yearLines = flows
           .map(
             (f) =>
-              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${yearModeText(
-                f.mode
-              )}`
+              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${
+                f.yearTenGod ? `십성 ${f.yearTenGod} · ` : ""
+              }${yearModeText(f.mode)}`
           )
           .join("<br/>");
-        const decadeLines = decades
-          .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
-          .join(" · ");
+        const sewoonNarrative =
+          "세운은 매해의 결을 읽는 자리니, 강한 해에는 밀고 약한 해에는 지키면 길합니다.";
 
         return `
           <div class="rule-card">
             <div class="section-title">${label} 대운/세운</div>
-            <div class="mini">대운(10년): ${escapeHtml(decadeLines)}</div>
+            <div class="mini">대운(10년): ${escapeHtml(daewoonNarrative)}</div>
             <div class="mini">세운(10년): ${yearLines}</div>
+            <div class="mini">${escapeHtml(sewoonNarrative)}</div>
           </div>
         `;
       }
@@ -2855,10 +4315,25 @@
         const sectionScores = calcSectionScores(firedRules);
         const totalScore = calcTotalFromSections(sectionScores);
         const coupleElements = combineElements(a.elements, b.elements);
+        const coupleBreakdown = combineBreakdown(
+          state.aResult?.elements?.breakdown,
+          state.bResult?.elements?.breakdown
+        );
         const coupleStats = getTopWeak(coupleElements);
 
         resultTitle.textContent = "궁합 요약";
-        renderElementsAnalysis(coupleElements);
+        const includeHourMode =
+          state.A?.includeHour === state.B?.includeHour
+            ? Boolean(state.A?.includeHour)
+            : "partial";
+        renderElementsAnalysis(coupleElements, coupleBreakdown, {
+          hiddenMode:
+            state.aResult?.input?.hiddenMode === "on" ||
+            state.bResult?.input?.hiddenMode === "on"
+              ? "on"
+              : "off",
+          includeHour: includeHourMode,
+        });
         renderDeepAnalysisCard(a, b);
         renderLuckFlowCard(a, b);
         renderSummary(totalScore, firedRules, toneKey, coupleElements);
@@ -2887,7 +4362,16 @@
         const a = buildPerson(state.A);
         const { top, weak } = getTopWeak(a.elements);
         resultTitle.textContent = "신년운세 요약";
-        renderElementsAnalysis(a.elements);
+        renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
+          hiddenMode: state.aResult?.input?.hiddenMode,
+          includeHour: state.A?.includeHour,
+          boundaryText: state.A?.boundaryText,
+          birthText: state.aResult?.input?.local
+            ? `${state.aResult.input.local} (${state.A?.hourBranch || "—"})`
+            : "",
+          anchorKey: state.aResult?.elements?.anchor?.key,
+          anchorApplied: state.aResult?.elements?.anchor?.applied,
+        });
         renderDeepAnalysisCard(a, null);
         renderLuckFlowCard(a, null);
         totalScoreEl.textContent = "—";
@@ -2903,7 +4387,7 @@
 
         todayCoupleLine.textContent = "—";
         todayCoupleMeta.textContent = "";
-        renderMonthly({ elements: a.elements });
+        renderMonthly(a);
         renderPillars(aPillarsEl, state.aResult);
         bPillarsEl.textContent = "";
 
@@ -2913,7 +4397,16 @@
       function renderTodayOnly() {
         const a = buildPerson(state.A);
         resultTitle.textContent = "오늘운세 요약";
-        renderElementsAnalysis(a.elements);
+        renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
+          hiddenMode: state.aResult?.input?.hiddenMode,
+          includeHour: state.A?.includeHour,
+          boundaryText: state.A?.boundaryText,
+          birthText: state.aResult?.input?.local
+            ? `${state.aResult.input.local} (${state.A?.hourBranch || "—"})`
+            : "",
+          anchorKey: state.aResult?.elements?.anchor?.key,
+          anchorApplied: state.aResult?.elements?.anchor?.applied,
+        });
         renderDeepAnalysisCard(a, null);
         renderLuckFlowCard(a, null);
         totalScoreEl.textContent = "—";
@@ -3174,12 +4667,22 @@
         if (!data) return;
         aDate.value = data.aDate || "";
         aHourBranch.value = data.aHourBranch || "자";
-        aHiddenMode.value = data.aHiddenMode || "on";
+        aTimeUnknown.checked = Boolean(data.aTimeUnknown);
+        aGender.value = data.aGender || "male";
+        aLunar.value = data.aLunar || "";
+        aDaewoonStart.value = data.aDaewoonStart || "";
+        aHiddenMode.value = "on";
+        aHiddenMode.disabled = true;
         aTzOffset.value = data.aTzOffset ?? "9";
         aDstMode.value = data.aDstMode || "off";
         bDate.value = data.bDate || "";
         bHourBranch.value = data.bHourBranch || "자";
-        bHiddenMode.value = data.bHiddenMode || "on";
+        bTimeUnknown.checked = Boolean(data.bTimeUnknown);
+        bGender.value = data.bGender || "female";
+        bLunar.value = data.bLunar || "";
+        bDaewoonStart.value = data.bDaewoonStart || "";
+        bHiddenMode.value = "on";
+        bHiddenMode.disabled = true;
         bTzOffset.value = data.bTzOffset ?? "9";
         bDstMode.value = data.bDstMode || "off";
         toneSelect.value = data.tone || "couple";
@@ -3189,12 +4692,20 @@
         return {
           aDate: aDate.value,
           aHourBranch: aHourBranch.value,
-          aHiddenMode: aHiddenMode.value,
+          aTimeUnknown: aTimeUnknown.checked,
+          aGender: aGender.value,
+          aLunar: aLunar.value,
+          aDaewoonStart: aDaewoonStart.value,
+          aHiddenMode: "on",
           aTzOffset: aTzOffset.value,
           aDstMode: aDstMode.value,
           bDate: bDate.value,
           bHourBranch: bHourBranch.value,
-          bHiddenMode: bHiddenMode.value,
+          bTimeUnknown: bTimeUnknown.checked,
+          bGender: bGender.value,
+          bLunar: bLunar.value,
+          bDaewoonStart: bDaewoonStart.value,
+          bHiddenMode: "on",
           bTzOffset: bTzOffset.value,
           bDstMode: bDstMode.value,
           tone: toneSelect.value,
@@ -3243,19 +4754,25 @@
         loadingOverlay.setAttribute("aria-hidden", "false");
         await new Promise((r) => setTimeout(r, 700));
 
-        const aTime = hourBranchToTime(data.aHourBranch);
         const aOffsetMin = parseTzOffsetMinutes(data.aTzOffset, 540);
+        const aIncludeHour = !data.aTimeUnknown;
+        const aTimeStr = aIncludeHour
+          ? hourBranchToTime(data.aHourBranch)
+          : "12:00";
         const aBirth = parseLocalDateTime(
           data.aDate,
-          aTime,
+          aTimeStr,
           aOffsetMin,
           data.aDstMode
         );
+        const aHourBranch = aIncludeHour ? data.aHourBranch : null;
         const aResult = computeSajuFiveElements(aBirth, {
           ziMode: "2300",
           hiddenMode: data.aHiddenMode,
           tzOffsetMinutes: aOffsetMin,
           dstMode: data.aDstMode,
+          includeHour: aIncludeHour,
+          hourBranchOverride: aHourBranch,
         });
         state.aResult = aResult;
         state.A = {
@@ -3263,24 +4780,42 @@
           elements: aResult.elements.raw,
           dayBranch: aResult.pillars.day.branch,
           monthBranch: aResult.pillars.month.branch,
+          yearBranch: aResult.pillars.year.branch,
+          yearStem: aResult.pillars.year.stem,
+          monthStem: aResult.pillars.month.stem,
+          dayStem: aResult.pillars.day.stem,
+          hourStem: aResult.pillars.hour ? aResult.pillars.hour.stem : "",
           tzOffsetMinutes: aOffsetMin,
           dstMode: data.aDstMode,
+          includeHour: aIncludeHour,
+          hourBranch: aHourBranch,
+          boundaryText: makeBoundaryText(),
+          altResult: null,
+          gender: data.aGender,
+          lunarDate: data.aLunar,
+          daewoonStartAge: data.aDaewoonStart,
         };
 
         if (state.mode === "compat") {
-          const bTime = hourBranchToTime(data.bHourBranch);
           const bOffsetMin = parseTzOffsetMinutes(data.bTzOffset, 540);
+          const bIncludeHour = !data.bTimeUnknown;
+          const bTimeStr = bIncludeHour
+            ? hourBranchToTime(data.bHourBranch)
+            : "12:00";
           const bBirth = parseLocalDateTime(
             data.bDate,
-            bTime,
+            bTimeStr,
             bOffsetMin,
             data.bDstMode
           );
+          const bHourBranch = bIncludeHour ? data.bHourBranch : null;
           const bResult = computeSajuFiveElements(bBirth, {
             ziMode: "2300",
             hiddenMode: data.bHiddenMode,
             tzOffsetMinutes: bOffsetMin,
             dstMode: data.bDstMode,
+            includeHour: bIncludeHour,
+            hourBranchOverride: bHourBranch,
           });
           state.bResult = bResult;
           state.B = {
@@ -3288,8 +4823,20 @@
             elements: bResult.elements.raw,
             dayBranch: bResult.pillars.day.branch,
             monthBranch: bResult.pillars.month.branch,
+            yearBranch: bResult.pillars.year.branch,
+            yearStem: bResult.pillars.year.stem,
+            monthStem: bResult.pillars.month.stem,
+            dayStem: bResult.pillars.day.stem,
+            hourStem: bResult.pillars.hour ? bResult.pillars.hour.stem : "",
             tzOffsetMinutes: bOffsetMin,
             dstMode: data.bDstMode,
+            includeHour: bIncludeHour,
+            hourBranch: bHourBranch,
+            boundaryText: makeBoundaryText(),
+            altResult: null,
+            gender: data.bGender,
+            lunarDate: data.bLunar,
+            daewoonStartAge: data.bDaewoonStart,
           };
         } else {
           state.bResult = null;
@@ -3334,12 +4881,22 @@
         localStorage.removeItem(INPUT_KEY);
         aDate.value = "";
         aHourBranch.value = "자";
+        aTimeUnknown.checked = false;
+        aGender.value = "male";
+        aLunar.value = "";
+        aDaewoonStart.value = "";
         aHiddenMode.value = "on";
+        aHiddenMode.disabled = true;
         aTzOffset.value = "9";
         aDstMode.value = "off";
         bDate.value = "";
         bHourBranch.value = "자";
+        bTimeUnknown.checked = false;
+        bGender.value = "female";
+        bLunar.value = "";
+        bDaewoonStart.value = "";
         bHiddenMode.value = "on";
+        bHiddenMode.disabled = true;
         bTzOffset.value = "9";
         bDstMode.value = "off";
         toneSelect.value = "couple";
