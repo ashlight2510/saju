@@ -1009,7 +1009,7 @@
                 class="mini"
                 style="font-size: 0.85rem; color: rgba(15, 23, 42, 0.5)"
               >
-                ※ 입력 시간은 한국 기준으로 계산합니다.
+                ※ 입력 시간은 한국 기준으로 계산해.
               </span>
             </div>
           </div>
@@ -1030,9 +1030,7 @@
               class="lead"
               id="elementsSummary"
               style="font-size: 18px; margin-bottom: 32px"
-            >
-              —
-            </p>
+            ></p>
             <svg
               id="elementsRadarSvg"
               class="radar elements-radar"
@@ -1054,7 +1052,7 @@
             </p>
           </div>
           <div class="card" id="resultDeepCard">
-            <h2>심화 분석 (간이)</h2>
+            <h2>심화 분석</h2>
             <div id="deepAnalysis"></div>
           </div>
           <div class="card" id="resultLuckCard">
@@ -1062,7 +1060,7 @@
             <div id="luckFlow"></div>
           </div>
           <div class="card" id="resultReportCard">
-            <h2>2026 신토정비결</h2>
+            <h2>본질 리포트</h2>
             <div id="reportContent"></div>
           </div>
           <div class="card" id="resultSummaryCard">
@@ -1599,6 +1597,20 @@
               "'": "&#39;",
             }[c])
         );
+      }
+      function casualizeText(text) {
+        if (!text) return text;
+        return String(text)
+          .replace(/입니다\./g, "이야.")
+          .replace(/됩니다\./g, "돼.")
+          .replace(/합니다\./g, "해.")
+          .replace(/하십시오\./g, "해.")
+          .replace(/하세요\./g, "해.")
+          .replace(/하시기 바랍니다\./g, "해.")
+          .replace(/해야 합니다\./g, "해야 해.")
+          .replace(/바랍니다\./g, "바래.")
+          .replace(/입니다/g, "이야")
+          .replace(/합니다/g, "해");
       }
       function fillTokens(text, tokens) {
         return text.replace(/\{([^}]+)\}/g, (_, key) => tokens[key] ?? "");
@@ -3200,72 +3212,72 @@
         const templates = {
           push: [
             [
-              `${monthLabel}은 길운이 문턱을 넘는 달입니다. 흐름이 내 편이니 밀어붙이면 성과가 납니다.`,
-              "가장 중요한 일 하나를 먼저 끝내고, 나머지는 순서를 잡아야 합니다.",
-              "작은 성공을 크게 키울 수 있으니 기회를 놓치지 말아야 합니다.",
-              "세운이 도움을 주는 달이니 움직이는 만큼 얻음이 따릅니다.",
+              `${monthLabel}은 길운이 문턱을 넘는 달이야. 흐름이 내 편이니 밀어붙이면 성과가 나.`,
+              "가장 중요한 일 하나를 먼저 끝내고, 나머지는 순서를 잡아야 해.",
+              "작은 성공을 크게 키울 수 있으니 기회를 놓치지 말자.",
+              "세운이 도움을 주는 달이니 움직이는 만큼 얻음이 따라와.",
             ],
             [
-              `${monthLabel}은 속도가 붙는 달입니다. 미루던 일을 처리하기에 알맞습니다.`,
-              "연락/결정/정리 중 하나는 이번 달에 끝내고, 다음 단계를 준비해야 합니다.",
-              "발이 빠를수록 운이 붙는 시기입니다.",
-              "기회가 눈앞에 있으니 과감함이 곧 복이 됩니다.",
+              `${monthLabel}은 속도가 붙는 달이야. 미루던 일을 처리하기에 딱 좋아.`,
+              "연락/결정/정리 중 하나는 이번 달에 끝내고, 다음 단계를 준비해.",
+              "발이 빠를수록 운이 붙는 시기야.",
+              "기회가 눈앞에 있으니 과감하게 나서면 복이 따라와.",
             ],
           ],
           pushPlus: [
             [
-              `${monthLabel}은 좋은 흐름과 회복이 함께 오는 달입니다.`,
-              "욕심을 내어도 되나 수면과 식사는 반드시 지켜야 합니다.",
-              "힘이 붙으니 큰일도 충분히 감당할 수 있습니다.",
-              "세운과 기운이 맞물려 빠르게 풀리는 달입니다.",
+              `${monthLabel}은 좋은 흐름과 회복이 함께 오는 달이야.`,
+              "욕심을 내어도 되지만 수면과 식사는 반드시 지켜야 해.",
+              "힘이 붙으니 큰일도 충분히 감당할 수 있어.",
+              "세운과 기운이 맞물려 빠르게 풀리는 달이야.",
             ],
             [
-              `${monthLabel}은 잘 풀리면서 마음이 편해지는 달입니다.`,
-              "새로 벌리기보다 기존을 다듬으면 크게 남습니다.",
-              "작은 개선이 큰 복으로 돌아옵니다.",
-              "도움이 손에 닿는 때이니 정성을 아끼지 마십시오.",
+              `${monthLabel}은 잘 풀리면서 마음이 편해지는 달이야.`,
+              "새로 벌리기보다 기존을 다듬으면 크게 남아.",
+              "작은 개선이 큰 복으로 돌아와.",
+              "도움이 손에 닿는 때니 정성을 아끼지 말자.",
             ],
           ],
           recover: [
             [
-              `${monthLabel}은 회복이 곧 복입니다. 기력만 잡아도 일이 풀립니다.`,
-              "무리한 약속을 줄이고 루틴 하나를 붙여야 합니다.",
-              "쉬어가는 한 달이 오히려 길운을 부릅니다.",
-              "세운이 숨 고르기를 요구하니 몸과 마음을 먼저 다스리십시오.",
+              `${monthLabel}은 회복이 곧 복이야. 기력만 잡아도 일이 풀려.`,
+              "무리한 약속을 줄이고 루틴 하나를 붙여야 해.",
+              "쉬어가는 한 달이 오히려 길운을 불러와.",
+              "세운이 숨 고르기를 요구하니 몸과 마음을 먼저 다스리자.",
             ],
             [
-              `${monthLabel}은 정리하면 운이 붙는 달입니다.`,
-              "공간/돈/일정 중 하나만 정리해도 체감이 옵니다.",
-              "지우고 덜어낼수록 기운이 맑아집니다.",
-              "세운이 정리수로 흐르니 덜어낼수록 이익입니다.",
+              `${monthLabel}은 정리하면 운이 붙는 달이야.`,
+              "공간/돈/일정 중 하나만 정리해도 체감이 와.",
+              "지우고 덜어낼수록 기운이 맑아져.",
+              "세운이 정리수로 흐르니 덜어낼수록 이익이야.",
             ],
           ],
           brake: [
             [
-              `${monthLabel}은 무리하면 손해 보는 달입니다. 속도를 줄이는 것이 이득입니다.`,
-              "큰 결정은 2주만 미루고 확인부터 해야 합니다.",
-              "서두르면 흉이 되고, 멈추면 길이 됩니다.",
-              "세운이 제동을 거니 한 걸음 물러나 살피는 것이 옳습니다.",
+              `${monthLabel}은 무리하면 손해 보는 달이야. 속도를 줄이는 게 이득이야.`,
+              "큰 결정은 2주만 미루고 확인부터 해.",
+              "서두르면 흉이 되고, 멈추면 길이 돼.",
+              "세운이 제동을 거니 한 걸음 물러나 살피는 게 좋아.",
             ],
             [
-              `${monthLabel}은 신중이 곧 돈입니다.`,
-              "계약/투자/충동구매는 한 번 더 점검해야 합니다.",
-              "지키는 자에게 복이 머뭅니다.",
-              "세운이 과열을 경계하니 조심함이 길합니다.",
+              `${monthLabel}은 신중이 곧 돈이야.`,
+              "계약/투자/충동구매는 한 번 더 점검해.",
+              "지키는 자에게 복이 머물러.",
+              "세운이 과열을 경계하니 조심하는 게 길이야.",
             ],
           ],
           steady: [
             [
-              `${monthLabel}은 유지가 이기는 달입니다. 기본만 지켜도 충분합니다.`,
-              "루틴 3개(수면/식사/정리)만 챙겨야 합니다.",
-              "작은 이익을 모아 큰 복으로 바꿀 시기입니다.",
-              "세운이 평온하니 성실이 곧 복입니다.",
+              `${monthLabel}은 유지가 이기는 달이야. 기본만 지켜도 충분해.`,
+              "루틴 3개(수면/식사/정리)만 챙기면 돼.",
+              "작은 이익을 모아 큰 복으로 바꿀 시기야.",
+              "세운이 평온하니 성실이 곧 복이야.",
             ],
             [
-              `${monthLabel}은 큰 변화보다 작은 개선이 맞습니다.`,
-              "5% 개선 목표로 가면 꾸준히 이깁니다.",
-              "욕심을 줄이면 오히려 얻음이 있습니다.",
-              "세운이 안정이니 작은 성실이 큰 복이 됩니다.",
+              `${monthLabel}은 큰 변화보다 작은 개선이 맞아.`,
+              "5% 개선 목표로 가면 꾸준히 이겨.",
+              "욕심을 줄이면 오히려 얻음이 있어.",
+              "세운이 안정이니 작은 성실이 큰 복이 돼.",
             ],
           ],
         };
@@ -3273,7 +3285,11 @@
         const seed = `${month}|${seasonElem}|${top}|${weak}|${mode}`;
         const arr = templates[mode];
         const idx = hashToIndex(seed, arr.length);
-        const [oneLine, tip, extra, detail] = arr[idx];
+        let [oneLine, tip, extra, detail] = arr[idx];
+        oneLine = casualizeText(oneLine);
+        tip = casualizeText(tip);
+        extra = casualizeText(extra);
+        detail = casualizeText(detail);
         let luckTag = "중";
         if (dayElem) {
           const relDay = relationElem(seasonElem, dayElem);
@@ -3331,40 +3347,40 @@
         const templates = {
           push: {
             길: [
-              `${monthLabel} 길운과 월성이 함께 문을 두드리니 맨손으로도 성공할 기운입니다. 관록이 들기 시작하니 지위와 책임을 얻음에도 부족함이 없습니다. 자손을 얻어야 할 시기라면 좋은 소식이 있을 것이며 가족 중에서라도 새 식구의 잉태 내지 혼인의 소식이 있을 것입니다. 올해 새 식구를 맞이하게 되면 온 가족이 길하게 될 것이니 귀인으로 맞이하시기 바랍니다.`,
-              `${monthLabel} 기운이 청아하여 만나는 사람마다 기쁨을 주게 됩니다. 애정도 좋고 가정에 기쁨도 있고 새로운 일로 인하여 분주함도 있으니 나쁠 일이 없습니다. 다만 건강상의 문제로 잔병을 치를 수도 있으니 과로를 경계하시기 바랍니다. 시작이 좋으니 한 해가 좋음을 미리 알리는 징후입니다. 귀인을 만나서 재물을 얻을 수 있으니 크지는 않지만 수익도 좋은 달이군요.`,
+              `${monthLabel} 길운과 월성이 함께 문을 두드리니 맨손으로도 성공할 기운이야. 관록이 들기 시작하니 지위와 책임을 얻어도 부족함이 없어. 자손을 얻어야 할 시기라면 좋은 소식이 있을 거고, 가족 중에서라도 새 식구의 잉태나 혼인 소식이 있을 거야. 올해 새 식구를 맞이하게 되면 온 가족이 길해질 거니 귀인으로 맞이하자.`,
+              `${monthLabel} 기운이 청아해서 만나는 사람마다 기쁨을 주게 돼. 애정도 좋고 가정에 기쁨도 있고 새로운 일로 인해 분주함도 있으니 나쁠 일이 없어. 다만 건강상의 문제로 잔병을 치를 수도 있으니 과로를 경계하자. 시작이 좋으니 한 해가 좋음을 미리 알리는 징후야. 귀인을 만나서 재물을 얻을 수 있으니 크지는 않지만 수익도 좋은 달이야.`,
             ],
             중: [
-              `${monthLabel} 길상의 기운이 들어 액운을 막아주고 비로소 뜻을 크게 품으니 분주함도 많고 노력도 많아져야 하는 때입니다. 노력하지 않으면 얻을 것이 없으니 준비해야 할 일이 있으면 남에게 의탁하지 말고 직접 움직이시기 바랍니다. 인연이 좋음으로 움직일수록 크게 도움받을 일이 생길 것입니다. 대길운이 서서히 문안으로 들어오기 시작하니 기운이 활기참을 느낄 수 있을 것입니다.`,
+              `${monthLabel} 길상의 기운이 들어 액운을 막아주고 비로소 뜻을 크게 품으니 분주함도 많고 노력도 많아져야 해. 노력하지 않으면 얻을 게 없으니 준비해야 할 일이 있으면 남에게 의탁하지 말고 직접 움직이자. 인연이 좋아서 움직일수록 크게 도움받을 일이 생겨. 대길운이 서서히 문안으로 들어오기 시작하니 기운이 활기찬 걸 느낄 수 있을 거야.`,
             ],
           },
           pushPlus: {
             길: [
-              `${monthLabel} 애정이 많은 시기이니 사랑을 깊이 있게 하는 시기군요. 가정이 있으신 분은 다른 이성에게 눈이 가지 않도록 조심하시기 바랍니다. 나의 눈도 좋지만 상대가 나를 바라보는 눈도 아름다운 시기입니다. 인기가 많고 자신의 장점이 부각되어 많은 사람들로부터 칭찬을 듣게 되는 시기입니다. 선남선녀 들은 새롭게 만나는 만남이나 연인들과의 만남이 모두 좋을 것이니 프러포즈를 받기도 하고 하기도 합니다. 좋은 결과가 있을 것입니다.`,
+              `${monthLabel} 애정이 많은 시기니 사랑을 깊이 있게 하는 시기야. 가정이 있으면 다른 이성에게 눈이 가지 않도록 조심하자. 나의 눈도 좋지만 상대가 나를 바라보는 눈도 아름다운 시기야. 인기가 많고 자신의 장점이 부각되어 많은 사람들로부터 칭찬을 듣게 돼. 선남선녀들은 새롭게 만나는 만남이나 연인들과의 만남이 모두 좋을 거니 프러포즈를 받기도 하고 하기도 해. 좋은 결과가 있을 거야.`,
             ],
           },
           brake: {
             흉: [
-              `${monthLabel} 용맹함을 다한 범이 들판으로 나섰으니 사냥꾼의 먹이 밖에 되지 않습니다. 의욕이 앞서 실수를 범할 수 있으니 매사 신중해야 합니다. 나서지 말고 몸을 낮추는 지혜를 발휘하시면 후환은 없을 것입니다. 동남쪽 방향이 길방이니 재물이 머문 곳입니다. 금년은 북쪽이 길하지만 이번 달만큼은 동남쪽이 길한 방향입니다. 자중하면 잃을 것이 없으니 다음을 기약해도 늦지 않음을 알아야 합니다.`,
-              `${monthLabel} 자신의 재물을 주머니 깊이 넣어두지 않으면 반드시 이를 노리는 사람이 있습니다. 다른 사람과 재물에 관한 거래를 절대로 하지 마시기 바랍니다. 가족 중에 환자가 생길 것이니 근심이 생기는 달입니다. 이번 달이 큰 고비인데 새롭게 일을 확장하면 해결의 실마리가 보이지 않으니 때를 기다리는 지혜를 참으로 많이 발휘하시어야 합니다. 쉬어가는 것이 결코 늦지 않음을 명심하시기 바랍니다.`,
-              `${monthLabel} 서산에 해는 지는데 갈 길은 멀고, 젓가락 놀리듯 바쁘기만 한 발걸음과 같구나. 두 사람의 마음이 서로 다르니 하는 일을 끝내 이루지 못한다. 마음이 문제이니 문제는 욕심이로다. 손해를 보거나 다툼이 있을 수 있으니 주의하시되 매사에 목성(木姓)을 가까이하지 마라. 해는 중턱으로 넘어서고 갈 길은 먼데 넘어야 할 고개는 아직도 멀리 있는 형국입니다. 두 사람의 마음이 서로 다르니 이것이 마지막 어려움이 될 듯싶습니다. 욕심을 버려야 하는데 이 또한 쉽지 않을 것입니다.`,
+              `${monthLabel} 용맹함을 다한 범이 들판으로 나섰으니 사냥꾼의 먹이밖에 안 돼. 의욕이 앞서 실수를 범할 수 있으니 매사 신중해야 해. 나서지 말고 몸을 낮추는 지혜를 발휘하면 후환이 없어. 동남쪽 방향이 길방이니 재물이 머문 곳이야. 금년은 북쪽이 길하지만 이번 달만큼은 동남쪽이 길한 방향이야. 자중하면 잃을 게 없으니 다음을 기약해도 늦지 않아.`,
+              `${monthLabel} 자신의 재물을 주머니 깊이 넣어두지 않으면 반드시 이를 노리는 사람이 있어. 다른 사람과 재물에 관한 거래를 절대로 하지 말자. 가족 중에 환자가 생길 거니 근심이 생기는 달이야. 이번 달이 큰 고비인데 새롭게 일을 확장하면 해결의 실마리가 보이지 않으니 때를 기다리는 지혜를 많이 발휘해야 해. 쉬어가는 게 결코 늦지 않아.`,
+              `${monthLabel} 서산에 해는 지는데 갈 길은 멀고, 젓가락 놀리듯 바쁘기만 한 발걸음과 같아. 두 사람의 마음이 서로 다르니 하는 일을 끝내 이루지 못해. 마음이 문제인데 문제는 욕심이야. 손해를 보거나 다툼이 있을 수 있으니 주의하되 매사에 목성(木姓)을 가까이하지 말자. 해는 중턱으로 넘어서고 갈 길은 먼데 넘어야 할 고개는 아직도 멀리 있어. 두 사람의 마음이 서로 다르니 이것이 마지막 어려움이 될 듯해. 욕심을 버려야 하는데 이 또한 쉽지 않아.`,
             ],
             중: [
-              `${monthLabel} 흉함이 변하여 길함이 되니 세상일이 태평하고 마음이 평안한 시기입니다. 모처럼 근심 걱정이 사라지니 새로운 계획을 세우기에 좋습니다. 그러나 서두르면 해가 될 것이니 경거망동하여 외부로 바쁘게 돌면 손실이 있을 것입니다. 마지막 풍파가 한 번은 더 있을 것이니 길하다고 하여 마음을 놓아서는 안 됩니다. 집안에 있어서 새로운 계획을 세우면 후 일이 더욱 좋으니 명심하시기 바랍니다.`,
+              `${monthLabel} 흉함이 변하여 길함이 되니 세상일이 태평하고 마음이 평안한 시기야. 모처럼 근심 걱정이 사라지니 새로운 계획을 세우기에 좋아. 그러나 서두르면 해가 되니 경거망동해서 외부로 바쁘게 돌면 손실이 있어. 마지막 풍파가 한 번은 더 있을 거니 길하다고 해서 마음을 놓으면 안 돼. 집안에 있어서 새로운 계획을 세우면 후일이 더욱 좋으니 명심하자.`,
             ],
           },
           recover: {
             중: [
-              `${monthLabel} 하늘과 땅이 서로 화합하여 그 이익이 재물이나 일로써 생길 운세입니다. 작은 것을 버려 큰 것을 취하는 운세이니 기존의 것은 잊어버려도 좋을 것입니다. 새로이 투자하는 부분은 아직은 서둘러서는 안 됩니다. 매사가 좋음이 더 많으니 손익을 따지면 반드시 얻음이 클 것이지만 신규로 재물을 들이어 얻는 것은 위험수가 있으니 자중이 필요합니다. 서쪽으로 가게 되면 불리하니 서쪽 방향으로 움직이는 일은 경계하고 피해야 할 것입니다.`,
-              `${monthLabel} 마른 샘에 비가 내리는 형국입니다. 비로소 막혔던 일이 풀리고 시원함을 느끼게 되는 달입니다. 문제가 되었던 것은 해결의 실마리가 보이는 시기입니다. 한 해의 시작이 일 년을 좌우하는데 올해는 일이 잘 풀릴 징조가 보이는군요. 자신의 위치와 지위가 크게 향상이 되어 뜻한 바를 실행에 옮길 준비가 갖추어집니다. 좋은 인연도 만나는 시기이니 대인적인 교류가 많아질 것입니다.`,
-              `${monthLabel} 주변에 역마가 끼어 나를 괴롭히는 자가 있으니 재물이 나가지 않으나 마음이 상할 기운이 있습니다. 가까운 벗이 나를 의지하니 돕지 않으면 안 되는 일이 생길 것입니다. 마음을 크게 먹고 진심으로 도우면 친구도 좋고 나도 좋은 일이 후에 있을 것입니다. 음덕으로 쌓아 후일의 기쁨으로 삼고자 하면 액운은 아니니 덕을 쌓는 시기로 삼으시고 자신의 것보다는 후 일의 덕을 생각하며 보내시기 바랍니다. 머지않아 큰 기쁨이 옮을 알아야 합니다.`,
-              `${monthLabel} 상하가 화목하여 집안에 문제가 없습니다. 화목이 곧 길운의 시작이니 가족 중에 근심 있는 자의 고민이 사라질 것입니다. 황룡이 구슬을 가지고 노는 괘를 얻었으니 곧 이루고자 하는 것을 이룰 수 있을 것입니다. 다만 때가 아님이 아쉬움으로 남으니 서둘러 일을 실천에 옮기는 일은 없도록 하시기 바랍니다. 준비를 함에 만전을 기해야 함을 잊지 마시기 바랍니다.`,
+              `${monthLabel} 하늘과 땅이 서로 화합해서 그 이익이 재물이나 일로 생길 운세야. 작은 걸 버려 큰 걸 취하는 운세니 기존 건 잊어버려도 돼. 새로 투자하는 부분은 아직 서둘러선 안 돼. 매사가 좋음이 더 많으니 손익을 따지면 반드시 얻음이 클 거지만 신규로 재물을 들여 얻는 건 위험수가 있으니 자중이 필요해. 서쪽으로 가면 불리하니 서쪽 방향으로 움직이는 일은 경계하고 피하자.`,
+              `${monthLabel} 마른 샘에 비가 내리는 형국이야. 비로소 막혔던 일이 풀리고 시원함을 느끼게 되는 달이야. 문제가 됐던 건 해결의 실마리가 보이는 시기야. 한 해의 시작이 일 년을 좌우하는데 올해는 일이 잘 풀릴 징조가 보여. 자신의 위치와 지위가 크게 향상되어 뜻한 바를 실행에 옮길 준비가 갖춰져. 좋은 인연도 만나는 시기니 대인적인 교류가 많아질 거야.`,
+              `${monthLabel} 주변에 역마가 끼어 나를 괴롭히는 자가 있으니 재물이 나가지 않으나 마음이 상할 기운이 있어. 가까운 벗이 나를 의지하니 돕지 않으면 안 되는 일이 생겨. 마음을 크게 먹고 진심으로 도우면 친구도 좋고 나도 좋은 일이 후에 있을 거야. 음덕으로 쌓아 후일의 기쁨으로 삼고자 하면 액운은 아니니 덕을 쌓는 시기로 삼고 자신의 것보다는 후일의 덕을 생각하며 보내자. 머지않아 큰 기쁨이 올 거야.`,
+              `${monthLabel} 상하가 화목해서 집안에 문제가 없어. 화목이 곧 길운의 시작이니 가족 중에 근심 있는 자의 고민이 사라질 거야. 황룡이 구슬을 가지고 노는 괘를 얻었으니 곧 이루고자 하는 걸 이룰 수 있을 거야. 다만 때가 아님이 아쉬움으로 남으니 서둘러 일을 실천에 옮기는 일은 없도록 하자. 준비를 함에 만전을 기해야 함을 잊지 말자.`,
             ],
           },
           steady: {
             중: [
-              `${monthLabel} 유지가 이기는 달입니다. 기본만 지켜도 충분합니다. 루틴 3개(수면/식사/정리)만 챙겨야 합니다. 작은 이익을 모아 큰 복으로 바꿀 시기입니다. 세운이 평온하니 성실이 곧 복입니다.`,
-              `${monthLabel} 큰 변화보다 작은 개선이 맞습니다. 5% 개선 목표로 가면 꾸준히 이깁니다. 욕심을 줄이면 오히려 얻음이 있습니다. 세운이 안정이니 작은 성실이 큰 복이 됩니다.`,
+              `${monthLabel} 유지가 이기는 달이야. 기본만 지켜도 충분해. 루틴 3개(수면/식사/정리)만 챙기면 돼. 작은 이익을 모아 큰 복으로 바꿀 시기야. 세운이 평온하니 성실이 곧 복이야.`,
+              `${monthLabel} 큰 변화보다 작은 개선이 맞아. 5% 개선 목표로 가면 꾸준히 이겨. 욕심을 줄이면 오히려 얻음이 있어. 세운이 안정이니 작은 성실이 큰 복이 돼.`,
             ],
           },
         };
@@ -3376,7 +3392,7 @@
           modeTemplates[Object.keys(modeTemplates)[0]];
         const seed = `${month}|${seasonElem}|${mode}|${luckTag}`;
         const idx = hashToIndex(seed, luckTemplates.length);
-        return luckTemplates[idx] || "";
+        return casualizeText(luckTemplates[idx] || "");
       }
 
       function makeMonthlyLuck(person) {
@@ -3426,11 +3442,13 @@
                   m.tags
                 )}</div>
               </div>
-              <p class="lead">${escapeHtml(m.summary)}</p>
+              <p class="lead" style="font-size: 17px; line-height: 1.6;">${escapeHtml(
+                m.summary
+              )}</p>
               ${
                 m.monthDetails
-                  ? `<div style="margin-top: 16px; padding: 12px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 3px solid var(--accent);">
-                      <p class="mini" style="line-height: 1.8; margin: 0; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
+                  ? `<div style="margin-top: 16px; padding: 14px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 3px solid var(--accent);">
+                      <p style="font-size: 15px; line-height: 1.9; margin: 0; color: rgba(15, 23, 42, 0.85);">${escapeHtml(
                         m.monthDetails
                       )}</p>
                     </div>`
@@ -3438,8 +3456,8 @@
               }
               ${
                 m.extra
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
-                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                  ? `<div style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p style="font-size: 14px; margin: 0; line-height: 1.8; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
                        m.extra
                      )}</p>
                    </div>`
@@ -3447,8 +3465,8 @@
               }
               ${
                 m.detail
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
-                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                  ? `<div style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p style="font-size: 14px; margin: 0; line-height: 1.8; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
                        m.detail
                      )}</p>
                    </div>`
@@ -3456,8 +3474,8 @@
               }
               ${
                 m.tip
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
-                     <p class="mini" style="margin: 0; line-height: 1.7; font-weight: 600; color: rgba(15, 23, 42, 0.85);">
+                  ? `<div style="margin-top: 12px; padding: 12px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
+                     <p style="font-size: 14px; margin: 0; line-height: 1.8; font-weight: 600; color: rgba(15, 23, 42, 0.9);">
                        <span style="color: rgba(34, 197, 94, 0.9);">💡 팁:</span> ${escapeHtml(
                          m.tip
                        )}
@@ -3850,8 +3868,8 @@
                 <p class="mini" style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.5); border-radius: 8px; line-height: 1.6;">
                   ${
                     meta.anchorApplied
-                      ? "✅ <strong>신토정비결 보정 적용</strong><br/>회원님의 사주 간지 조합은 신토정비결(전통 사주 해석서)에 기록된 특별한 패턴입니다. 일반 계산 방식 대신 신토정비결에서 정한 오행 분포값을 사용하여 더 정확한 해석을 제공합니다."
-                      : "ℹ️ <strong>신토정비결 보정 미적용</strong><br/>회원님의 사주 간지 조합에 대한 신토정비결 기준 데이터가 없어 일반 계산 방식으로 오행을 산출했습니다."
+                      ? "✅ <strong>신토정비결 보정 적용</strong><br/>너의 사주 간지 조합은 신토정비결(전통 사주 해석서)에 기록된 특별한 패턴이야. 일반 계산 대신 신토정비결에서 정한 오행 분포값을 써서 더 정확하게 보여줘."
+                      : "ℹ️ <strong>신토정비결 보정 미적용</strong><br/>너의 사주 간지 조합에 대한 신토정비결 기준 데이터가 없어서 일반 계산으로 오행을 산출했어."
                   }
                 </p>
               </div>
@@ -3863,7 +3881,7 @@
                   신토정비결 보정 <span class="chip" style="font-size: 11px; padding: 2px 8px;">미적용</span>
                 </div>
                 <p class="mini">간지: ${escapeHtml(meta.anchorKey)}</p>
-                <p class="mini">해당 간지 조합에 대한 신토정비결 보정 데이터가 없습니다.</p>
+                <p class="mini">해당 간지 조합에 대한 신토정비결 보정 데이터가 없어.</p>
               </div>
             `;
           }
@@ -4309,20 +4327,17 @@
             : "—";
         const seasonLine =
           person.seasonTopElem && person.topElem === person.seasonTopElem
-            ? "월령과 강점이 같아 자연스럽게 힘이 실리는 흐름입니다."
-            : "월령과 강점이 달라 조율과 보완이 중요합니다.";
+            ? "월령과 강점이 같아서 자연스럽게 힘이 실리는 흐름이야."
+            : "월령과 강점이 달라서 조율과 보완이 중요해.";
         const currentLine = formatElemLine("현재 오행:", person.elements);
         const dayStemLine = person.dayStem
           ? `일간: ${person.dayStem}(${person.dayElem}) · ${person.strength}`
           : "일간: —";
         const tenGodLine = person.dayStem
-          ? `십성: 연 ${tenGod(
+          ? `십성: 연 ${tenGod(person.dayStem, person.yearStem)} · 월 ${tenGod(
               person.dayStem,
-              person.yearStem
-            )} · 월 ${tenGod(person.dayStem, person.monthStem)} · 일 ${tenGod(
-              person.dayStem,
-              person.dayStem
-            )} · 시 ${
+              person.monthStem
+            )} · 일 ${tenGod(person.dayStem, person.dayStem)} · 시 ${
               person.hourStem ? tenGod(person.dayStem, person.hourStem) : "—"
             }`
           : "십성: —";
@@ -4338,10 +4353,12 @@
         const relationLine = `합: ${hap.length ? hap.join(", ") : "—"} · 충: ${
           chung.length ? chung.join(", ") : "—"
         } · 형: ${hyeong.length ? hyeong.join(", ") : "—"}`;
-        const relationExplain = `합은 서로 돕는 결이라 호흡이 부드럽고, 충은 부딪힘이 생겨 타이밍 조절이 필요합니다. 형은 마찰이나 긴장이 생기기 쉬운 결입니다. ${
+        const relationExplain = `합은 서로 돕는 결이라 호흡이 부드럽고, 충은 부딪힘이 생겨 타이밍 조절이 필요해. 형은 마찰이나 긴장이 생기기 쉬운 결이야. ${
           hyeong.length
-            ? `현재 형: ${hyeong.join(", ")}이므로 말투/속도를 줄이면 충돌이 줄어듭니다.`
-            : "형이 적어 큰 마찰은 덜합니다."
+            ? `현재 형: ${hyeong.join(
+                ", "
+              )}이니까 말투/속도를 줄이면 충돌이 줄어들어.`
+            : "형이 적어서 큰 마찰은 덜해."
         }`;
         return `
           <div class="rule-card">
@@ -4460,7 +4477,7 @@
         );
         totalParts.push("일이 생기면 피하지 말아야 합니다.");
 
-        const total = totalParts.join(" ");
+        const total = casualizeText(totalParts.join(" "));
 
         // 재물운 생성
         let moneyParts = [];
@@ -4492,7 +4509,7 @@
         moneyParts.push(
           "그래도 지출이 상당히 많은 성향이 있으므로 재물이 나가는 것을 잘 관리한다면 결국 들어오는 재물이 나가는 재물보다 많아지게 되어 재물을 축적할 수가 있을 것입니다."
         );
-        const money = moneyParts.join(" ");
+        const money = casualizeText(moneyParts.join(" "));
 
         // 직장/사업운 생성
         let workParts = [];
@@ -4527,7 +4544,7 @@
         workParts.push(
           "확장의 준비를 해야 하지만 무리하지 말고 치밀하게 계획하고 천천히 여유를 갖고 진행하시기 바랍니다."
         );
-        const work = workParts.join(" ");
+        const work = casualizeText(workParts.join(" "));
 
         // 가정/건강운 생성
         let familyParts = [];
@@ -4557,7 +4574,7 @@
         familyParts.push(
           "병원에 오래 계시지 않도록 각별히 신경 쓰시고 증세가 오면 반드시 병원을 찾아 병을 키우는 일이 없도록 하시기 바랍니다."
         );
-        const family = familyParts.join(" ");
+        const family = casualizeText(familyParts.join(" "));
 
         // 이성/대인관계 생성
         let relationParts = [];
@@ -4594,7 +4611,7 @@
         relationParts.push(
           "청춘 남녀는 올해에 좋은 인연을 만나게 될 수 있고 애정관계로 발전하지 않더라도 좋은 친구나 좋은 인간관계로 지속될 수가 있을 것입니다."
         );
-        const relation = relationParts.join(" ");
+        const relation = casualizeText(relationParts.join(" "));
 
         return { total, money, work, family, relation };
       }
@@ -4611,11 +4628,11 @@
 
       function makeActionTips(person) {
         return {
-          total: `핵심 행동: ${person.topElem} 기운을 중심으로 한 가지 목표를 먼저 세우고, 끝까지 흔들지 않는 것이 길합니다.`,
-          money: `지출 관리: ${person.weakElem} 보완용 루틴을 하나 고정하면 새는 돈이 줄고 흐름이 안정됩니다.`,
-          work: `업무 전략: ${person.topElem} 강점을 살릴 수 있는 역할을 먼저 맡아야 성과가 빠르게 드러납니다.`,
-          family: `건강 루틴: 수면/식사 중 하나를 고정하면 체력과 마음이 함께 안정됩니다.`,
-          relation: `관계 팁: 선을 분명히 하고 약속을 지키면 오해가 줄고 신뢰가 깊어집니다.`,
+          total: `핵심 행동: ${person.topElem} 기운 중심으로 한 가지 목표만 잡고 끝까지 밀어.`,
+          money: `지출 관리: ${person.weakElem} 보완 루틴 하나만 고정하면 새는 돈이 줄어.`,
+          work: `업무 전략: ${person.topElem} 강점을 살릴 수 있는 역할을 먼저 맡아.`,
+          family: `건강 루틴: 수면/식사 중 하나만 고정해도 체력과 마음이 안정돼.`,
+          relation: `관계 팁: 선을 분명히 하고 약속 지키면 오해가 줄어.`,
         };
       }
 
@@ -4659,7 +4676,7 @@
 
       function renderReportBlock(label, person, result) {
         if (!result) return "";
-        const targetYear = 2026;
+        const targetYear = new Date().getFullYear();
         const birthYear = Number(result.input.local.slice(0, 4));
         const age = toKoreanAge(targetYear, birthYear);
         const genderLabel = person.gender === "female" ? "여자" : "남자";
@@ -4721,41 +4738,32 @@
         const chungText = coreChung.length ? coreChung.join(", ") : "—";
         const hyeongText = coreHyeong.length ? coreHyeong.join(", ") : "—";
         const hapInterpret = coreHap.length
-          ? "합이 있어 협력과 회복의 기운이 따릅니다."
-          : "합이 적어 도움과 완충이 약하니 스스로 지키는 것이 중요합니다.";
+          ? "합이 있어서 협력/회복 기운이 붙어."
+          : "합이 적어서 도움/완충이 약해. 스스로 지키는 게 중요해.";
         const chungInterpret = coreChung.length
-          ? "충이 있어 타이밍이 엇갈리기 쉬우니 확인을 거듭해야 합니다."
-          : "충이 적어 급한 충돌은 드뭅니다. 다만 방심은 금물입니다.";
+          ? "충이 있어서 타이밍이 엇갈리기 쉬워. 확인을 거듭해야 해."
+          : "충이 적어서 급한 충돌은 덜해. 그래도 방심은 금물이야.";
         const hyeongInterpret = coreHyeong.length
-          ? "형이 있어 감정의 마찰이 생길 수 있으니 언행을 절제해야 합니다."
-          : "형이 적어 큰 마찰은 적습니다. 작은 불씨를 먼저 끄면 길합니다.";
+          ? "형이 있어서 감정 마찰이 생길 수 있어. 언행을 절제해야 해."
+          : "형이 적어서 큰 마찰은 덜해. 작은 불씨를 먼저 끄는 게 좋아.";
         const hapAction = coreHap.length
-          ? "합이 있는 날은 협업/합의를 먼저 잡는 것이 유리합니다. 사례: 계약·소개·동업 제안."
-          : "합이 약하니 독단을 경계하고 조력자를 구하는 것이 좋습니다. 사례: 중요한 결정은 보류.";
+          ? "합이 있는 날은 협업/합의를 먼저 잡는 게 유리해. 예: 계약·소개·동업 제안."
+          : "합이 약하니 독단을 경계하고 조력자를 구해. 예: 중요한 결정은 보류.";
         const chungAction = coreChung.length
-          ? "충이 있는 날은 일정·계약을 한 번 더 점검해야 합니다. 사례: 이동·이사·변경 건."
-          : "충이 적어 급변은 덜하나, 확인을 생활화해야 합니다. 사례: 약속 시간 재확인.";
+          ? "충이 있는 날은 일정·계약을 한 번 더 점검해야 해. 예: 이동·이사·변경 건."
+          : "충이 적어 급변은 덜하지만, 확인은 습관처럼 해. 예: 약속 시간 재확인.";
         const hyeongAction = coreHyeong.length
-          ? "형이 있는 날은 말의 톤과 속도를 줄여 마찰을 피해야 합니다. 사례: 가족·동료 대화."
-          : "형이 적어도 감정의 여지를 남기면 길합니다. 사례: 갈등은 한 박자 늦게.";
+          ? "형이 있는 날은 말의 톤과 속도를 줄여 마찰을 피해. 예: 가족·동료 대화."
+          : "형이 적어도 감정의 여지를 남기면 좋아. 예: 갈등은 한 박자 늦게.";
         const coreRelationLine = `합 ${
           coreHap.length ? coreHap.join(", ") : "—"
         } · 충 ${coreChung.length ? coreChung.join(", ") : "—"} · 형 ${
           coreHyeong.length ? coreHyeong.join(", ") : "—"
         }`;
-        const coreInterpret =
-          coreChung.length || coreHyeong.length
-            ? "충/형 기운이 있어 타이밍과 감정 조율이 관건입니다."
-            : coreHap.length
-            ? "합 기운이 살아 있어 협력과 회복력이 좋습니다."
-            : "특이한 합/충/형이 적어 흐름이 비교적 평온합니다.";
-        const narrative = makeYearNarrative(person, targetYear);
-        const totalFortune = `총운은 ${person.topElem}이 힘을 얻고 ${
-          person.weakElem
-        }을 보완하는 흐름입니다. 세운 ${
-          ganzhiYear(targetYear).text
-        }의 기운이 들어오니 기준을 바로 세우면 복이 따릅니다. 조급함을 줄이고 한 가지 목표를 끝까지 붙들면 실이 적고 득이 많습니다.`;
-        const tips = makeActionTips(person);
+        const essenceSummary = `너는 ${person.dayElem} 기운이 본질이야. ${person.topElem} 기운이 강점으로 드러나고, ${person.weakElem}은(는) 의식적으로 보완하면 성장 폭이 커져.`;
+        const essenceTone = `기본 성향은 ${person.topElem} 중심으로 발현돼. 큰 장점은 추진력과 실행력이고, 약점은 균형이 흔들릴 때 드러나. 기준을 세우고 지키면 성향이 단단해져.`;
+        const essenceStrength = `강점은 ${person.topElem} 장점을 살릴 때 빠르게 드러나고, 약점은 ${person.weakElem}이 흔들릴 때 나타나. 한 가지 목표를 끝까지 붙들면 기운이 안정돼.`;
+        const essenceDirection = `추천 방향은 ${person.topElem}을(를) 활용하는 분야야. ${person.weakElem} 보완 루틴 하나만 고정해도 체감 성과가 빨리 올라와.`;
         const keywords = makeReportKeywords(person);
         const profile = makeElementProfile(person.elements);
         const evidence = makeElementEvidence(
@@ -4766,123 +4774,10 @@
         );
         const totalSum =
           Object.values(person.elements).reduce((a, b) => a + b, 0) || 1;
-        const monthList = makeMonthlyLuck(person)
-          .map((m) => {
-            const basis = `근거: 월령 ${m.seasonElem} · 강 ${person.topElem} · 약 ${person.weakElem}`;
-            return `<div class="rule-card">
-              <div class="row" style="justify-content: space-between; align-items: center;">
-                <div class="section-title">${m.month}월 · ${
-              m.seasonElem
-            } 흐름</div>
-                <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
-                  m.tags
-                )}</div>
-              </div>
-              <p class="lead">${escapeHtml(m.summary)}</p>
-              ${
-                m.monthDetails
-                  ? `<div style="margin-top: 16px; padding: 12px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 3px solid var(--accent);">
-                      <p class="mini" style="line-height: 1.8; margin: 0; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
-                        m.monthDetails
-                      )}</p>
-                    </div>`
-                  : ""
-              }
-              ${
-                m.extra
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
-                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
-                       m.extra
-                     )}</p>
-                   </div>`
-                  : ""
-              }
-              ${
-                m.detail
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
-                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
-                       m.detail
-                     )}</p>
-                   </div>`
-                  : ""
-              }
-              ${
-                m.tip
-                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
-                     <p class="mini" style="margin: 0; line-height: 1.7; font-weight: 600; color: rgba(15, 23, 42, 0.85);">
-                       <span style="color: rgba(34, 197, 94, 0.9);">💡 팁:</span> ${escapeHtml(
-                         m.tip
-                       )}
-                     </p>
-                   </div>`
-                  : ""
-              }
-              <p class="mini">${escapeHtml(basis)}</p>
-              <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
-                <button class="btn compact" data-month="${
-                  m.month
-                }" data-month-index="${
-              m.month - 1
-            }" style="font-size: 12px; padding: 6px 12px;">
-                  📋 공유하기
-                </button>
-              </div>
-              <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
-                <button class="btn compact" data-month="${
-                  m.month
-                }" data-month-index="${
-              m.month - 1
-            }" style="font-size: 12px; padding: 6px 12px;">
-                  📋 공유하기
-                </button>
-              </div>
-            </div>`;
-          })
-          .join("");
-
-        const daewoonRaw = String(person.daewoonStartAge ?? "").trim();
-        let daewoonLine = "대운 시작 나이를 입력해줘.";
-        let daewoonTable = "";
-        if (daewoonRaw !== "") {
-          const daewoonStart = Number(daewoonRaw);
-          const startYear = birthYear + daewoonStart - 1;
-          const blocks = [];
-          const tableRows = [];
-          for (let i = 0; i < 10; i++) {
-            const ageStart = daewoonStart + i * 10;
-            const ganji = ganzhiYear(startYear + i * 10);
-            const ganjiText = ganji.text;
-            blocks.push(`${ageStart}세~ ${ganjiText}`);
-            tableRows.push(
-              `<tr><th>${ageStart}세~</th><td>${ganjiText}</td><td>${
-                ganji.stem
-              }(${STEM_ELEM[ganji.stem]}) ${ganji.branch}(${
-                BRANCH_ELEM[ganji.branch]
-              })</td></tr>`
-            );
-          }
-          daewoonLine = `대운(십년단위로 변화하는 운세) : 회원님은 ${daewoonStart}살을 기준으로 하여 운세의 큰 변화가 일어납니다.`;
-          daewoonTable = `
-            <table class="report-table" style="margin-top: 12px;">
-              <thead>
-                <tr>
-                  <th>나이</th>
-                  <th>간지</th>
-                  <th>상세</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${tableRows.join("")}
-              </tbody>
-            </table>
-            <p class="mini" style="margin-top: 8px;">※ 운세 결과로 보여지는 날짜는 양력 기준입니다.</p>
-          `;
-        }
-
         return `
           <div class="rule-card">
-            <div class="section-title">${targetYear} 신토정비결 · ${label}</div>
-            <div class="mini">회원님(${genderLabel}, ${age}세)</div>
+            <div class="section-title">본질 리포트 · ${label}</div>
+            <div class="mini">너(${genderLabel}, ${age}세)</div>
             <div class="mini">양력: ${solar} · 음력: ${escapeHtml(
           lunar
         )} · 태어난 시간: ${hourBranchDisplay}</div>
@@ -4941,13 +4836,6 @@
           profile.mid
         } · 약 ${profile.weak}</div>
             <div class="mini">${escapeHtml(evidence)}</div>
-            <div class="mini">세운 천간 십성: ${
-              ganzhiYear(targetYear).stem
-            } · ${
-          person.dayStem
-            ? tenGod(person.dayStem, ganzhiYear(targetYear).stem)
-            : "—"
-        }</div>
             <div class="mini">핵심 키워드: ${escapeHtml(keywords)}</div>
             <div class="report-section">
               <h3>명리 핵심</h3>
@@ -4989,43 +4877,14 @@
               <p class="mini">형 지침: ${escapeHtml(hyeongAction)}</p>
             </div>
             <div class="report-section">
-              <h3>총운</h3>
-              <p class="mini">${escapeHtml(totalFortune)}</p>
-              <p class="mini">${escapeHtml(tips.total)}</p>
+              <h3>기본 성향</h3>
+              <p class="mini">${escapeHtml(essenceSummary)}</p>
+              <p class="mini">${escapeHtml(essenceTone)}</p>
             </div>
             <div class="report-section">
               <h3>총론</h3>
-              <p class="mini">${escapeHtml(narrative.total)}</p>
-              <p class="mini">${escapeHtml(tips.total)}</p>
-            </div>
-            <div class="report-section">
-              <h3>재물운</h3>
-              <p class="mini">${escapeHtml(narrative.money)}</p>
-              <p class="mini">${escapeHtml(tips.money)}</p>
-            </div>
-            <div class="report-section">
-              <h3>직장 / 사업운</h3>
-              <p class="mini">${escapeHtml(narrative.work)}</p>
-              <p class="mini">${escapeHtml(tips.work)}</p>
-            </div>
-            <div class="report-section">
-              <h3>가정 / 건강운</h3>
-              <p class="mini">${escapeHtml(narrative.family)}</p>
-              <p class="mini">${escapeHtml(tips.family)}</p>
-            </div>
-            <div class="report-section">
-              <h3>이성 / 대인관계</h3>
-              <p class="mini">${escapeHtml(narrative.relation)}</p>
-              <p class="mini">${escapeHtml(tips.relation)}</p>
-            </div>
-            <div class="report-section">
-              <h3>대운(간이)</h3>
-              <p class="mini">${escapeHtml(daewoonLine)}</p>
-              ${daewoonTable}
-            </div>
-            <div class="report-section">
-              <h3>월별 세운</h3>
-              ${monthList}
+              <p class="mini">${escapeHtml(essenceStrength)}</p>
+              <p class="mini">${escapeHtml(essenceDirection)}</p>
             </div>
           </div>
         `;
@@ -5154,9 +5013,9 @@
         const decadeSummary = decades
           .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
           .join(" · ");
-        const daewoonNarrative = `대운은 10년 단위로 흐르는 큰 물줄기입니다. ${
+        const daewoonNarrative = `대운은 10년 단위로 흐르는 큰 물줄기야. ${
           decadeSummary || "—"
-        }의 결이 이어지니, 이 시기에는 방향을 크게 잡고 흔들림을 줄여야 합니다. 큰 결정은 대운의 흐름과 맞춰야 길이 열립니다.`;
+        }의 결이 이어지니까, 이 시기에는 방향을 크게 잡고 흔들림을 줄여야 해. 큰 결정은 대운 흐름에 맞춰야 길이 열려.`;
         const yearLines = flows
           .map(
             (f) =>
@@ -5166,7 +5025,7 @@
           )
           .join("<br/>");
         const sewoonNarrative =
-          "세운은 해마다 결이 달라지는 흐름입니다. 강한 해에는 확장과 실행을, 약한 해에는 정리와 회복을 택해야 실이 적습니다. 해마다 기운이 바뀌니, 같은 방법을 고집하지 말고 흐름에 맞춰 조율하는 것이 길합니다.";
+          "세운은 해마다 결이 달라지는 흐름이야. 강한 해에는 확장과 실행을, 약한 해에는 정리와 회복을 택해야 실이 적어. 해마다 기운이 바뀌니까 같은 방법을 고집하지 말고 흐름에 맞춰 조율하는 게 좋아.";
 
         return `
           <div class="rule-card">
@@ -5235,6 +5094,7 @@
           B_season: b.seasonTopElem,
         });
         renderMonthly({ elements: coupleElements });
+        renderReportCard(a, b);
         renderPillars(aPillarsEl, state.aResult);
         renderPillars(bPillarsEl, state.bResult);
 
@@ -5260,11 +5120,11 @@
         renderLuckFlowCard(a, null);
         totalScoreEl.textContent = "—";
         summarySub.textContent = "2026 흐름 · 상세 해석";
-        summaryMain.textContent = `2026년은 ${top} 기운이 힘을 얻고, ${weak}을(를) 보완하면 복이 따르는 해입니다. 일간 ${
+        summaryMain.textContent = `2026년은 ${top} 기운이 힘을 얻고, ${weak}을(를) 보완하면 복이 따르는 해야. 일간 ${
           a.dayStem || "—"
         }의 강약은 ${
           a.strength
-        }이니, 무리한 확장보다 기준을 세우고 한 가지 목표를 끝까지 밀어야 실이 적습니다. 세운의 결을 읽고 속도를 조절하면 기회가 쌓이고 결과가 단단해집니다.`;
+        }이니까, 무리한 확장보다 기준을 세우고 한 가지 목표를 끝까지 밀어야 실이 적어. 세운의 결을 읽고 속도를 조절하면 기회가 쌓이고 결과가 단단해져.`;
         summaryPills.innerHTML = [
           `핵심 오행: ${top}`,
           `약한 오행: ${weak}`,
@@ -5276,6 +5136,7 @@
         todayCoupleLine.textContent = "—";
         todayCoupleMeta.textContent = "";
         renderMonthly(a);
+        renderReportCard(a, null);
         renderPillars(aPillarsEl, state.aResult);
         bPillarsEl.textContent = "";
 
@@ -5312,6 +5173,7 @@
         todayCoupleMeta.textContent = `오늘 오행: ${
           getTodayElementFlow().stemElem
         }/${getTodayElementFlow().branchElem}`;
+        renderReportCard(a, null);
         renderPillars(aPillarsEl, state.aResult);
         bPillarsEl.textContent = "";
       }
@@ -5659,7 +5521,7 @@
             ? hourBranchToTime(data.aHourBranch)
             : "12:00";
           if (!data.aDate) {
-            throw new Error("A 날짜가 입력되지 않았습니다.");
+            throw new Error("A 날짜가 비어 있어.");
           }
           const aBirth = parseLocalDateTime(
             data.aDate,
@@ -5713,7 +5575,7 @@
               ? hourBranchToTime(data.bHourBranch)
               : "12:00";
             if (!data.bDate) {
-              throw new Error("B 날짜가 입력되지 않았습니다.");
+              throw new Error("B 날짜가 비어 있어.");
             }
             const bBirth = parseLocalDateTime(
               data.bDate,
@@ -5771,7 +5633,7 @@
         } catch (error) {
           console.error("계산 중 오류 발생:", error);
           alert(
-            "계산 중 오류가 발생했습니다. 입력값을 확인해주세요.\n오류: " +
+            "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: " +
               error.message
           );
         } finally {
