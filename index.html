@@ -423,30 +423,6 @@
         justify-content: space-between;
         align-items: center;
       }
-      .like-btn {
-        border: none;
-        background: linear-gradient(
-          135deg,
-          rgba(99, 102, 241, 0.15) 0%,
-          rgba(139, 92, 246, 0.15) 100%
-        );
-        color: var(--accent);
-        border-radius: var(--radius-sm);
-        padding: 6px 12px;
-        cursor: pointer;
-        font-weight: 800;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 4px rgba(99, 102, 241, 0.1);
-      }
-      .like-btn:hover {
-        background: linear-gradient(
-          135deg,
-          rgba(99, 102, 241, 0.2) 0%,
-          rgba(139, 92, 246, 0.2) 100%
-        );
-        transform: translateY(-1px);
-        box-shadow: 0 4px 8px rgba(99, 102, 241, 0.2);
-      }
       .radar {
         width: 100%;
         max-width: 420px;
@@ -578,55 +554,111 @@
       }
       .menu-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        max-width: 800px;
+        margin: 0 auto;
       }
       .menu-btn {
-        border: 2px solid rgba(15, 23, 42, 0.08);
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.98) 0%,
-          rgba(248, 250, 252, 0.98) 100%
-        );
+        border: none;
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         color: var(--text);
-        border-radius: var(--radius);
-        padding: 24px 20px;
-        text-align: left;
+        border-radius: 24px;
+        padding: 40px 32px;
+        text-align: center;
         cursor: pointer;
         font-weight: 800;
-        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1),
-          0 0 0 1px rgba(255, 255, 255, 0.5);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08),
+          0 0 0 1px rgba(15, 23, 42, 0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
         overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 280px;
       }
       .menu-btn::before {
         content: "";
         position: absolute;
         top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, transparent 0%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .menu-btn[data-mode="newyear"] {
         background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(99, 102, 241, 0.1),
-          transparent
+          135deg,
+          rgba(139, 92, 246, 0.05) 0%,
+          rgba(99, 102, 241, 0.05) 100%
         );
-        transition: left 0.5s;
+        border: 2px solid rgba(139, 92, 246, 0.15);
+      }
+      .menu-btn[data-mode="newyear"]::after {
+        content: "✨";
+        font-size: 64px;
+        position: absolute;
+        top: 32px;
+        opacity: 0.3;
+        animation: float 3s ease-in-out infinite;
+      }
+      .menu-btn[data-mode="today"] {
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.05) 0%,
+          rgba(59, 130, 246, 0.05) 100%
+        );
+        border: 2px solid rgba(34, 197, 94, 0.15);
+      }
+      .menu-btn[data-mode="today"]::after {
+        content: "🔮";
+        font-size: 64px;
+        position: absolute;
+        top: 32px;
+        opacity: 0.3;
+        animation: float 3s ease-in-out infinite;
+        animation-delay: 0.5s;
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
       }
       .menu-btn:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 16px 40px rgba(99, 102, 241, 0.15),
-          0 0 0 1px rgba(99, 102, 241, 0.2);
-        border-color: rgba(99, 102, 241, 0.3);
-        background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2),
+          0 0 0 1px rgba(99, 102, 241, 0.3);
       }
-      .menu-btn:hover::before {
-        left: 100%;
+      .menu-btn[data-mode="newyear"]:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(139, 92, 246, 0.1) 0%,
+          rgba(99, 102, 241, 0.1) 100%
+        );
+        border-color: rgba(139, 92, 246, 0.4);
+      }
+      .menu-btn[data-mode="today"]:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(34, 197, 94, 0.1) 0%,
+          rgba(59, 130, 246, 0.1) 100%
+        );
+        border-color: rgba(34, 197, 94, 0.4);
+      }
+      .menu-btn:hover::after {
+        opacity: 0.5;
+        transform: scale(1.1);
       }
       .menu-btn:active {
-        transform: translateY(-2px);
+        transform: translateY(-4px) scale(1);
       }
       .loading-overlay {
         position: fixed;
@@ -687,11 +719,32 @@
       }
       .menu-btn small {
         display: block;
-        margin-top: 8px;
-        font-size: 13px;
-        font-weight: 600;
-        color: rgba(15, 23, 42, 0.65);
-        line-height: 1.5;
+        margin-top: 16px;
+        font-size: 15px;
+        font-weight: 500;
+        color: rgba(15, 23, 42, 0.7);
+        line-height: 1.6;
+        max-width: 240px;
+      }
+      .menu-btn .menu-title {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        color: var(--text);
+        position: relative;
+        z-index: 1;
+      }
+      .menu-btn[data-mode="newyear"] .menu-title {
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .menu-btn[data-mode="today"] .menu-title {
+        background: linear-gradient(135deg, #22c55e 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
       .report-table {
         width: 100%;
@@ -740,6 +793,22 @@
       @media (max-width: 720px) {
         .wrap {
           padding: 24px 16px 40px;
+        }
+        .menu-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+          max-width: 100%;
+        }
+        .menu-btn {
+          min-height: 240px;
+          padding: 32px 24px;
+        }
+        .menu-btn .menu-title {
+          font-size: 24px;
+        }
+        .menu-btn::after {
+          font-size: 56px;
+          top: 24px;
         }
         h1 {
           font-size: 26px;
@@ -826,23 +895,18 @@
                 🔮 사주풀이
               </h1>
               <p class="mini">
-                궁합/신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를
-                보여줄게.
+                신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를 보여줄게.
               </p>
             </div>
           </div>
-          <div class="menu-grid" style="margin-top: 14px">
-            <button class="menu-btn" data-mode="compat">
-              궁합 보기
-              <small>두 사람 입력 → 궁합/오늘운세/공유</small>
-            </button>
+          <div class="menu-grid" style="margin-top: 32px">
             <button class="menu-btn" data-mode="newyear">
-              신년운세
-              <small>한 사람 입력 → 월별 흐름</small>
+              <span class="menu-title">신년운세</span>
+              <small>2026년 한 해의 흐름을<br />월별로 살펴보기</small>
             </button>
             <button class="menu-btn" data-mode="today">
-              오늘운세
-              <small>한 사람 입력 → 오늘 한 줄</small>
+              <span class="menu-title">오늘의 운세</span>
+              <small>오늘 하루의 기운과<br />행동 가이드를 확인하기</small>
             </button>
           </div>
         </div>
@@ -1002,16 +1066,7 @@
               </div>
             </div>
 
-            <div
-              class="row center"
-              style="margin-top: 24px; gap: 8px"
-              id="toneRow"
-            >
-              <span class="mini" style="white-space: nowrap">톤</span>
-              <select id="toneSelect" style="min-width: 150px">
-                <option value="couple" selected>커플 모드</option>
-                <option value="biz">동업자 모드</option>
-              </select>
+            <div class="row center" style="margin-top: 24px; gap: 8px">
               <span
                 class="mini"
                 style="font-size: 0.85rem; color: rgba(15, 23, 42, 0.5)"
@@ -1085,16 +1140,23 @@
           </div>
 
           <div class="card" id="resultTodayCard">
-            <div class="row" style="justify-content: space-between">
-              <div>
-                <h2>오늘 운세</h2>
-                <p class="lead" id="todayCoupleLine">—</p>
-                <p class="mini" id="todayCoupleMeta">—</p>
-              </div>
-              <button class="btn ghost" id="todayLuckBtn">
-                오늘 다시 보기
-              </button>
-            </div>
+            <h2 style="margin-bottom: 20px; text-align: left">
+              🔮 오늘의 운세
+            </h2>
+            <p
+              class="lead"
+              id="todayCoupleLine"
+              style="
+                font-size: 19px;
+                line-height: 1.7;
+                margin-bottom: 0;
+                font-weight: 600;
+                color: rgba(15, 23, 42, 0.9);
+              "
+            >
+              —
+            </p>
+            <div id="todayCoupleMeta" style="margin-top: 0">—</div>
           </div>
 
           <div class="grid-2" id="resultCompatGrid">
@@ -1134,28 +1196,10 @@
           </div>
         </div>
 
-        <div class="card" id="tuningCard">
-          <h2>튜닝 (학습 느낌)</h2>
-          <div class="row">
-            <span class="mini">튜닝 강도</span>
-            <input
-              type="range"
-              min="0"
-              max="2"
-              step="0.1"
-              value="1"
-              id="tuneStrength"
-            />
-            <span id="tuneLabel" class="mini">1.0</span>
-            <button class="btn outline" id="tuneReset">초기화</button>
-          </div>
-          <p class="mini" id="tuneStatus"></p>
-        </div>
-
         <div class="card" id="shareCard" style="margin-top: 48px">
           <h2>공유 · PDF</h2>
           <div class="row">
-            <button class="btn" id="shareBtn">공유 카드 만들기</button>
+            <button class="btn" id="shareBtn">공유</button>
             <button class="btn outline" id="pdfBtn">PDF 저장</button>
           </div>
           <p class="mini share-note" id="shareStatus"></p>
@@ -1195,7 +1239,6 @@
       const inputDesc = document.getElementById("inputDesc");
       const panelA = document.getElementById("panelA");
       const panelB = document.getElementById("panelB");
-      const toneRow = document.getElementById("toneRow");
 
       const aDate = document.getElementById("aDate");
       const aHourBranch = document.getElementById("aHourBranch");
@@ -1213,7 +1256,6 @@
       const bHiddenMode = document.getElementById("bHiddenMode");
       const bTzOffset = document.getElementById("bTzOffset");
       const bDstMode = document.getElementById("bDstMode");
-      const toneSelect = document.getElementById("toneSelect");
       const calcBtn = document.getElementById("calcBtn");
       const backToMenu = document.getElementById("backToMenu");
       const clearSaved = document.getElementById("clearSaved");
@@ -1240,11 +1282,6 @@
       const summaryPills = document.getElementById("summaryPills");
       const ruleList = document.getElementById("ruleList");
       const monthlyList = document.getElementById("monthlyList");
-      const tuneStrength = document.getElementById("tuneStrength");
-      const tuneLabel = document.getElementById("tuneLabel");
-      const tuneReset = document.getElementById("tuneReset");
-      const tuneStatus = document.getElementById("tuneStatus");
-      const todayLuckBtn = document.getElementById("todayLuckBtn");
       const shareBtn = document.getElementById("shareBtn");
       const shareStatus = document.getElementById("shareStatus");
       const pdfBtn = document.getElementById("pdfBtn");
@@ -1256,7 +1293,6 @@
       const resultABCard = document.getElementById("resultABCard");
       const resultRulesCard = document.getElementById("resultRulesCard");
       const resultMonthlyCard = document.getElementById("resultMonthlyCard");
-      const tuningCard = document.getElementById("tuningCard");
       const loadingOverlay = document.getElementById("loadingOverlay");
 
       /* ======================================================
@@ -1402,6 +1438,16 @@
         if (OVERCOME[b] === a) return "눌림";
         if (a === b) return "동";
         return "중립";
+      }
+      function scoreAtLeast(value, min, span) {
+        if (value <= min) return 0;
+        if (value >= min + span) return 1;
+        return (value - min) / span;
+      }
+      function scoreAtMost(value, max, span) {
+        if (value >= max) return 0;
+        if (value <= max - span) return 1;
+        return (max - value) / span;
       }
       function elemFromIdSuffix(suffix) {
         const map = {
@@ -1605,19 +1651,39 @@
             }[c])
         );
       }
-      function casualizeText(text) {
+      function softenText(text) {
         if (!text) return text;
         return String(text)
-          .replace(/입니다\./g, "이야.")
-          .replace(/됩니다\./g, "돼.")
-          .replace(/합니다\./g, "해.")
-          .replace(/하십시오\./g, "해.")
-          .replace(/하세요\./g, "해.")
-          .replace(/하시기 바랍니다\./g, "해.")
-          .replace(/해야 합니다\./g, "해야 해.")
-          .replace(/바랍니다\./g, "바래.")
-          .replace(/입니다/g, "이야")
-          .replace(/합니다/g, "해");
+          .replaceAll("손해", "부담")
+          .replaceAll("손실", "부담")
+          .replaceAll("낭패", "아쉬움")
+          .replaceAll("위기", "변화")
+          .replaceAll("경계", "유의")
+          .replaceAll("주의", "유의")
+          .replaceAll("조심", "유의")
+          .replaceAll("무리", "과하게")
+          .replaceAll("충돌", "마찰")
+          .replaceAll("부딪힘", "엇갈림")
+          .replaceAll("실수", "작은 아쉬움")
+          .replaceAll("불안", "조심스러움")
+          .replaceAll("근심", "걱정")
+          .replaceAll("문제", "과제");
+      }
+      function casualizeText(text) {
+        if (!text) return text;
+        return softenText(
+          String(text)
+            .replace(/입니다\./g, "이야.")
+            .replace(/됩니다\./g, "돼.")
+            .replace(/합니다\./g, "해.")
+            .replace(/하십시오\./g, "해.")
+            .replace(/하세요\./g, "해.")
+            .replace(/하시기 바랍니다\./g, "해.")
+            .replace(/해야 합니다\./g, "해야 해.")
+            .replace(/바랍니다\./g, "바래.")
+            .replace(/입니다/g, "이야")
+            .replace(/합니다/g, "해")
+        );
       }
       function fillTokens(text, tokens) {
         return text.replace(/\{([^}]+)\}/g, (_, key) => tokens[key] ?? "");
@@ -1759,10 +1825,40 @@
       function todayLuckLine(person) {
         const flow = getTodayElementFlow();
         const myTop = person.topElem;
-        if (myTop === flow.stemElem || myTop === flow.branchElem) {
-          return "오늘은 네 기운이 잘 받쳐주는 날이야. 중요한 건 오늘 처리하는 게 좋아.";
+        const myWeak = person.weakElem;
+        const relTop = relationElem(flow.stemElem, myTop);
+        const relWeak = relationElem(flow.stemElem, myWeak);
+        let mainText = "";
+        let detailText = "";
+        let tipText = "";
+
+        if (
+          relTop === "생" ||
+          relTop === "동" ||
+          myTop === flow.stemElem ||
+          myTop === flow.branchElem
+        ) {
+          mainText =
+            "오늘은 네 기운이 잘 받쳐주는 날이야. 중요한 일은 오늘 처리하면 좋아.";
+          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 잘 맞아서 추진력이 붙는 날이야. 결정을 내리거나 중요한 일을 시작하기에 좋은 타이밍이야. 여유 있게 움직이면 좋은 결과가 따라올 거야.`;
+          tipText = `💡 팁: 오늘은 ${myTop} 기운을 활용하는 일을 우선순위로 잡아. 큰 결정이나 중요한 약속을 잡기에 좋은 날이야.`;
+        } else if (relTop === "극" || relTop === "눌림") {
+          mainText =
+            "오늘은 속도를 조금 줄이면 더 편안해져. 확인을 먼저 하면 흐름이 좋아.";
+          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 마찰이 있을 수 있어. 서두르기보다 한 걸음 여유를 두고 흐름을 살피는 게 좋아. 큰 결정은 잠시 보류하고, 정리와 확인에 집중하면 더 안정적이야.`;
+          tipText = `💡 팁: 오늘은 ${myWeak} 보완에 집중해. 중요한 결정은 차분히 점검하고, 기존 일을 정리하는 데 시간을 써.`;
+        } else {
+          mainText = "오늘은 평온한 하루야. 기본만 지켜도 충분해.";
+          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 기운과 중립적인 관계라 큰 변화보다는 안정적인 흐름이야. 여유 있게 루틴을 지키면서 작은 개선을 하는 게 좋아.`;
+          tipText = `💡 팁: 오늘은 수면/식사/정리 같은 기본 루틴을 잘 지키는 게 포인트야. 작은 개선에 집중하면 더 좋은 하루가 돼.`;
         }
-        return "오늘은 무리하면 손해 보는 날. 속도 줄이고 확인부터 하면 이득이야.";
+
+        return {
+          main: softenText(mainText),
+          detail: softenText(detailText),
+          tip: softenText(tipText),
+          todayElem: `${flow.stemElem}/${flow.branchElem}`,
+        };
       }
 
       function renderTodayCoupleBox(aPerson, bPerson) {
@@ -2449,7 +2545,7 @@
       }
 
       /* ======================================================
-  5. 룰 + 튜닝 + 요약 (50개)
+  5. 룰 + 요약 (50개)
 ====================================================== */
       const SECTION_WEIGHT = {
         성향: 0.25,
@@ -2466,7 +2562,7 @@
           priority: 88,
           when: (a, b) =>
             a.topElem === b.topElem && a.topScore >= 1.2 && b.topScore >= 1.2,
-          evidence: "둘 다 {topElem}가 가장 강해 결정 기준이 비슷해.",
+          evidence: "둘 다 {topElem} 기운이 가장 강해 결정 기준이 비슷해.",
           copies: [
             "시작 속도와 판단이 잘 맞아.",
             "고집 붙을 땐 신호 하나만 맞추자.",
@@ -2506,7 +2602,7 @@
             a.weakElem === b.weakElem &&
             a.weakScore <= 0.7 &&
             b.weakScore <= 0.7,
-          evidence: "둘 다 {weakElem}가 약해서 같은 지점에서 흔들려.",
+          evidence: "둘 다 {weakElem} 기운이 약해서 같은 지점에서 흔들려.",
           copies: [
             "약점이 겹쳐서 이해는 빠르다.",
             "이 구간은 루틴으로 보완하자.",
@@ -2936,56 +3032,8 @@
         },
       ];
 
-      const TUNE_KEY = "compat_rule_tuning_v1";
-      const TUNE_CFG_KEY = "compat_rule_tuning_cfg_v1";
-
-      function loadTune() {
-        try {
-          return JSON.parse(localStorage.getItem(TUNE_KEY) || "{}");
-        } catch {
-          return {};
-        }
-      }
-      function saveTune(v) {
-        localStorage.setItem(TUNE_KEY, JSON.stringify(v));
-      }
-      function loadTuneCfg() {
-        try {
-          return (
-            JSON.parse(localStorage.getItem(TUNE_CFG_KEY) || "{}") || {
-              strength: 1,
-            }
-          );
-        } catch {
-          return { strength: 1 };
-        }
-      }
-      function saveTuneCfg(cfg) {
-        localStorage.setItem(TUNE_CFG_KEY, JSON.stringify(cfg));
-      }
-      function getTuneStrength() {
-        return loadTuneCfg().strength ?? 1;
-      }
       function getTunedPriority(rule) {
-        const tune = loadTune();
-        const delta = tune[rule.id] || 0;
-        const strength = getTuneStrength();
-        const tuned = rule.priority + delta * strength;
-        return Math.max(40, Math.min(100, tuned));
-      }
-      function feedback(ruleId) {
-        const t = loadTune();
-        t[ruleId] = (t[ruleId] || 0) + 1.5;
-        saveTune(t);
-        updateTuneStatus();
-      }
-      function updateTuneStatus() {
-        const t = loadTune();
-        const keys = Object.keys(t);
-        const strength = getTuneStrength();
-        tuneStatus.textContent = keys.length
-          ? `튜닝 적용 중: ${keys.length}개 룰 (강도 ${strength.toFixed(1)})`
-          : `튜닝 없음 (강도 ${strength.toFixed(1)})`;
+        return rule.priority;
       }
 
       function buildPerson(person) {
@@ -3052,65 +3100,25 @@
 
       function generateSummary(score) {
         if (score >= 85)
-          return "전반적으로 궁합이 강해. 기본 결이 잘 맞고, 장기적으로 안정적이야.";
+          return "전반적으로 궁합이 아주 좋아. 기본 결이 잘 맞고, 함께할수록 안정감이 커져.";
         if (score >= 70)
-          return "좋은 편이야. 포인트 몇 가지만 맞추면 훨씬 편해질 수 있어.";
+          return "좋은 흐름이야. 포인트 몇 가지만 맞추면 더 편안해질 수 있어.";
         if (score >= 55)
-          return "무난해. 약속만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
-        return "노력이 필요한 궁합이야. 대신 기준만 맞추면 의외로 단단해질 수 있어.";
+          return "차분하게 맞춰가면 충분히 좋은 관계로 이어질 수 있어.";
+        return "지금은 조율이 필요한 구간이야. 기준만 맞추면 관계가 더 단단해질 수 있어.";
       }
 
       /* ======================================================
-  6. 톤 분기
+  6. 문구 보정
 ====================================================== */
-      const TONE = {
-        couple: {
-          title: "커플 모드",
-          soften: (s) =>
-            s
-              .replaceAll("규칙", "약속")
-              .replaceAll("기한", "타이밍")
-              .replaceAll("리스크", "조심 포인트"),
-          tips: {
-            conflict: [
-              "감정 올라오면 한 박자 쉬고 말하자.",
-              "문자보다 얼굴 보고 얘기하는 게 답.",
-            ],
-            money: [
-              "돈 얘기는 기준을 먼저 맞추는 게 편해.",
-              "큰돈만 같이 결정하고 나머진 자유로 가자.",
-            ],
-          },
-        },
-        biz: {
-          title: "동업자 모드",
-          soften: (s) =>
-            s
-              .replaceAll("감정", "커뮤니케이션")
-              .replaceAll("서로", "양측")
-              .replaceAll("오해", "정보 비대칭"),
-          tips: {
-            conflict: [
-              "의사결정 프로세스를 문서로 박아.",
-              "회의는 의제 1개씩만 잡자.",
-            ],
-            money: [
-              "재무는 룰이 아니라 정책이다.",
-              "지출 기준/승인권자/한도를 고정해.",
-            ],
-          },
-        },
-      };
-
-      function applyTone(text, toneKey) {
-        const t = TONE[toneKey] || TONE.couple;
-        return t.soften(text);
+      function applyTone(text) {
+        return softenText(text);
       }
-      function toneExtraTip(section, toneKey) {
-        const t = TONE[toneKey] || TONE.couple;
-        const pool = t.tips[section] || [];
-        if (!pool.length) return "";
-        return pool[hashToIndex(`${toneKey}|${section}`, pool.length)];
+      function toneExtraTip(section) {
+        if (section === "money") {
+          return "지출 기준을 먼저 맞추는 게 편해.";
+        }
+        return "감정 올라오면 한 박자 쉬고 말하자.";
       }
 
       /* ======================================================
@@ -3588,7 +3596,7 @@
       function renderSummary(totalScore, firedRules, toneKey, coupleElements) {
         const summary = generateSummary(totalScore);
         totalScoreEl.textContent = `${totalScore}점`;
-        summaryMain.textContent = summary;
+        summaryMain.textContent = softenText(summary);
         summarySub.textContent = "입력 시간대 기준 · 절기/오행 규칙";
 
         const { top, weak } = getTopWeak(coupleElements);
@@ -3596,7 +3604,6 @@
           `핵심 오행: ${top}`,
           `약한 오행: ${weak}`,
           `발동 룰: ${firedRules.length}개`,
-          TONE[toneKey]?.title || "커플 모드",
         ];
         summaryPills.innerHTML = pills
           .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
@@ -3608,6 +3615,44 @@
           ruleList.innerHTML = `<p class="mini">발동된 룰이 아직 없어. 입력값을 확인해줘.</p>`;
           return;
         }
+        const ruleLabel = (id) => {
+          const map = {
+            ELEM_TOP_SAME: "핵심 오행 동일",
+            ELEM_TOP_COMPLEMENT: "핵심 오행 상생",
+            ELEM_TOP_CLASH: "핵심 오행 상극",
+            ELEM_WEAK_SAME: "약한 오행 동일",
+            ELEM_WEAK_COMPLEMENT: "약한 오행 보완",
+            ELEM_WEAK_CLASH: "약한 오행 충돌",
+            ELEM_BALANCE_GOOD: "균형 안정",
+            ELEM_BALANCE_BAD: "균형 불안",
+            A_DOMINANT: "A 주도 성향",
+            B_DOMINANT: "B 주도 성향",
+            SEASON_SUPPORT: "월령 보강",
+            SEASON_CLASH: "월령 충돌",
+            SEASON_SAME: "월령 동일",
+            BOTH_STRONG_MOK: "둘 다 목 강",
+            BOTH_STRONG_HWA: "둘 다 화 강",
+            BOTH_STRONG_TO: "둘 다 토 강",
+            BOTH_STRONG_GEUM: "둘 다 금 강",
+            BOTH_STRONG_SU: "둘 다 수 강",
+            BOTH_WEAK_MOK: "둘 다 목 약",
+            BOTH_WEAK_HWA: "둘 다 화 약",
+            BOTH_WEAK_TO: "둘 다 토 약",
+            BOTH_WEAK_GEUM: "둘 다 금 약",
+            BOTH_WEAK_SU: "둘 다 수 약",
+            A_STRONG_MOK: "A 목 강 / B 목 약",
+            A_STRONG_HWA: "A 화 강 / B 화 약",
+            A_STRONG_TO: "A 토 강 / B 토 약",
+            A_STRONG_GEUM: "A 금 강 / B 금 약",
+            A_STRONG_SU: "A 수 강 / B 수 약",
+            B_STRONG_MOK: "B 목 강 / A 목 약",
+            B_STRONG_HWA: "B 화 강 / A 화 약",
+            B_STRONG_TO: "B 토 강 / A 토 약",
+            B_STRONG_GEUM: "B 금 강 / A 금 약",
+            B_STRONG_SU: "B 수 강 / A 수 약",
+          };
+          return map[id] || id;
+        };
 
         ruleList.innerHTML = firedRules
           .sort(
@@ -3616,13 +3661,13 @@
               a.tunedPriority * a.activationScore
           )
           .map((r) => {
-            const evidence = applyTone(fillTokens(r.evidence, tokens), toneKey);
-            const copy = applyTone(r.copies[0], toneKey);
-            const copy2 = r.copies[1] ? applyTone(r.copies[1], toneKey) : "";
+            const evidence = applyTone(fillTokens(r.evidence, tokens));
+            const copy = applyTone(r.copies[0]);
+            const copy2 = r.copies[1] ? applyTone(r.copies[1]) : "";
             const extra =
               r.section === "돈"
-                ? toneExtraTip("money", toneKey)
-                : toneExtraTip("conflict", toneKey);
+                ? toneExtraTip("money")
+                : toneExtraTip("conflict");
             const strength = Math.round(r.activationScore * 100);
             const insight =
               r.section === "돈"
@@ -3637,8 +3682,7 @@
             return `
             <div class="rule-card">
               <div class="rule-head">
-                <b>${escapeHtml(r.id)}</b>
-                <button class="like-btn" data-rule="${r.id}">공감 👍</button>
+                <b>${escapeHtml(ruleLabel(r.id))}</b>
               </div>
               <p class="mini">근거: ${escapeHtml(
                 evidence
@@ -3717,7 +3761,7 @@
             breakdown.hidden,
             elem
           )} · 월령 ${sum(breakdown.season, elem)}`;
-        return `근거: ${format(top)} / 약한 ${format(low)}`;
+        return `${format(top)} / 약한 ${format(low)}`;
       }
 
       function elementDeltaLines(elements) {
@@ -3743,15 +3787,36 @@
         }
         if (profile.mid !== "—") {
           lines.push(
-            `중간 오행 조율: ${profile.mid}는 완충 역할이라 밸런스를 잡아준다.`
+            `중간 오행 조율: ${profile.mid} 쪽이 완충 역할이라 밸런스를 잡아줘.`
           );
         }
         if (profile.weak !== "—") {
           lines.push(
-            `약한 오행 보완: ${profile.weak}는 생활 루틴/환경으로 보완하면 체감이 크다.`
+            `약한 오행 보완: ${profile.weak} 쪽은 생활 루틴/환경으로 채우면 체감이 커.`
           );
         }
         return lines;
+      }
+      function getElementProsCons(topElem, lowElem) {
+        const pros = {
+          목: "기획/성장에 강점이 있어 흐름을 길게 보는 눈이 좋아.",
+          화: "추진/표현에 강점이 있어 속도와 에너지가 잘 붙어.",
+          토: "안정/관리에 강점이 있어 기반을 단단히 다지는 힘이 있어.",
+          금: "결과/정리에 강점이 있어 마무리와 성과 체감이 빠른 편이야.",
+          수: "정보/환경에 강점이 있어 변화에 유연하게 대응해.",
+        };
+        const cons = {
+          목: "기획에 치우치면 실행이 느려질 수 있어. 작게라도 바로 움직이면 좋아.",
+          화: "속도가 빠른 만큼 과열되기 쉬워. 페이스 조절이 성과를 지켜줘.",
+          토: "안정이 강하면 변화 대응이 느릴 수 있어. 작은 변화부터 열어두면 좋아.",
+          금: "성과 중심이 강하면 압박이 커질 수 있어. 과정을 즐기면 더 길게 간다.",
+          수: "유연함이 큰 만큼 기준이 흐려질 수 있어. 기준을 먼저 잡아두면 좋아.",
+        };
+        const prosText =
+          pros[topElem] || "강점이 분명해서 방향만 잡으면 성과가 잘 나와.";
+        const consText =
+          cons[lowElem] || "약한 구간은 루틴으로 채우면 흐름이 안정돼.";
+        return { prosText, consText };
       }
 
       function renderElementsAnalysis(elements, breakdown, meta = {}) {
@@ -3765,6 +3830,7 @@
         const personality = getElementPersonality(top, low);
         const profile = makeElementProfile(elements);
         const evidenceLine = makeElementEvidence(elements, breakdown, top, low);
+        const { prosText, consText } = getElementProsCons(top, low);
 
         const totalSum = values.reduce((a, b) => a + b, 0) || 1;
         const rounded = keys.reduce((acc, k) => {
@@ -3776,7 +3842,9 @@
           return acc;
         }, {});
 
-        elementsSummary.textContent = `오행 분석: ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야.`;
+        elementsSummary.textContent = `오행 분석: ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야. ${softenText(
+          prosText
+        )} ${softenText(consText)}`;
         renderElementsRadar(elements);
 
         // 신토정비결 보정 정보 HTML 생성
@@ -4085,11 +4153,14 @@
         `;
 
         const detailLines = [
-          `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top}는 현재 전체의 약 ${Math.round(
+          `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top} 기운은 현재 전체의 약 ${Math.round(
             (values[topIdx] / totalSum) * 100
           )}% 수준이야.`,
-          `약한 ${low}: 루틴/환경 보완으로 충분히 메꿀 수 있어. ${low}는 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.`,
-          `성향 요약: ${personality}`,
+          `약한 ${low}: 루틴/환경 보완으로 충분히 메꿀 수 있어. ${low} 기운은 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.`,
+          `성향 요약: ${personality.replace(
+            "흥이 떨어지면 동력이 급감할 수 있어.",
+            "흥이 떨어지면 동력이 줄 수 있어."
+          )}`,
           ...elementAdvice(profile),
           meta.includeHour === false
             ? "시주 미포함: 시간 정보가 없어 시주의 영향은 제외했어."
@@ -4097,7 +4168,7 @@
             ? "시주 일부 미포함: 한쪽은 시간 정보가 없어 시주가 제외됐어."
             : null,
           meta.boundaryText ? meta.boundaryText : null,
-          `균형 팁: 상생 구조를 따라 ${top}의 장점을 살리되, ${low}를 받쳐줄 생활 습관을 하나만 고정하면 흐름이 안정돼.`,
+          `균형 팁: 상생 흐름으로 ${top} 기운을 살리고, ${low} 기운을 받쳐줄 생활 습관 하나만 고정하면 흐름이 안정돼.`,
         ].filter(Boolean);
         const detailText = detailLines
           .map((l) => escapeHtml(l))
@@ -4340,14 +4411,6 @@
         const dayStemLine = person.dayStem
           ? `일간: ${person.dayStem}(${person.dayElem}) · ${person.strength}`
           : "일간: —";
-        const tenGodLine = person.dayStem
-          ? `십성: 연 ${tenGod(person.dayStem, person.yearStem)} · 월 ${tenGod(
-              person.dayStem,
-              person.monthStem
-            )} · 일 ${tenGod(person.dayStem, person.dayStem)} · 시 ${
-              person.hourStem ? tenGod(person.dayStem, person.hourStem) : "—"
-            }`
-          : "십성: —";
         const branches = [
           person.yearBranch,
           person.monthBranch,
@@ -4371,7 +4434,6 @@
           <div class="rule-card">
             <div class="section-title">${label} 상세 해석</div>
             <div class="mini">${escapeHtml(dayStemLine)}</div>
-            <div class="mini">${escapeHtml(tenGodLine)}</div>
             <div class="mini">용신: ${escapeHtml(yongText)}</div>
             <div class="mini">격국: 월지 ${escapeHtml(
               season
@@ -4653,6 +4715,22 @@
       function elemMeaning(elem) {
         return ELEM_MEANING[elem] || "기운";
       }
+      function hasFinalConsonant(word) {
+        if (!word) return false;
+        const last = word[word.length - 1];
+        const code = last.charCodeAt(0);
+        if (code < 0xac00 || code > 0xd7a3) return false;
+        return (code - 0xac00) % 28 !== 0;
+      }
+      function topicParticle(word) {
+        return hasFinalConsonant(word) ? "은" : "는";
+      }
+      function subjectParticle(word) {
+        return hasFinalConsonant(word) ? "이" : "가";
+      }
+      function objectParticle(word) {
+        return hasFinalConsonant(word) ? "을" : "를";
+      }
       function scaleElements(elements, targetTotal = 150) {
         const keys = ["목", "화", "토", "금", "수"];
         const sum = keys.reduce((acc, k) => acc + (elements[k] || 0), 0);
@@ -4764,29 +4842,29 @@
           chung.length ? chung.join(", ") : "—"
         } · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
 
+        const topMeaning = elemMeaning(person.topElem);
         const coreDef = `이 사주는 ${person.topElem} 기운이 두드러지고 ${
           person.weakElem
-        }이 약한 구조로, ${elemMeaning(
-          person.topElem
-        )}은 강점이지만 ${elemMeaning(
+        } 기운이 약한 구조로, ${topMeaning}${topicParticle(
+          topMeaning
+        )} 강점이지만 ${elemMeaning(
           person.weakElem
         )}에서 반복 갈등이 생기는 형이다.`;
         const coreEvidence = `근거: 오행 분포 ${formatScaledElements(
           scaled.scaled
         )} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${
           profile.mid
-        } / ${
-          profile.weak
-        }. 십성은 ${gwanSummary}, ${jaeSummary}, ${gwanSalSummary}, ${sikSummary}.`;
-        const coreDerived = `파생: ${person.topElem} 쪽으로 기운이 몰려 반응은 빠르지만, ${person.weakElem} 약점이 드러나는 순간 판단이 흔들린다.`;
+        } / ${profile.weak}.`;
+        const coreDerived = `파생: ${person.topElem} 기운 쪽으로 몰려 반응은 빠르지만, ${person.weakElem} 기운의 약점이 드러나는 순간 판단이 흔들린다.`;
 
-        const conflictOne = `${person.topElem}이 강해서 ${elemMeaning(
+        const weakMeaning = elemMeaning(person.weakElem);
+        const conflictOne = `${person.topElem} 기운이 강해서 ${elemMeaning(
           person.topElem
         )}에 의존하려는 습관이 커진다. 그런데 ${
           person.weakElem
-        }이 약해서 ${elemMeaning(
-          person.weakElem
-        )}이 흔들릴 때 선택이 뒤집힌다.`;
+        } 기운이 약해서 ${weakMeaning}${subjectParticle(
+          weakMeaning
+        )} 흔들릴 때 선택이 뒤집힌다.`;
         const conflictTwo = tenStats.gwanMix
           ? "관이 혼잡하니까 규칙을 지키려는 마음과 벗어나려는 마음이 동시에 올라와 결정이 갈라진다."
           : tenStats.gwanCount >= 2
@@ -4799,7 +4877,7 @@
             : "수입은 들어오는데 관리가 느슨해지기 쉽다."
         } 근거: ${jaeSummary} · ${
           person.weakElem
-        } 약. 행동: 월 기준 수치화 + 고정 정산 루틴을 만들어.`;
+        } 기운 약. 행동: 월 기준 수치화 + 고정 정산 루틴을 만들어.`;
         const workRisk = `직업: ${
           tenStats.gwanCount >= 2
             ? "책임이 과도하게 몰리고 역할이 확장된다."
@@ -4822,7 +4900,7 @@
           )}에 쓰면 효율이 높다. 중간 오행(${midElem})은 실행 속도와 유지력을 보조하는 쪽으로 붙여.`;
         const workStyle = `일 처리 방식은 "정보를 모으고 -> 기준을 자르고 -> 한 번에 밀어붙이기"가 맞다. 커리어는 반복성과 구조가 있는 기획/운영/관리 쪽이 유리하다.`;
 
-        const romanceReason = `연애가 어려운 이유는 ${jaeSummary}과 ${person.topElem} 과다로 확신이 늦게 붙고, 반응이 과해지기 때문이다.`;
+        const romanceReason = `연애가 어려운 이유는 ${jaeSummary}과 ${person.topElem} 기운 과다로 확신이 늦게 붙고, 반응이 과해지기 때문이다.`;
         const matchCondition = `잘 맞는 상대는 감정 기복이 적고 생활 리듬이 일정하며, 말보다 약속을 지키는 사람이다.`;
 
         const jobDirection = `안정적인 직장이 유리한 이유는 ${gwanSummary} 구조가 규칙 안에서 성과를 내는 방식이기 때문이다.`;
@@ -4851,62 +4929,85 @@
         }.`;
 
         const finalAttitudes = [
-          "기준은 감정이 아니라 규칙으로 잡아.",
+          "판단 기준은 감정이 아니라 룰로 고정해.",
           "속도보다 루틴을 고정해.",
-          "관계는 약속과 경계로 지켜.",
+          "관계는 약속 지키고 선을 분명히 하면 유지돼.",
         ];
 
         return `
           <div class="rule-card">
-            <div class="section-title">본질 리포트 · ${person.name || "A"}</div>
+            <div class="section-title">본질 리포트</div>
             <div class="mini">기본 정보: ${genderLabel} · 일간 ${
           person.dayStem || "—"
         }(${person.dayElem || "—"}) · 강약 ${
           person.strength || "—"
         } · ${relationLine}</div>
+            <br>
             <div class="report-section">
-              <h3>1️⃣ 사주 구조 핵심 단정 (가장 중요)</h3>
-              <p class="mini">${escapeHtml(coreDef)}</p>
-              <p class="mini">${escapeHtml(coreEvidence)}</p>
-              <p class="mini">${escapeHtml(coreDerived)}</p>
+              <h3>1️⃣ 사주 구조 핵심 요약</h3>
+              <p class="mini">${escapeHtml(softenText(coreDef))}</p>
+              <p class="mini">${escapeHtml(softenText(coreEvidence))}</p>
+              <p class="mini">${escapeHtml(softenText(coreDerived))}</p>
+              <p class="mini">정리된 구조를 알면 방향이 더 선명해져.</p>
             </div>
+            <br>
             <div class="report-section">
-              <h3>2️⃣ 이 사주의 평생 핵심 갈등</h3>
-              <p class="mini">1) ${escapeHtml(conflictOne)}</p>
-              <p class="mini">2) ${escapeHtml(conflictTwo)}</p>
+              <h3>2️⃣ 이 사주의 평생 핵심 과제</h3>
+              <p class="mini">1) ${escapeHtml(softenText(conflictOne))}</p>
+              <p class="mini">2) ${escapeHtml(softenText(conflictTwo))}</p>
+              <p class="mini">과제를 알면 선택이 더 부드러워져.</p>
             </div>
+            <br>
             <div class="report-section">
-              <h3>3️⃣ 반드시 조심해야 할 리스크 3가지</h3>
-              <p class="mini">${escapeHtml(moneyRisk)}</p>
-              <p class="mini">${escapeHtml(workRisk)}</p>
-              <p class="mini">${escapeHtml(relationRisk)}</p>
+              <h3>3️⃣ 꼭 챙겨야 할 포인트 3가지</h3>
+              <p class="mini">${escapeHtml(softenText(moneyRisk))}</p>
+              <p class="mini">${escapeHtml(softenText(workRisk))}</p>
+              <p class="mini">${escapeHtml(softenText(relationRisk))}</p>
+              <p class="mini">지킬 포인트를 잡으면 운이 더 안정돼.</p>
             </div>
+            <br>
             <div class="report-section">
               <h3>4️⃣ 강점 활용 전략 (현실 적용)</h3>
-              <p class="mini">${escapeHtml(strengthUse)}</p>
-              <p class="mini">${escapeHtml(workStyle)}</p>
-              <p class="mini">수 기운 비중: ${waterPct}% · 이 비중은 환경/상황 영향이 큰 편이라 기준을 먼저 잡아야 흔들림이 줄어.</p>
+              <p class="mini">${escapeHtml(softenText(strengthUse))}</p>
+              <p class="mini">${escapeHtml(softenText(workStyle))}</p>
+              <p class="mini">${escapeHtml(
+                softenText(
+                  `수 기운 비중: ${waterPct}% · 이 비중은 환경/상황 영향이 큰 편이라 기준을 먼저 잡아야 흔들림이 줄어.`
+                )
+              )}</p>
+              <p class="mini">강점을 살리면 성과가 자연스럽게 따라와.</p>
             </div>
+            <br>
             <div class="report-section">
-              <h3>5️⃣ 연애·이성·관계 해석 (중요)</h3>
-              <p class="mini">${escapeHtml(romanceReason)}</p>
-              <p class="mini">${escapeHtml(matchCondition)}</p>
+              <h3>5️⃣ 관계 해석 (중요)</h3>
+              <p class="mini">${escapeHtml(softenText(romanceReason))}</p>
+              <p class="mini">${escapeHtml(softenText(matchCondition))}</p>
+              <p class="mini">관계는 천천히 다져도 충분히 좋아져.</p>
             </div>
+            <br>
             <div class="report-section">
               <h3>6️⃣ 직업·재물 방향</h3>
-              <p class="mini">${escapeHtml(jobDirection)}</p>
-              <p class="mini">${escapeHtml(moneyDirection)}</p>
+              <p class="mini">${escapeHtml(softenText(jobDirection))}</p>
+              <p class="mini">${escapeHtml(softenText(moneyDirection))}</p>
+              <p class="mini">좋은 방향을 고르면 흐름이 더 편안해져.</p>
             </div>
+            <br>
             <div class="report-section">
               <h3>7️⃣ 대운·세운 해석 (전략 중심)</h3>
-              <p class="mini">${escapeHtml(decadeLines.join(" "))}</p>
-              <p class="mini">${escapeHtml(yearLine2026)}</p>
+              <p class="mini">${escapeHtml(
+                softenText(decadeLines.join(" "))
+              )}</p>
+              <p class="mini">${escapeHtml(softenText(yearLine2026))}</p>
+              <p class="mini">흐름을 읽으면 기회가 더 잘 보여.</p>
             </div>
+            <br>
             <div class="report-section">
               <h3>8️⃣ 최종 총평 (현실적인 조언)</h3>
-              <p class="mini">${escapeHtml(finalAttitudes.join(" "))}</p>
+              <p class="mini">${escapeHtml(
+                softenText(finalAttitudes.join(" "))
+              )}</p>
+              <p class="mini">차분히 걸어가도 좋은 결과가 쌓여.</p>
             </div>
-            <div class="mini">이 결과는 ‘사주를 본 느낌’이 아니라 ‘이 사람 인생 구조를 이해한 느낌’이 나와야 한다.</div>
           </div>
         `;
       }
@@ -4930,8 +5031,8 @@
 
       function renderReportCard(a, b) {
         const blocks = [];
-        if (a) blocks.push(renderReportBlock("A", a, state.aResult));
-        if (b) blocks.push(renderReportBlock("B", b, state.bResult));
+        if (a) blocks.push(renderReportBlock(a, state.aResult));
+        if (b) blocks.push(renderReportBlock(b, state.bResult));
         reportContent.innerHTML = blocks.join("");
 
         // 월별 세운 카드의 공유 버튼 이벤트 리스너 추가
@@ -4949,10 +5050,9 @@
         }, 100);
       }
 
-      function renderReportBlock(label, person, result) {
+      function renderReportBlock(person, result) {
         if (!result) return "";
-        const viewPerson = { ...person, name: label };
-        return renderStructuredReport(viewPerson, result);
+        return renderStructuredReport(person, result);
       }
 
       function getLocalNowYear(tzOffsetMinutes, dstMode) {
@@ -4974,7 +5074,7 @@
           push: "확장/추진에 유리",
           pushPlus: "성과+회복 동시",
           recover: "정리/회복에 유리",
-          brake: "속도 조절 필요",
+          brake: "속도 조절 추천",
           steady: "기본 유지",
         };
         return map[mode] || "기본 유지";
@@ -4985,7 +5085,7 @@
           push: "추진",
           pushPlus: "추진+회복",
           recover: "회복",
-          brake: "제동",
+          brake: "조절",
           steady: "유지",
         };
         return map[mode] || "유지";
@@ -5084,9 +5184,9 @@
         const yearLines = flows
           .map(
             (f) =>
-              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${
-                f.yearTenGod ? `십성 ${f.yearTenGod} · ` : ""
-              }${yearModeText(f.mode)}`
+              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${yearModeText(
+                f.mode
+              )}`
           )
           .join("<br/>");
         const sewoonNarrative =
@@ -5103,21 +5203,35 @@
       }
 
       function setResultVisibility(mode) {
-        resultElementsCard.classList.toggle("hidden", !state.A);
-        resultDeepCard.classList.toggle("hidden", !state.A);
-        resultLuckCard.classList.toggle("hidden", !state.A);
-        resultTodayCard.classList.toggle("hidden", mode === "newyear");
-        resultRadarCard.classList.toggle("hidden", mode !== "compat");
-        resultABCard.classList.toggle("hidden", mode !== "compat");
-        resultRulesCard.classList.toggle("hidden", mode !== "compat");
-        resultMonthlyCard.classList.toggle("hidden", mode === "today");
-        tuningCard.classList.toggle("hidden", mode !== "compat");
+        if (mode === "today") {
+          // 오늘 운세 모드: 오늘 운세 카드만 표시
+          resultElementsCard.classList.add("hidden");
+          resultDeepCard.classList.add("hidden");
+          resultLuckCard.classList.add("hidden");
+          resultTodayCard.classList.remove("hidden");
+          resultRadarCard.classList.add("hidden");
+          resultABCard.classList.add("hidden");
+          resultRulesCard.classList.add("hidden");
+          resultMonthlyCard.classList.add("hidden");
+          resultReportCard.classList.add("hidden");
+          resultSummaryCard.classList.add("hidden");
+        } else {
+          resultElementsCard.classList.toggle("hidden", !state.A);
+          resultDeepCard.classList.toggle("hidden", !state.A);
+          resultLuckCard.classList.toggle("hidden", !state.A);
+          resultTodayCard.classList.toggle("hidden", mode === "newyear");
+          resultRadarCard.classList.toggle("hidden", mode !== "compat");
+          resultABCard.classList.toggle("hidden", mode !== "compat");
+          resultRulesCard.classList.toggle("hidden", mode !== "compat");
+          resultMonthlyCard.classList.toggle("hidden", mode !== "newyear");
+          resultReportCard.classList.toggle("hidden", mode === "today");
+          resultSummaryCard.classList.toggle("hidden", mode === "today");
+        }
       }
 
       function renderCompat() {
         const a = buildPerson(state.A);
         const b = buildPerson(state.B);
-        const toneKey = toneSelect.value;
         const firedRules = evaluateRules(a, b);
         const sectionScores = calcSectionScores(firedRules);
         const totalScore = calcTotalFromSections(sectionScores);
@@ -5143,10 +5257,10 @@
         });
         renderDeepAnalysisCard(a, b);
         renderLuckFlowCard(a, b);
-        renderSummary(totalScore, firedRules, toneKey, coupleElements);
+        renderSummary(totalScore, firedRules, null, coupleElements);
         renderTodayCoupleBox(a, b);
         renderRadar(sectionScores);
-        renderRules(firedRules, toneKey, {
+        renderRules(firedRules, null, {
           topElem: coupleStats.top,
           weakElem: coupleStats.weak,
           A_topElem: a.topElem,
@@ -5158,7 +5272,7 @@
           A_season: a.seasonTopElem,
           B_season: b.seasonTopElem,
         });
-        renderMonthly({ elements: coupleElements });
+        // 궁합 모드에서는 월별 신년운세를 노출하지 않음
         renderReportCard(a, b);
         renderPillars(aPillarsEl, state.aResult);
         renderPillars(bPillarsEl, state.bResult);
@@ -5210,37 +5324,34 @@
 
       function renderTodayOnly() {
         const a = buildPerson(state.A);
-        resultTitle.textContent = "오늘운세 요약";
-        renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
-          hiddenMode: state.aResult?.input?.hiddenMode,
-          includeHour: state.A?.includeHour,
-          boundaryText: state.A?.boundaryText,
-          birthText: state.aResult?.input?.local
-            ? `${state.aResult.input.local} (${state.A?.hourBranch || "—"})`
-            : "",
-          anchorKey: state.aResult?.elements?.anchor?.key,
-          anchorApplied: state.aResult?.elements?.anchor?.applied,
-          dayElem: a.dayElem,
-        });
-        renderDeepAnalysisCard(a, null);
-        renderLuckFlowCard(a, null);
-        totalScoreEl.textContent = "—";
-        summarySub.textContent = "오늘 일진 기반";
-        summaryMain.textContent = todayLuckLine(a);
-        summaryPills.innerHTML = [
-          `핵심 오행: ${a.topElem}`,
-          `약한 오행: ${a.weakElem}`,
-        ]
-          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
-          .join("");
+        const todayLuck = todayLuckLine(a);
 
-        todayCoupleLine.textContent = todayLuckLine(a);
-        todayCoupleMeta.textContent = `오늘 오행: ${
-          getTodayElementFlow().stemElem
-        }/${getTodayElementFlow().branchElem}`;
-        renderReportCard(a, null);
-        renderPillars(aPillarsEl, state.aResult);
-        bPillarsEl.textContent = "";
+        // 오늘 운세 카드에 상세 내용 표시
+        todayCoupleLine.textContent = todayLuck.main;
+        todayCoupleMeta.innerHTML = `
+          <div style="margin-top: 20px; padding: 20px; background: rgba(99, 102, 241, 0.04); border-radius: 12px; border-left: 4px solid var(--accent);">
+            <p style="font-size: 16px; line-height: 1.9; margin: 0 0 16px 0; color: rgba(15, 23, 42, 0.9); text-align: left;">
+              ${escapeHtml(todayLuck.detail)}
+            </p>
+            <div style="margin-top: 16px; padding: 14px; background: rgba(34, 197, 94, 0.08); border-radius: 8px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
+              <p style="font-size: 15px; margin: 0; line-height: 1.8; font-weight: 600; color: rgba(15, 23, 42, 0.9); text-align: left;">
+                ${escapeHtml(todayLuck.tip)}
+              </p>
+            </div>
+            <div style="margin-top: 16px; padding: 12px; background: rgba(255, 255, 255, 0.6); border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.08);">
+              <p style="font-size: 14px; margin: 0; line-height: 1.8; color: rgba(15, 23, 42, 0.8); text-align: left;">
+                <strong style="color: rgba(15, 23, 42, 0.9);">오늘 오행:</strong> ${escapeHtml(
+                  todayLuck.todayElem
+                )}<br/>
+                <strong style="color: rgba(15, 23, 42, 0.9);">내 강점:</strong> ${escapeHtml(
+                  a.topElem
+                )} · <strong style="color: rgba(15, 23, 42, 0.9);">내 약점:</strong> ${escapeHtml(
+          a.weakElem
+        )}
+              </p>
+            </div>
+          </div>
+        `;
       }
 
       function renderAll() {
@@ -5269,17 +5380,21 @@
       function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
         const words = text.split(" ");
         let line = "";
+        let lineCount = 1;
+        let currentY = y;
         for (let i = 0; i < words.length; i++) {
           const test = line + words[i] + " ";
           if (ctx.measureText(test).width > maxWidth && i > 0) {
-            ctx.fillText(line, x, y);
+            ctx.fillText(line, x, currentY);
             line = words[i] + " ";
-            y += lineHeight;
+            currentY += lineHeight;
+            lineCount++;
           } else {
             line = test;
           }
         }
-        ctx.fillText(line, x, y);
+        ctx.fillText(line, x, currentY);
+        return lineCount;
       }
 
       async function generateShareCard(payload) {
@@ -5308,50 +5423,221 @@
           "rgba(255,255,255,0.92)"
         );
 
-        ctx.fillStyle = "#0f172a";
-        ctx.font = "800 52px IBM Plex Sans KR";
-        ctx.fillText(payload.title, cardX + 50, cardY + 120);
+        let currentY = cardY + 80;
 
-        ctx.font = "700 30px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.7)";
-        ctx.fillText(payload.toneLabel, cardX + 50, cardY + 170);
+        // 신년운세 카드 레이아웃
+        if (payload.mode === "newyear") {
+          ctx.fillStyle = "#0f172a";
+          ctx.font = "800 52px IBM Plex Sans KR";
+          ctx.fillText(payload.title, cardX + 50, cardY + 100);
 
-        ctx.font = "800 110px IBM Plex Sans KR";
-        ctx.fillStyle = "#0f172a";
-        ctx.fillText(String(payload.scoreText), cardX + 50, cardY + 300);
-        ctx.font = "700 30px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.7)";
-        ctx.fillText(payload.scoreLabel, cardX + 50, cardY + 350);
+          let y = cardY + 180;
+          if (payload.summary) {
+            ctx.font = "700 28px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.9)";
+            const summaryLines = wrapText(
+              ctx,
+              payload.summary,
+              cardX + 50,
+              y,
+              cardW - 100,
+              38
+            );
+            y += summaryLines * 38 + 40;
+          }
 
-        ctx.font = "700 32px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.85)";
-        ctx.fillText(`핵심 오행: ${payload.topElem}`, cardX + 50, cardY + 430);
+          if (payload.lines && payload.lines.length) {
+            payload.lines.forEach((line) => {
+              if (!line || line.trim() === "") {
+                y += 16; // 빈 줄은 간격만 추가
+                return;
+              }
+              // "📅 월별 흐름:" 같은 제목은 더 크게
+              if (line.includes("📅") || line.includes("월별")) {
+                ctx.font = "700 26px IBM Plex Sans KR";
+                ctx.fillStyle = "rgba(15,23,42,0.9)";
+                y += 12;
+              } else if (line.includes("월:")) {
+                // 월별 항목은 작게
+                ctx.font = "500 20px IBM Plex Sans KR";
+                ctx.fillStyle = "rgba(15,23,42,0.75)";
+              } else {
+                ctx.font = "600 24px IBM Plex Sans KR";
+                ctx.fillStyle = "rgba(15,23,42,0.82)";
+              }
+              const lineCount = wrapText(
+                ctx,
+                line.includes("월:") ? `  ${line}` : `• ${line}`,
+                cardX + 50,
+                y,
+                cardW - 100,
+                line.includes("월:") ? 28 : 34
+              );
+              y +=
+                lineCount * (line.includes("월:") ? 28 : 34) +
+                (line.includes("월:") ? 6 : 12);
+            });
+          }
 
-        ctx.font = "700 32px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.9)";
-        wrapText(
-          ctx,
-          `요약: ${payload.summary}`,
-          cardX + 50,
-          cardY + 510,
-          cardW - 100,
-          44
-        );
+          // 오행 정보를 하단 중앙에 배치
+          if (payload.topElem && payload.weakElem) {
+            ctx.font = "600 22px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.7)";
+            const elemText = `핵심 오행: ${payload.topElem} · 약한 오행: ${payload.weakElem}`;
+            const elemWidth = ctx.measureText(elemText).width;
+            ctx.fillText(
+              elemText,
+              cardX + (cardW - elemWidth) / 2,
+              cardY + cardH - 100
+            );
+          }
 
-        ctx.font = "700 28px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.78)";
-        wrapText(
-          ctx,
-          payload.todayLine,
-          cardX + 50,
-          cardY + 700,
-          cardW - 100,
-          40
-        );
+          // funnyfunny.cloud를 오른쪽 하단에 배치
+          ctx.font = "600 20px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.5)";
+          const brandText = "funnyfunny.cloud";
+          const brandWidth = ctx.measureText(brandText).width;
+          ctx.fillText(
+            brandText,
+            cardX + cardW - brandWidth - 50,
+            cardY + cardH - 50
+          );
+        } else if (payload.main && payload.detail && payload.tip) {
+          // 오늘 운세 모드일 때 깔끔한 레이아웃
+          // 제목
+          ctx.fillStyle = "#0f172a";
+          ctx.font = "800 56px IBM Plex Sans KR";
+          ctx.fillText("🔮 " + payload.title, cardX + 50, currentY);
+          currentY += 100;
 
-        ctx.font = "700 26px IBM Plex Sans KR";
-        ctx.fillStyle = "rgba(15,23,42,0.6)";
-        ctx.fillText("funnyfunny.cloud", cardX + 50, cardY + cardH - 70);
+          // 메인 텍스트
+          ctx.font = "700 36px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.95)";
+          const mainLines = wrapText(
+            ctx,
+            payload.main,
+            cardX + 50,
+            currentY,
+            cardW - 100,
+            50
+          );
+          currentY += mainLines * 50 + 40;
+
+          // 상세 설명
+          ctx.font = "600 28px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.85)";
+          const detailLines = wrapText(
+            ctx,
+            payload.detail,
+            cardX + 50,
+            currentY,
+            cardW - 100,
+            42
+          );
+          currentY += detailLines * 42 + 30;
+
+          // 팁
+          ctx.font = "700 26px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.9)";
+          const tipLines = wrapText(
+            ctx,
+            payload.tip,
+            cardX + 50,
+            currentY,
+            cardW - 100,
+            38
+          );
+          currentY += tipLines * 38 + 40;
+
+          // 오행 정보
+          ctx.font = "600 24px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.75)";
+          ctx.fillText(`오늘 오행: ${payload.todayElem}`, cardX + 50, currentY);
+          currentY += 35;
+          ctx.fillText(
+            `내 강점: ${payload.topElem} · 내 약점: ${payload.weakElem}`,
+            cardX + 50,
+            currentY
+          );
+
+          // funnyfunny.cloud를 오른쪽 하단에 배치
+          ctx.font = "600 20px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.5)";
+          const brandText = "funnyfunny.cloud";
+          const brandWidth = ctx.measureText(brandText).width;
+          ctx.fillText(
+            brandText,
+            cardX + cardW - brandWidth - 50,
+            cardY + cardH - 50
+          );
+        } else {
+          // 기존 레이아웃 (궁합, 신년운세)
+          ctx.fillStyle = "#0f172a";
+          ctx.font = "800 52px IBM Plex Sans KR";
+          ctx.fillText(payload.title, cardX + 50, cardY + 120);
+
+          if (payload.toneLabel) {
+            ctx.font = "700 30px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.7)";
+            ctx.fillText(payload.toneLabel, cardX + 50, cardY + 170);
+          }
+
+          if (payload.scoreText && payload.scoreText !== "—") {
+            ctx.font = "800 110px IBM Plex Sans KR";
+            ctx.fillStyle = "#0f172a";
+            ctx.fillText(String(payload.scoreText), cardX + 50, cardY + 300);
+            ctx.font = "700 30px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.7)";
+            ctx.fillText(payload.scoreLabel, cardX + 50, cardY + 350);
+          }
+
+          if (payload.topElem) {
+            ctx.font = "700 32px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.85)";
+            ctx.fillText(
+              `핵심 오행: ${payload.topElem}`,
+              cardX + 50,
+              cardY + 430
+            );
+          }
+
+          if (payload.summary) {
+            ctx.font = "700 32px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.9)";
+            wrapText(
+              ctx,
+              `요약: ${payload.summary}`,
+              cardX + 50,
+              cardY + 510,
+              cardW - 100,
+              44
+            );
+          }
+
+          if (payload.todayLine) {
+            ctx.font = "700 28px IBM Plex Sans KR";
+            ctx.fillStyle = "rgba(15,23,42,0.78)";
+            wrapText(
+              ctx,
+              payload.todayLine,
+              cardX + 50,
+              cardY + 700,
+              cardW - 100,
+              40
+            );
+          }
+
+          // funnyfunny.cloud를 오른쪽 하단에 배치
+          ctx.font = "600 20px IBM Plex Sans KR";
+          ctx.fillStyle = "rgba(15,23,42,0.5)";
+          const brandText = "funnyfunny.cloud";
+          const brandWidth = ctx.measureText(brandText).width;
+          ctx.fillText(
+            brandText,
+            cardX + cardW - brandWidth - 50,
+            cardY + cardH - 50
+          );
+        }
 
         return new Promise((resolve) => c.toBlob(resolve, "image/png", 1.0));
       }
@@ -5360,7 +5646,6 @@
         if (state.mode === "compat") {
           return {
             title: "궁합 리포트",
-            toneLabel: TONE[toneSelect.value]?.title || "커플 모드",
             scoreText: snapshot.totalScore,
             scoreLabel: "궁합 점수",
             summary: summaryMain.textContent,
@@ -5369,26 +5654,68 @@
           };
         }
         if (state.mode === "newyear") {
-          const topElem = getTopWeak(state.A.elements).top;
+          const a = buildPerson(state.A);
+          const { top, weak } = getTopWeak(state.A.elements);
+          const y2026 = yearModeFor(a, 2026);
+          const strategy = yearStrategy(y2026.mode);
+          const monthlyData = makeMonthlyLuck(a);
+
+          // 월별 운세를 간단히 요약 (카드에 맞게 간결하게)
+          const monthlySummary = monthlyData
+            .map((m) => {
+              const modeText = monthModeText(m.mode);
+              const luckText =
+                m.tags?.[0] === "길"
+                  ? "길"
+                  : m.tags?.[0] === "흉"
+                  ? "흉"
+                  : "중";
+              // 요약 텍스트를 20자 이내로 줄이기
+              let summary = m.summary || "";
+              if (summary.length > 20) {
+                // 문장의 핵심만 추출
+                const shortSummary = summary
+                  .replace(/오늘은|이번 달은|이 시기는/g, "")
+                  .replace(/\.\.\./g, "")
+                  .trim();
+                summary =
+                  shortSummary.length > 20
+                    ? shortSummary.substring(0, 17) + "..."
+                    : shortSummary;
+              }
+              return `${m.month}월: ${luckText}운 · ${modeText} · ${summary}`;
+            })
+            .slice(0, 12); // 12개월 모두 포함
+
           return {
+            mode: "newyear",
             title: "신년운세 리포트",
-            toneLabel: "2026 흐름",
-            scoreText: "—",
-            scoreLabel: "운세 요약",
             summary: summaryMain.textContent,
-            todayLine: "월별 흐름으로 계획 세우기 좋다.",
-            topElem,
+            lines: [
+              `2026년 ${y2026.pillar.text}(${y2026.yearElem}) · ${yearModeText(
+                y2026.mode
+              )}`,
+              `해야 할 것: ${strategy.todo}`,
+              `피해야 할 것: ${strategy.avoid}`,
+              "",
+              "📅 월별 흐름:",
+              ...monthlySummary,
+            ],
+            topElem: top,
+            weakElem: weak,
           };
         }
+        const a = buildPerson(state.A);
+        const todayLuck = todayLuckLine(a);
         const topElem = getTopWeak(state.A.elements).top;
         return {
-          title: "오늘운세",
-          toneLabel: "일진 기반",
-          scoreText: "—",
-          scoreLabel: "오늘 흐름",
-          summary: summaryMain.textContent,
-          todayLine: todayCoupleLine.textContent,
-          topElem,
+          title: "오늘의 운세",
+          main: todayLuck.main,
+          detail: todayLuck.detail,
+          tip: todayLuck.tip,
+          todayElem: todayLuck.todayElem,
+          topElem: a.topElem,
+          weakElem: a.weakElem,
         };
       }
 
@@ -5397,6 +5724,62 @@
           alert("입력 후 계산해줘.");
           return;
         }
+
+        // 신년운세 모드는 텍스트 공유
+        if (state.mode === "newyear") {
+          const a = buildPerson(state.A);
+          const { top, weak } = getTopWeak(state.A.elements);
+          const y2026 = yearModeFor(a, 2026);
+          const strategy = yearStrategy(y2026.mode);
+          const monthlyData = makeMonthlyLuck(a);
+
+          let text = `🔮 2026 신년운세\n\n`;
+          text += `${summaryMain.textContent}\n\n`;
+          text += `2026년 ${y2026.pillar.text}(${
+            y2026.yearElem
+          }) · ${yearModeText(y2026.mode)}\n`;
+          text += `해야 할 것: ${strategy.todo}\n`;
+          text += `피해야 할 것: ${strategy.avoid}\n\n`;
+          text += `핵심 오행: ${top} · 약한 오행: ${weak}\n\n`;
+          text += `📅 월별 흐름:\n`;
+
+          monthlyData.forEach((m) => {
+            const modeText = monthModeText(m.mode);
+            const luckText =
+              m.tags?.[0] === "길"
+                ? "길운"
+                : m.tags?.[0] === "흉"
+                ? "흉운"
+                : "중운";
+            text += `${m.month}월: ${luckText} · ${modeText} · ${m.summary}\n`;
+          });
+
+          text += `\n🔮 사주풀이 서비스: https://saju.funnyfunny.cloud/`;
+
+          try {
+            await navigator.clipboard.writeText(text);
+            shareStatus.textContent = "신년운세가 클립보드에 복사되었어.";
+          } catch (err) {
+            // 클립보드 API가 없거나 실패한 경우
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+              document.execCommand("copy");
+              shareStatus.textContent = "신년운세가 클립보드에 복사되었어.";
+            } catch (e) {
+              prompt("복사할 내용:", text);
+              shareStatus.textContent = "텍스트를 확인해줘.";
+            }
+            document.body.removeChild(textarea);
+          }
+          return;
+        }
+
+        // 오늘운세, 궁합 모드는 기존 카드 공유
         const snapshot = renderAll() || {
           totalScore: "—",
           coupleElements: state.A.elements,
@@ -5406,7 +5789,16 @@
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `운세카드_${new Date().toISOString().slice(0, 10)}.png`;
+
+        // 모드별 파일명 설정
+        const dateStr = new Date().toISOString().slice(0, 10);
+        let fileName;
+        if (state.mode === "today") {
+          fileName = `오늘의운세카드_${dateStr}.png`;
+        } else {
+          fileName = `궁합카드_${dateStr}.png`;
+        }
+        a.download = fileName;
         a.click();
 
         try {
@@ -5431,37 +5823,57 @@
           alert("PDF 라이브러리가 준비되지 않았어.");
           return;
         }
+
         const area = document.getElementById("pdfArea");
         const canvas = await html2canvas(area, {
-          scale: 2,
-          backgroundColor: null,
+          scale: 1.5,
+          backgroundColor: "#ffffff",
           useCORS: true,
           logging: false,
+          ignoreElements: (element) => {
+            // hidden 클래스가 있는 요소는 제외
+            return element.classList?.contains("hidden");
+          },
         });
-        const imgData = canvas.toDataURL("image/png", 1.0);
+
+        const imgData = canvas.toDataURL("image/jpeg", 0.82);
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+        const pdf = new jsPDF({
+          orientation: "p",
+          unit: "mm",
+          format: "a4",
+          compress: true,
+        });
         const pageW = pdf.internal.pageSize.getWidth();
         const pageH = pdf.internal.pageSize.getHeight();
         const imgW = pageW;
         const imgH = (canvas.height * imgW) / canvas.width;
 
+        // 이미지를 PDF에 추가 (여러 페이지로 나누기)
         if (imgH <= pageH) {
-          pdf.addImage(imgData, "PNG", 0, 0, imgW, imgH);
+          pdf.addImage(imgData, "JPEG", 0, 0, imgW, imgH);
         } else {
           let y = 0;
           let remaining = imgH;
           while (remaining > 0) {
-            pdf.addImage(imgData, "PNG", 0, -y, imgW, imgH);
+            pdf.addImage(imgData, "JPEG", 0, -y, imgW, imgH);
             remaining -= pageH;
             y += pageH;
             if (remaining > 0) pdf.addPage();
           }
         }
 
-        const fileName = `운세리포트_${new Date()
-          .toISOString()
-          .slice(0, 10)}.pdf`;
+        // 모드별 파일명 설정
+        const dateStr = new Date().toISOString().slice(0, 10);
+        let fileName;
+        if (state.mode === "today") {
+          fileName = `오늘의운세_${dateStr}.pdf`;
+        } else if (state.mode === "newyear") {
+          fileName = `신년운세_${dateStr}.pdf`;
+        } else {
+          fileName = `궁합리포트_${dateStr}.pdf`;
+        }
+
         pdf.save(fileName);
       }
 
@@ -5499,7 +5911,6 @@
         bHiddenMode.disabled = true;
         bTzOffset.value = data.bTzOffset ?? "9";
         bDstMode.value = data.bDstMode || "off";
-        toneSelect.value = data.tone || "couple";
       }
 
       function getInputData() {
@@ -5522,7 +5933,6 @@
           bHiddenMode: "on",
           bTzOffset: bTzOffset.value,
           bDstMode: bDstMode.value,
-          tone: toneSelect.value,
           mode: state.mode,
         };
       }
@@ -5533,7 +5943,6 @@
           inputTitle.textContent = "궁합 입력";
           inputDesc.textContent = "A/B 출생 정보 입력 → 궁합 계산";
           panelB.classList.remove("hidden");
-          toneRow.classList.remove("hidden");
           gridContainer.style.display = "grid";
           gridContainer.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
           gridContainer.style.justifyItems = "stretch";
@@ -5542,7 +5951,6 @@
           inputTitle.textContent = "신년운세 입력";
           inputDesc.textContent = "한 사람 출생 정보 입력 → 2026 흐름";
           panelB.classList.add("hidden");
-          toneRow.classList.add("hidden");
           gridContainer.style.display = "flex";
           gridContainer.style.justifyContent = "center";
           panelA.style.maxWidth = "500px";
@@ -5550,7 +5958,6 @@
           inputTitle.textContent = "오늘운세 입력";
           inputDesc.textContent = "한 사람 출생 정보 입력 → 오늘 한 줄";
           panelB.classList.add("hidden");
-          toneRow.classList.add("hidden");
           gridContainer.style.display = "flex";
           gridContainer.style.justifyContent = "center";
           panelA.style.maxWidth = "500px";
@@ -5710,16 +6117,14 @@
   INIT
 ====================================================== */
       function init() {
-        const cfg = loadTuneCfg();
-        tuneStrength.value = String(cfg.strength ?? 1);
-        tuneLabel.textContent = Number(tuneStrength.value).toFixed(1);
-        updateTuneStatus();
         const saved = loadInputs();
         setInputs(saved);
+        // 항상 메뉴 화면을 먼저 표시
+        showStep("menu");
+        // 저장된 모드가 있으면 해당 모드로 입력 화면 설정만 해두기 (화면은 메뉴 유지)
         if (saved.mode) {
-          state.mode = saved.mode;
+          state.mode = saved.mode === "compat" ? "newyear" : saved.mode;
           configureInputForMode(state.mode);
-          showStep("input");
         }
       }
 
@@ -5752,50 +6157,10 @@
         bHiddenMode.disabled = true;
         bTzOffset.value = "9";
         bDstMode.value = "off";
-        toneSelect.value = "couple";
         alert("저장된 입력을 초기화했어.");
       });
       backToInput.addEventListener("click", () => showStep("input"));
       restartFlow.addEventListener("click", () => showStep("menu"));
-
-      document.addEventListener("click", (e) => {
-        const btn = e.target.closest(".like-btn");
-        if (!btn) return;
-        const ruleId = btn.dataset.rule;
-        feedback(ruleId);
-        btn.textContent = "공감됨 ✔";
-        btn.disabled = true;
-      });
-
-      tuneStrength.addEventListener("input", () => {
-        const v = Number(tuneStrength.value);
-        tuneLabel.textContent = v.toFixed(1);
-        saveTuneCfg({ strength: v });
-        updateTuneStatus();
-        if (state.mode === "compat") renderAll();
-      });
-
-      tuneReset.addEventListener("click", () => {
-        localStorage.removeItem(TUNE_KEY);
-        updateTuneStatus();
-        if (state.mode === "compat") renderAll();
-      });
-
-      toneSelect.addEventListener("change", () => {
-        saveInputs(getInputData());
-        if (state.mode === "compat") renderAll();
-      });
-
-      todayLuckBtn.addEventListener("click", () => {
-        if (state.mode === "compat" && state.A && state.B) {
-          renderTodayCoupleBox(buildPerson(state.A), buildPerson(state.B));
-        } else if (state.A) {
-          todayCoupleLine.textContent = todayLuckLine(buildPerson(state.A));
-          todayCoupleMeta.textContent = `오늘 오행: ${
-            getTodayElementFlow().stemElem
-          }/${getTodayElementFlow().branchElem}`;
-        }
-      });
 
       shareBtn.addEventListener("click", shareCard);
       pdfBtn.addEventListener("click", savePdfPretty);
