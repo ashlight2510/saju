@@ -824,7 +824,7 @@
           <div class="input-container">
             <div class="grid-2" style="margin-top: 20px">
               <div class="rule-card" id="panelA">
-                <h3>A 정보</h3>
+                <h3>출생 정보</h3>
                 <div class="row">
                   <input id="aDate" type="date" />
                   <select id="aHourBranch">
@@ -842,7 +842,7 @@
                     <option value="해">해 (21:31-23:30)</option>
                   </select>
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <label class="mini">
                     <input id="aTimeUnknown" type="checkbox" />
                     시간 모름(시주 제외)
@@ -859,7 +859,7 @@
                     placeholder="음력 (예: 1986.4.24)"
                   />
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <input
                     id="aDaewoonStart"
                     type="number"
@@ -870,15 +870,15 @@
                   />
                 </div>
                 <p class="mini">
-                  시간은 12간지만 선택하면 돼. 시간 모름이면 시주는 제외돼.
+                  날짜와 시간(12간지)을 입력한 뒤 성별만 선택하면 돼.
                 </p>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <select id="aHiddenMode">
                     <option value="on" selected>장간 반영</option>
                     <option value="off">장간 미반영</option>
                   </select>
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <input
                     id="aTzOffset"
                     type="number"
@@ -893,17 +893,11 @@
                     <option value="kr1988">한국 DST(1988) 반영</option>
                   </select>
                 </div>
-                <p class="mini">
-                  신토정비결 기준에서는 장간을 고정 반영해. (옵션은 비활성화)
-                </p>
-                <p class="mini">
-                  출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로
-                  계산해.
-                </p>
+                <p class="mini">신토정비결 기준으로 계산해.</p>
               </div>
 
               <div class="rule-card" id="panelB">
-                <h3>B 정보</h3>
+                <h3>상대 정보</h3>
                 <div class="row">
                   <input id="bDate" type="date" />
                   <select id="bHourBranch">
@@ -921,7 +915,7 @@
                     <option value="해">해 (21:31-23:30)</option>
                   </select>
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <label class="mini">
                     <input id="bTimeUnknown" type="checkbox" />
                     시간 모름(시주 제외)
@@ -938,7 +932,7 @@
                     placeholder="음력 (예: 1986.4.24)"
                   />
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <input
                     id="bDaewoonStart"
                     type="number"
@@ -949,15 +943,15 @@
                   />
                 </div>
                 <p class="mini">
-                  시간은 12간지만 선택하면 돼. 시간 모름이면 시주는 제외돼.
+                  날짜와 시간(12간지)을 입력한 뒤 성별만 선택하면 돼.
                 </p>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <select id="bHiddenMode">
                     <option value="on" selected>장간 반영</option>
                     <option value="off">장간 미반영</option>
                   </select>
                 </div>
-                <div class="row" style="margin-top: 8px">
+                <div class="row hidden" style="margin-top: 8px">
                   <input
                     id="bTzOffset"
                     type="number"
@@ -972,13 +966,7 @@
                     <option value="kr1988">한국 DST(1988) 반영</option>
                   </select>
                 </div>
-                <p class="mini">
-                  신토정비결 기준에서는 장간을 고정 반영해. (옵션은 비활성화)
-                </p>
-                <p class="mini">
-                  출생 시간대(UTC 오프셋)와 DST 여부를 선택하면 현지 기준으로
-                  계산해.
-                </p>
+                <p class="mini">신토정비결 기준으로 계산해.</p>
               </div>
             </div>
 
@@ -996,7 +984,7 @@
                 class="mini"
                 style="font-size: 0.85rem; color: rgba(15, 23, 42, 0.5)"
               >
-                * 시간대 선택 가능 · 1988 한국 DST 옵션 제공
+                ※ 입력 시간은 한국 기준으로 계산합니다.
               </span>
             </div>
           </div>
@@ -1148,7 +1136,7 @@
   0. 기본 DOM
 ====================================================== */
       const todayBadge = document.getElementById("todayBadge");
-      todayBadge.textContent = new Date().toISOString().slice(0, 10);
+      todayBadge.textContent = "신토정비결";
 
       const stepMenu = document.getElementById("stepMenu");
       const stepInput = document.getElementById("stepInput");
@@ -1959,17 +1947,18 @@
         let monthBranch = "인";
         let monthStartName = "입춘";
         let monthStartLocal = bdsLocal[0].local;
+        // 다음 해 입춘 시간을 미리 계산 (성능 최적화)
+        const nextYearBoundaries = computeMonthBoundaryTimesUTC(sajuYear + 1);
+        const nextYearIpchunLocal = toLocalMillis(
+          nextYearBoundaries[0].timeUTC,
+          tzOffsetMinutes,
+          dstMode
+        );
         for (let i = 0; i < bdsLocal.length; i++) {
           const cur = bdsLocal[i];
           const next = bdsLocal[(i + 1) % bdsLocal.length];
           const nextLocal =
-            i === bdsLocal.length - 1
-              ? toLocalMillis(
-                  computeMonthBoundaryTimesUTC(sajuYear + 1)[0].timeUTC,
-                  tzOffsetMinutes,
-                  dstMode
-                )
-              : next.local;
+            i === bdsLocal.length - 1 ? nextYearIpchunLocal : next.local;
 
           if (birthMillisLocal >= cur.local && birthMillisLocal < nextLocal) {
             monthBranch = cur.branch;
@@ -2198,20 +2187,31 @@
           pillars.monthPillar,
           pillars.dayPillar,
         ];
-        list.push(includeHour && pillars.hourPillar ? pillars.hourPillar : null);
+        list.push(
+          includeHour && pillars.hourPillar ? pillars.hourPillar : null
+        );
 
         list.forEach((p, i) => {
           if (!p) return;
-          addElem(breakdown.stems, STEM_ELEM[p.stem], STEM_W[i]);
-          addElem(breakdown.branches, BRANCH_MAIN_ELEM[p.branch], BRANCH_W[i]);
+          const stemElem = STEM_ELEM[p.stem];
+          const branchElem = BRANCH_MAIN_ELEM[p.branch];
+          if (!stemElem || !branchElem) {
+            console.warn("Invalid pillar:", p);
+            return;
+          }
+          addElem(breakdown.stems, stemElem, STEM_W[i]);
+          addElem(breakdown.branches, branchElem, BRANCH_W[i]);
         });
         if (hiddenMode === "on") {
           list.forEach((p, i) => {
             if (!p) return;
             const arr = HIDDEN_STEMS[p.branch] || [];
-            arr.forEach(([hs, w]) =>
-              addElem(breakdown.hidden, STEM_ELEM[hs], w * HIDDEN_W[i])
-            );
+            arr.forEach(([hs, w]) => {
+              const elem = STEM_ELEM[hs];
+              if (elem) {
+                addElem(breakdown.hidden, elem, w * HIDDEN_W[i]);
+              }
+            });
           });
         }
         const total = Object.values(base).reduce((a, b) => a + b, 0) || 1;
@@ -2220,9 +2220,9 @@
           base[k] = Math.round(base[k] * scale);
         });
 
-        const key = `${pillars.yearPillar.text}|${pillars.monthPillar.text}|${pillars.dayPillar.text}|${
-          pillars.hourPillar ? pillars.hourPillar.text : "—"
-        }`;
+        const key = `${pillars.yearPillar.text}|${pillars.monthPillar.text}|${
+          pillars.dayPillar.text
+        }|${pillars.hourPillar ? pillars.hourPillar.text : "—"}`;
         const anchor = { key, applied: false };
         const SHINTO_ANCHORS = {
           "병인|계사|병자|무자": { 목: 16, 화: 33, 토: 24, 금: 7, 수: 70 },
@@ -2235,11 +2235,6 @@
         };
         if (SHINTO_ANCHORS[key]) {
           const target = SHINTO_ANCHORS[key];
-          Object.keys(base).forEach((k) => {
-            const delta = target[k] - base[k];
-            base[k] = target[k];
-            breakdown.hidden[k] = (breakdown.hidden[k] || 0) + delta;
-          });
           // Anchor applied: use a fixed evidence ratio for consistency.
           const SHINTO_EVIDENCE_RATIO = {
             stems: 0.2,
@@ -2248,10 +2243,13 @@
             season: 0.0,
           };
           Object.keys(base).forEach((k) => {
-            breakdown.stems[k] = base[k] * SHINTO_EVIDENCE_RATIO.stems;
-            breakdown.branches[k] = base[k] * SHINTO_EVIDENCE_RATIO.branches;
-            breakdown.hidden[k] = base[k] * SHINTO_EVIDENCE_RATIO.hidden;
-            breakdown.season[k] = base[k] * SHINTO_EVIDENCE_RATIO.season;
+            if (target[k] !== undefined) {
+              base[k] = target[k];
+              breakdown.stems[k] = base[k] * SHINTO_EVIDENCE_RATIO.stems;
+              breakdown.branches[k] = base[k] * SHINTO_EVIDENCE_RATIO.branches;
+              breakdown.hidden[k] = base[k] * SHINTO_EVIDENCE_RATIO.hidden;
+              breakdown.season[k] = base[k] * SHINTO_EVIDENCE_RATIO.season;
+            }
           });
           anchor.applied = true;
         }
@@ -3248,13 +3246,95 @@
               ? "흉"
               : "중";
         }
+
+        // 월별 상세 설명 생성
+        const monthDetails = generateMonthDetails(
+          month,
+          seasonElem,
+          mode,
+          luckTag,
+          dayElem
+        );
+
         return {
           oneLine,
           tip,
           extra,
           detail,
+          monthDetails,
+          mode,
+          luckTag,
           tags: [luckTag, mode, seasonElem],
         };
+      }
+
+      function generateMonthDetails(month, seasonElem, mode, luckTag, dayElem) {
+        const monthLabels = [
+          "",
+          "1월",
+          "2월",
+          "3월",
+          "4월",
+          "5월",
+          "6월",
+          "7월",
+          "8월",
+          "9월",
+          "10월",
+          "11월",
+          "12월",
+        ];
+        const monthLabel = monthLabels[month] || `${month}월`;
+
+        const templates = {
+          push: {
+            길: [
+              `${monthLabel} 길운과 월성이 함께 문을 두드리니 맨손으로도 성공할 기운입니다. 관록이 들기 시작하니 지위와 책임을 얻음에도 부족함이 없습니다. 자손을 얻어야 할 시기라면 좋은 소식이 있을 것이며 가족 중에서라도 새 식구의 잉태 내지 혼인의 소식이 있을 것입니다. 올해 새 식구를 맞이하게 되면 온 가족이 길하게 될 것이니 귀인으로 맞이하시기 바랍니다.`,
+              `${monthLabel} 기운이 청아하여 만나는 사람마다 기쁨을 주게 됩니다. 애정도 좋고 가정에 기쁨도 있고 새로운 일로 인하여 분주함도 있으니 나쁠 일이 없습니다. 다만 건강상의 문제로 잔병을 치를 수도 있으니 과로를 경계하시기 바랍니다. 시작이 좋으니 한 해가 좋음을 미리 알리는 징후입니다. 귀인을 만나서 재물을 얻을 수 있으니 크지는 않지만 수익도 좋은 달이군요.`,
+            ],
+            중: [
+              `${monthLabel} 길상의 기운이 들어 액운을 막아주고 비로소 뜻을 크게 품으니 분주함도 많고 노력도 많아져야 하는 때입니다. 노력하지 않으면 얻을 것이 없으니 준비해야 할 일이 있으면 남에게 의탁하지 말고 직접 움직이시기 바랍니다. 인연이 좋음으로 움직일수록 크게 도움받을 일이 생길 것입니다. 대길운이 서서히 문안으로 들어오기 시작하니 기운이 활기참을 느낄 수 있을 것입니다.`,
+            ],
+          },
+          pushPlus: {
+            길: [
+              `${monthLabel} 애정이 많은 시기이니 사랑을 깊이 있게 하는 시기군요. 가정이 있으신 분은 다른 이성에게 눈이 가지 않도록 조심하시기 바랍니다. 나의 눈도 좋지만 상대가 나를 바라보는 눈도 아름다운 시기입니다. 인기가 많고 자신의 장점이 부각되어 많은 사람들로부터 칭찬을 듣게 되는 시기입니다. 선남선녀 들은 새롭게 만나는 만남이나 연인들과의 만남이 모두 좋을 것이니 프러포즈를 받기도 하고 하기도 합니다. 좋은 결과가 있을 것입니다.`,
+            ],
+          },
+          brake: {
+            흉: [
+              `${monthLabel} 용맹함을 다한 범이 들판으로 나섰으니 사냥꾼의 먹이 밖에 되지 않습니다. 의욕이 앞서 실수를 범할 수 있으니 매사 신중해야 합니다. 나서지 말고 몸을 낮추는 지혜를 발휘하시면 후환은 없을 것입니다. 동남쪽 방향이 길방이니 재물이 머문 곳입니다. 금년은 북쪽이 길하지만 이번 달만큼은 동남쪽이 길한 방향입니다. 자중하면 잃을 것이 없으니 다음을 기약해도 늦지 않음을 알아야 합니다.`,
+              `${monthLabel} 자신의 재물을 주머니 깊이 넣어두지 않으면 반드시 이를 노리는 사람이 있습니다. 다른 사람과 재물에 관한 거래를 절대로 하지 마시기 바랍니다. 가족 중에 환자가 생길 것이니 근심이 생기는 달입니다. 이번 달이 큰 고비인데 새롭게 일을 확장하면 해결의 실마리가 보이지 않으니 때를 기다리는 지혜를 참으로 많이 발휘하시어야 합니다. 쉬어가는 것이 결코 늦지 않음을 명심하시기 바랍니다.`,
+              `${monthLabel} 서산에 해는 지는데 갈 길은 멀고, 젓가락 놀리듯 바쁘기만 한 발걸음과 같구나. 두 사람의 마음이 서로 다르니 하는 일을 끝내 이루지 못한다. 마음이 문제이니 문제는 욕심이로다. 손해를 보거나 다툼이 있을 수 있으니 주의하시되 매사에 목성(木姓)을 가까이하지 마라. 해는 중턱으로 넘어서고 갈 길은 먼데 넘어야 할 고개는 아직도 멀리 있는 형국입니다. 두 사람의 마음이 서로 다르니 이것이 마지막 어려움이 될 듯싶습니다. 욕심을 버려야 하는데 이 또한 쉽지 않을 것입니다.`,
+            ],
+            중: [
+              `${monthLabel} 흉함이 변하여 길함이 되니 세상일이 태평하고 마음이 평안한 시기입니다. 모처럼 근심 걱정이 사라지니 새로운 계획을 세우기에 좋습니다. 그러나 서두르면 해가 될 것이니 경거망동하여 외부로 바쁘게 돌면 손실이 있을 것입니다. 마지막 풍파가 한 번은 더 있을 것이니 길하다고 하여 마음을 놓아서는 안 됩니다. 집안에 있어서 새로운 계획을 세우면 후 일이 더욱 좋으니 명심하시기 바랍니다.`,
+            ],
+          },
+          recover: {
+            중: [
+              `${monthLabel} 하늘과 땅이 서로 화합하여 그 이익이 재물이나 일로써 생길 운세입니다. 작은 것을 버려 큰 것을 취하는 운세이니 기존의 것은 잊어버려도 좋을 것입니다. 새로이 투자하는 부분은 아직은 서둘러서는 안 됩니다. 매사가 좋음이 더 많으니 손익을 따지면 반드시 얻음이 클 것이지만 신규로 재물을 들이어 얻는 것은 위험수가 있으니 자중이 필요합니다. 서쪽으로 가게 되면 불리하니 서쪽 방향으로 움직이는 일은 경계하고 피해야 할 것입니다.`,
+              `${monthLabel} 마른 샘에 비가 내리는 형국입니다. 비로소 막혔던 일이 풀리고 시원함을 느끼게 되는 달입니다. 문제가 되었던 것은 해결의 실마리가 보이는 시기입니다. 한 해의 시작이 일 년을 좌우하는데 올해는 일이 잘 풀릴 징조가 보이는군요. 자신의 위치와 지위가 크게 향상이 되어 뜻한 바를 실행에 옮길 준비가 갖추어집니다. 좋은 인연도 만나는 시기이니 대인적인 교류가 많아질 것입니다.`,
+              `${monthLabel} 주변에 역마가 끼어 나를 괴롭히는 자가 있으니 재물이 나가지 않으나 마음이 상할 기운이 있습니다. 가까운 벗이 나를 의지하니 돕지 않으면 안 되는 일이 생길 것입니다. 마음을 크게 먹고 진심으로 도우면 친구도 좋고 나도 좋은 일이 후에 있을 것입니다. 음덕으로 쌓아 후일의 기쁨으로 삼고자 하면 액운은 아니니 덕을 쌓는 시기로 삼으시고 자신의 것보다는 후 일의 덕을 생각하며 보내시기 바랍니다. 머지않아 큰 기쁨이 옮을 알아야 합니다.`,
+              `${monthLabel} 상하가 화목하여 집안에 문제가 없습니다. 화목이 곧 길운의 시작이니 가족 중에 근심 있는 자의 고민이 사라질 것입니다. 황룡이 구슬을 가지고 노는 괘를 얻었으니 곧 이루고자 하는 것을 이룰 수 있을 것입니다. 다만 때가 아님이 아쉬움으로 남으니 서둘러 일을 실천에 옮기는 일은 없도록 하시기 바랍니다. 준비를 함에 만전을 기해야 함을 잊지 마시기 바랍니다.`,
+            ],
+          },
+          steady: {
+            중: [
+              `${monthLabel} 유지가 이기는 달입니다. 기본만 지켜도 충분합니다. 루틴 3개(수면/식사/정리)만 챙겨야 합니다. 작은 이익을 모아 큰 복으로 바꿀 시기입니다. 세운이 평온하니 성실이 곧 복입니다.`,
+              `${monthLabel} 큰 변화보다 작은 개선이 맞습니다. 5% 개선 목표로 가면 꾸준히 이깁니다. 욕심을 줄이면 오히려 얻음이 있습니다. 세운이 안정이니 작은 성실이 큰 복이 됩니다.`,
+            ],
+          },
+        };
+
+        const modeTemplates = templates[mode] || templates.steady;
+        const luckTemplates =
+          modeTemplates[luckTag] ||
+          modeTemplates.중 ||
+          modeTemplates[Object.keys(modeTemplates)[0]];
+        const seed = `${month}|${seasonElem}|${mode}|${luckTag}`;
+        const idx = hashToIndex(seed, luckTemplates.length);
+        return luckTemplates[idx] || "";
       }
 
       function makeMonthlyLuck(person) {
@@ -3266,15 +3346,16 @@
           const s = flow.seasonTop;
           const relTop = relationElem(top, s);
           const relWeak = relationElem(weak, s);
-          const { oneLine, tip, extra, detail, tags } = pickMonthlyCopy({
-            month: m,
-            seasonElem: s,
-            top,
-            weak,
-            relTop,
-            relWeak,
-            dayElem,
-          });
+          const { oneLine, tip, extra, detail, monthDetails, tags } =
+            pickMonthlyCopy({
+              month: m,
+              seasonElem: s,
+              top,
+              weak,
+              relTop,
+              relWeak,
+              dayElem,
+            });
           months.push({
             month: m,
             seasonElem: s,
@@ -3283,6 +3364,7 @@
             tip,
             extra,
             detail,
+            monthDetails,
             tags,
           });
         }
@@ -3298,10 +3380,19 @@
                 <div class="section-title">${m.month}월 · ${
               m.seasonElem
             } 흐름</div>
-                <span class="mini">${m.tags.join(" · ")}</span>
+                <span class="mini">${formatMonthTags(m.tags)}</span>
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
-              <p class="mini">팁: ${escapeHtml(m.tip)}</p>
+              ${
+                m.monthDetails
+                  ? `<p class="mini" style="line-height: 1.8; margin-top: 12px;">${escapeHtml(
+                      m.monthDetails
+                    )}</p>`
+                  : ""
+              }
+              <p class="mini" style="margin-top: 8px;">팁: ${escapeHtml(
+                m.tip
+              )}</p>
               ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
               ${m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""}
             </div>`
@@ -3503,31 +3594,308 @@
           return acc;
         }, {});
 
-        elementsSummary.textContent = `지금은 ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야.`;
+        elementsSummary.textContent = `오행 분석: ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야.`;
         renderElementsRadar(elements);
 
+        // 신토정비결 보정 정보 HTML 생성
+        let anchorInfoHtml = null;
+        if (meta.anchorKey) {
+          const keyParts = meta.anchorKey.split("|");
+          const SHINTO_ANCHORS = {
+            "병인|계사|병자|무자": { 목: 16, 화: 33, 토: 24, 금: 7, 수: 70 },
+            "무진|기미|정해|신해": { 목: 26, 화: 9, 토: 70, 금: 10, 수: 35 },
+            "을해|갑신|기축|계유": { 목: 27, 화: 0, 토: 32, 금: 49, 수: 42 },
+            "임술|병오|계미|신유": { 목: 3, 화: 42, 토: 46, 금: 49, 수: 10 },
+            "경신|신사|임인|기유": { 목: 16, 화: 23, 토: 31, 금: 73, 수: 7 },
+            "무오|정사|신묘|정유": { 목: 30, 화: 56, 토: 27, 금: 37, 수: 0 },
+            "계미|정사|정해|기유": { 목: 10, 화: 35, 토: 42, 금: 37, 수: 26 },
+          };
+          const anchorData = SHINTO_ANCHORS[meta.anchorKey];
+          const statusText = meta.anchorApplied ? "적용됨" : "미적용";
+          const statusClass = meta.anchorApplied ? "chip e-wood" : "chip";
+
+          if (anchorData) {
+            anchorInfoHtml = `
+              <div style="margin: 16px 0; padding: 16px; background: rgba(99, 102, 241, 0.05); border-radius: var(--radius-sm); border: 1px solid rgba(99, 102, 241, 0.15);">
+                <div class="section-title" style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                  <span>🔮 신토정비결 보정</span>
+                  <span class="${statusClass}" style="font-size: 11px; padding: 4px 10px;">${statusText}</span>
+                </div>
+                <div style="margin-bottom: 12px;">
+                  <table class="report-table" style="font-size: 13px;">
+                    <thead>
+                      <tr>
+                        <th style="width: 80px;">구분</th>
+                        <th>년</th>
+                        <th>월</th>
+                        <th>일</th>
+                        <th>시</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>간지</th>
+                        <td style="font-weight: 800; color: var(--accent);">${escapeHtml(
+                          keyParts[0] || "—"
+                        )}</td>
+                        <td style="font-weight: 800; color: var(--accent);">${escapeHtml(
+                          keyParts[1] || "—"
+                        )}</td>
+                        <td style="font-weight: 800; color: var(--accent);">${escapeHtml(
+                          keyParts[2] || "—"
+                        )}</td>
+                        <td style="font-weight: 800; color: var(--accent);">${escapeHtml(
+                          keyParts[3] || "—"
+                        )}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div>
+                  <table class="report-table" style="font-size: 13px; width: 100%;">
+                    <thead>
+                      <tr>
+                        <th style="width: 90px; text-align: center;">오행</th>
+                        <th style="width: 80px; text-align: center;">목</th>
+                        <th style="width: 80px; text-align: center;">화</th>
+                        <th style="width: 80px; text-align: center;">토</th>
+                        <th style="width: 80px; text-align: center;">금</th>
+                        <th style="width: 80px; text-align: center;">수</th>
+                        <th style="width: 70px; text-align: center;">합계</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th style="text-align: center;">보정값</th>
+                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e8f7e9; color: #0f3d2e;">${
+                          anchorData.목
+                        }</td>
+                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #ffe9e3; color: #7a1f16;">${
+                          anchorData.화
+                        }</td>
+                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #f8f1df; color: #5a3b12;">${
+                          anchorData.토
+                        }</td>
+                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #eef3ff; color: #1b3a70;">${
+                          anchorData.금
+                        }</td>
+                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e6f5ff; color: #0c3550;">${
+                          anchorData.수
+                        }</td>
+                        <td style="text-align: center; padding: 8px; font-weight: 800; font-size: 15px; color: var(--accent); background: rgba(99, 102, 241, 0.1);">${Object.values(
+                          anchorData
+                        ).reduce((a, b) => a + b, 0)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p class="mini" style="margin-top: 12px; padding: 8px; background: rgba(255, 255, 255, 0.5); border-radius: 8px;">
+                  ${
+                    meta.anchorApplied
+                      ? "✅ 신토정비결 기준 오행 분포로 보정이 적용되었습니다. 실제 오행 계산값이 신토정비결 기준값으로 대체되었습니다."
+                      : "ℹ️ 신토정비결 기준 오행 분포가 있으나 보정이 적용되지 않았습니다. 일반 계산 방식으로 산출되었습니다."
+                  }
+                </p>
+              </div>
+            `;
+          } else {
+            anchorInfoHtml = `
+              <div style="margin: 12px 0;">
+                <div class="section-title" style="margin-bottom: 8px;">
+                  신토정비결 보정 <span class="chip" style="font-size: 11px; padding: 2px 8px;">미적용</span>
+                </div>
+                <p class="mini">간지: ${escapeHtml(meta.anchorKey)}</p>
+                <p class="mini">해당 간지 조합에 대한 신토정비결 보정 데이터가 없습니다.</p>
+              </div>
+            `;
+          }
+        }
+
+        // 오행 정보 표 생성
+        const elementsTableHtml = `
+          <div style="margin: 16px 0;">
+            <div class="section-title" style="margin-bottom: 12px;">📊 오행 분석</div>
+            ${
+              meta.birthText
+                ? `<p class="mini" style="margin-bottom: 12px;"><strong>출생:</strong> ${escapeHtml(
+                    meta.birthText
+                  )}</p>`
+                : ""
+            }
+            <table class="report-table" style="font-size: 13px; margin-bottom: 12px;">
+              <thead>
+                <tr>
+                  <th style="width: 100px;">구분</th>
+                  <th style="width: 80px; text-align: center;">목</th>
+                  <th style="width: 80px; text-align: center;">화</th>
+                  <th style="width: 80px; text-align: center;">토</th>
+                  <th style="width: 80px; text-align: center;">금</th>
+                  <th style="width: 80px; text-align: center;">수</th>
+                  <th style="width: 70px; text-align: center;">합계</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>분포(%)</th>
+                  <td style="text-align: center; font-weight: 700;">${
+                    percent["목"]
+                  }%</td>
+                  <td style="text-align: center; font-weight: 700;">${
+                    percent["화"]
+                  }%</td>
+                  <td style="text-align: center; font-weight: 700;">${
+                    percent["토"]
+                  }%</td>
+                  <td style="text-align: center; font-weight: 700;">${
+                    percent["금"]
+                  }%</td>
+                  <td style="text-align: center; font-weight: 700;">${
+                    percent["수"]
+                  }%</td>
+                  <td style="text-align: center; font-weight: 800; color: var(--accent);">100%</td>
+                </tr>
+                <tr>
+                  <th>점수(150)</th>
+                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #e8f7e9; color: #0f3d2e;">${
+                    rounded["목"]
+                  }</td>
+                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #ffe9e3; color: #7a1f16;">${
+                    rounded["화"]
+                  }</td>
+                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #f8f1df; color: #5a3b12;">${
+                    rounded["토"]
+                  }</td>
+                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #eef3ff; color: #1b3a70;">${
+                    rounded["금"]
+                  }</td>
+                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #e6f5ff; color: #0c3550;">${
+                    rounded["수"]
+                  }</td>
+                  <td style="text-align: center; font-weight: 800; color: var(--accent);">150</td>
+                </tr>
+                <tr>
+                  <th>평균 대비</th>
+                  ${["목", "화", "토", "금", "수"]
+                    .map((k) => {
+                      const v = Math.round((elements[k] || 0) * 10) / 10;
+                      const avg = totalSum / 5;
+                      const diff = Math.round((v - avg) * 10) / 10;
+                      const sign = diff >= 0 ? "+" : "";
+                      const color =
+                        diff >= 0 ? "var(--accent)" : "rgba(15, 23, 42, 0.6)";
+                      return `<td style="text-align: center; font-weight: 700; color: ${color};">${sign}${diff}</td>`;
+                    })
+                    .join("")}
+                  <td style="text-align: center;">—</td>
+                </tr>
+              </tbody>
+            </table>
+            ${
+              breakdown
+                ? `
+              <table class="report-table" style="font-size: 12px; margin-bottom: 12px;">
+                <thead>
+                  <tr>
+                    <th style="width: 100px;">구분</th>
+                    <th style="width: 80px; text-align: center;">목</th>
+                    <th style="width: 80px; text-align: center;">화</th>
+                    <th style="width: 80px; text-align: center;">토</th>
+                    <th style="width: 80px; text-align: center;">금</th>
+                    <th style="width: 80px; text-align: center;">수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>천간</th>
+                    ${["목", "화", "토", "금", "수"]
+                      .map((k) => {
+                        const v =
+                          Math.round((breakdown.stems[k] || 0) * 10) / 10;
+                        const p =
+                          Math.round(
+                            ((breakdown.stems[k] || 0) / totalSum) * 1000
+                          ) / 10;
+                        return `<td style="text-align: center; font-size: 11px;">${v}(${p}%)</td>`;
+                      })
+                      .join("")}
+                  </tr>
+                  <tr>
+                    <th>지지 본기</th>
+                    ${["목", "화", "토", "금", "수"]
+                      .map((k) => {
+                        const v =
+                          Math.round((breakdown.branches[k] || 0) * 10) / 10;
+                        const p =
+                          Math.round(
+                            ((breakdown.branches[k] || 0) / totalSum) * 1000
+                          ) / 10;
+                        return `<td style="text-align: center; font-size: 11px;">${v}(${p}%)</td>`;
+                      })
+                      .join("")}
+                  </tr>
+                  ${
+                    meta.hiddenMode === "on"
+                      ? `
+                  <tr>
+                    <th>장간</th>
+                    ${["목", "화", "토", "금", "수"]
+                      .map((k) => {
+                        const v =
+                          Math.round((breakdown.hidden[k] || 0) * 10) / 10;
+                        const p =
+                          Math.round(
+                            ((breakdown.hidden[k] || 0) / totalSum) * 1000
+                          ) / 10;
+                        return `<td style="text-align: center; font-size: 11px;">${v}(${p}%)</td>`;
+                      })
+                      .join("")}
+                  </tr>
+                  `
+                      : ""
+                  }
+                  <tr>
+                    <th>월령 가중</th>
+                    ${["목", "화", "토", "금", "수"]
+                      .map((k) => {
+                        const v =
+                          Math.round((breakdown.season[k] || 0) * 10) / 10;
+                        const p =
+                          Math.round(
+                            ((breakdown.season[k] || 0) / totalSum) * 1000
+                          ) / 10;
+                        return `<td style="text-align: center; font-size: 11px;">${v}(${p}%)</td>`;
+                      })
+                      .join("")}
+                  </tr>
+                </tbody>
+              </table>
+            `
+                : ""
+            }
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+              <div class="chip" style="padding: 8px 12px;">
+                <strong>강:</strong> ${profile.strong || "—"}
+              </div>
+              <div class="chip" style="padding: 8px 12px;">
+                <strong>중:</strong> ${profile.mid || "—"}
+              </div>
+              <div class="chip" style="padding: 8px 12px;">
+                <strong>약:</strong> ${profile.weak || "—"}
+              </div>
+            </div>
+            ${
+              evidenceLine
+                ? `<p class="mini" style="padding: 8px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; margin-bottom: 12px;"><strong>근거:</strong> ${escapeHtml(
+                    evidenceLine
+                  )}</p>`
+                : ""
+            }
+          </div>
+        `;
+
         const detailLines = [
-          meta.birthText ? `출생: ${meta.birthText}` : null,
-          meta.anchorApplied
-            ? `신토정비결 보정 적용: ${meta.anchorKey}`
-            : meta.anchorKey
-            ? `신토정비결 보정 미적용: ${meta.anchorKey}`
-            : null,
-          `오행 분포(%) : 목 ${percent["목"]}% · 화 ${percent["화"]}% · 토 ${percent["토"]}% · 금 ${percent["금"]}% · 수 ${percent["수"]}%`,
-          `오행 점수(총 150): 목 ${rounded["목"]} · 화 ${rounded["화"]} · 토 ${rounded["토"]} · 금 ${rounded["금"]} · 수 ${rounded["수"]}`,
-          `프로파일: 강 ${profile.strong} · 중 ${profile.mid} · 약 ${profile.weak} (평균 ${profile.avg})`,
-          `평균 대비: ${elementDeltaLines(elements)}`,
-          evidenceLine || null,
-          breakdown ? formatElemLine("천간:", breakdown.stems, totalSum) : null,
-          breakdown
-            ? formatElemLine("지지 본기:", breakdown.branches, totalSum)
-            : null,
-          breakdown && meta.hiddenMode === "on"
-            ? formatElemLine("장간:", breakdown.hidden, totalSum)
-            : null,
-          breakdown
-            ? formatElemLine("월령 가중(간이):", breakdown.season, totalSum)
-            : null,
+          meta.dayElem ? `일간 기준: ${meta.dayElem} 기운 인간` : null,
+          `오행 분포 기준: ${top} 기운 강세`,
           `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top}는 현재 전체의 약 ${Math.round(
             (values[topIdx] / totalSum) * 100
           )}% 수준이야.`,
@@ -3542,9 +3910,14 @@
           meta.boundaryText ? meta.boundaryText : null,
           `균형 팁: 상생 구조를 따라 ${top}의 장점을 살리되, ${low}를 받쳐줄 생활 습관을 하나만 고정하면 흐름이 안정돼.`,
         ].filter(Boolean);
-        elementsDetail.innerHTML = detailLines
+        const detailText = detailLines
           .map((l) => escapeHtml(l))
+          .filter(Boolean)
           .join("<br/>");
+
+        elementsDetail.innerHTML = anchorInfoHtml
+          ? anchorInfoHtml + elementsTableHtml + "<br/>" + detailText
+          : elementsTableHtml + "<br/>" + detailText;
       }
 
       function getElementPersonality(top, low) {
@@ -3846,17 +4219,213 @@
             relationElem(yearElem, person.weakElem)
           )
         );
-        const total = `2026년은 ${mode} 기운이 크게 작용하는 해입니다. 일간 ${
-          person.dayStem || "—"
-        } 기준으로 세운 천간 십성은 ${
-          yearTenGod || "—"
-        }이니, 먼저 기준을 세우고 움직일수록 결과가 단단해집니다. 급히 밀기보다 방향을 고정하고 한 걸음씩 나아가면 길합니다.`;
-        const money = `재물운은 ${person.weakElem} 약점을 보완하는 쪽이 요체입니다. 큰돈을 탐하기보다 작은 이익을 꾸준히 쌓는 길이 안정적이며, 무리한 확장은 손실로 이어질 수 있습니다. 현금 흐름을 먼저 붙들고 지출의 틀을 정해두면 길합니다.`;
-        const work = `직장/사업은 ${person.topElem} 장점을 살릴 때 빠른 성과로 이어집니다. 다만 속도 경쟁은 과열을 부르니, 목표를 좁혀 집중하는 편이 안전합니다. 제안과 협상은 원칙을 세우고 천천히 진행해야 길합니다.`;
-        const family = `가정/건강은 ${person.weakElem} 축을 챙기는 것이 요체입니다. 루틴과 휴식을 먼저 잡으면 기력이 크게 회복되고, 사소한 갈등은 정리와 조율로 풀어가면 길해집니다. 작은 습관 하나가 큰 복이 됩니다.`;
-        const relation = `대인관계는 ${
-          person.balance < 0.3 ? "균형" : "정리"
-        } 흐름이 좋습니다. 도움 주는 인연을 놓치지 말고, 말이 많은 사람은 선을 분명히 하면 실수가 줄어듭니다. 신뢰를 지키는 말 한마디가 인연을 붙잡습니다.`;
+        const relYearTop = relationElem(yearElem, person.topElem);
+        const relYearWeak = relationElem(yearElem, person.weakElem);
+
+        // 총론 생성
+        let totalParts = [];
+        if (relYearTop === "생" || relYearTop === "동") {
+          totalParts.push(
+            "위기 가운데 기회가 있으니 어려움 중에 얻음이 큰 해입니다."
+          );
+          totalParts.push(
+            "경험을 통해 얻은 것이니 결과가 단단하며 보기에 좋습니다."
+          );
+        } else if (relYearTop === "극" || relYearTop === "눌림") {
+          totalParts.push(
+            "신중이 곧 복인 해입니다. 서두르면 손해를 보니 확인을 거듭해야 합니다."
+          );
+          totalParts.push(
+            "지키는 자에게 복이 머물러 안정을 추구하면 길합니다."
+          );
+        } else {
+          totalParts.push("기본을 지키면 안정이 따르는 해입니다.");
+          totalParts.push(
+            "작은 성실이 큰 복으로 돌아오니 꾸준함이 요체입니다."
+          );
+        }
+
+        if (yearTenGod === "정관" || yearTenGod === "편관") {
+          totalParts.push(
+            "능력을 얻었으니 나를 바라보는 시선이 많아지는 해입니다."
+          );
+          totalParts.push("인기가 많으니 명예는 저절로 얻게 됩니다.");
+        } else if (yearTenGod === "정재" || yearTenGod === "편재") {
+          totalParts.push(
+            "큰 재물은 아니어도 소소함이 있을 것이니 끊이지 않게 하여 근심을 막을 것입니다."
+          );
+          totalParts.push(
+            "필요한 정도는 얻을 것이니 욕심으로 화를 조장하면 안 됩니다."
+          );
+        } else if (yearTenGod === "정인" || yearTenGod === "편인") {
+          totalParts.push("복은 인연과 겸손을 통해 찾아옵니다.");
+          totalParts.push(
+            "나의 것이 아닌 것을 바라면 되려 흉사가 될 것이니 반드시 노력을 통해 얻어야 함을 명심하기 바랍니다."
+          );
+        }
+
+        totalParts.push(
+          "지위와 명예는 실리를 동반해야 하며 재물은 노력이 수반되어야 합니다."
+        );
+        totalParts.push(
+          "투자를 통해서 얻는 재물은 없을 것이니 공연히 낭패 보는 일이 없도록 하시고 책임만 주어진 감투는 각별히 사양하시기 바랍니다."
+        );
+        totalParts.push(
+          "기회에 저해요소가 될 것이니 명예를 얻고도 일은 허사가 될 수 있습니다."
+        );
+        totalParts.push(
+          "길성이 문 앞을 비출 것이니 취하는 자의 노력에 따라 얻음이 달라집니다."
+        );
+        totalParts.push(
+          "노력하면 이상을 얻게 되는 해이나 앉아서 들어오는 재물은 없습니다."
+        );
+        totalParts.push(
+          "노력 없이 재물을 탐하면 실이 될 것이니 명심해야 합니다."
+        );
+        totalParts.push(
+          "도움 주는 인연이 나타날 것이니 작은 인연도 소중히 해야 합니다."
+        );
+        totalParts.push(
+          "근심은 작고 기쁨은 큰 해이니 무모함으로 좋은 복을 날리는 일이 없도록 하세요."
+        );
+        totalParts.push("일이 생기면 피하지 말아야 합니다.");
+
+        const total = totalParts.join(" ");
+
+        // 재물운 생성
+        let moneyParts = [];
+        if (relYearWeak === "생" || relYearWeak === "동") {
+          moneyParts.push(
+            "일을 진행하고 재물을 얻으려면 한번은 크게 모험을 하게 되는 시기입니다."
+          );
+          moneyParts.push(
+            "마음속에 고민과 갈등이 많아지게 되며 중요한 결정을 내리게 되는 시기이군요."
+          );
+          moneyParts.push(
+            "다행히 길성이 비추고 월덕과 천을이 함께하게 되니 좋은 결과가 기대할 수 있겠습니다."
+          );
+        } else {
+          moneyParts.push("재물은 꾸준함에서 나옵니다.");
+          moneyParts.push(
+            "급하게 큰돈을 탐하면 손실로 돌아올 수 있으니 신중해야 합니다."
+          );
+        }
+        moneyParts.push(
+          "횡재나 행운으로 얻어지는 재물은 많지 않고 일이 잘 풀리고 성장하여 좋은 성과를 올리게 될 때 얻게 되는 재물이 많을 것입니다."
+        );
+        moneyParts.push(
+          "본업으로 얻는 수익보다 본업 이외의 분야에서 들어오는 수익이 더 클 것이니 다소 균형이 맞지 않아서 선택의 기로에서 갈등이 있겠지만 재물이 쌓여가는 즐거움과 행복함이 크게 느껴질 것입니다."
+        );
+        moneyParts.push(
+          "나를 위해 도움을 주는 의인이 있어 나의 손실을 막아주고 생활의 변화가 있으면서 절약하는 생활을 하게 될 것입니다."
+        );
+        moneyParts.push(
+          "그래도 지출이 상당히 많은 성향이 있으므로 재물이 나가는 것을 잘 관리한다면 결국 들어오는 재물이 나가는 재물보다 많아지게 되어 재물을 축적할 수가 있을 것입니다."
+        );
+        const money = moneyParts.join(" ");
+
+        // 직장/사업운 생성
+        let workParts = [];
+        if (relYearTop === "생" || relYearTop === "동") {
+          workParts.push(
+            "큰 일을 성사시켜 자신의 관록과 명성이 크게 높아지는 시기입니다."
+          );
+          workParts.push(
+            "직장에서는 지위를 크게 얻거나 큰 포상을 받을 뿐만 아니라 소속된 곳에 공여하는 바가 크고 자신이 느끼는 행복감도 커질 것입니다."
+          );
+        } else {
+          workParts.push("안정을 추구하는 시기입니다.");
+          workParts.push(
+            "무리한 확장보다는 기존의 것을 다듬는 것이 유리합니다."
+          );
+        }
+        workParts.push(
+          "자신의 능력이 점차 알려지게 되면서 다른 곳으로부터 좋은 제의를 받거나 나를 부를 것이니 나의 진가와 능력이 크게 돋보이는 시기입니다."
+        );
+        workParts.push(
+          "바깥으로 활동하는 사람은 잠시의 여유도 없을 정도로 일이 끊이지 않을 것입니다."
+        );
+        workParts.push(
+          "장사를 하면 대길의 운수가 크게 일어날 것이지만 굳이 새로운 장사를 시작할 필요는 없습니다."
+        );
+        workParts.push(
+          "장사보다는 무슨 일을 하든지 운의 중심이 나에게 있으므로 내가 주도적으로 할 수 있고 자신의 머리와 손을 거쳐서 하는 일을 하시기 바랍니다."
+        );
+        workParts.push(
+          "사업적으로는 기반이 탄탄해질 것이며, 거래처가 크게 늘어날 것입니다."
+        );
+        workParts.push(
+          "확장의 준비를 해야 하지만 무리하지 말고 치밀하게 계획하고 천천히 여유를 갖고 진행하시기 바랍니다."
+        );
+        const work = workParts.join(" ");
+
+        // 가정/건강운 생성
+        let familyParts = [];
+        familyParts.push(
+          "가족 중에서 근심이 많은 사람이 있으니 마음으로 위로를 해야 할 일이 생기겠습니다."
+        );
+        familyParts.push("가족 간의 갈등이 예상되는 시기입니다.");
+        familyParts.push(
+          "하늘이 나에게 내린 좋은 운의 기운이 찾아오기 전의 사소한 갈등으로 발생할 것이니 상대의 입장을 먼저 이해해 주고 큰 다툼이 되지 않도록 주의하시기 바랍니다."
+        );
+        familyParts.push(
+          "가족끼리 다투게 되면 천금을 얻는다 하여도 아무런 소용이 없습니다."
+        );
+        familyParts.push(
+          "봄을 지나면 모두가 해결이 될 것이니 그때부터는 화목과 평안이 클 것입니다."
+        );
+        familyParts.push(
+          "소원성취의 운이 크게 일어나니 믿으면 믿은 만큼 보답할 것입니다."
+        );
+        familyParts.push(
+          "위아래가 이제부터 모두 제 역할을 할 것이니 서로가 공손해져 화목이 더해집니다."
+        );
+        familyParts.push(
+          "웃음이 끊이지 않을 것이니 큰 경사가 생길 징조도 보이는군요."
+        );
+        familyParts.push("웃어른의 건강에 문제가 생깁니다.");
+        familyParts.push(
+          "병원에 오래 계시지 않도록 각별히 신경 쓰시고 증세가 오면 반드시 병원을 찾아 병을 키우는 일이 없도록 하시기 바랍니다."
+        );
+        const family = familyParts.join(" ");
+
+        // 이성/대인관계 생성
+        let relationParts = [];
+        relationParts.push(
+          "아주 좋은 대길의 인연과 매우 좋지 않은 인연이 동시에 찾아오는 시기입니다."
+        );
+        relationParts.push(
+          "사람과의 인연에 대해서 생각을 많이 하게 될 것입니다."
+        );
+        relationParts.push(
+          "그러나, 좋은 운으로 이끄는 하늘의 기운이 나를 더욱 강하게 보호하고 있으니 머지않아 사람의 인연이 복을 가져오기 시작할 것입니다."
+        );
+        relationParts.push(
+          "일과 관련된 만남이나 이성적인 만남에서 사람을 구분하고 선택하는데 다소 어려움과 고민이 있겠지만 크게 신경을 쓰지 않아도 되겠습니다."
+        );
+        relationParts.push(
+          "재물과 관련된 제의를 하거나 자신의 금전적인 이익을 목적으로 하면서 접근하는 만남은 큰 화를 당하게 될 수 있는 좋지 않은 인연으로 생각하시면 되며, 일과 상관없이 일상적인 만남 중에서 이루어지는 만남은 좋은 인연을 만날 수 있는 징조입니다."
+        );
+        relationParts.push(
+          "일 이외의 일상적인 만남이나 이성적인 만남은 좋은 운을 만드는 시발점이기 때문에 만남을 통해서 도움을 주어야 할 사람은 도움을 베풀어 주어야 합니다."
+        );
+        relationParts.push(
+          "내가 도움을 주는 사람은 좋은 인연으로 남을 것이고 나중에 반드시 보은을 입게 될 것입니다."
+        );
+        relationParts.push(
+          "다만, 이 시기에 만나는 사람들 중에 자신에게 좋은 말만 하거나 달콤한 제의를 하면서 다가오는 사람은 반드시 경계하고 주의가 필요한 사람이 될 것입니다."
+        );
+        relationParts.push(
+          "이성과의 애정이 타오를 수 있는 시기이니 이성을 새롭게 만나면 짧은 시간 안에 정을 느끼고 사랑의 감정이 싹틀 것입니다."
+        );
+        relationParts.push(
+          "애정이 깊어지고 사랑이 두터워져서 서로가 정신적으로 위로를 해주고 의지하게 될 것입니다."
+        );
+        relationParts.push(
+          "청춘 남녀는 올해에 좋은 인연을 만나게 될 수 있고 애정관계로 발전하지 않더라도 좋은 친구나 좋은 인간관계로 지속될 수가 있을 것입니다."
+        );
+        const relation = relationParts.join(" ");
+
         return { total, money, work, family, relation };
       }
 
@@ -3916,6 +4485,8 @@
         const hourRange = person.includeHour
           ? getHourRangeText(person.hourBranch)
           : "—";
+        const hourBranchDisplay =
+          hourBranch !== "—" ? `${hourBranch}(${hourRange})` : "—";
         const p = result.pillars;
         const yearTen = tenGod(person.dayStem, person.yearStem);
         const monthTen = tenGod(person.dayStem, person.monthStem);
@@ -3939,17 +4510,17 @@
         );
         const dayChip = tenGodChip(
           "일",
-          `${p.day.stem}(${STEM_ELEM[p.day.stem]}) ${dayTen} / ${p.day.branch}(${
-            BRANCH_ELEM[p.day.branch]
-          })`,
+          `${p.day.stem}(${STEM_ELEM[p.day.stem]}) ${dayTen} / ${
+            p.day.branch
+          }(${BRANCH_ELEM[p.day.branch]})`,
           STEM_ELEM[p.day.stem]
         );
         const hourChip = p.hour
           ? tenGodChip(
               "시",
-              `${p.hour.stem}(${STEM_ELEM[p.hour.stem]}) ${
-                hourTen || "—"
-              } / ${p.hour.branch}(${BRANCH_ELEM[p.hour.branch]})`,
+              `${p.hour.stem}(${STEM_ELEM[p.hour.stem]}) ${hourTen || "—"} / ${
+                p.hour.branch
+              }(${BRANCH_ELEM[p.hour.branch]})`,
               STEM_ELEM[p.hour.stem]
             )
           : `<span class="chip"><b>시</b> —</span>`;
@@ -3983,9 +4554,11 @@
         const hyeongAction = coreHyeong.length
           ? "형이 있는 날은 말의 톤과 속도를 줄여 마찰을 피해야 합니다. 사례: 가족·동료 대화."
           : "형이 적어도 감정의 여지를 남기면 길합니다. 사례: 갈등은 한 박자 늦게.";
-        const coreRelationLine = `합 ${coreHap.length ? coreHap.join(", ") : "—"} · 충 ${
-          coreChung.length ? coreChung.join(", ") : "—"
-        } · 형 ${coreHyeong.length ? coreHyeong.join(", ") : "—"}`;
+        const coreRelationLine = `합 ${
+          coreHap.length ? coreHap.join(", ") : "—"
+        } · 충 ${coreChung.length ? coreChung.join(", ") : "—"} · 형 ${
+          coreHyeong.length ? coreHyeong.join(", ") : "—"
+        }`;
         const coreInterpret =
           coreChung.length || coreHyeong.length
             ? "충/형 기운이 있어 타이밍과 감정 조율이 관건입니다."
@@ -3993,6 +4566,11 @@
             ? "합 기운이 살아 있어 협력과 회복력이 좋습니다."
             : "특이한 합/충/형이 적어 흐름이 비교적 평온합니다.";
         const narrative = makeYearNarrative(person, targetYear);
+        const totalFortune = `총운은 ${person.topElem}이 힘을 얻고 ${
+          person.weakElem
+        }을 보완하는 흐름입니다. 세운 ${
+          ganzhiYear(targetYear).text
+        }의 기운이 들어오니 기준을 바로 세우면 복이 따릅니다. 조급함을 줄이고 한 가지 목표를 끝까지 붙들면 실이 적고 득이 많습니다.`;
         const tips = makeActionTips(person);
         const keywords = makeReportKeywords(person);
         const profile = makeElementProfile(person.elements);
@@ -4012,14 +4590,21 @@
                 <div class="section-title">${m.month}월 · ${
               m.seasonElem
             } 흐름</div>
-                <span class="mini">${m.tags.join(" · ")}</span>
+                <span class="mini">${formatMonthTags(m.tags)}</span>
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
-              <p class="mini">팁: ${escapeHtml(m.tip)}</p>
-              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
               ${
-                m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""
+                m.monthDetails
+                  ? `<p class="mini" style="line-height: 1.8; margin-top: 12px;">${escapeHtml(
+                      m.monthDetails
+                    )}</p>`
+                  : ""
               }
+              <p class="mini" style="margin-top: 8px;">팁: ${escapeHtml(
+                m.tip
+              )}</p>
+              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
+              ${m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""}
               <p class="mini">${escapeHtml(basis)}</p>
             </div>`;
           })
@@ -4027,16 +4612,41 @@
 
         const daewoonRaw = String(person.daewoonStartAge ?? "").trim();
         let daewoonLine = "대운 시작 나이를 입력해줘.";
+        let daewoonTable = "";
         if (daewoonRaw !== "") {
           const daewoonStart = Number(daewoonRaw);
           const startYear = birthYear + daewoonStart - 1;
           const blocks = [];
+          const tableRows = [];
           for (let i = 0; i < 10; i++) {
             const ageStart = daewoonStart + i * 10;
-            const ganji = ganzhiYear(startYear + i * 10).text;
-            blocks.push(`${ageStart}세~ ${ganji}`);
+            const ganji = ganzhiYear(startYear + i * 10);
+            const ganjiText = ganji.text;
+            blocks.push(`${ageStart}세~ ${ganjiText}`);
+            tableRows.push(
+              `<tr><th>${ageStart}세~</th><td>${ganjiText}</td><td>${
+                ganji.stem
+              }(${STEM_ELEM[ganji.stem]}) ${ganji.branch}(${
+                BRANCH_ELEM[ganji.branch]
+              })</td></tr>`
+            );
           }
-          daewoonLine = blocks.join(" · ");
+          daewoonLine = `대운(십년단위로 변화하는 운세) : 회원님은 ${daewoonStart}살을 기준으로 하여 운세의 큰 변화가 일어납니다.`;
+          daewoonTable = `
+            <table class="report-table" style="margin-top: 12px;">
+              <thead>
+                <tr>
+                  <th>나이</th>
+                  <th>간지</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${tableRows.join("")}
+              </tbody>
+            </table>
+            <p class="mini" style="margin-top: 8px;">※ 운세 결과로 보여지는 날짜는 양력 기준입니다.</p>
+          `;
         }
 
         return `
@@ -4045,7 +4655,7 @@
             <div class="mini">회원님(${genderLabel}, ${age}세)</div>
             <div class="mini">양력: ${solar} · 음력: ${escapeHtml(
           lunar
-        )} · 태어난 시간: ${hourBranch} (${hourRange})</div>
+        )} · 태어난 시간: ${hourBranchDisplay}</div>
             <table class="report-table">
               <thead>
                 <tr>
@@ -4149,6 +4759,11 @@
               <p class="mini">형 지침: ${escapeHtml(hyeongAction)}</p>
             </div>
             <div class="report-section">
+              <h3>총운</h3>
+              <p class="mini">${escapeHtml(totalFortune)}</p>
+              <p class="mini">${escapeHtml(tips.total)}</p>
+            </div>
+            <div class="report-section">
               <h3>총론</h3>
               <p class="mini">${escapeHtml(narrative.total)}</p>
               <p class="mini">${escapeHtml(tips.total)}</p>
@@ -4176,6 +4791,7 @@
             <div class="report-section">
               <h3>대운(간이)</h3>
               <p class="mini">${escapeHtml(daewoonLine)}</p>
+              ${daewoonTable}
             </div>
             <div class="report-section">
               <h3>월별 세운</h3>
@@ -4208,6 +4824,45 @@
           steady: "기본 유지",
         };
         return map[mode] || "기본 유지";
+      }
+
+      function monthModeText(mode) {
+        const map = {
+          push: "추진",
+          pushPlus: "추진+회복",
+          recover: "회복",
+          brake: "제동",
+          steady: "유지",
+        };
+        return map[mode] || "유지";
+      }
+
+      function formatMonthTags(tags) {
+        if (!tags || !Array.isArray(tags) || tags.length < 3) return "";
+        const [luckTag, mode, seasonElem] = tags;
+        const luckText =
+          luckTag === "길" ? "길운" : luckTag === "흉" ? "흉운" : "중운";
+        const modeText = monthModeText(mode);
+        const elemText = `${seasonElem} 기운`;
+
+        // 색상 클래스 결정
+        const luckClass =
+          luckTag === "길"
+            ? "chip e-wood"
+            : luckTag === "흉"
+            ? "chip e-fire"
+            : "chip";
+        const elemClassKey =
+          ELEM_CLASS && ELEM_CLASS[seasonElem] ? ELEM_CLASS[seasonElem] : "";
+        const elemClass = elemClassKey ? `chip e-${elemClassKey}` : "chip";
+
+        return `
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <span class="${luckClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${luckText}</span>
+            <span class="chip" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${modeText}</span>
+            <span class="${elemClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${elemText}</span>
+          </div>
+        `;
       }
 
       function buildYearFlows(person, tzOffsetMinutes, dstMode) {
@@ -4361,7 +5016,7 @@
       function renderNewYear() {
         const a = buildPerson(state.A);
         const { top, weak } = getTopWeak(a.elements);
-        resultTitle.textContent = "신년운세 요약";
+        resultTitle.textContent = "신년운세 상세";
         renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
           hiddenMode: state.aResult?.input?.hiddenMode,
           includeHour: state.A?.includeHour,
@@ -4371,12 +5026,17 @@
             : "",
           anchorKey: state.aResult?.elements?.anchor?.key,
           anchorApplied: state.aResult?.elements?.anchor?.applied,
+          dayElem: a.dayElem,
         });
         renderDeepAnalysisCard(a, null);
         renderLuckFlowCard(a, null);
         totalScoreEl.textContent = "—";
-        summarySub.textContent = "2026 흐름 · 월별 운세";
-        summaryMain.textContent = `2026년은 ${top} 기운이 힘이 되고, ${weak} 쪽을 보완하면 흐름이 좋아져.`;
+        summarySub.textContent = "2026 흐름 · 상세 해석";
+        summaryMain.textContent = `2026년은 ${top} 기운이 힘을 얻고, ${weak}을(를) 보완하면 복이 따르는 해입니다. 일간 ${
+          a.dayStem || "—"
+        }의 강약은 ${
+          a.strength
+        }이니, 무리한 확장보다 기준을 세우고 한 가지 목표를 끝까지 밀어야 실이 적습니다. 세운의 결을 읽고 속도를 조절하면 기회가 쌓이고 결과가 단단해집니다.`;
         summaryPills.innerHTML = [
           `핵심 오행: ${top}`,
           `약한 오행: ${weak}`,
@@ -4406,6 +5066,7 @@
             : "",
           anchorKey: state.aResult?.elements?.anchor?.key,
           anchorApplied: state.aResult?.elements?.anchor?.applied,
+          dayElem: a.dayElem,
         });
         renderDeepAnalysisCard(a, null);
         renderLuckFlowCard(a, null);
@@ -4739,116 +5400,147 @@
       }
 
       async function computePair() {
-        const data = getInputData();
-        if (!data.aDate || !data.aHourBranch) {
-          alert("A 날짜와 12간지를 선택해줘.");
-          return;
-        }
-        if (state.mode === "compat" && (!data.bDate || !data.bHourBranch)) {
-          alert("B 날짜와 12간지를 선택해줘.");
-          return;
-        }
-        saveInputs(data);
+        try {
+          const data = getInputData();
+          if (!data.aDate || !data.aHourBranch) {
+            alert("A 날짜와 12간지를 선택해줘.");
+            return;
+          }
+          if (state.mode === "compat" && (!data.bDate || !data.bHourBranch)) {
+            alert("B 날짜와 12간지를 선택해줘.");
+            return;
+          }
+          saveInputs(data);
 
-        loadingOverlay.classList.add("active");
-        loadingOverlay.setAttribute("aria-hidden", "false");
-        await new Promise((r) => setTimeout(r, 700));
+          loadingOverlay.classList.add("active");
+          loadingOverlay.setAttribute("aria-hidden", "false");
+          await new Promise((r) => setTimeout(r, 700));
 
-        const aOffsetMin = parseTzOffsetMinutes(data.aTzOffset, 540);
-        const aIncludeHour = !data.aTimeUnknown;
-        const aTimeStr = aIncludeHour
-          ? hourBranchToTime(data.aHourBranch)
-          : "12:00";
-        const aBirth = parseLocalDateTime(
-          data.aDate,
-          aTimeStr,
-          aOffsetMin,
-          data.aDstMode
-        );
-        const aHourBranch = aIncludeHour ? data.aHourBranch : null;
-        const aResult = computeSajuFiveElements(aBirth, {
-          ziMode: "2300",
-          hiddenMode: data.aHiddenMode,
-          tzOffsetMinutes: aOffsetMin,
-          dstMode: data.aDstMode,
-          includeHour: aIncludeHour,
-          hourBranchOverride: aHourBranch,
-        });
-        state.aResult = aResult;
-        state.A = {
-          name: "A",
-          elements: aResult.elements.raw,
-          dayBranch: aResult.pillars.day.branch,
-          monthBranch: aResult.pillars.month.branch,
-          yearBranch: aResult.pillars.year.branch,
-          yearStem: aResult.pillars.year.stem,
-          monthStem: aResult.pillars.month.stem,
-          dayStem: aResult.pillars.day.stem,
-          hourStem: aResult.pillars.hour ? aResult.pillars.hour.stem : "",
-          tzOffsetMinutes: aOffsetMin,
-          dstMode: data.aDstMode,
-          includeHour: aIncludeHour,
-          hourBranch: aHourBranch,
-          boundaryText: makeBoundaryText(),
-          altResult: null,
-          gender: data.aGender,
-          lunarDate: data.aLunar,
-          daewoonStartAge: data.aDaewoonStart,
-        };
-
-        if (state.mode === "compat") {
-          const bOffsetMin = parseTzOffsetMinutes(data.bTzOffset, 540);
-          const bIncludeHour = !data.bTimeUnknown;
-          const bTimeStr = bIncludeHour
-            ? hourBranchToTime(data.bHourBranch)
+          const aOffsetMin = parseTzOffsetMinutes(data.aTzOffset, 540);
+          const aIncludeHour = !data.aTimeUnknown;
+          const aTimeStr = aIncludeHour
+            ? hourBranchToTime(data.aHourBranch)
             : "12:00";
-          const bBirth = parseLocalDateTime(
-            data.bDate,
-            bTimeStr,
-            bOffsetMin,
-            data.bDstMode
+          if (!data.aDate) {
+            throw new Error("A 날짜가 입력되지 않았습니다.");
+          }
+          const aBirth = parseLocalDateTime(
+            data.aDate,
+            aTimeStr,
+            aOffsetMin,
+            data.aDstMode
           );
-          const bHourBranch = bIncludeHour ? data.bHourBranch : null;
-          const bResult = computeSajuFiveElements(bBirth, {
+          if (!aBirth || isNaN(aBirth.getTime())) {
+            throw new Error(
+              "A 날짜/시간 파싱 실패: " + data.aDate + " " + aTimeStr
+            );
+          }
+          const aHourBranch = aIncludeHour ? data.aHourBranch : null;
+          const aResult = computeSajuFiveElements(aBirth, {
             ziMode: "2300",
-            hiddenMode: data.bHiddenMode,
-            tzOffsetMinutes: bOffsetMin,
-            dstMode: data.bDstMode,
-            includeHour: bIncludeHour,
-            hourBranchOverride: bHourBranch,
+            hiddenMode: "on", // 항상 on으로 고정
+            tzOffsetMinutes: aOffsetMin,
+            dstMode: data.aDstMode,
+            includeHour: aIncludeHour,
+            hourBranchOverride: aHourBranch,
           });
-          state.bResult = bResult;
-          state.B = {
-            name: "B",
-            elements: bResult.elements.raw,
-            dayBranch: bResult.pillars.day.branch,
-            monthBranch: bResult.pillars.month.branch,
-            yearBranch: bResult.pillars.year.branch,
-            yearStem: bResult.pillars.year.stem,
-            monthStem: bResult.pillars.month.stem,
-            dayStem: bResult.pillars.day.stem,
-            hourStem: bResult.pillars.hour ? bResult.pillars.hour.stem : "",
-            tzOffsetMinutes: bOffsetMin,
-            dstMode: data.bDstMode,
-            includeHour: bIncludeHour,
-            hourBranch: bHourBranch,
+          if (!aResult || !aResult.elements || !aResult.pillars) {
+            throw new Error("A 사주 계산 실패");
+          }
+          state.aResult = aResult;
+          state.A = {
+            name: "A",
+            elements: aResult.elements.raw,
+            dayBranch: aResult.pillars.day.branch,
+            monthBranch: aResult.pillars.month.branch,
+            yearBranch: aResult.pillars.year.branch,
+            yearStem: aResult.pillars.year.stem,
+            monthStem: aResult.pillars.month.stem,
+            dayStem: aResult.pillars.day.stem,
+            hourStem: aResult.pillars.hour ? aResult.pillars.hour.stem : "",
+            tzOffsetMinutes: aOffsetMin,
+            dstMode: data.aDstMode,
+            includeHour: aIncludeHour,
+            hourBranch: aHourBranch,
             boundaryText: makeBoundaryText(),
             altResult: null,
-            gender: data.bGender,
-            lunarDate: data.bLunar,
-            daewoonStartAge: data.bDaewoonStart,
+            gender: data.aGender,
+            lunarDate: data.aLunar,
+            daewoonStartAge: data.aDaewoonStart,
           };
-        } else {
-          state.bResult = null;
-          state.B = null;
+
+          if (state.mode === "compat") {
+            const bOffsetMin = parseTzOffsetMinutes(data.bTzOffset, 540);
+            const bIncludeHour = !data.bTimeUnknown;
+            const bTimeStr = bIncludeHour
+              ? hourBranchToTime(data.bHourBranch)
+              : "12:00";
+            if (!data.bDate) {
+              throw new Error("B 날짜가 입력되지 않았습니다.");
+            }
+            const bBirth = parseLocalDateTime(
+              data.bDate,
+              bTimeStr,
+              bOffsetMin,
+              data.bDstMode
+            );
+            if (!bBirth || isNaN(bBirth.getTime())) {
+              throw new Error(
+                "B 날짜/시간 파싱 실패: " + data.bDate + " " + bTimeStr
+              );
+            }
+            const bHourBranch = bIncludeHour ? data.bHourBranch : null;
+            const bResult = computeSajuFiveElements(bBirth, {
+              ziMode: "2300",
+              hiddenMode: "on", // 항상 on으로 고정
+              tzOffsetMinutes: bOffsetMin,
+              dstMode: data.bDstMode,
+              includeHour: bIncludeHour,
+              hourBranchOverride: bHourBranch,
+            });
+            if (!bResult || !bResult.elements || !bResult.pillars) {
+              throw new Error("B 사주 계산 실패");
+            }
+            state.bResult = bResult;
+            state.B = {
+              name: "B",
+              elements: bResult.elements.raw,
+              dayBranch: bResult.pillars.day.branch,
+              monthBranch: bResult.pillars.month.branch,
+              yearBranch: bResult.pillars.year.branch,
+              yearStem: bResult.pillars.year.stem,
+              monthStem: bResult.pillars.month.stem,
+              dayStem: bResult.pillars.day.stem,
+              hourStem: bResult.pillars.hour ? bResult.pillars.hour.stem : "",
+              tzOffsetMinutes: bOffsetMin,
+              dstMode: data.bDstMode,
+              includeHour: bIncludeHour,
+              hourBranch: bHourBranch,
+              boundaryText: makeBoundaryText(),
+              altResult: null,
+              gender: data.bGender,
+              lunarDate: data.bLunar,
+              daewoonStartAge: data.bDaewoonStart,
+            };
+          } else {
+            state.bResult = null;
+            state.B = null;
+          }
+
+          showStep("result");
+          renderAll();
+
+          await new Promise((r) => setTimeout(r, 400));
+        } catch (error) {
+          console.error("계산 중 오류 발생:", error);
+          alert(
+            "계산 중 오류가 발생했습니다. 입력값을 확인해주세요.\n오류: " +
+              error.message
+          );
+        } finally {
+          loadingOverlay.classList.remove("active");
+          loadingOverlay.setAttribute("aria-hidden", "true");
         }
-
-        showStep("result");
-        renderAll();
-
-        await new Promise((r) => setTimeout(r, 400));
-        loadingOverlay.classList.remove("active");
-        loadingOverlay.setAttribute("aria-hidden", "true");
       }
 
       /* ======================================================
