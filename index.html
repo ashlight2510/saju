@@ -324,6 +324,17 @@
         transform: translateY(-1px);
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
+      .btn.compact {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 700;
+        box-shadow: none;
+      }
+      .btn.outline.compact {
+        border-width: 1px;
+      }
       select,
       input[type="range"],
       input[type="date"],
@@ -340,9 +351,24 @@
         width: 100%;
         flex: 1;
         min-width: 0;
+        box-sizing: border-box;
+        height: 48px;
+        line-height: 1.5;
+      }
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236366f1' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        background-size: 12px;
+        padding-right: 36px;
+        cursor: pointer;
       }
       .rule-card .row {
         width: 100%;
+        display: flex;
+        align-items: stretch;
+        gap: 12px;
       }
       .rule-card .row > * {
         flex: 1;
@@ -428,7 +454,8 @@
         display: block;
       }
       .elements-radar {
-        max-width: 360px;
+        max-width: 600px;
+        width: 100%;
       }
       .grid-2 {
         display: grid;
@@ -470,6 +497,14 @@
         );
         border-color: rgba(99, 102, 241, 0.25);
         transform: translateY(-1px);
+      }
+      .pill.emphasis {
+        font-size: 14px;
+        padding: 10px 16px;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: #fff;
+        border-color: rgba(79, 70, 229, 0.4);
+        box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35);
       }
       .chip-row {
         display: flex;
@@ -761,10 +796,10 @@
             href="https://funnyfunny.cloud/"
             target="_blank"
             rel="noopener noreferrer"
-            class="btn outline"
+            class="btn outline compact"
             style="text-decoration: none; white-space: nowrap"
           >
-            다른서비스 보기
+            다른 서비스 보기
           </a>
         </div>
       </div>
@@ -853,11 +888,6 @@
                     <option value="male" selected>남자</option>
                     <option value="female">여자</option>
                   </select>
-                  <input
-                    id="aLunar"
-                    type="text"
-                    placeholder="음력 (예: 1986.4.24)"
-                  />
                 </div>
                 <div class="row hidden" style="margin-top: 8px">
                   <input
@@ -926,11 +956,6 @@
                     <option value="male">남자</option>
                     <option value="female" selected>여자</option>
                   </select>
-                  <input
-                    id="bLunar"
-                    type="text"
-                    placeholder="음력 (예: 1986.4.24)"
-                  />
                 </div>
                 <div class="row hidden" style="margin-top: 8px">
                   <input
@@ -999,22 +1024,41 @@
         </div>
 
         <div id="pdfArea" class="pdf-area">
-          <div class="card" id="resultElementsCard">
-            <h2>오행 기운 분석</h2>
-            <p class="lead" id="elementsSummary">—</p>
+          <div class="card" id="resultElementsCard" style="padding: 40px">
+            <h2 style="font-size: 28px; margin-bottom: 24px">오행 기운 분석</h2>
+            <p
+              class="lead"
+              id="elementsSummary"
+              style="font-size: 18px; margin-bottom: 32px"
+            >
+              —
+            </p>
             <svg
               id="elementsRadarSvg"
               class="radar elements-radar"
               viewBox="0 0 320 320"
+              style="
+                width: 100%;
+                max-width: 500px;
+                height: auto;
+                margin: 0 auto 32px;
+                display: block;
+              "
             ></svg>
-            <p class="mini" id="elementsDetail">—</p>
+            <p
+              class="mini"
+              id="elementsDetail"
+              style="font-size: 14px; line-height: 1.8"
+            >
+              —
+            </p>
           </div>
           <div class="card" id="resultDeepCard">
             <h2>심화 분석 (간이)</h2>
             <div id="deepAnalysis"></div>
           </div>
           <div class="card" id="resultLuckCard">
-            <h2>대운 · 세운 (간이)</h2>
+            <h2>대운 · 세운</h2>
             <div id="luckFlow"></div>
           </div>
           <div class="card" id="resultReportCard">
@@ -1103,7 +1147,7 @@
           <p class="mini" id="tuneStatus"></p>
         </div>
 
-        <div class="card" id="shareCard">
+        <div class="card" id="shareCard" style="margin-top: 48px">
           <h2>공유 · PDF</h2>
           <div class="row">
             <button class="btn" id="shareBtn">공유 카드 만들기</button>
@@ -1152,7 +1196,6 @@
       const aHourBranch = document.getElementById("aHourBranch");
       const aTimeUnknown = document.getElementById("aTimeUnknown");
       const aGender = document.getElementById("aGender");
-      const aLunar = document.getElementById("aLunar");
       const aDaewoonStart = document.getElementById("aDaewoonStart");
       const aHiddenMode = document.getElementById("aHiddenMode");
       const aTzOffset = document.getElementById("aTzOffset");
@@ -1161,7 +1204,6 @@
       const bHourBranch = document.getElementById("bHourBranch");
       const bTimeUnknown = document.getElementById("bTimeUnknown");
       const bGender = document.getElementById("bGender");
-      const bLunar = document.getElementById("bLunar");
       const bDaewoonStart = document.getElementById("bDaewoonStart");
       const bHiddenMode = document.getElementById("bHiddenMode");
       const bTzOffset = document.getElementById("bTzOffset");
@@ -3376,28 +3418,143 @@
           .map(
             (m) => `
             <div class="rule-card">
-              <div class="row" style="justify-content: space-between">
+              <div class="row" style="justify-content: space-between; align-items: center;">
                 <div class="section-title">${m.month}월 · ${
               m.seasonElem
             } 흐름</div>
-                <span class="mini">${formatMonthTags(m.tags)}</span>
+                <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
+                  m.tags
+                )}</div>
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
               ${
                 m.monthDetails
-                  ? `<p class="mini" style="line-height: 1.8; margin-top: 12px;">${escapeHtml(
-                      m.monthDetails
-                    )}</p>`
+                  ? `<div style="margin-top: 16px; padding: 12px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 3px solid var(--accent);">
+                      <p class="mini" style="line-height: 1.8; margin: 0; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
+                        m.monthDetails
+                      )}</p>
+                    </div>`
                   : ""
               }
-              <p class="mini" style="margin-top: 8px;">팁: ${escapeHtml(
+              ${
+                m.extra
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                       m.extra
+                     )}</p>
+                   </div>`
+                  : ""
+              }
+              ${
+                m.detail
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                       m.detail
+                     )}</p>
+                   </div>`
+                  : ""
+              }
+              ${
                 m.tip
-              )}</p>
-              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
-              ${m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""}
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
+                     <p class="mini" style="margin: 0; line-height: 1.7; font-weight: 600; color: rgba(15, 23, 42, 0.85);">
+                       <span style="color: rgba(34, 197, 94, 0.9);">💡 팁:</span> ${escapeHtml(
+                         m.tip
+                       )}
+                     </p>
+                   </div>`
+                  : ""
+              }
+              <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
+                <button class="btn compact" data-month="${
+                  m.month
+                }" data-month-index="${
+              m.month - 1
+            }" style="font-size: 12px; padding: 6px 12px;">
+                  📋 공유하기
+                </button>
+              </div>
             </div>`
           )
           .join("");
+
+        // 공유 버튼 이벤트 리스너 추가
+        setTimeout(() => {
+          monthlyList.querySelectorAll("[data-month]").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+              const monthIndex = parseInt(btn.getAttribute("data-month-index"));
+              const monthData = makeMonthlyLuck(person)[monthIndex];
+              await shareMonthlyCard(monthData);
+            });
+          });
+        }, 100);
+      }
+
+      async function shareMonthlyCard(monthData) {
+        const monthLabels = [
+          "",
+          "1월",
+          "2월",
+          "3월",
+          "4월",
+          "5월",
+          "6월",
+          "7월",
+          "8월",
+          "9월",
+          "10월",
+          "11월",
+          "12월",
+        ];
+        const monthLabel =
+          monthLabels[monthData.month] || `${monthData.month}월`;
+
+        // 태그 텍스트 추출
+        const [luckTag, mode, seasonElem] = monthData.tags || [];
+        const luckText =
+          luckTag === "길" ? "길운" : luckTag === "흉" ? "흉운" : "중운";
+        const modeText = monthModeText(mode);
+        const tagsText = `${luckText} · ${modeText} · ${seasonElem} 기운`;
+
+        let text = `🔮 ${monthLabel} 운세\n\n`;
+        text += `${monthData.summary}\n\n`;
+
+        if (monthData.monthDetails) {
+          text += `${monthData.monthDetails}\n\n`;
+        }
+        if (monthData.extra) {
+          text += `${monthData.extra}\n\n`;
+        }
+        if (monthData.detail) {
+          text += `${monthData.detail}\n\n`;
+        }
+        if (monthData.tip) {
+          text += `💡 팁: ${monthData.tip}\n\n`;
+        }
+
+        text += `태그: ${tagsText}\n`;
+        text += `\n#사주풀이 #신년운세 #${monthLabel}운세\n\n`;
+        text += `🔮 사주풀이 서비스: https://saju.funnyfunny.cloud/`;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          alert(`${monthLabel} 운세가 클립보드에 복사되었습니다!`);
+        } catch (err) {
+          // 클립보드 API가 없거나 실패한 경우
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          try {
+            document.execCommand("copy");
+            alert(`${monthLabel} 운세가 클립보드에 복사되었습니다!`);
+          } catch (e) {
+            prompt("복사할 내용:", text);
+          }
+          document.body.removeChild(textarea);
+        }
       }
 
       /* ======================================================
@@ -3599,6 +3756,7 @@
 
         // 신토정비결 보정 정보 HTML 생성
         let anchorInfoHtml = null;
+        let elementsTableHtml = "";
         if (meta.anchorKey) {
           const keyParts = meta.anchorKey.split("|");
           const SHINTO_ANCHORS = {
@@ -3666,34 +3824,34 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <th style="text-align: center;">보정값</th>
-                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e8f7e9; color: #0f3d2e;">${
+                        <th style="text-align: center; vertical-align: middle;">보정값</th>
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e8f7e9; color: #0f3d2e;">${
                           anchorData.목
                         }</td>
-                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #ffe9e3; color: #7a1f16;">${
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #ffe9e3; color: #7a1f16;">${
                           anchorData.화
                         }</td>
-                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #f8f1df; color: #5a3b12;">${
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #f8f1df; color: #5a3b12;">${
                           anchorData.토
                         }</td>
-                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #eef3ff; color: #1b3a70;">${
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #eef3ff; color: #1b3a70;">${
                           anchorData.금
                         }</td>
-                        <td style="text-align: center; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e6f5ff; color: #0c3550;">${
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e6f5ff; color: #0c3550;">${
                           anchorData.수
                         }</td>
-                        <td style="text-align: center; padding: 8px; font-weight: 800; font-size: 15px; color: var(--accent); background: rgba(99, 102, 241, 0.1);">${Object.values(
+                        <td style="text-align: center; vertical-align: middle; padding: 8px; font-weight: 800; font-size: 15px; color: var(--accent); background: rgba(99, 102, 241, 0.1);">${Object.values(
                           anchorData
                         ).reduce((a, b) => a + b, 0)}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <p class="mini" style="margin-top: 12px; padding: 8px; background: rgba(255, 255, 255, 0.5); border-radius: 8px;">
+                <p class="mini" style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.5); border-radius: 8px; line-height: 1.6;">
                   ${
                     meta.anchorApplied
-                      ? "✅ 신토정비결 기준 오행 분포로 보정이 적용되었습니다. 실제 오행 계산값이 신토정비결 기준값으로 대체되었습니다."
-                      : "ℹ️ 신토정비결 기준 오행 분포가 있으나 보정이 적용되지 않았습니다. 일반 계산 방식으로 산출되었습니다."
+                      ? "✅ <strong>신토정비결 보정 적용</strong><br/>회원님의 사주 간지 조합은 신토정비결(전통 사주 해석서)에 기록된 특별한 패턴입니다. 일반 계산 방식 대신 신토정비결에서 정한 오행 분포값을 사용하여 더 정확한 해석을 제공합니다."
+                      : "ℹ️ <strong>신토정비결 보정 미적용</strong><br/>회원님의 사주 간지 조합에 대한 신토정비결 기준 데이터가 없어 일반 계산 방식으로 오행을 산출했습니다."
                   }
                 </p>
               </div>
@@ -3712,9 +3870,17 @@
         }
 
         // 오행 정보 표 생성
-        const elementsTableHtml = `
+        elementsTableHtml = `
           <div style="margin: 16px 0;">
             <div class="section-title" style="margin-bottom: 12px;">📊 오행 분석</div>
+            <div class="pill-row" style="margin-bottom: 12px;">
+              <span class="pill emphasis">일간 기준: ${escapeHtml(
+                meta.dayElem || "—"
+              )} 기운 인간(본질)</span>
+              <span class="pill emphasis">오행 분포: ${escapeHtml(
+                top
+              )} 강세(환경)</span>
+            </div>
             ${
               meta.birthText
                 ? `<p class="mini" style="margin-bottom: 12px;"><strong>출생:</strong> ${escapeHtml(
@@ -3736,45 +3902,45 @@
               </thead>
               <tbody>
                 <tr>
-                  <th>분포(%)</th>
-                  <td style="text-align: center; font-weight: 700;">${
+                  <th style="vertical-align: middle;">분포(%)</th>
+                  <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["목"]
                   }%</td>
-                  <td style="text-align: center; font-weight: 700;">${
+                  <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["화"]
                   }%</td>
-                  <td style="text-align: center; font-weight: 700;">${
+                  <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["토"]
                   }%</td>
-                  <td style="text-align: center; font-weight: 700;">${
+                  <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["금"]
                   }%</td>
-                  <td style="text-align: center; font-weight: 700;">${
+                  <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["수"]
                   }%</td>
-                  <td style="text-align: center; font-weight: 800; color: var(--accent);">100%</td>
+                  <td style="text-align: center; vertical-align: middle; font-weight: 800; color: var(--accent);">100%</td>
                 </tr>
                 <tr>
-                  <th>점수(150)</th>
-                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #e8f7e9; color: #0f3d2e;">${
+                  <th style="vertical-align: middle;">점수(150)</th>
+                  <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #e8f7e9; color: #0f3d2e;">${
                     rounded["목"]
                   }</td>
-                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #ffe9e3; color: #7a1f16;">${
+                  <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #ffe9e3; color: #7a1f16;">${
                     rounded["화"]
                   }</td>
-                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #f8f1df; color: #5a3b12;">${
+                  <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #f8f1df; color: #5a3b12;">${
                     rounded["토"]
                   }</td>
-                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #eef3ff; color: #1b3a70;">${
+                  <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #eef3ff; color: #1b3a70;">${
                     rounded["금"]
                   }</td>
-                  <td style="text-align: center; padding: 6px; border-radius: 4px; font-weight: 800; background: #e6f5ff; color: #0c3550;">${
+                  <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #e6f5ff; color: #0c3550;">${
                     rounded["수"]
                   }</td>
-                  <td style="text-align: center; font-weight: 800; color: var(--accent);">150</td>
+                  <td style="text-align: center; vertical-align: middle; font-weight: 800; color: var(--accent);">150</td>
                 </tr>
                 <tr>
-                  <th>평균 대비</th>
+                  <th style="vertical-align: middle;">평균 대비</th>
                   ${["목", "화", "토", "금", "수"]
                     .map((k) => {
                       const v = Math.round((elements[k] || 0) * 10) / 10;
@@ -3783,10 +3949,10 @@
                       const sign = diff >= 0 ? "+" : "";
                       const color =
                         diff >= 0 ? "var(--accent)" : "rgba(15, 23, 42, 0.6)";
-                      return `<td style="text-align: center; font-weight: 700; color: ${color};">${sign}${diff}</td>`;
+                      return `<td style="text-align: center; vertical-align: middle; font-weight: 700; color: ${color};">${sign}${diff}</td>`;
                     })
                     .join("")}
-                  <td style="text-align: center;">—</td>
+                  <td style="text-align: center; vertical-align: middle;">—</td>
                 </tr>
               </tbody>
             </table>
@@ -3894,8 +4060,6 @@
         `;
 
         const detailLines = [
-          meta.dayElem ? `일간 기준: ${meta.dayElem} 기운 인간` : null,
-          `오행 분포 기준: ${top} 기운 강세`,
           `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top}는 현재 전체의 약 ${Math.round(
             (values[topIdx] / totalSum) * 100
           )}% 수준이야.`,
@@ -4145,14 +4309,14 @@
             : "—";
         const seasonLine =
           person.seasonTopElem && person.topElem === person.seasonTopElem
-            ? "월령과 강점이 같아 자연스럽게 힘이 실리는 타입."
-            : "월령과 강점이 달라 조율·보완이 중요해.";
+            ? "월령과 강점이 같아 자연스럽게 힘이 실리는 흐름입니다."
+            : "월령과 강점이 달라 조율과 보완이 중요합니다.";
         const currentLine = formatElemLine("현재 오행:", person.elements);
         const dayStemLine = person.dayStem
           ? `일간: ${person.dayStem}(${person.dayElem}) · ${person.strength}`
           : "일간: —";
         const tenGodLine = person.dayStem
-          ? `십성(간이): 연 ${tenGod(
+          ? `십성: 연 ${tenGod(
               person.dayStem,
               person.yearStem
             )} · 월 ${tenGod(person.dayStem, person.monthStem)} · 일 ${tenGod(
@@ -4161,7 +4325,7 @@
             )} · 시 ${
               person.hourStem ? tenGod(person.dayStem, person.hourStem) : "—"
             }`
-          : "십성(간이): —";
+          : "십성: —";
         const branches = [
           person.yearBranch,
           person.monthBranch,
@@ -4174,17 +4338,23 @@
         const relationLine = `합: ${hap.length ? hap.join(", ") : "—"} · 충: ${
           chung.length ? chung.join(", ") : "—"
         } · 형: ${hyeong.length ? hyeong.join(", ") : "—"}`;
+        const relationExplain = `합은 서로 돕는 결이라 호흡이 부드럽고, 충은 부딪힘이 생겨 타이밍 조절이 필요합니다. 형은 마찰이나 긴장이 생기기 쉬운 결입니다. ${
+          hyeong.length
+            ? `현재 형: ${hyeong.join(", ")}이므로 말투/속도를 줄이면 충돌이 줄어듭니다.`
+            : "형이 적어 큰 마찰은 덜합니다."
+        }`;
         return `
           <div class="rule-card">
-            <div class="section-title">${label} 심화 요약</div>
+            <div class="section-title">${label} 상세 해석</div>
             <div class="mini">${escapeHtml(dayStemLine)}</div>
             <div class="mini">${escapeHtml(tenGodLine)}</div>
-            <div class="mini">간이 용신: ${escapeHtml(yongText)}</div>
-            <div class="mini">격국(간이): 월지 ${escapeHtml(
+            <div class="mini">용신: ${escapeHtml(yongText)}</div>
+            <div class="mini">격국: 월지 ${escapeHtml(
               season
             )} 중심. ${escapeHtml(seasonLine)}</div>
             <div class="mini">${escapeHtml(currentLine)}</div>
             <div class="mini">${escapeHtml(relationLine)}</div>
+            <div class="mini">${escapeHtml(relationExplain)}</div>
           </div>
         `;
       }
@@ -4471,6 +4641,20 @@
         if (a) blocks.push(renderReportBlock("A", a, state.aResult));
         if (b) blocks.push(renderReportBlock("B", b, state.bResult));
         reportContent.innerHTML = blocks.join("");
+
+        // 월별 세운 카드의 공유 버튼 이벤트 리스너 추가
+        setTimeout(() => {
+          reportContent.querySelectorAll("[data-month]").forEach((btn) => {
+            btn.addEventListener("click", async () => {
+              const monthIndex = parseInt(btn.getAttribute("data-month-index"));
+              const person = a || b;
+              if (person) {
+                const monthData = makeMonthlyLuck(person)[monthIndex];
+                await shareMonthlyCard(monthData);
+              }
+            });
+          });
+        }, 100);
       }
 
       function renderReportBlock(label, person, result) {
@@ -4586,26 +4770,72 @@
           .map((m) => {
             const basis = `근거: 월령 ${m.seasonElem} · 강 ${person.topElem} · 약 ${person.weakElem}`;
             return `<div class="rule-card">
-              <div class="row" style="justify-content: space-between">
+              <div class="row" style="justify-content: space-between; align-items: center;">
                 <div class="section-title">${m.month}월 · ${
               m.seasonElem
             } 흐름</div>
-                <span class="mini">${formatMonthTags(m.tags)}</span>
+                <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
+                  m.tags
+                )}</div>
               </div>
               <p class="lead">${escapeHtml(m.summary)}</p>
               ${
                 m.monthDetails
-                  ? `<p class="mini" style="line-height: 1.8; margin-top: 12px;">${escapeHtml(
-                      m.monthDetails
-                    )}</p>`
+                  ? `<div style="margin-top: 16px; padding: 12px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; border-left: 3px solid var(--accent);">
+                      <p class="mini" style="line-height: 1.8; margin: 0; color: rgba(15, 23, 42, 0.8);">${escapeHtml(
+                        m.monthDetails
+                      )}</p>
+                    </div>`
                   : ""
               }
-              <p class="mini" style="margin-top: 8px;">팁: ${escapeHtml(
+              ${
+                m.extra
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                       m.extra
+                     )}</p>
+                   </div>`
+                  : ""
+              }
+              ${
+                m.detail
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(255, 255, 255, 0.5); border-radius: 6px;">
+                     <p class="mini" style="margin: 0; line-height: 1.7; color: rgba(15, 23, 42, 0.75);">${escapeHtml(
+                       m.detail
+                     )}</p>
+                   </div>`
+                  : ""
+              }
+              ${
                 m.tip
-              )}</p>
-              ${m.extra ? `<p class="mini">${escapeHtml(m.extra)}</p>` : ""}
-              ${m.detail ? `<p class="mini">${escapeHtml(m.detail)}</p>` : ""}
+                  ? `<div style="margin-top: 12px; padding: 10px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
+                     <p class="mini" style="margin: 0; line-height: 1.7; font-weight: 600; color: rgba(15, 23, 42, 0.85);">
+                       <span style="color: rgba(34, 197, 94, 0.9);">💡 팁:</span> ${escapeHtml(
+                         m.tip
+                       )}
+                     </p>
+                   </div>`
+                  : ""
+              }
               <p class="mini">${escapeHtml(basis)}</p>
+              <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
+                <button class="btn compact" data-month="${
+                  m.month
+                }" data-month-index="${
+              m.month - 1
+            }" style="font-size: 12px; padding: 6px 12px;">
+                  📋 공유하기
+                </button>
+              </div>
+              <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
+                <button class="btn compact" data-month="${
+                  m.month
+                }" data-month-index="${
+              m.month - 1
+            }" style="font-size: 12px; padding: 6px 12px;">
+                  📋 공유하기
+                </button>
+              </div>
             </div>`;
           })
           .join("");
@@ -4857,11 +5087,9 @@
         const elemClass = elemClassKey ? `chip e-${elemClassKey}` : "chip";
 
         return `
-          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <span class="${luckClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${luckText}</span>
-            <span class="chip" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${modeText}</span>
-            <span class="${elemClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${elemText}</span>
-          </div>
+          <span class="${luckClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${luckText}</span>
+          <span class="chip" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${modeText}</span>
+          <span class="${elemClass}" style="font-size: 11px; padding: 4px 10px; white-space: nowrap;">${elemText}</span>
         `;
       }
 
@@ -4926,9 +5154,9 @@
         const decadeSummary = decades
           .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
           .join(" · ");
-        const daewoonNarrative = `대운은 큰 흐름을 가늠하는 길잡이입니다. ${
+        const daewoonNarrative = `대운은 10년 단위로 흐르는 큰 물줄기입니다. ${
           decadeSummary || "—"
-        }`;
+        }의 결이 이어지니, 이 시기에는 방향을 크게 잡고 흔들림을 줄여야 합니다. 큰 결정은 대운의 흐름과 맞춰야 길이 열립니다.`;
         const yearLines = flows
           .map(
             (f) =>
@@ -4938,11 +5166,11 @@
           )
           .join("<br/>");
         const sewoonNarrative =
-          "세운은 매해의 결을 읽는 자리니, 강한 해에는 밀고 약한 해에는 지키면 길합니다.";
+          "세운은 해마다 결이 달라지는 흐름입니다. 강한 해에는 확장과 실행을, 약한 해에는 정리와 회복을 택해야 실이 적습니다. 해마다 기운이 바뀌니, 같은 방법을 고집하지 말고 흐름에 맞춰 조율하는 것이 길합니다.";
 
         return `
           <div class="rule-card">
-            <div class="section-title">${label} 대운/세운</div>
+            <div class="section-title">${label} 대운/세운 상세</div>
             <div class="mini">대운(10년): ${escapeHtml(daewoonNarrative)}</div>
             <div class="mini">세운(10년): ${yearLines}</div>
             <div class="mini">${escapeHtml(sewoonNarrative)}</div>
@@ -5330,7 +5558,6 @@
         aHourBranch.value = data.aHourBranch || "자";
         aTimeUnknown.checked = Boolean(data.aTimeUnknown);
         aGender.value = data.aGender || "male";
-        aLunar.value = data.aLunar || "";
         aDaewoonStart.value = data.aDaewoonStart || "";
         aHiddenMode.value = "on";
         aHiddenMode.disabled = true;
@@ -5340,7 +5567,6 @@
         bHourBranch.value = data.bHourBranch || "자";
         bTimeUnknown.checked = Boolean(data.bTimeUnknown);
         bGender.value = data.bGender || "female";
-        bLunar.value = data.bLunar || "";
         bDaewoonStart.value = data.bDaewoonStart || "";
         bHiddenMode.value = "on";
         bHiddenMode.disabled = true;
@@ -5355,7 +5581,7 @@
           aHourBranch: aHourBranch.value,
           aTimeUnknown: aTimeUnknown.checked,
           aGender: aGender.value,
-          aLunar: aLunar.value,
+          aLunar: "",
           aDaewoonStart: aDaewoonStart.value,
           aHiddenMode: "on",
           aTzOffset: aTzOffset.value,
@@ -5364,7 +5590,7 @@
           bHourBranch: bHourBranch.value,
           bTimeUnknown: bTimeUnknown.checked,
           bGender: bGender.value,
-          bLunar: bLunar.value,
+          bLunar: "",
           bDaewoonStart: bDaewoonStart.value,
           bHiddenMode: "on",
           bTzOffset: bTzOffset.value,
@@ -5375,21 +5601,32 @@
       }
 
       function configureInputForMode(mode) {
+        const gridContainer = panelA.parentElement;
         if (mode === "compat") {
           inputTitle.textContent = "궁합 입력";
           inputDesc.textContent = "A/B 출생 정보 입력 → 궁합 계산";
           panelB.classList.remove("hidden");
           toneRow.classList.remove("hidden");
+          gridContainer.style.display = "grid";
+          gridContainer.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
+          gridContainer.style.justifyItems = "stretch";
+          panelA.style.maxWidth = "none";
         } else if (mode === "newyear") {
           inputTitle.textContent = "신년운세 입력";
           inputDesc.textContent = "한 사람 출생 정보 입력 → 2026 흐름";
           panelB.classList.add("hidden");
           toneRow.classList.add("hidden");
+          gridContainer.style.display = "flex";
+          gridContainer.style.justifyContent = "center";
+          panelA.style.maxWidth = "500px";
         } else {
           inputTitle.textContent = "오늘운세 입력";
           inputDesc.textContent = "한 사람 출생 정보 입력 → 오늘 한 줄";
           panelB.classList.add("hidden");
           toneRow.classList.add("hidden");
+          gridContainer.style.display = "flex";
+          gridContainer.style.justifyContent = "center";
+          panelA.style.maxWidth = "500px";
         }
       }
 
@@ -5575,7 +5812,6 @@
         aHourBranch.value = "자";
         aTimeUnknown.checked = false;
         aGender.value = "male";
-        aLunar.value = "";
         aDaewoonStart.value = "";
         aHiddenMode.value = "on";
         aHiddenMode.disabled = true;
@@ -5585,7 +5821,6 @@
         bHourBranch.value = "자";
         bTimeUnknown.checked = false;
         bGender.value = "female";
-        bLunar.value = "";
         bDaewoonStart.value = "";
         bHiddenMode.value = "on";
         bHiddenMode.disabled = true;
