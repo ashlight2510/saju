@@ -380,7 +380,7 @@
       .rule-card p.mini {
         margin-top: 12px;
         margin-bottom: 0;
-        text-align: center;
+        text-align: left;
         font-size: 0.9rem;
       }
       select:focus,
@@ -415,7 +415,7 @@
       }
       .rule-card h3 {
         margin-bottom: 16px;
-        text-align: center;
+        text-align: left;
         font-size: 18px;
       }
       .rule-head {
@@ -557,6 +557,7 @@
         font-size: 1.05rem;
         color: var(--text);
         letter-spacing: -0.01em;
+        text-align: left;
       }
       .share-note {
         margin-top: 10px;
@@ -722,9 +723,15 @@
       }
       .report-section {
         margin-top: 12px;
+        text-align: left;
       }
       .report-section h3 {
         margin-bottom: 6px;
+        text-align: left;
+      }
+      .report-section p.mini {
+        text-align: left;
+        line-height: 1.8;
       }
       .hidden {
         display: none !important;
@@ -4636,6 +4643,274 @@
         };
       }
 
+      const ELEM_MEANING = {
+        목: "성장/기획",
+        화: "추진/표현",
+        토: "안정/관리",
+        금: "결과/보상",
+        수: "정보/환경",
+      };
+      function elemMeaning(elem) {
+        return ELEM_MEANING[elem] || "기운";
+      }
+      function scaleElements(elements, targetTotal = 150) {
+        const keys = ["목", "화", "토", "금", "수"];
+        const sum = keys.reduce((acc, k) => acc + (elements[k] || 0), 0);
+        if (!sum) {
+          return {
+            scaled: { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 },
+            total: targetTotal,
+            sum: 0,
+          };
+        }
+        const scale = targetTotal / sum;
+        const scaled = {};
+        let scaledSum = 0;
+        keys.forEach((k) => {
+          const v = Math.round((elements[k] || 0) * scale);
+          scaled[k] = v;
+          scaledSum += v;
+        });
+        const diff = targetTotal - scaledSum;
+        if (diff !== 0) {
+          const topKey = keys.sort(
+            (a, b) => (elements[b] || 0) - (elements[a] || 0)
+          )[0];
+          scaled[topKey] = Math.max(0, (scaled[topKey] || 0) + diff);
+        }
+        return { scaled, total: targetTotal, sum };
+      }
+      function formatScaledElements(scaled) {
+        const order = ["목", "화", "토", "금", "수"];
+        return order.map((k) => `${k} ${scaled[k] ?? 0}`).join(" · ");
+      }
+      function elementPercent(elements, elem) {
+        const total = Object.values(elements).reduce((a, b) => a + b, 0) || 1;
+        return Math.round(((elements[elem] || 0) / total) * 100);
+      }
+      function getTenGodStats(person) {
+        const stems = [
+          person.yearStem,
+          person.monthStem,
+          person.dayStem,
+          person.hourStem,
+        ].filter(Boolean);
+        const counts = {};
+        stems.forEach((stem) => {
+          const tg = tenGod(person.dayStem, stem);
+          if (!tg) return;
+          counts[tg] = (counts[tg] || 0) + 1;
+        });
+        const gwanCount = (counts["정관"] || 0) + (counts["편관"] || 0);
+        const jaeCount = (counts["정재"] || 0) + (counts["편재"] || 0);
+        const hasSikshin = (counts["식신"] || 0) > 0;
+        const hasJeongGwan = (counts["정관"] || 0) > 0;
+        const hasPyeonGwan = (counts["편관"] || 0) > 0;
+        return {
+          counts,
+          gwanCount,
+          jaeCount,
+          hasSikshin,
+          gwanMix: hasJeongGwan && hasPyeonGwan,
+        };
+      }
+      function yearModeFor(person, year) {
+        const pillar = ganzhiYear(year);
+        const yearElem = STEM_ELEM[pillar.stem];
+        const mode = pickYearMode(
+          relationElem(yearElem, person.topElem),
+          relationElem(yearElem, person.weakElem)
+        );
+        const yearTenGod = person.dayStem
+          ? tenGod(person.dayStem, pillar.stem)
+          : "";
+        return { year, pillar, yearElem, mode, yearTenGod };
+      }
+      function yearStrategy(mode) {
+        if (mode === "push") return { todo: "확장/추진", avoid: "우유부단" };
+        if (mode === "pushPlus")
+          return { todo: "확장+회복 동시", avoid: "무리한 확장" };
+        if (mode === "recover")
+          return { todo: "정리/회복", avoid: "새 판 벌리기" };
+        if (mode === "brake") return { todo: "속도 조절", avoid: "과속/모험" };
+        return { todo: "기본 유지", avoid: "급변" };
+      }
+      function renderStructuredReport(person, result) {
+        const scaled = scaleElements(person.elements, 150);
+        const profile = makeElementProfile(person.elements);
+        const tenStats = getTenGodStats(person);
+        const gwanSummary =
+          tenStats.gwanCount >= 2
+            ? "관(정관/편관) 다수"
+            : tenStats.gwanCount === 1
+            ? "관 존재"
+            : "관 약함";
+        const jaeSummary = tenStats.jaeCount <= 1 ? "재성 약함" : "재성 보통";
+        const gwanSalSummary = tenStats.gwanMix ? "관살혼잡" : "관살 단정";
+        const sikSummary = tenStats.hasSikshin ? "식신 존재" : "식신 약함";
+        const waterPct = elementPercent(person.elements, "수");
+        const genderLabel = person.gender === "female" ? "여자" : "남자";
+
+        const branches = [
+          person.yearBranch,
+          person.monthBranch,
+          person.dayBranch,
+          person.hourBranch,
+        ].filter(Boolean);
+        const hap = listInternalPairs(branches, LIUHE);
+        const chung = listInternalPairs(branches, CHUNG);
+        const hyeong = listInternalHyeong(branches);
+        const relationLine = `합 ${hap.length ? hap.join(", ") : "—"} · 충 ${
+          chung.length ? chung.join(", ") : "—"
+        } · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
+
+        const coreDef = `이 사주는 ${person.topElem} 기운이 두드러지고 ${
+          person.weakElem
+        }이 약한 구조로, ${elemMeaning(
+          person.topElem
+        )}은 강점이지만 ${elemMeaning(
+          person.weakElem
+        )}에서 반복 갈등이 생기는 형이다.`;
+        const coreEvidence = `근거: 오행 분포 ${formatScaledElements(
+          scaled.scaled
+        )} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${
+          profile.mid
+        } / ${
+          profile.weak
+        }. 십성은 ${gwanSummary}, ${jaeSummary}, ${gwanSalSummary}, ${sikSummary}.`;
+        const coreDerived = `파생: ${person.topElem} 쪽으로 기운이 몰려 반응은 빠르지만, ${person.weakElem} 약점이 드러나는 순간 판단이 흔들린다.`;
+
+        const conflictOne = `${person.topElem}이 강해서 ${elemMeaning(
+          person.topElem
+        )}에 의존하려는 습관이 커진다. 그런데 ${
+          person.weakElem
+        }이 약해서 ${elemMeaning(
+          person.weakElem
+        )}이 흔들릴 때 선택이 뒤집힌다.`;
+        const conflictTwo = tenStats.gwanMix
+          ? "관이 혼잡하니까 규칙을 지키려는 마음과 벗어나려는 마음이 동시에 올라와 결정이 갈라진다."
+          : tenStats.gwanCount >= 2
+          ? "관이 많아서 책임을 떠안는 방향으로 굳어지는데, 신강이면 통제 집착이 생겨 갈등이 반복된다."
+          : "관이 약한 편이면 기준이 쉽게 흔들려 관계/직업 선택이 들쭉날쭉해진다.";
+
+        const moneyRisk = `재물: ${
+          person.weakElem === "금" || tenStats.jaeCount <= 1
+            ? "보상 체감이 약해서 돈이 새기 쉽다."
+            : "수입은 들어오는데 관리가 느슨해지기 쉽다."
+        } 근거: ${jaeSummary} · ${
+          person.weakElem
+        } 약. 행동: 월 기준 수치화 + 고정 정산 루틴을 만들어.`;
+        const workRisk = `직업: ${
+          tenStats.gwanCount >= 2
+            ? "책임이 과도하게 몰리고 역할이 확장된다."
+            : "역할 경계가 흐려져 잡무로 소모된다."
+        } 근거: ${gwanSummary}. 행동: 역할 범위를 문서로 고정하고, 아닌 일은 거절해.`;
+        const relationRisk = `관계: ${
+          hyeong.length || chung.length
+            ? "마찰 포인트가 반복돼 감정이 쉽게 상한다."
+            : "큰 충돌은 적지만 작은 불씨가 쌓인다."
+        } 근거: ${relationLine}. 행동: 감정은 24시간 뒤에 정리해서 말해.`;
+
+        const strongElem =
+          profile.strong !== "—" ? profile.strong : person.topElem;
+        const midElem = profile.mid !== "—" ? profile.mid : person.topElem;
+        const strengthUse = `강한 오행(${strongElem})은 ${strongElem
+          .split(" · ")
+          .map((e) => elemMeaning(e))
+          .join(
+            "·"
+          )}에 쓰면 효율이 높다. 중간 오행(${midElem})은 실행 속도와 유지력을 보조하는 쪽으로 붙여.`;
+        const workStyle = `일 처리 방식은 "정보를 모으고 -> 기준을 자르고 -> 한 번에 밀어붙이기"가 맞다. 커리어는 반복성과 구조가 있는 기획/운영/관리 쪽이 유리하다.`;
+
+        const romanceReason = `연애가 어려운 이유는 ${jaeSummary}과 ${person.topElem} 과다로 확신이 늦게 붙고, 반응이 과해지기 때문이다.`;
+        const matchCondition = `잘 맞는 상대는 감정 기복이 적고 생활 리듬이 일정하며, 말보다 약속을 지키는 사람이다.`;
+
+        const jobDirection = `안정적인 직장이 유리한 이유는 ${gwanSummary} 구조가 규칙 안에서 성과를 내는 방식이기 때문이다.`;
+        const moneyDirection = `투자/모험이 불리한 이유는 ${
+          person.weakElem === "금" || tenStats.jaeCount <= 1
+            ? "결과 체감이 약해 손익 판단이 늦어지기 때문"
+            : "리스크 관리가 느슨해지기 때문"
+        }이다. 재물은 속도가 아니라 구조로 늘린다: 지출 기준, 수입 분배, 정산 주기를 고정해.`;
+
+        const tzOffsetMinutes = person.tzOffsetMinutes ?? 540;
+        const dstMode = person.dstMode || "off";
+        const flows = buildYearFlows(person, tzOffsetMinutes, dstMode);
+        const decades = summarizeDecades(flows).slice(0, 2);
+        const decadeLines = decades.map((d) => {
+          const strategy = yearStrategy(d.mode);
+          return `${d.range}: ${yearModeText(d.mode)}. 해야 할 것: ${
+            strategy.todo
+          }. 피해야 할 것: ${strategy.avoid}.`;
+        });
+        const y2026 = yearModeFor(person, 2026);
+        const y2026Strategy = yearStrategy(y2026.mode);
+        const yearLine2026 = `2026년: ${yearModeText(
+          y2026.mode
+        )}. 해야 할 것: ${y2026Strategy.todo}. 피해야 할 것: ${
+          y2026Strategy.avoid
+        }.`;
+
+        const finalAttitudes = [
+          "기준은 감정이 아니라 규칙으로 잡아.",
+          "속도보다 루틴을 고정해.",
+          "관계는 약속과 경계로 지켜.",
+        ];
+
+        return `
+          <div class="rule-card">
+            <div class="section-title">본질 리포트 · ${person.name || "A"}</div>
+            <div class="mini">기본 정보: ${genderLabel} · 일간 ${
+          person.dayStem || "—"
+        }(${person.dayElem || "—"}) · 강약 ${
+          person.strength || "—"
+        } · ${relationLine}</div>
+            <div class="report-section">
+              <h3>1️⃣ 사주 구조 핵심 단정 (가장 중요)</h3>
+              <p class="mini">${escapeHtml(coreDef)}</p>
+              <p class="mini">${escapeHtml(coreEvidence)}</p>
+              <p class="mini">${escapeHtml(coreDerived)}</p>
+            </div>
+            <div class="report-section">
+              <h3>2️⃣ 이 사주의 평생 핵심 갈등</h3>
+              <p class="mini">1) ${escapeHtml(conflictOne)}</p>
+              <p class="mini">2) ${escapeHtml(conflictTwo)}</p>
+            </div>
+            <div class="report-section">
+              <h3>3️⃣ 반드시 조심해야 할 리스크 3가지</h3>
+              <p class="mini">${escapeHtml(moneyRisk)}</p>
+              <p class="mini">${escapeHtml(workRisk)}</p>
+              <p class="mini">${escapeHtml(relationRisk)}</p>
+            </div>
+            <div class="report-section">
+              <h3>4️⃣ 강점 활용 전략 (현실 적용)</h3>
+              <p class="mini">${escapeHtml(strengthUse)}</p>
+              <p class="mini">${escapeHtml(workStyle)}</p>
+              <p class="mini">수 기운 비중: ${waterPct}% · 이 비중은 환경/상황 영향이 큰 편이라 기준을 먼저 잡아야 흔들림이 줄어.</p>
+            </div>
+            <div class="report-section">
+              <h3>5️⃣ 연애·이성·관계 해석 (중요)</h3>
+              <p class="mini">${escapeHtml(romanceReason)}</p>
+              <p class="mini">${escapeHtml(matchCondition)}</p>
+            </div>
+            <div class="report-section">
+              <h3>6️⃣ 직업·재물 방향</h3>
+              <p class="mini">${escapeHtml(jobDirection)}</p>
+              <p class="mini">${escapeHtml(moneyDirection)}</p>
+            </div>
+            <div class="report-section">
+              <h3>7️⃣ 대운·세운 해석 (전략 중심)</h3>
+              <p class="mini">${escapeHtml(decadeLines.join(" "))}</p>
+              <p class="mini">${escapeHtml(yearLine2026)}</p>
+            </div>
+            <div class="report-section">
+              <h3>8️⃣ 최종 총평 (현실적인 조언)</h3>
+              <p class="mini">${escapeHtml(finalAttitudes.join(" "))}</p>
+            </div>
+            <div class="mini">이 결과는 ‘사주를 본 느낌’이 아니라 ‘이 사람 인생 구조를 이해한 느낌’이 나와야 한다.</div>
+          </div>
+        `;
+      }
+
       const ELEM_CLASS = {
         목: "wood",
         화: "fire",
@@ -4676,218 +4951,8 @@
 
       function renderReportBlock(label, person, result) {
         if (!result) return "";
-        const targetYear = new Date().getFullYear();
-        const birthYear = Number(result.input.local.slice(0, 4));
-        const age = toKoreanAge(targetYear, birthYear);
-        const genderLabel = person.gender === "female" ? "여자" : "남자";
-        const solar = result.input.local.slice(0, 10).replaceAll("-", ".");
-        const lunar = person.lunarDate ? person.lunarDate : "—";
-        const hourBranch = person.includeHour ? person.hourBranch : "—";
-        const hourRange = person.includeHour
-          ? getHourRangeText(person.hourBranch)
-          : "—";
-        const hourBranchDisplay =
-          hourBranch !== "—" ? `${hourBranch}(${hourRange})` : "—";
-        const p = result.pillars;
-        const yearTen = tenGod(person.dayStem, person.yearStem);
-        const monthTen = tenGod(person.dayStem, person.monthStem);
-        const dayTen = "일간";
-        const hourTen = person.hourStem
-          ? tenGod(person.dayStem, person.hourStem)
-          : "—";
-        const yearChip = tenGodChip(
-          "연",
-          `${p.year.stem}(${STEM_ELEM[p.year.stem]}) ${yearTen || "—"} / ${
-            p.year.branch
-          }(${BRANCH_ELEM[p.year.branch]})`,
-          STEM_ELEM[p.year.stem]
-        );
-        const monthChip = tenGodChip(
-          "월",
-          `${p.month.stem}(${STEM_ELEM[p.month.stem]}) ${monthTen || "—"} / ${
-            p.month.branch
-          }(${BRANCH_ELEM[p.month.branch]})`,
-          STEM_ELEM[p.month.stem]
-        );
-        const dayChip = tenGodChip(
-          "일",
-          `${p.day.stem}(${STEM_ELEM[p.day.stem]}) ${dayTen} / ${
-            p.day.branch
-          }(${BRANCH_ELEM[p.day.branch]})`,
-          STEM_ELEM[p.day.stem]
-        );
-        const hourChip = p.hour
-          ? tenGodChip(
-              "시",
-              `${p.hour.stem}(${STEM_ELEM[p.hour.stem]}) ${hourTen || "—"} / ${
-                p.hour.branch
-              }(${BRANCH_ELEM[p.hour.branch]})`,
-              STEM_ELEM[p.hour.stem]
-            )
-          : `<span class="chip"><b>시</b> —</span>`;
-        const coreBranches = [
-          person.yearBranch,
-          person.monthBranch,
-          person.dayBranch,
-          person.hourBranch,
-        ].filter(Boolean);
-        const coreHap = listInternalPairs(coreBranches, LIUHE);
-        const coreChung = listInternalPairs(coreBranches, CHUNG);
-        const coreHyeong = listInternalHyeong(coreBranches);
-        const hapText = coreHap.length ? coreHap.join(", ") : "—";
-        const chungText = coreChung.length ? coreChung.join(", ") : "—";
-        const hyeongText = coreHyeong.length ? coreHyeong.join(", ") : "—";
-        const hapInterpret = coreHap.length
-          ? "합이 있어서 협력/회복 기운이 붙어."
-          : "합이 적어서 도움/완충이 약해. 스스로 지키는 게 중요해.";
-        const chungInterpret = coreChung.length
-          ? "충이 있어서 타이밍이 엇갈리기 쉬워. 확인을 거듭해야 해."
-          : "충이 적어서 급한 충돌은 덜해. 그래도 방심은 금물이야.";
-        const hyeongInterpret = coreHyeong.length
-          ? "형이 있어서 감정 마찰이 생길 수 있어. 언행을 절제해야 해."
-          : "형이 적어서 큰 마찰은 덜해. 작은 불씨를 먼저 끄는 게 좋아.";
-        const hapAction = coreHap.length
-          ? "합이 있는 날은 협업/합의를 먼저 잡는 게 유리해. 예: 계약·소개·동업 제안."
-          : "합이 약하니 독단을 경계하고 조력자를 구해. 예: 중요한 결정은 보류.";
-        const chungAction = coreChung.length
-          ? "충이 있는 날은 일정·계약을 한 번 더 점검해야 해. 예: 이동·이사·변경 건."
-          : "충이 적어 급변은 덜하지만, 확인은 습관처럼 해. 예: 약속 시간 재확인.";
-        const hyeongAction = coreHyeong.length
-          ? "형이 있는 날은 말의 톤과 속도를 줄여 마찰을 피해. 예: 가족·동료 대화."
-          : "형이 적어도 감정의 여지를 남기면 좋아. 예: 갈등은 한 박자 늦게.";
-        const coreRelationLine = `합 ${
-          coreHap.length ? coreHap.join(", ") : "—"
-        } · 충 ${coreChung.length ? coreChung.join(", ") : "—"} · 형 ${
-          coreHyeong.length ? coreHyeong.join(", ") : "—"
-        }`;
-        const essenceSummary = `너는 ${person.dayElem} 기운이 본질이야. ${person.topElem} 기운이 강점으로 드러나고, ${person.weakElem}은(는) 의식적으로 보완하면 성장 폭이 커져.`;
-        const essenceTone = `기본 성향은 ${person.topElem} 중심으로 발현돼. 큰 장점은 추진력과 실행력이고, 약점은 균형이 흔들릴 때 드러나. 기준을 세우고 지키면 성향이 단단해져.`;
-        const essenceStrength = `강점은 ${person.topElem} 장점을 살릴 때 빠르게 드러나고, 약점은 ${person.weakElem}이 흔들릴 때 나타나. 한 가지 목표를 끝까지 붙들면 기운이 안정돼.`;
-        const essenceDirection = `추천 방향은 ${person.topElem}을(를) 활용하는 분야야. ${person.weakElem} 보완 루틴 하나만 고정해도 체감 성과가 빨리 올라와.`;
-        const keywords = makeReportKeywords(person);
-        const profile = makeElementProfile(person.elements);
-        const evidence = makeElementEvidence(
-          person.elements,
-          result.elements.breakdown,
-          person.topElem,
-          person.weakElem
-        );
-        const totalSum =
-          Object.values(person.elements).reduce((a, b) => a + b, 0) || 1;
-        return `
-          <div class="rule-card">
-            <div class="section-title">본질 리포트 · ${label}</div>
-            <div class="mini">너(${genderLabel}, ${age}세)</div>
-            <div class="mini">양력: ${solar} · 음력: ${escapeHtml(
-          lunar
-        )} · 태어난 시간: ${hourBranchDisplay}</div>
-            <table class="report-table">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>년</th>
-                  <th>월</th>
-                  <th>일</th>
-                  <th>시</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>천간</th>
-                  <td>${STEM_YINYANG[p.year.stem] || ""} ${p.year.stem} ${
-          STEM_ELEM[p.year.stem] || ""
-        } · ${yearTen || "—"}</td>
-                  <td>${STEM_YINYANG[p.month.stem] || ""} ${p.month.stem} ${
-          STEM_ELEM[p.month.stem] || ""
-        } · ${monthTen || "—"}</td>
-                  <td>${STEM_YINYANG[p.day.stem] || ""} ${p.day.stem} ${
-          STEM_ELEM[p.day.stem] || ""
-        } · ${dayTen}</td>
-                  <td>${
-                    p.hour
-                      ? `${STEM_YINYANG[p.hour.stem] || ""} ${p.hour.stem} ${
-                          STEM_ELEM[p.hour.stem] || ""
-                        } · ${hourTen || "—"}`
-                      : "—"
-                  }</td>
-                </tr>
-                <tr>
-                  <th>지지</th>
-                  <td>${p.year.branch} ${BRANCH_ELEM[p.year.branch]}</td>
-                  <td>${p.month.branch} ${BRANCH_ELEM[p.month.branch]}</td>
-                  <td>${p.day.branch} ${BRANCH_ELEM[p.day.branch]}</td>
-                  <td>${
-                    p.hour
-                      ? `${p.hour.branch} ${BRANCH_ELEM[p.hour.branch]}`
-                      : "—"
-                  }</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="mini">일주/강약: ${person.dayStem || "—"} · ${
-          person.strength
-        }</div>
-            <div class="mini">오행: ${formatElemLine(
-              "",
-              person.elements,
-              totalSum
-            )}</div>
-            <div class="mini">프로파일: 강 ${profile.strong} · 중 ${
-          profile.mid
-        } · 약 ${profile.weak}</div>
-            <div class="mini">${escapeHtml(evidence)}</div>
-            <div class="mini">핵심 키워드: ${escapeHtml(keywords)}</div>
-            <div class="report-section">
-              <h3>명리 핵심</h3>
-              <table class="report-table">
-                <thead>
-                  <tr>
-                    <th>구분</th>
-                    <th>내용</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th>일간</th>
-                    <td>${escapeHtml(person.dayStem || "—")}</td>
-                  </tr>
-                  <tr>
-                    <th>강약</th>
-                    <td>${escapeHtml(person.strength || "—")}</td>
-                  </tr>
-                  <tr>
-                    <th>십성</th>
-                    <td>
-                      <div class="chip-row">${yearChip}${monthChip}${dayChip}${hourChip}</div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>충/합/형</th>
-                    <td>합 ${escapeHtml(hapText)} · 충 ${escapeHtml(
-          chungText
-        )} · 형 ${escapeHtml(hyeongText)}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p class="mini">합 해석: ${escapeHtml(hapInterpret)}</p>
-              <p class="mini">합 지침: ${escapeHtml(hapAction)}</p>
-              <p class="mini">충 해석: ${escapeHtml(chungInterpret)}</p>
-              <p class="mini">충 지침: ${escapeHtml(chungAction)}</p>
-              <p class="mini">형 해석: ${escapeHtml(hyeongInterpret)}</p>
-              <p class="mini">형 지침: ${escapeHtml(hyeongAction)}</p>
-            </div>
-            <div class="report-section">
-              <h3>기본 성향</h3>
-              <p class="mini">${escapeHtml(essenceSummary)}</p>
-              <p class="mini">${escapeHtml(essenceTone)}</p>
-            </div>
-            <div class="report-section">
-              <h3>총론</h3>
-              <p class="mini">${escapeHtml(essenceStrength)}</p>
-              <p class="mini">${escapeHtml(essenceDirection)}</p>
-            </div>
-          </div>
-        `;
+        const viewPerson = { ...person, name: label };
+        return renderStructuredReport(viewPerson, result);
       }
 
       function getLocalNowYear(tzOffsetMinutes, dstMode) {
@@ -5104,7 +5169,7 @@
       function renderNewYear() {
         const a = buildPerson(state.A);
         const { top, weak } = getTopWeak(a.elements);
-        resultTitle.textContent = "신년운세 상세";
+        resultTitle.textContent = "신년운세 요약";
         renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
           hiddenMode: state.aResult?.input?.hiddenMode,
           includeHour: state.A?.includeHour,
@@ -5633,8 +5698,7 @@
         } catch (error) {
           console.error("계산 중 오류 발생:", error);
           alert(
-            "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: " +
-              error.message
+            "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: " + error.message
           );
         } finally {
           loadingOverlay.classList.remove("active");
