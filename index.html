@@ -13,60 +13,134 @@
     ></script>
 
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;800&family=Playfair+Display:wght@700;800&display=swap");
+
+      :root {
+        --bg1: #0b1621;
+        --bg2: #101f2e;
+        --bg3: #14273b;
+        --card: rgba(255, 255, 255, 0.94);
+        --text: #0f172a;
+        --muted: rgba(15, 23, 42, 0.65);
+        --line: rgba(15, 23, 42, 0.12);
+        --accent: #2563eb;
+        --accent2: #f59e0b;
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+        --radius: 18px;
+        --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", sans-serif;
+        --font-title: "Playfair Display", "Nanum Myeongjo", serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont;
-        background: #0b1621;
-        color: #0f172a;
+        min-height: 100vh;
+        font-family: var(--font-body);
+        background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
+        color: rgba(255, 255, 255, 0.92);
       }
       .wrap {
         max-width: 980px;
-        margin: auto;
-        padding: 24px;
+        margin: 0 auto;
+        padding: 24px 18px 40px;
       }
       h1,
       h2,
       h3 {
         margin: 0 0 10px;
       }
+      h1 {
+        font-family: var(--font-title);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .badge {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 8px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
       .card {
-        background: #fff;
-        border-radius: 16px;
+        background: var(--card);
+        color: var(--text);
+        border-radius: var(--radius);
         padding: 18px;
         margin-bottom: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: var(--shadow);
+      }
+      .card-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+      .score {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--accent);
       }
       .lead {
-        font-size: 1.1rem;
-        font-weight: 700;
+        font-size: 1.05rem;
+        font-weight: 800;
+        line-height: 1.5;
       }
       .mini {
         font-size: 0.85rem;
-        color: #475569;
-      }
-      .btn {
-        padding: 10px 14px;
-        border-radius: 12px;
-        border: none;
+        color: var(--muted);
         font-weight: 700;
-        cursor: pointer;
-        background: #0f172a;
-        color: #fff;
-      }
-      .btn.outline {
-        background: #fff;
-        color: #0f172a;
-        border: 1px solid #0f172a;
       }
       .row {
         display: flex;
         gap: 12px;
         flex-wrap: wrap;
+        align-items: center;
+      }
+      .btn {
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: none;
+        font-weight: 800;
+        cursor: pointer;
+        background: var(--text);
+        color: #fff;
+      }
+      .btn.outline {
+        background: #fff;
+        color: var(--text);
+        border: 1px solid var(--text);
+      }
+      .btn.ghost {
+        background: rgba(15, 23, 42, 0.08);
+        color: var(--text);
+        border: 1px solid rgba(15, 23, 42, 0.1);
+      }
+      select,
+      input[type="range"] {
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(15, 23, 42, 0.16);
+        font-weight: 700;
       }
       .rule-card {
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--line);
         border-radius: 12px;
         padding: 12px;
         margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.96);
       }
       .rule-head {
         display: flex;
@@ -75,72 +149,138 @@
       }
       .like-btn {
         border: none;
-        background: #e5e7eb;
-        border-radius: 8px;
+        background: rgba(37, 99, 235, 0.12);
+        color: #1e40af;
+        border-radius: 10px;
         padding: 4px 8px;
         cursor: pointer;
+        font-weight: 800;
       }
       .radar {
         width: 100%;
         max-width: 420px;
-        margin: auto;
+        margin: 12px auto 0;
         display: block;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .pill-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 800;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.06);
+        border: 1px solid rgba(15, 23, 42, 0.1);
+      }
+      .section-title {
+        font-weight: 800;
+        font-size: 1rem;
+      }
+      .share-note {
+        margin-top: 10px;
+      }
+
+      @media (max-width: 720px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        .card-head {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
     </style>
   </head>
 
   <body>
     <div class="wrap">
-      <h1>🔮 궁합 리포트</h1>
-
-      <!-- 오늘 운세 -->
-      <div class="card">
-        <h2>오늘 운세 (궁합 결합)</h2>
-        <p class="lead" id="todayCoupleLine">—</p>
-        <p class="mini" id="todayCoupleMeta">—</p>
+      <div class="hero">
+        <div class="badge">Local Only</div>
+        <div class="badge" id="todayBadge"></div>
       </div>
 
-      <!-- 섹션 레이더 -->
       <div class="card">
-        <h2>섹션별 균형</h2>
-        <svg id="sectionRadarSvg" class="radar" viewBox="0 0 320 320"></svg>
-      </div>
-
-      <!-- 튜닝 UI -->
-      <div class="card">
-        <h2>튜닝 (학습 느낌)</h2>
-        <div class="row">
-          <span class="mini">강도</span>
-          <input
-            type="range"
-            min="0"
-            max="2"
-            step="0.1"
-            value="1"
-            id="tuneStrength"
-          />
-          <span id="tuneLabel">1.0</span>
-          <button class="btn outline" id="tuneReset">초기화</button>
+        <div class="card-head">
+          <div>
+            <h1>🔮 궁합 리포트</h1>
+            <p class="mini" id="summarySub">Asia/Seoul 기준 · 절기/오행 규칙</p>
+          </div>
+          <div class="score" id="totalScore">—</div>
         </div>
-        <p class="mini" id="tuneStatus"></p>
+        <p class="lead" id="summaryMain">—</p>
+        <div class="pill-row" id="summaryPills"></div>
       </div>
 
-      <!-- 궁합 룰 -->
+      <div class="card">
+        <div class="row" style="justify-content: space-between">
+          <div>
+            <h2>오늘 운세 (궁합 결합)</h2>
+            <p class="lead" id="todayCoupleLine">—</p>
+            <p class="mini" id="todayCoupleMeta">—</p>
+          </div>
+          <button class="btn ghost" id="todayLuckBtn">오늘 다시 보기</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>섹션별 균형</h2>
+          <svg id="sectionRadarSvg" class="radar" viewBox="0 0 320 320"></svg>
+          <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
+        </div>
+
+        <div class="card">
+          <h2>모드 · 튜닝</h2>
+          <div class="row" style="margin-bottom: 8px">
+            <span class="mini">톤</span>
+            <select id="toneSelect">
+              <option value="couple" selected>커플 모드</option>
+              <option value="biz">동업자 모드</option>
+            </select>
+          </div>
+          <div class="row">
+            <span class="mini">튜닝 강도</span>
+            <input
+              type="range"
+              min="0"
+              max="2"
+              step="0.1"
+              value="1"
+              id="tuneStrength"
+            />
+            <span id="tuneLabel" class="mini">1.0</span>
+            <button class="btn outline" id="tuneReset">초기화</button>
+          </div>
+          <p class="mini" id="tuneStatus"></p>
+        </div>
+      </div>
+
       <div class="card">
         <h2>궁합 포인트</h2>
         <div id="ruleList"></div>
       </div>
 
-      <!-- 신년운세 -->
       <div class="card">
         <h2>2026 신년운세 (월별)</h2>
         <div id="monthlyList"></div>
       </div>
 
-      <!-- 공유 -->
       <div class="card">
         <h2>공유</h2>
         <button class="btn" id="shareBtn">공유 카드 만들기</button>
+        <p class="mini share-note" id="shareStatus"></p>
         <canvas
           id="shareCanvas"
           width="1080"
@@ -157,164 +297,868 @@
       const A = {
         name: "A",
         elements: { 목: 0.9, 화: 1.4, 토: 1.0, 금: 0.6, 수: 1.8 },
-        topElem: "수",
         dayBranch: "자",
       };
       const B = {
         name: "B",
         elements: { 목: 1.2, 화: 1.1, 토: 1.1, 금: 0.9, 수: 1.3 },
-        topElem: "수",
         dayBranch: "축",
       };
 
+      const todayBadge = document.getElementById("todayBadge");
+      todayBadge.textContent = new Date().toISOString().slice(0, 10);
+
+      const todayCoupleLine = document.getElementById("todayCoupleLine");
+      const todayCoupleMeta = document.getElementById("todayCoupleMeta");
+      const sectionRadarSvg = document.getElementById("sectionRadarSvg");
+      const summaryMain = document.getElementById("summaryMain");
+      const summarySub = document.getElementById("summarySub");
+      const totalScoreEl = document.getElementById("totalScore");
+      const summaryPills = document.getElementById("summaryPills");
+      const ruleList = document.getElementById("ruleList");
+      const monthlyList = document.getElementById("monthlyList");
+      const toneSelect = document.getElementById("toneSelect");
+      const tuneStrength = document.getElementById("tuneStrength");
+      const tuneLabel = document.getElementById("tuneLabel");
+      const tuneReset = document.getElementById("tuneReset");
+      const tuneStatus = document.getElementById("tuneStatus");
+      const todayLuckBtn = document.getElementById("todayLuckBtn");
+      const shareBtn = document.getElementById("shareBtn");
+      const shareStatus = document.getElementById("shareStatus");
+
       /* ======================================================
-  1. 오늘 운세 ↔ 궁합
+  1. 유틸
 ====================================================== */
-      function todayAdvantage(A, B) {
-        const key = "수"; // 오늘 핵심 오행 예시
-        const a = A.elements[key],
-          b = B.elements[key];
-        if (a - b > 0.3)
-          return {
-            line: "오늘은 A가 유리해. 중요한 얘기는 A가 먼저.",
-            meta: `A ${a} / B ${b}`,
-          };
-        if (b - a > 0.3)
-          return {
-            line: "오늘은 B가 유리해. 결정은 B 쪽 컨디션에 맞춰.",
-            meta: `A ${a} / B ${b}`,
-          };
+      const STEM_ELEM = {
+        갑: "목",
+        을: "목",
+        병: "화",
+        정: "화",
+        무: "토",
+        기: "토",
+        경: "금",
+        신: "금",
+        임: "수",
+        계: "수",
+      };
+      const BRANCH_ELEM = {
+        자: "수",
+        축: "토",
+        인: "목",
+        묘: "목",
+        진: "토",
+        사: "화",
+        오: "화",
+        미: "토",
+        신: "금",
+        유: "금",
+        술: "토",
+        해: "수",
+      };
+      const GENERATE = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
+      const OVERCOME = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+
+      const LIUHE = [
+        ["자", "축"],
+        ["인", "해"],
+        ["묘", "술"],
+        ["진", "유"],
+        ["사", "신"],
+        ["오", "미"],
+      ];
+      const CHUNG = [
+        ["자", "오"],
+        ["축", "미"],
+        ["인", "신"],
+        ["묘", "유"],
+        ["진", "술"],
+        ["사", "해"],
+      ];
+      const HAE = [
+        ["자", "미"],
+        ["축", "오"],
+        ["인", "사"],
+        ["묘", "진"],
+        ["신", "해"],
+        ["유", "술"],
+      ];
+      const SAMHAP = [
+        ["신", "자", "진"],
+        ["해", "묘", "미"],
+        ["인", "오", "술"],
+        ["사", "유", "축"],
+      ];
+      const SELF_PUNISH = ["자", "오", "유", "해"];
+
+      const MONTH_FLOW = {
+        1: { monthBranch: "축", seasonTop: "토" },
+        2: { monthBranch: "인", seasonTop: "목" },
+        3: { monthBranch: "묘", seasonTop: "목" },
+        4: { monthBranch: "진", seasonTop: "토" },
+        5: { monthBranch: "사", seasonTop: "화" },
+        6: { monthBranch: "오", seasonTop: "화" },
+        7: { monthBranch: "미", seasonTop: "토" },
+        8: { monthBranch: "신", seasonTop: "금" },
+        9: { monthBranch: "유", seasonTop: "금" },
+        10: { monthBranch: "술", seasonTop: "토" },
+        11: { monthBranch: "해", seasonTop: "수" },
+        12: { monthBranch: "자", seasonTop: "수" },
+      };
+
+      function hasPair(a, b, table) {
+        return table.some(([x, y]) => (a === x && b === y) || (a === y && b === x));
+      }
+      function isLiuhe(a, b) {
+        return hasPair(a, b, LIUHE);
+      }
+      function isChung(a, b) {
+        return hasPair(a, b, CHUNG);
+      }
+      function isHae(a, b) {
+        return hasPair(a, b, HAE);
+      }
+      function isSamhap(a, b) {
+        return SAMHAP.some((g) => g.includes(a) && g.includes(b));
+      }
+      function isSelfPunish(b) {
+        return SELF_PUNISH.includes(b);
+      }
+      function relationElem(a, b) {
+        if (GENERATE[a] === b) return "생";
+        if (OVERCOME[a] === b) return "극";
+        if (GENERATE[b] === a) return "받음";
+        if (OVERCOME[b] === a) return "눌림";
+        if (a === b) return "동";
+        return "중립";
+      }
+      function getTopWeak(elementsRaw) {
+        const entries = Object.entries(elementsRaw).sort((a, b) => b[1] - a[1]);
+        return { top: entries[0][0], weak: entries[entries.length - 1][0] };
+      }
+      function calcBalance(elementsRaw) {
+        const vals = Object.values(elementsRaw);
+        const max = Math.max(...vals);
+        const min = Math.min(...vals);
+        return max ? (max - min) / max : 0;
+      }
+      function combineElements(a, b) {
+        const keys = Object.keys(a);
+        const out = {};
+        keys.forEach((k) => {
+          out[k] = (a[k] + b[k]) / 2;
+        });
+        return out;
+      }
+      function round1(x) {
+        return Math.round(x * 10) / 10;
+      }
+      function clamp01(x) {
+        return Math.max(0, Math.min(1, x));
+      }
+      function hashToIndex(str, mod) {
+        let h = 2166136261;
+        for (let i = 0; i < str.length; i++) {
+          h ^= str.charCodeAt(i);
+          h = Math.imul(h, 16777619);
+        }
+        h >>>= 0;
+        return mod ? h % mod : 0;
+      }
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c]);
+      }
+
+      /* ======================================================
+  2. 오늘 운세 (일진 간지)
+====================================================== */
+      const STEMS = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
+      const BRANCHES = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+      const GANJI_60 = (() => {
+        const arr = [];
+        for (let i = 0; i < 60; i++) {
+          arr.push({ stem: STEMS[i % 10], branch: BRANCHES[i % 12] });
+        }
+        return arr;
+      })();
+
+      const BASE_GAPJA_DAY = new Date("1984-02-02T00:00:00+09:00");
+      const KOREA_DST = [
+        {
+          start: "1988-05-08T00:00:00+09:00",
+          end: "1988-10-09T23:59:59+09:00",
+          offsetHours: 1,
+        },
+      ];
+
+      function applyDST(dateKST) {
+        const t = dateKST.getTime();
+        for (const d of KOREA_DST) {
+          const s = new Date(d.start).getTime();
+          const e = new Date(d.end).getTime();
+          if (t >= s && t <= e) {
+            return new Date(t + d.offsetHours * 3600 * 1000);
+          }
+        }
+        return dateKST;
+      }
+
+      function getTodayGanji(date = new Date()) {
+        const kst = new Date(date.toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+        const adj = applyDST(kst);
+        const days = Math.floor((adj - BASE_GAPJA_DAY) / (24 * 3600 * 1000));
+        const idx = ((days % 60) + 60) % 60;
+        return { index: idx, ...GANJI_60[idx] };
+      }
+
+      function getTodayElementFlow(date = new Date()) {
+        const g = getTodayGanji(date);
         return {
-          line: "오늘은 균형적인 날. 협의하면 잘 풀려.",
-          meta: `A ${a} / B ${b}`,
+          ganji: g,
+          stemElem: STEM_ELEM[g.stem],
+          branchElem: BRANCH_ELEM[g.branch],
         };
       }
-      function renderTodayCoupleBox(A, B) {
+
+      function todayAdvantage(aPerson, bPerson, date = new Date()) {
+        const flow = getTodayElementFlow(date);
+        const key1 = flow.stemElem;
+        const key2 = flow.branchElem;
+        const scoreA = aPerson.elements[key1] * 1.0 + aPerson.elements[key2] * 0.7;
+        const scoreB = bPerson.elements[key1] * 1.0 + bPerson.elements[key2] * 0.7;
+        const diff = scoreA - scoreB;
+        const TH = 0.35;
+
+        let winner = "even";
+        if (diff > TH) winner = "A";
+        else if (diff < -TH) winner = "B";
+
+        const line = makeTodayCoupleLine(winner, key1, key2);
+        return {
+          winner,
+          keys: [key1, key2],
+          scoreA: round1(scoreA),
+          scoreB: round1(scoreB),
+          line,
+        };
+      }
+
+      function makeTodayCoupleLine(winner, k1, k2) {
+        if (winner === "A") {
+          return `오늘 흐름은 ${k1}/${k2} 쪽이 강해서, A가 조금 더 유리해. 중요한 얘기는 A가 먼저 꺼내면 좋아.`;
+        }
+        if (winner === "B") {
+          return `오늘 흐름은 ${k1}/${k2} 쪽이 강해서, B가 조금 더 유리해. 약속/결정은 B 컨디션에 맞추면 부드럽게 간다.`;
+        }
+        return `오늘은 ${k1}/${k2} 흐름인데, A/B 둘 다 비슷하게 받는다. 맞춰가는 게 이득이야.`;
+      }
+
+      function renderTodayCoupleBox() {
         const t = todayAdvantage(A, B);
         todayCoupleLine.textContent = t.line;
-        todayCoupleMeta.textContent = t.meta;
+        todayCoupleMeta.textContent = `A ${t.scoreA} vs B ${t.scoreB} (오늘 오행: ${t.keys.join("/")})`;
       }
 
       /* ======================================================
-  2. 섹션 점수 + 레이더
+  3. 룰 + 튜닝 + 요약
 ====================================================== */
-      function calcSectionScores() {
-        return { 성향: 82, 관계: 76, 돈: 68, 일: 85, 건강: 72 };
-      }
-      function renderRadar(scores) {
-        const svg = sectionRadarSvg;
-        const keys = ["성향", "관계", "돈", "일", "건강"];
-        const cx = 160,
-          cy = 160,
-          R = 110;
-        svg.innerHTML = "";
-        const ang = (i) => ((Math.PI * 2) / 5) * i - Math.PI / 2;
-        const pt = (v, i) => [
-          cx + R * v * Math.cos(ang(i)),
-          cy + R * v * Math.sin(ang(i)),
-        ];
-        const p = keys
-          .map((k, i) => pt(scores[k] / 100, i).join(","))
-          .join(" ");
-        svg.innerHTML += `<polygon points="${p}" fill="rgba(59,130,246,.3)" stroke="#2563eb" stroke-width="2"/>`;
-      }
-
-      /* ======================================================
-  3. 룰 + 튜닝
-====================================================== */
+      const SECTION_WEIGHT = { 성향: 0.25, 관계: 0.25, 돈: 0.15, 일: 0.2, 건강: 0.15 };
       const RULES = [
-        { id: "L1", text: "오행 수(水)가 둘 다 강해서 기본 결이 맞아." },
-        { id: "L2", text: "일지 합이 성립돼 생활 리듬이 편해." },
+        {
+          id: "ELEM_TOP_SAME",
+          section: "성향",
+          priority: 88,
+          when: (a, b) => a.topElem === b.topElem && a.topScore >= 1.2 && b.topScore >= 1.2,
+          evidence: "둘 다 {topElem} 기운이 가장 강해 기준과 속도가 비슷해.",
+          copies: ["기본 결이 잘 맞아. 같이 움직이면 빠르다.", "둘 다 몰입할 땐 브레이크만 맞추면 완벽해."],
+        },
+        {
+          id: "ELEM_COMPLEMENT",
+          section: "관계",
+          priority: 82,
+          when: (a, b) => GENERATE[a.topElem] === b.topElem || GENERATE[b.topElem] === a.topElem,
+          evidence: "상생 관계의 강점이 서로 맞물려 있어.",
+          copies: ["서로 없는 걸 채워주는 구조라 오래 가기 좋아.", "역할 분담만 잘 되면 시너지가 크게 난다."],
+        },
+        {
+          id: "ELEM_WEAK_SAME",
+          section: "건강",
+          priority: 60,
+          when: (a, b) => a.weakElem === b.weakElem && a.weakScore <= 0.7 && b.weakScore <= 0.7,
+          evidence: "둘 다 {weakElem} 기운이 낮아 같은 부분에서 흔들리기 쉬워.",
+          copies: ["약점이 같아서 이해는 잘 된다.", "이 부분만 규칙으로 관리하면 충분히 커버돼."],
+        },
+        {
+          id: "BRANCH_LIUHE",
+          section: "관계",
+          priority: 90,
+          when: (a, b) => isLiuhe(a.dayBranch, b.dayBranch),
+          evidence: "일지 기준 육합이 성립돼 기본 호흡이 편해.",
+          copies: ["같이 있으면 이유 없이 편하다.", "생활 궁합이 좋은 타입."],
+        },
+        {
+          id: "BRANCH_SAMHAP",
+          section: "일",
+          priority: 78,
+          when: (a, b) => isSamhap(a.dayBranch, b.dayBranch),
+          evidence: "삼합 구조라 목표를 향해 힘이 모여.",
+          copies: ["같은 목표만 있으면 폭발력이 좋다.", "프로젝트 궁합이 최고야."],
+        },
+        {
+          id: "BRANCH_CHUNG",
+          section: "관계",
+          priority: 62,
+          when: (a, b) => isChung(a.dayBranch, b.dayBranch),
+          evidence: "지지 충으로 타이밍이 자주 엇갈릴 수 있어.",
+          copies: ["맞는 말도 타이밍이 어긋나면 싸움이 된다.", "중요한 얘기는 컨디션 좋을 때."],
+        },
+        {
+          id: "BRANCH_HAE",
+          section: "성향",
+          priority: 58,
+          when: (a, b) => isHae(a.dayBranch, b.dayBranch),
+          evidence: "해 관계가 있어 오해가 쌓일 수 있어.",
+          copies: ["작은 말이 크게 들릴 수 있다.", "사실 확인 먼저 하면 괜찮아."],
+        },
+        {
+          id: "SELF_PUNISH",
+          section: "건강",
+          priority: 55,
+          when: (a, b) => a.dayBranch === b.dayBranch && isSelfPunish(a.dayBranch),
+          evidence: "같은 지지라 감정을 안으로 쌓기 쉬운 구조야.",
+          copies: ["참는 게 문제 포인트.", "기분은 그날그날 푸는 게 답."],
+        },
+        {
+          id: "MONEY_STYLE_MATCH",
+          section: "돈",
+          priority: 75,
+          when: (a, b) => Math.abs(a.elements["금"] - b.elements["금"]) <= 0.3,
+          evidence: "돈에 대한 감각이 비슷한 편이야.",
+          copies: ["금전 스트레스 적은 조합.", "공동 지출 기준만 정하면 된다."],
+        },
+        {
+          id: "WORK_SPEED_DIFF",
+          section: "일",
+          priority: 63,
+          when: (a, b) => Math.abs(a.elements["화"] - b.elements["화"]) >= 0.6,
+          evidence: "일 처리 속도 차이가 꽤 있는 편이야.",
+          copies: ["속도 차이일 뿐 방향은 같다.", "기한만 명확히 맞추자."],
+        },
       ];
-      const TUNE_KEY = "tune";
+
+      const TUNE_KEY = "compat_rule_tuning_v1";
+      const TUNE_CFG_KEY = "compat_rule_tuning_cfg_v1";
+
       function loadTune() {
-        return JSON.parse(localStorage.getItem(TUNE_KEY) || "{}");
+        try {
+          return JSON.parse(localStorage.getItem(TUNE_KEY) || "{}");
+        } catch {
+          return {};
+        }
       }
       function saveTune(v) {
         localStorage.setItem(TUNE_KEY, JSON.stringify(v));
       }
-      function feedback(id) {
+      function loadTuneCfg() {
+        try {
+          return JSON.parse(localStorage.getItem(TUNE_CFG_KEY) || "{}") || { strength: 1 };
+        } catch {
+          return { strength: 1 };
+        }
+      }
+      function saveTuneCfg(cfg) {
+        localStorage.setItem(TUNE_CFG_KEY, JSON.stringify(cfg));
+      }
+      function getTuneStrength() {
+        return loadTuneCfg().strength ?? 1;
+      }
+      function getTunedPriority(rule) {
+        const tune = loadTune();
+        const delta = tune[rule.id] || 0;
+        const strength = getTuneStrength();
+        const tuned = rule.priority + delta * strength;
+        return Math.max(40, Math.min(100, tuned));
+      }
+      function feedback(ruleId) {
         const t = loadTune();
-        t[id] = (t[id] || 0) + 1;
+        t[ruleId] = (t[ruleId] || 0) + 1.5;
         saveTune(t);
-        renderTune();
+        updateTuneStatus();
       }
-      function renderTune() {
+      function updateTuneStatus() {
         const t = loadTune();
-        tuneStatus.textContent = `튜닝 룰 ${Object.keys(t).length}개 반영 중`;
+        const keys = Object.keys(t);
+        const strength = getTuneStrength();
+        tuneStatus.textContent = keys.length
+          ? `튜닝 적용 중: ${keys.length}개 룰 (강도 ${strength.toFixed(1)})`
+          : `튜닝 없음 (강도 ${strength.toFixed(1)})`;
       }
-      function renderRules() {
-        ruleList.innerHTML = RULES.map(
-          (r) => `
-    <div class="rule-card">
-      <div class="rule-head">
-        <b>${r.id}</b>
-        <button class="like-btn" onclick="feedback('${r.id}')">공감</button>
-      </div>
-      <p>${r.text}</p>
-    </div>`
-        ).join("");
+
+      function buildPerson(person) {
+        const { top, weak } = getTopWeak(person.elements);
+        return {
+          ...person,
+          topElem: top,
+          weakElem: weak,
+          topScore: person.elements[top],
+          weakScore: person.elements[weak],
+          balance: calcBalance(person.elements),
+        };
+      }
+
+      function evaluateRules(a, b) {
+        return RULES.filter((r) => r.when(a, b)).map((r) => ({
+          ...r,
+          tunedPriority: getTunedPriority(r),
+        }));
+      }
+
+      function calcSectionScores(firedRules) {
+        const result = {};
+        Object.keys(SECTION_WEIGHT).forEach((s) => (result[s] = { sum: 0, cnt: 0 }));
+        firedRules.forEach((r) => {
+          if (result[r.section]) {
+            result[r.section].sum += r.tunedPriority;
+            result[r.section].cnt += 1;
+          }
+        });
+        const scores = {};
+        Object.keys(result).forEach((s) => {
+          scores[s] = result[s].cnt ? Math.round(result[s].sum / result[s].cnt) : 50;
+        });
+        return scores;
+      }
+
+      function calcTotalFromSections(sectionScores) {
+        let total = 0;
+        Object.entries(SECTION_WEIGHT).forEach(([k, w]) => {
+          total += sectionScores[k] * w;
+        });
+        return Math.round(total);
+      }
+
+      function generateSummary(score) {
+        if (score >= 85) return "전반적으로 궁합이 강해. 기본 결이 잘 맞고, 장기적으로 안정적이야.";
+        if (score >= 70) return "좋은 편이야. 포인트 몇 가지만 맞추면 훨씬 편해질 수 있어.";
+        if (score >= 55) return "무난해. 규칙만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
+        return "노력이 필요한 궁합이야. 대신 기준만 맞추면 의외로 단단해질 수 있어.";
       }
 
       /* ======================================================
-  4. 신년운세 월별
+  4. 톤 분기
 ====================================================== */
-      function makeMonthlyLuck() {
-        return Array.from({ length: 12 }, (_, i) => ({
-          m: i + 1,
-          s: `${i + 1}월은 흐름이 무난해.`,
-          t: `중요한 일 1개만 집중.`,
-        }));
+      const TONE = {
+        couple: {
+          title: "커플 모드",
+          soften: (s) =>
+            s
+              .replaceAll("규칙", "약속")
+              .replaceAll("기한", "타이밍")
+              .replaceAll("리스크", "조심 포인트"),
+          tips: {
+            conflict: ["감정 올라오면 한 박자 쉬고 말하자.", "문자보다 얼굴 보고 얘기하는 게 답."],
+            money: ["돈 얘기는 기준을 먼저 맞추는 게 편해.", "큰돈만 같이 결정하고 나머진 자유로 가자."],
+          },
+        },
+        biz: {
+          title: "동업자 모드",
+          soften: (s) =>
+            s
+              .replaceAll("감정", "커뮤니케이션")
+              .replaceAll("서로", "양측")
+              .replaceAll("오해", "정보 비대칭"),
+          tips: {
+            conflict: ["의사결정 프로세스를 문서로 박아.", "회의는 의제 1개씩만 잡자."],
+            money: ["재무는 룰이 아니라 정책이다.", "지출 기준/승인권자/한도를 고정해."],
+          },
+        },
+      };
+
+      function applyTone(text, toneKey) {
+        const t = TONE[toneKey] || TONE.couple;
+        return t.soften(text);
       }
-      function renderMonthly() {
-        monthlyList.innerHTML = makeMonthlyLuck()
+      function toneExtraTip(section, toneKey) {
+        const t = TONE[toneKey] || TONE.couple;
+        const pool = t.tips[section] || [];
+        if (!pool.length) return "";
+        return pool[hashToIndex(`${toneKey}|${section}`, pool.length)];
+      }
+
+      /* ======================================================
+  5. 섹션 레이더 렌더
+====================================================== */
+      function renderRadar(scores) {
+        const svg = sectionRadarSvg;
+        const keys = ["성향", "관계", "돈", "일", "건강"];
+        const cx = 160;
+        const cy = 160;
+        const R = 110;
+        svg.innerHTML = "";
+
+        const ang = (i) => ((Math.PI * 2) / 5) * i - Math.PI / 2;
+        const pt = (v, i) => [cx + R * v * Math.cos(ang(i)), cy + R * v * Math.sin(ang(i))];
+        const polyPoints = (arr, scale = 1) =>
+          arr.map((v, i) => pt(v * scale, i).map((n) => n.toFixed(2)).join(",")).join(" ");
+
+        const el = (name, attrs = {}) => {
+          const e = document.createElementNS("http://www.w3.org/2000/svg", name);
+          Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+          return e;
+        };
+
+        for (let r = 1; r <= 4; r++) {
+          svg.appendChild(
+            el("polygon", {
+              points: polyPoints([r / 4, r / 4, r / 4, r / 4, r / 4]),
+              fill: "none",
+              stroke: "rgba(15,23,42,0.14)",
+              "stroke-width": "1",
+            })
+          );
+        }
+
+        keys.forEach((name, i) => {
+          const [x, y] = pt(1, i);
+          svg.appendChild(
+            el("line", { x1: cx, y1: cy, x2: x, y2: y, stroke: "rgba(15,23,42,0.22)", "stroke-width": "1" })
+          );
+          const [lx, ly] = pt(1.18, i);
+          const text = el("text", {
+            x: lx,
+            y: ly,
+            "text-anchor": "middle",
+            "dominant-baseline": "middle",
+            "font-size": "13",
+            "font-weight": "900",
+            fill: "#0f172a",
+          });
+          text.textContent = name;
+          svg.appendChild(text);
+        });
+
+        const vals = keys.map((k) => clamp01((scores[k] ?? 50) / 100));
+        const poly = el("polygon", {
+          points: polyPoints(vals, 0.02),
+          fill: "rgba(37,99,235,0.28)",
+          stroke: "rgba(37,99,235,0.9)",
+          "stroke-width": "2",
+          "stroke-linejoin": "round",
+        });
+        svg.appendChild(poly);
+
+        let p = 0.02;
+        function anim() {
+          p += 0.05;
+          if (p > 1) p = 1;
+          poly.setAttribute("points", polyPoints(vals, p));
+          if (p < 1) requestAnimationFrame(anim);
+        }
+        requestAnimationFrame(anim);
+      }
+
+      /* ======================================================
+  6. 신년운세 월별
+====================================================== */
+      function pickMonthlyCopy(ctx) {
+        const { month, seasonElem, top, weak, relTop, relWeak } = ctx;
+        let mode = "steady";
+        if (relTop === "생" || relTop === "동") mode = "push";
+        if (relWeak === "생" || relWeak === "동") mode = mode === "push" ? "pushPlus" : "recover";
+        if (relTop === "극" || relTop === "눌림") mode = "brake";
+
+        const monthLabel = `${month}월`;
+        const templates = {
+          push: [
+            [`${monthLabel}은 흐름이 네 편이야. 밀어붙이면 성과가 난다.`, "가장 중요한 일 1개만 먼저 끝내."],
+            [`${monthLabel}은 속도가 붙는 달이야. 미루던 거 처리하기 딱 좋아.`, "연락/결정/정리 중 하나는 이번 달에 끝내."],
+          ],
+          pushPlus: [
+            [`${monthLabel}은 좋은 흐름 + 회복까지 같이 오는 달이야.`, "욕심내도 되는데, 수면만은 꼭 지켜."],
+            [`${monthLabel}은 잘 풀리면서 편해지는 달이야.`, "새로 벌리기보다 기존 걸 업그레이드하면 크게 남아."],
+          ],
+          recover: [
+            [`${monthLabel}은 회복이 복이다. 컨디션만 잡아도 일이 풀린다.`, "무리한 약속 줄이고 루틴 하나 붙여."],
+            [`${monthLabel}은 정리하면 운이 붙는 달이야.`, "공간/돈/일정 중 하나만 정리해도 체감 온다."],
+          ],
+          brake: [
+            [`${monthLabel}은 무리하면 손해 보는 달이야. 속도 줄이는 게 이득.`, "큰 결정은 2주만 미루고 확인부터 해."],
+            [`${monthLabel}은 신중이 곧 돈이다.`, "계약/투자/충동구매는 한 번 더 체크."],
+          ],
+          steady: [
+            [`${monthLabel}은 유지가 이기는 달이야. 기본만 지켜도 충분해.`, "루틴 3개(수면/식사/정리)만 챙겨."],
+            [`${monthLabel}은 큰 변화보다 작은 개선이 맞아.`, "5% 개선 목표로 가면 꾸준히 이긴다."],
+          ],
+        };
+
+        const seed = `${month}|${seasonElem}|${top}|${weak}|${mode}`;
+        const arr = templates[mode];
+        const idx = hashToIndex(seed, arr.length);
+        const [oneLine, tip] = arr[idx];
+        return { oneLine, tip, tags: [mode, seasonElem] };
+      }
+
+      function makeMonthlyLuck(person) {
+        const { top, weak } = getTopWeak(person.elements);
+        const months = [];
+        for (let m = 1; m <= 12; m++) {
+          const flow = MONTH_FLOW[m];
+          const s = flow.seasonTop;
+          const relTop = relationElem(top, s);
+          const relWeak = relationElem(weak, s);
+          const { oneLine, tip, tags } = pickMonthlyCopy({ month: m, seasonElem: s, top, weak, relTop, relWeak });
+          months.push({
+            month: m,
+            seasonElem: s,
+            monthBranch: flow.monthBranch,
+            summary: oneLine,
+            tip,
+            tags,
+          });
+        }
+        return months;
+      }
+
+      function renderMonthly(person) {
+        monthlyList.innerHTML = makeMonthlyLuck(person)
           .map(
             (m) => `
-    <div class="rule-card">
-      <b>${m.m}월</b>
-      <p>${m.s}</p>
-      <p class="mini">팁: ${m.t}</p>
-    </div>`
+            <div class="rule-card">
+              <div class="row" style="justify-content: space-between">
+                <div class="section-title">${m.month}월 · ${m.seasonElem} 흐름</div>
+                <span class="mini">${m.tags.join(" · ")}</span>
+              </div>
+              <p class="lead">${escapeHtml(m.summary)}</p>
+              <p class="mini">팁: ${escapeHtml(m.tip)}</p>
+            </div>`
           )
           .join("");
       }
 
       /* ======================================================
-  5. 공유 카드
+  7. 렌더
 ====================================================== */
-      function shareCard() {
-        const c = shareCanvas,
-          ctx = c.getContext("2d");
-        ctx.fillStyle = "#0f172a";
+      function renderSummary(totalScore, firedRules, toneKey, coupleElements) {
+        const summary = generateSummary(totalScore);
+        totalScoreEl.textContent = `${totalScore}점`;
+        summaryMain.textContent = summary;
+        summarySub.textContent = "Asia/Seoul 기준 · 절기/오행 규칙";
+
+        const { top, weak } = getTopWeak(coupleElements);
+        const pills = [
+          `핵심 오행: ${top}`,
+          `약한 오행: ${weak}`,
+          `발동 룰: ${firedRules.length}개`,
+          TONE[toneKey]?.title || "커플 모드",
+        ];
+        summaryPills.innerHTML = pills
+          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
+          .join("");
+      }
+
+      function renderRules(firedRules, toneKey, tokens) {
+        if (!firedRules.length) {
+          ruleList.innerHTML = `<p class="mini">발동된 룰이 아직 없어. 입력값을 확인해줘.</p>`;
+          return;
+        }
+
+        const topElem = tokens?.topElem || "";
+        const weakElem = tokens?.weakElem || "";
+
+        ruleList.innerHTML = firedRules
+          .sort((a, b) => b.tunedPriority - a.tunedPriority)
+          .map((r) => {
+            const evidence = applyTone(r.evidence, toneKey)
+              .replace("{topElem}", topElem)
+              .replace("{weakElem}", weakElem);
+            const copy = applyTone(r.copies[0], toneKey);
+            const extra = r.section === "돈" ? toneExtraTip("money", toneKey) : toneExtraTip("conflict", toneKey);
+            return `
+            <div class="rule-card">
+              <div class="rule-head">
+                <b>${escapeHtml(r.id)}</b>
+                <button class="like-btn" data-rule="${r.id}">공감 👍</button>
+              </div>
+              <p class="mini">근거: ${escapeHtml(evidence)}</p>
+              <p>${escapeHtml(copy)}${extra ? `<br/><span class="mini">+ ${escapeHtml(extra)}</span>` : ""}</p>
+            </div>`;
+          })
+          .join("");
+      }
+
+      function renderAll() {
+        const a = buildPerson(A);
+        const b = buildPerson(B);
+        const toneKey = toneSelect.value;
+        const firedRules = evaluateRules(a, b);
+        const sectionScores = calcSectionScores(firedRules);
+        const totalScore = calcTotalFromSections(sectionScores);
+        const coupleElements = combineElements(a.elements, b.elements);
+        const coupleStats = getTopWeak(coupleElements);
+
+        renderSummary(totalScore, firedRules, toneKey, coupleElements);
+        renderTodayCoupleBox();
+        renderRadar(sectionScores);
+        renderRules(firedRules, toneKey, { topElem: coupleStats.top, weakElem: coupleStats.weak });
+        renderMonthly({ elements: coupleElements });
+
+        return { totalScore, firedRules, sectionScores, coupleElements };
+      }
+
+      /* ======================================================
+  8. 공유 카드
+====================================================== */
+      function roundRect(ctx, x, y, w, h, r, fill) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+      }
+
+      function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+        const words = text.split(" ");
+        let line = "";
+        for (let i = 0; i < words.length; i++) {
+          const test = line + words[i] + " ";
+          if (ctx.measureText(test).width > maxWidth && i > 0) {
+            ctx.fillText(line, x, y);
+            line = words[i] + " ";
+            y += lineHeight;
+          } else {
+            line = test;
+          }
+        }
+        ctx.fillText(line, x, y);
+      }
+
+      async function generateShareCard(payload) {
+        const c = document.getElementById("shareCanvas");
+        const ctx = c.getContext("2d");
+
+        const g = ctx.createLinearGradient(0, 0, 0, c.height);
+        g.addColorStop(0, "#0b1621");
+        g.addColorStop(0.5, "#101f2e");
+        g.addColorStop(1, "#14273b");
+        ctx.fillStyle = g;
         ctx.fillRect(0, 0, c.width, c.height);
-        ctx.fillStyle = "#fff";
-        ctx.font = "bold 48px sans-serif";
-        ctx.fillText("궁합 리포트", 80, 120);
-        ctx.font = "32px sans-serif";
-        ctx.fillText(todayCoupleLine.textContent, 80, 220);
-        c.toBlob((b) => {
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(b);
-          a.download = "궁합.png";
-          a.click();
+
+        const pad = 70;
+        const cardX = pad;
+        const cardY = pad;
+        const cardW = c.width - pad * 2;
+        const cardH = c.height - pad * 2;
+        roundRect(ctx, cardX, cardY, cardW, cardH, 40, "rgba(255,255,255,0.92)");
+
+        ctx.fillStyle = "#0f172a";
+        ctx.font = "800 52px IBM Plex Sans KR";
+        ctx.fillText(payload.title, cardX + 50, cardY + 120);
+
+        ctx.font = "700 30px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.7)";
+        ctx.fillText(payload.toneLabel, cardX + 50, cardY + 170);
+
+        ctx.font = "800 130px IBM Plex Sans KR";
+        ctx.fillStyle = "#0f172a";
+        ctx.fillText(String(payload.score), cardX + 50, cardY + 320);
+        ctx.font = "700 32px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.7)";
+        ctx.fillText("궁합 점수", cardX + 50, cardY + 370);
+
+        ctx.font = "700 32px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.85)";
+        ctx.fillText(`핵심 오행: ${payload.topElem}`, cardX + 50, cardY + 450);
+
+        ctx.font = "700 32px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.9)";
+        wrapText(ctx, `총평: ${payload.summary}`, cardX + 50, cardY + 530, cardW - 100, 44);
+
+        ctx.font = "700 28px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.78)";
+        wrapText(ctx, `오늘: ${payload.todayLine}`, cardX + 50, cardY + 720, cardW - 100, 40);
+
+        ctx.font = "700 26px IBM Plex Sans KR";
+        ctx.fillStyle = "rgba(15,23,42,0.6)";
+        ctx.fillText("funnyfunny.cloud", cardX + 50, cardY + cardH - 70);
+
+        return new Promise((resolve) => c.toBlob(resolve, "image/png", 1.0));
+      }
+
+      async function shareCard() {
+        const toneKey = toneSelect.value;
+        const state = renderAll();
+        const topElem = getTopWeak(state.coupleElements).top;
+        const blob = await generateShareCard({
+          title: "궁합 리포트",
+          score: state.totalScore,
+          summary: summaryMain.textContent,
+          todayLine: todayCoupleLine.textContent,
+          topElem,
+          toneLabel: TONE[toneKey]?.title || "커플 모드",
         });
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `궁합카드_${new Date().toISOString().slice(0, 10)}.png`;
+        a.click();
+
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+          shareStatus.textContent = "카드를 생성하고 클립보드에 복사했어.";
+        } catch {
+          shareStatus.textContent = "카드를 생성했어. 다운로드를 확인해줘.";
+        }
       }
 
       /* ======================================================
   INIT
 ====================================================== */
-      renderTodayCoupleBox(A, B);
-      renderRadar(calcSectionScores());
-      renderRules();
-      renderMonthly();
-      renderTune();
+      function init() {
+        const cfg = loadTuneCfg();
+        tuneStrength.value = String(cfg.strength ?? 1);
+        tuneLabel.textContent = Number(tuneStrength.value).toFixed(1);
+        updateTuneStatus();
+        renderAll();
+      }
 
-      shareBtn.onclick = shareCard;
-      tuneStrength.oninput = (e) => (tuneLabel.textContent = e.target.value);
-      tuneReset.onclick = () => {
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".like-btn");
+        if (!btn) return;
+        const ruleId = btn.dataset.rule;
+        feedback(ruleId);
+        btn.textContent = "공감됨 ✔";
+        btn.disabled = true;
+      });
+
+      tuneStrength.addEventListener("input", () => {
+        const v = Number(tuneStrength.value);
+        tuneLabel.textContent = v.toFixed(1);
+        saveTuneCfg({ strength: v });
+        updateTuneStatus();
+        renderAll();
+      });
+
+      tuneReset.addEventListener("click", () => {
         localStorage.removeItem(TUNE_KEY);
-        renderTune();
-      };
+        updateTuneStatus();
+        renderAll();
+      });
+
+      toneSelect.addEventListener("change", renderAll);
+      todayLuckBtn.addEventListener("click", renderTodayCoupleBox);
+      shareBtn.addEventListener("click", shareCard);
+
+      init();
     </script>
   </body>
 </html>
