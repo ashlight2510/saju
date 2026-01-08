@@ -127,6 +127,19 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
       }
+      .logo-emoji {
+        display: inline-block;
+        width: 1.05em;
+        height: 1.05em;
+        margin-right: 8px;
+        vertical-align: -0.12em;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%238b5cf6'/%3E%3Cstop offset='1' stop-color='%236366f1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='26' r='18' fill='url(%23g)'/%3E%3Ccircle cx='26' cy='20' r='6' fill='rgba(255,255,255,0.8)'/%3E%3Cpath d='M18 50c6 4 22 4 28 0' fill='none' stroke='%236366f1' stroke-width='4' stroke-linecap='round'/%3E%3Crect x='22' y='46' width='20' height='6' rx='3' fill='%237c3aed'/%3E%3C/svg%3E")
+          no-repeat center/contain;
+        filter: drop-shadow(0 2px 6px rgba(99, 102, 241, 0.3));
+      }
+      .logo-text {
+        -webkit-text-fill-color: transparent;
+      }
       h2 {
         font-size: 24px;
         font-weight: 800;
@@ -810,6 +823,14 @@
           font-size: 56px;
           top: 24px;
         }
+        #stepInput > div:first-child {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+        }
+        #stepInput > div:first-child .btn {
+          width: 100%;
+        }
         h1 {
           font-size: 26px;
         }
@@ -892,7 +913,8 @@
                   letter-spacing: 0.02em;
                 "
               >
-                🔮 사주풀이
+                <span class="logo-emoji" aria-hidden="true"></span>
+                <span class="logo-text">사주풀이</span>
               </h1>
               <p class="mini">
                 신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를 보여줄게.
@@ -914,16 +936,36 @@
 
       <!-- Step 2: 입력 -->
       <section id="stepInput" class="step">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 12px;
+          "
+        >
+          <button class="btn outline" id="backToMenu" style="margin: 0">
+            메뉴로
+          </button>
+          <button
+            class="btn outline"
+            id="clearSaved"
+            style="
+              margin: 0;
+              border-color: rgba(239, 68, 68, 0.4);
+              color: rgba(239, 68, 68, 0.9);
+              background: rgba(239, 68, 68, 0.05);
+            "
+          >
+            저장 초기화
+          </button>
+        </div>
         <div class="card" id="inputCard">
           <div class="card-head center">
             <div style="width: 100%">
               <h1 id="inputTitle">입력</h1>
               <p class="mini" id="inputDesc">출생 정보 입력 → 로컬 계산</p>
-              <div class="row center" style="margin-top: 20px; gap: 10px">
-                <button class="btn outline" id="backToMenu">메뉴로</button>
-                <button class="btn ghost" id="clearSaved">저장 초기화</button>
-                <button class="btn" id="calcBtn">계산하기</button>
-              </div>
             </div>
           </div>
 
@@ -1074,6 +1116,20 @@
                 ※ 입력 시간은 한국 기준으로 계산해.
               </span>
             </div>
+          </div>
+          <div style="margin-top: 32px; text-align: center">
+            <button
+              class="btn"
+              id="calcBtn"
+              style="
+                min-width: 200px;
+                padding: 14px 32px;
+                font-size: 16px;
+                font-weight: 700;
+              "
+            >
+              확인하기
+            </button>
           </div>
         </div>
       </section>
@@ -4432,7 +4488,6 @@
         }`;
         return `
           <div class="rule-card">
-            <div class="section-title">${label} 상세 해석</div>
             <div class="mini">${escapeHtml(dayStemLine)}</div>
             <div class="mini">용신: ${escapeHtml(yongText)}</div>
             <div class="mini">격국: 월지 ${escapeHtml(
@@ -5165,12 +5220,12 @@
 
       function renderLuckFlowCard(a, b) {
         const blocks = [];
-        if (a) blocks.push(renderLuckBlock("A", a));
-        if (b) blocks.push(renderLuckBlock("B", b));
+        if (a) blocks.push(renderLuckBlock(a));
+        if (b) blocks.push(renderLuckBlock(b));
         luckFlow.innerHTML = blocks.join("");
       }
 
-      function renderLuckBlock(label, person) {
+      function renderLuckBlock(person) {
         const tzOffsetMinutes = person.tzOffsetMinutes ?? 540;
         const dstMode = person.dstMode || "off";
         const flows = buildYearFlows(person, tzOffsetMinutes, dstMode);
@@ -5194,7 +5249,6 @@
 
         return `
           <div class="rule-card">
-            <div class="section-title">${label} 대운/세운 상세</div>
             <div class="mini">대운(10년): ${escapeHtml(daewoonNarrative)}</div>
             <div class="mini">세운(10년): ${yearLines}</div>
             <div class="mini">${escapeHtml(sewoonNarrative)}</div>
