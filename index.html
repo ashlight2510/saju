@@ -129,7 +129,9 @@
         border: 1px solid rgba(15, 23, 42, 0.1);
       }
       select,
-      input[type="range"] {
+      input[type="range"],
+      input[type="date"],
+      input[type="time"] {
         padding: 8px 10px;
         border-radius: 10px;
         border: 1px solid rgba(15, 23, 42, 0.16);
@@ -191,6 +193,11 @@
       .share-note {
         margin-top: 10px;
       }
+      .pdf-area {
+        background: linear-gradient(180deg, var(--bg1), var(--bg2), var(--bg3));
+        padding: 14px 14px 2px;
+        border-radius: 16px;
+      }
 
       @media (max-width: 720px) {
         .grid-2 {
@@ -211,102 +218,162 @@
         <div class="badge" id="todayBadge"></div>
       </div>
 
-      <div class="card">
+      <div class="card" id="inputCard">
         <div class="card-head">
           <div>
             <h1>🔮 궁합 리포트</h1>
-            <p class="mini" id="summarySub">Asia/Seoul 기준 · 절기/오행 규칙</p>
+            <p class="mini">출생 정보 입력 → 로컬 계산</p>
           </div>
-          <div class="score" id="totalScore">—</div>
+          <button class="btn" id="calcBtn">계산하기</button>
         </div>
-        <p class="lead" id="summaryMain">—</p>
-        <div class="pill-row" id="summaryPills"></div>
+
+        <div class="grid-2" style="margin-top: 12px">
+          <div class="rule-card">
+            <h3>A 정보</h3>
+            <div class="row">
+              <input id="aDate" type="date" />
+              <input id="aTime" type="time" step="60" />
+            </div>
+            <div class="row" style="margin-top: 8px">
+              <select id="aZiMode">
+                <option value="2300" selected>자시: 23:00</option>
+                <option value="2330">야자시: 23:30</option>
+              </select>
+              <select id="aHiddenMode">
+                <option value="on" selected>장간 반영</option>
+                <option value="off">장간 미반영</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="rule-card">
+            <h3>B 정보</h3>
+            <div class="row">
+              <input id="bDate" type="date" />
+              <input id="bTime" type="time" step="60" />
+            </div>
+            <div class="row" style="margin-top: 8px">
+              <select id="bZiMode">
+                <option value="2300" selected>자시: 23:00</option>
+                <option value="2330">야자시: 23:30</option>
+              </select>
+              <select id="bHiddenMode">
+                <option value="on" selected>장간 반영</option>
+                <option value="off">장간 미반영</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 12px">
+          <span class="mini">톤</span>
+          <select id="toneSelect">
+            <option value="couple" selected>커플 모드</option>
+            <option value="biz">동업자 모드</option>
+          </select>
+          <span class="mini">* Asia/Seoul(UTC+9) · 1988 DST 반영</span>
+        </div>
       </div>
 
-      <div class="card">
-        <div class="row" style="justify-content: space-between">
-          <div>
-            <h2>오늘 운세 (궁합 결합)</h2>
-            <p class="lead" id="todayCoupleLine">—</p>
-            <p class="mini" id="todayCoupleMeta">—</p>
-          </div>
-          <button class="btn ghost" id="todayLuckBtn">오늘 다시 보기</button>
-        </div>
-      </div>
-
-      <div class="grid-2">
+      <div id="pdfArea" class="pdf-area">
         <div class="card">
-          <h2>섹션별 균형</h2>
-          <svg id="sectionRadarSvg" class="radar" viewBox="0 0 320 320"></svg>
-          <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
+          <div class="card-head">
+            <div>
+              <h2>궁합 요약</h2>
+              <p class="mini" id="summarySub">Asia/Seoul 기준 · 절기/오행 규칙</p>
+            </div>
+            <div class="score" id="totalScore">—</div>
+          </div>
+          <p class="lead" id="summaryMain">—</p>
+          <div class="pill-row" id="summaryPills"></div>
         </div>
 
         <div class="card">
-          <h2>모드 · 튜닝</h2>
-          <div class="row" style="margin-bottom: 8px">
-            <span class="mini">톤</span>
-            <select id="toneSelect">
-              <option value="couple" selected>커플 모드</option>
-              <option value="biz">동업자 모드</option>
-            </select>
+          <div class="row" style="justify-content: space-between">
+            <div>
+              <h2>오늘 운세 (궁합 결합)</h2>
+              <p class="lead" id="todayCoupleLine">—</p>
+              <p class="mini" id="todayCoupleMeta">—</p>
+            </div>
+            <button class="btn ghost" id="todayLuckBtn">오늘 다시 보기</button>
           </div>
-          <div class="row">
-            <span class="mini">튜닝 강도</span>
-            <input
-              type="range"
-              min="0"
-              max="2"
-              step="0.1"
-              value="1"
-              id="tuneStrength"
-            />
-            <span id="tuneLabel" class="mini">1.0</span>
-            <button class="btn outline" id="tuneReset">초기화</button>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h2>섹션별 균형</h2>
+            <svg id="sectionRadarSvg" class="radar" viewBox="0 0 320 320"></svg>
+            <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
           </div>
-          <p class="mini" id="tuneStatus"></p>
+
+          <div class="card">
+            <h2>A/B 사주 요약</h2>
+            <div class="grid-2" style="gap: 8px">
+              <div>
+                <div class="section-title">A</div>
+                <div id="aPillars" class="mini"></div>
+              </div>
+              <div>
+                <div class="section-title">B</div>
+                <div id="bPillars" class="mini"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>궁합 포인트</h2>
+          <div id="ruleList"></div>
+        </div>
+
+        <div class="card">
+          <h2>2026 신년운세 (월별)</h2>
+          <div id="monthlyList"></div>
         </div>
       </div>
 
       <div class="card">
-        <h2>궁합 포인트</h2>
-        <div id="ruleList"></div>
+        <h2>튜닝 (학습 느낌)</h2>
+        <div class="row">
+          <span class="mini">튜닝 강도</span>
+          <input type="range" min="0" max="2" step="0.1" value="1" id="tuneStrength" />
+          <span id="tuneLabel" class="mini">1.0</span>
+          <button class="btn outline" id="tuneReset">초기화</button>
+        </div>
+        <p class="mini" id="tuneStatus"></p>
       </div>
 
       <div class="card">
-        <h2>2026 신년운세 (월별)</h2>
-        <div id="monthlyList"></div>
-      </div>
-
-      <div class="card">
-        <h2>공유</h2>
-        <button class="btn" id="shareBtn">공유 카드 만들기</button>
+        <h2>공유 · PDF</h2>
+        <div class="row">
+          <button class="btn" id="shareBtn">공유 카드 만들기</button>
+          <button class="btn outline" id="pdfBtn">PDF 저장</button>
+        </div>
         <p class="mini share-note" id="shareStatus"></p>
-        <canvas
-          id="shareCanvas"
-          width="1080"
-          height="1350"
-          style="display: none"
-        ></canvas>
+        <canvas id="shareCanvas" width="1080" height="1350" style="display: none"></canvas>
       </div>
     </div>
 
+    <script src="./vendor/html2canvas.min.js"></script>
+    <script src="./vendor/jspdf.umd.min.js"></script>
+
     <script>
       /* ======================================================
-  0. 샘플 데이터 (A/B 사주 결과라고 가정)
+  0. 기본 DOM
 ====================================================== */
-      const A = {
-        name: "A",
-        elements: { 목: 0.9, 화: 1.4, 토: 1.0, 금: 0.6, 수: 1.8 },
-        dayBranch: "자",
-      };
-      const B = {
-        name: "B",
-        elements: { 목: 1.2, 화: 1.1, 토: 1.1, 금: 0.9, 수: 1.3 },
-        dayBranch: "축",
-      };
-
       const todayBadge = document.getElementById("todayBadge");
       todayBadge.textContent = new Date().toISOString().slice(0, 10);
+
+      const aDate = document.getElementById("aDate");
+      const aTime = document.getElementById("aTime");
+      const aZiMode = document.getElementById("aZiMode");
+      const aHiddenMode = document.getElementById("aHiddenMode");
+      const bDate = document.getElementById("bDate");
+      const bTime = document.getElementById("bTime");
+      const bZiMode = document.getElementById("bZiMode");
+      const bHiddenMode = document.getElementById("bHiddenMode");
+      const toneSelect = document.getElementById("toneSelect");
+      const calcBtn = document.getElementById("calcBtn");
 
       const todayCoupleLine = document.getElementById("todayCoupleLine");
       const todayCoupleMeta = document.getElementById("todayCoupleMeta");
@@ -317,7 +384,6 @@
       const summaryPills = document.getElementById("summaryPills");
       const ruleList = document.getElementById("ruleList");
       const monthlyList = document.getElementById("monthlyList");
-      const toneSelect = document.getElementById("toneSelect");
       const tuneStrength = document.getElementById("tuneStrength");
       const tuneLabel = document.getElementById("tuneLabel");
       const tuneReset = document.getElementById("tuneReset");
@@ -325,9 +391,23 @@
       const todayLuckBtn = document.getElementById("todayLuckBtn");
       const shareBtn = document.getElementById("shareBtn");
       const shareStatus = document.getElementById("shareStatus");
+      const pdfBtn = document.getElementById("pdfBtn");
+      const aPillarsEl = document.getElementById("aPillars");
+      const bPillarsEl = document.getElementById("bPillars");
 
       /* ======================================================
-  1. 유틸
+  1. 상태
+====================================================== */
+      const INPUT_KEY = "compat:inputs:v1";
+      const state = {
+        A: null,
+        B: null,
+        aResult: null,
+        bResult: null,
+      };
+
+      /* ======================================================
+  2. 유틸
 ====================================================== */
       const STEM_ELEM = {
         갑: "목",
@@ -357,6 +437,7 @@
       };
       const GENERATE = { 목: "화", 화: "토", 토: "금", 금: "수", 수: "목" };
       const OVERCOME = { 목: "토", 화: "금", 토: "수", 금: "목", 수: "화" };
+      const CLASH = { 목: "금", 금: "목", 화: "수", 수: "화", 토: null };
 
       const LIUHE = [
         ["자", "축"],
@@ -423,6 +504,9 @@
       function isSelfPunish(b) {
         return SELF_PUNISH.includes(b);
       }
+      function isSeasonClash(seasonElem, topElem) {
+        return CLASH[seasonElem] === topElem;
+      }
       function relationElem(a, b) {
         if (GENERATE[a] === b) return "생";
         if (OVERCOME[a] === b) return "극";
@@ -473,9 +557,12 @@
           "'": "&#39;",
         })[c]);
       }
+      function fillTokens(text, tokens) {
+        return text.replace(/\{([^}]+)\}/g, (_, key) => tokens[key] ?? "");
+      }
 
       /* ======================================================
-  2. 오늘 운세 (일진 간지)
+  3. 일진(오늘 운세)
 ====================================================== */
       const STEMS = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
       const BRANCHES = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
@@ -558,16 +645,464 @@
         return `오늘은 ${k1}/${k2} 흐름인데, A/B 둘 다 비슷하게 받는다. 맞춰가는 게 이득이야.`;
       }
 
-      function renderTodayCoupleBox() {
-        const t = todayAdvantage(A, B);
+      function renderTodayCoupleBox(aPerson, bPerson) {
+        const t = todayAdvantage(aPerson, bPerson);
         todayCoupleLine.textContent = t.line;
         todayCoupleMeta.textContent = `A ${t.scoreA} vs B ${t.scoreB} (오늘 오행: ${t.keys.join("/")})`;
       }
 
       /* ======================================================
-  3. 룰 + 튜닝 + 요약
+  4. 사주 계산 (정밀 절기 기반)
+====================================================== */
+      const STEMS_H = ["갑", "을", "병", "정", "무", "기", "경", "신", "임", "계"];
+      const BRANCHES_H = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+
+      const BRANCH_MAIN_ELEM = {
+        자: "수",
+        축: "토",
+        인: "목",
+        묘: "목",
+        진: "토",
+        사: "화",
+        오: "화",
+        미: "토",
+        신: "금",
+        유: "금",
+        술: "토",
+        해: "수",
+      };
+
+      const HIDDEN_STEMS = {
+        자: [["계", 1.0]],
+        축: [
+          ["기", 0.6],
+          ["계", 0.2],
+          ["신", 0.2],
+        ],
+        인: [
+          ["갑", 0.6],
+          ["병", 0.2],
+          ["무", 0.2],
+        ],
+        묘: [["을", 1.0]],
+        진: [
+          ["무", 0.6],
+          ["을", 0.2],
+          ["계", 0.2],
+        ],
+        사: [
+          ["병", 0.6],
+          ["경", 0.2],
+          ["무", 0.2],
+        ],
+        오: [
+          ["정", 0.7],
+          ["기", 0.3],
+        ],
+        미: [
+          ["기", 0.6],
+          ["정", 0.2],
+          ["을", 0.2],
+        ],
+        신: [
+          ["경", 0.6],
+          ["임", 0.2],
+          ["무", 0.2],
+        ],
+        유: [["신", 1.0]],
+        술: [
+          ["무", 0.6],
+          ["신", 0.2],
+          ["정", 0.2],
+        ],
+        해: [
+          ["임", 0.7],
+          ["갑", 0.3],
+        ],
+      };
+
+      const MONTH_BOUNDARIES = [
+        { name: "입춘", lon: 315, branch: "인" },
+        { name: "경칩", lon: 345, branch: "묘" },
+        { name: "청명", lon: 15, branch: "진" },
+        { name: "입하", lon: 45, branch: "사" },
+        { name: "망종", lon: 75, branch: "오" },
+        { name: "소서", lon: 105, branch: "미" },
+        { name: "입추", lon: 135, branch: "신" },
+        { name: "백로", lon: 165, branch: "유" },
+        { name: "한로", lon: 195, branch: "술" },
+        { name: "입동", lon: 225, branch: "해" },
+        { name: "대설", lon: 255, branch: "자" },
+        { name: "소한", lon: 285, branch: "축" },
+      ];
+
+      function sunApparentEclipticLongitudeDeg(jd) {
+        const T = (jd - 2451545.0) / 36525.0;
+        let L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T;
+        L0 = normalizeDeg(L0);
+        let M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;
+        M = normalizeDeg(M);
+        const Mr = deg2rad(M);
+        const C =
+          (1.914602 - 0.004817 * T - 0.000014 * T * T) * Math.sin(Mr) +
+          (0.019993 - 0.000101 * T) * Math.sin(2 * Mr) +
+          0.000289 * Math.sin(3 * Mr);
+        let trueLon = L0 + C;
+        const omega = deg2rad(125.04 - 1934.136 * T);
+        let lambda = trueLon - 0.00569 - 0.00478 * Math.sin(omega);
+        return normalizeDeg(lambda);
+      }
+
+      function findSolarLongitudeTimeUTC(year, targetLonDeg) {
+        const approx = approximateDateForLon(year, targetLonDeg);
+        let t0 = approx.getTime() - 3 * 86400e3;
+        let t1 = approx.getTime() + 3 * 86400e3;
+
+        const f = (t) => {
+          const jd = toJulianDay(new Date(t));
+          const lon = sunApparentEclipticLongitudeDeg(jd);
+          return shortestAngleDiffDeg(lon, targetLonDeg);
+        };
+
+        let a = t0,
+          b = t1;
+        let fa = f(a),
+          fb = f(b);
+        let tries = 0;
+        while (fa * fb > 0 && tries < 12) {
+          a -= 2 * 86400e3;
+          b += 2 * 86400e3;
+          fa = f(a);
+          fb = f(b);
+          tries++;
+        }
+        if (fa * fb > 0) {
+          return new Date(approx.getTime());
+        }
+
+        for (let i = 0; i < 60; i++) {
+          const m = (a + b) / 2;
+          const fm = f(m);
+          if (Math.abs(fm) < 1e-6) {
+            a = b = m;
+            break;
+          }
+          if (fa * fm <= 0) {
+            b = m;
+            fb = fm;
+          } else {
+            a = m;
+            fa = fm;
+          }
+        }
+        return new Date((a + b) / 2);
+      }
+
+      function approximateDateForLon(year, lon) {
+        const map = {
+          315: [2, 4],
+          345: [3, 6],
+          15: [4, 5],
+          45: [5, 6],
+          75: [6, 6],
+          105: [7, 7],
+          135: [8, 7],
+          165: [9, 7],
+          195: [10, 8],
+          225: [11, 7],
+          255: [12, 7],
+          285: [1, 6],
+        };
+        const [mm, dd] = map[lon] || [2, 4];
+        return new Date(Date.UTC(year, mm - 1, dd, 12, 0, 0));
+      }
+
+      function computeMonthBoundaryTimesUTC(year) {
+        return MONTH_BOUNDARIES.map((b) => ({ ...b, timeUTC: findSolarLongitudeTimeUTC(year, b.lon) }));
+      }
+
+      function computeSajuFiveElements(birthUTCDate, { ziMode, hiddenMode }) {
+        const birthKST = toKSTDateParts(birthUTCDate);
+        const year = birthKST.y;
+        const boundariesThisYearUTC = computeMonthBoundaryTimesUTC(year);
+        const boundariesPrevYearUTC = computeMonthBoundaryTimesUTC(year - 1);
+
+        const ipchunThisKST = toKSTMillis(boundariesThisYearUTC[0].timeUTC);
+        const birthMillisKST = kstMillisFromParts(birthKST);
+
+        const sajuYear = birthMillisKST >= ipchunThisKST ? year : year - 1;
+        const bdsUTC = sajuYear === year ? boundariesThisYearUTC : boundariesPrevYearUTC;
+        const bdsKST = bdsUTC.map((x) => ({ ...x, kst: toKSTMillis(x.timeUTC) }));
+
+        let monthBranch = "인";
+        let monthStartName = "입춘";
+        let monthStartKST = bdsKST[0].kst;
+        for (let i = 0; i < bdsKST.length; i++) {
+          const cur = bdsKST[i];
+          const next = bdsKST[(i + 1) % bdsKST.length];
+          const nextKST =
+            i === bdsKST.length - 1
+              ? toKSTMillis(computeMonthBoundaryTimesUTC(sajuYear + 1)[0].timeUTC)
+              : next.kst;
+
+          if (birthMillisKST >= cur.kst && birthMillisKST < nextKST) {
+            monthBranch = cur.branch;
+            monthStartName = cur.name;
+            monthStartKST = cur.kst;
+            break;
+          }
+          if (i === bdsKST.length - 1 && birthMillisKST >= cur.kst) {
+            monthBranch = cur.branch;
+            monthStartName = cur.name;
+            monthStartKST = cur.kst;
+          }
+          if (i === bdsKST.length - 1 && birthMillisKST < bdsKST[0].kst) {
+            monthBranch = "축";
+            monthStartName = "소한";
+            monthStartKST = cur.kst;
+          }
+        }
+
+        const yearPillar = ganzhiYear(sajuYear);
+        const monthPillar = ganzhiMonth(yearPillar.stem, monthBranch);
+        const adjustedForDay = adjustForZiDayBoundary(birthKST, ziMode);
+        const dayPillar = ganzhiDayFromGregorian(adjustedForDay.y, adjustedForDay.m, adjustedForDay.d);
+        const hourBranch = getHourBranch(birthKST.hh, birthKST.mm, ziMode);
+        const hourPillar = ganzhiHour(dayPillar.stem, hourBranch);
+
+        const elements = tallyElements({ yearPillar, monthPillar, dayPillar, hourPillar }, { hiddenMode });
+
+        return {
+          input: {
+            kst: `${pad2(birthKST.y)}-${pad2(birthKST.m)}-${pad2(birthKST.d)} ${pad2(birthKST.hh)}:${pad2(
+              birthKST.mm
+            )}`,
+            ziMode,
+            hiddenMode,
+            sajuYear,
+            monthStartName,
+          },
+          pillars: {
+            year: yearPillar,
+            month: monthPillar,
+            day: dayPillar,
+            hour: hourPillar,
+            monthMeta: {
+              start: new Date(monthStartKST).toISOString(),
+              startName: monthStartName,
+            },
+          },
+          elements,
+        };
+      }
+
+      function ganzhiYear(year) {
+        const baseYear = 1984;
+        const idx = mod(year - baseYear, 60);
+        return ganzhiFromIndex(idx);
+      }
+
+      function ganzhiMonth(yearStem, monthBranch) {
+        const startStemByYearStem = {
+          갑: "병",
+          기: "병",
+          을: "무",
+          경: "무",
+          병: "경",
+          신: "경",
+          정: "임",
+          임: "임",
+          무: "갑",
+          계: "갑",
+        };
+        const startStem = startStemByYearStem[yearStem] || "병";
+        const order = ["인", "묘", "진", "사", "오", "미", "신", "유", "술", "해", "자", "축"];
+        const mIdx = order.indexOf(monthBranch);
+        const stemIdx = (STEMS_H.indexOf(startStem) + mIdx) % 10;
+        return { stem: STEMS_H[stemIdx], branch: monthBranch, text: `${STEMS_H[stemIdx]}${monthBranch}` };
+      }
+
+      function ganzhiDayFromGregorian(y, m, d) {
+        const jd = toJulianDayFromGregorian(y, m, d, 12, 0, 0);
+        const jdJiaZi = toJulianDayFromGregorian(1984, 2, 2, 12, 0, 0);
+        const idx = mod(Math.round(jd - jdJiaZi), 60);
+        return ganzhiFromIndex(idx);
+      }
+
+      function ganzhiHour(dayStem, hourBranch) {
+        const startStemByDayStem = {
+          갑: "갑",
+          기: "갑",
+          을: "병",
+          경: "병",
+          병: "무",
+          신: "무",
+          정: "경",
+          임: "경",
+          무: "임",
+          계: "임",
+        };
+        const startStem = startStemByDayStem[dayStem] || "갑";
+        const order = ["자", "축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+        const hIdx = order.indexOf(hourBranch);
+        const stemIdx = (STEMS_H.indexOf(startStem) + hIdx) % 10;
+        return { stem: STEMS_H[stemIdx], branch: hourBranch, text: `${STEMS_H[stemIdx]}${hourBranch}` };
+      }
+
+      function ganzhiFromIndex(idx) {
+        const stem = STEMS_H[idx % 10];
+        const branch = BRANCHES_H[idx % 12];
+        return { stem, branch, text: `${stem}${branch}` };
+      }
+
+      function getHourBranch(hh, mm, ziMode) {
+        const minutes = hh * 60 + mm;
+        const ziStart = ziMode === "2330" ? 23 * 60 + 30 : 23 * 60;
+        if (minutes >= ziStart || minutes < (ziMode === "2330" ? 90 : 60)) {
+          return "자";
+        }
+        const base = ziMode === "2330" ? 90 : 60;
+        const order = ["축", "인", "묘", "진", "사", "오", "미", "신", "유", "술", "해"];
+        const delta = minutes - base;
+        const idx = Math.floor(delta / 120);
+        return order[Math.max(0, Math.min(order.length - 1, idx))] || "축";
+      }
+
+      function adjustForZiDayBoundary(kstParts, ziMode) {
+        if (ziMode !== "2330") return kstParts;
+        const minutes = kstParts.hh * 60 + kstParts.mm;
+        if (minutes < 23 * 60 + 30) return kstParts;
+        const dt = new Date(Date.UTC(kstParts.y, kstParts.m - 1, kstParts.d, 12, 0, 0));
+        dt.setUTCDate(dt.getUTCDate() + 1);
+        return {
+          y: dt.getUTCFullYear(),
+          m: dt.getUTCMonth() + 1,
+          d: dt.getUTCDate(),
+          hh: kstParts.hh,
+          mm: kstParts.mm,
+        };
+      }
+
+      function tallyElements(pillars, { hiddenMode }) {
+        const base = { 목: 0, 화: 0, 토: 0, 금: 0, 수: 0 };
+        function addElem(elem, w = 1) {
+          base[elem] = (base[elem] || 0) + w;
+        }
+        const list = [pillars.yearPillar, pillars.monthPillar, pillars.dayPillar, pillars.hourPillar];
+        list.forEach((p) => addElem(STEM_ELEM[p.stem], 1));
+        list.forEach((p) => addElem(BRANCH_MAIN_ELEM[p.branch], 1));
+        if (hiddenMode === "on") {
+          list.forEach((p) => {
+            const arr = HIDDEN_STEMS[p.branch] || [];
+            arr.forEach(([hs, w]) => addElem(STEM_ELEM[hs], w));
+          });
+        }
+        const sorted = Object.entries(base).sort((a, b) => b[1] - a[1]);
+        return { raw: base, sorted };
+      }
+
+      function parseKSTDateTime(dateStr, timeStr) {
+        const [y, m, d] = dateStr.split("-").map(Number);
+        const [hh, mm] = timeStr.split(":").map(Number);
+        const offsetMin = kstOffsetMinutesForLocal(y, m, d, hh, mm);
+        const utcMillis = Date.UTC(y, m - 1, d, hh, mm, 0) - offsetMin * 60 * 1000;
+        return new Date(utcMillis);
+      }
+
+      function kstOffsetMinutesForLocal(y, m, d, hh, mm) {
+        let offset = 540;
+        if (y === 1988) {
+          const t = Date.UTC(y, m - 1, d, hh, mm, 0);
+          const start = Date.UTC(1988, 4, 8, 2, 0, 0);
+          const end = Date.UTC(1988, 9, 9, 3, 0, 0);
+          if (t >= start && t < end) {
+            offset = 600;
+          }
+        }
+        return offset;
+      }
+
+      function toKSTDateParts(utcDate) {
+        let ms = utcDate.getTime() + 540 * 60 * 1000;
+        let d = new Date(ms);
+        const y = d.getUTCFullYear();
+        const m = d.getUTCMonth() + 1;
+        const dd = d.getUTCDate();
+        const hh = d.getUTCHours();
+        const mm = d.getUTCMinutes();
+
+        const off = kstOffsetMinutesForLocal(y, m, dd, hh, mm);
+        ms = utcDate.getTime() + off * 60 * 1000;
+        d = new Date(ms);
+
+        return {
+          y: d.getUTCFullYear(),
+          m: d.getUTCMonth() + 1,
+          d: d.getUTCDate(),
+          hh: d.getUTCHours(),
+          mm: d.getUTCMinutes(),
+        };
+      }
+
+      function toKSTMillis(utcDate) {
+        const parts = toKSTDateParts(utcDate);
+        return Date.UTC(parts.y, parts.m - 1, parts.d, parts.hh, parts.mm, 0);
+      }
+
+      function kstMillisFromParts(p) {
+        return Date.UTC(p.y, p.m - 1, p.d, p.hh, p.mm, 0);
+      }
+
+      function toJulianDay(dateUTC) {
+        const y = dateUTC.getUTCFullYear();
+        const m = dateUTC.getUTCMonth() + 1;
+        const d = dateUTC.getUTCDate();
+        const hh = dateUTC.getUTCHours();
+        const mm = dateUTC.getUTCMinutes();
+        const ss = dateUTC.getUTCSeconds();
+        return toJulianDayFromGregorian(y, m, d, hh, mm, ss);
+      }
+
+      function toJulianDayFromGregorian(y, m, d, hh, mm, ss) {
+        let Y = y,
+          M = m;
+        if (M <= 2) {
+          Y -= 1;
+          M += 12;
+        }
+        const A = Math.floor(Y / 100);
+        const B = 2 - A + Math.floor(A / 4);
+        const dayFrac = (hh + (mm + ss / 60) / 60) / 24;
+        const JD =
+          Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + d + dayFrac + B - 1524.5;
+        return JD;
+      }
+
+      function normalizeDeg(x) {
+        x = x % 360;
+        if (x < 0) x += 360;
+        return x;
+      }
+      function deg2rad(d) {
+        return (d * Math.PI) / 180;
+      }
+      function shortestAngleDiffDeg(a, b) {
+        let d = normalizeDeg(a) - normalizeDeg(b);
+        d = ((d + 540) % 360) - 180;
+        return d;
+      }
+      function mod(a, b) {
+        return ((a % b) + b) % b;
+      }
+      function pad2(n) {
+        return String(n).padStart(2, "0");
+      }
+
+      /* ======================================================
+  5. 룰 + 튜닝 + 요약 (50개)
 ====================================================== */
       const SECTION_WEIGHT = { 성향: 0.25, 관계: 0.25, 돈: 0.15, 일: 0.2, 건강: 0.15 };
+
       const RULES = [
         {
           id: "ELEM_TOP_SAME",
@@ -578,7 +1113,7 @@
           copies: ["기본 결이 잘 맞아. 같이 움직이면 빠르다.", "둘 다 몰입할 땐 브레이크만 맞추면 완벽해."],
         },
         {
-          id: "ELEM_COMPLEMENT",
+          id: "ELEM_TOP_COMPLEMENT",
           section: "관계",
           priority: 82,
           when: (a, b) => GENERATE[a.topElem] === b.topElem || GENERATE[b.topElem] === a.topElem,
@@ -586,12 +1121,228 @@
           copies: ["서로 없는 걸 채워주는 구조라 오래 가기 좋아.", "역할 분담만 잘 되면 시너지가 크게 난다."],
         },
         {
+          id: "ELEM_TOP_CLASH",
+          section: "관계",
+          priority: 62,
+          when: (a, b) => OVERCOME[a.topElem] === b.topElem || OVERCOME[b.topElem] === a.topElem,
+          evidence: "서로의 강점이 부딪히는 상극 조합이야.",
+          copies: ["진짜 중요한 얘기는 타이밍 맞추는 게 핵심.", "감정 올라올 땐 한 박자 쉬자."],
+        },
+        {
           id: "ELEM_WEAK_SAME",
           section: "건강",
           priority: 60,
           when: (a, b) => a.weakElem === b.weakElem && a.weakScore <= 0.7 && b.weakScore <= 0.7,
           evidence: "둘 다 {weakElem} 기운이 낮아 같은 부분에서 흔들리기 쉬워.",
-          copies: ["약점이 같아서 이해는 잘 된다.", "이 부분만 규칙으로 관리하면 충분히 커버돼."],
+          copies: ["약점이 같아서 이해는 잘 된다.", "이 부분만 약속으로 관리하면 충분히 커버돼."],
+        },
+        {
+          id: "BALANCE_SIMILAR",
+          section: "성향",
+          priority: 78,
+          when: (a, b) => Math.abs(a.balance - b.balance) <= 0.15,
+          evidence: "오행 분포 균형도가 거의 비슷해.",
+          copies: ["일상 리듬이 비슷해서 편한 조합.", "같이 있어도 피로도가 적다."],
+        },
+        {
+          id: "BALANCE_DIFF",
+          section: "성향",
+          priority: 60,
+          when: (a, b) => Math.abs(a.balance - b.balance) >= 0.45,
+          evidence: "한쪽은 치우치고 한쪽은 안정형이야.",
+          copies: ["방식은 다른데 목적은 같다.", "설명만 조금 더 하면 오히려 장점이 된다."],
+        },
+        {
+          id: "A_DOMINANT",
+          section: "관계",
+          priority: 64,
+          when: (a, b) => a.balance - b.balance >= 0.25,
+          evidence: "A의 기운이 전반적으로 더 강해.",
+          copies: ["A가 방향 잡고 B가 보완하는 구조.", "주도권만 조심하면 안정적이야."],
+        },
+        {
+          id: "B_DOMINANT",
+          section: "관계",
+          priority: 64,
+          when: (a, b) => b.balance - a.balance >= 0.25,
+          evidence: "B의 기운이 전반적으로 더 강해.",
+          copies: ["B가 방향 잡고 A가 보완하는 구조.", "주도권만 조심하면 안정적이야."],
+        },
+        {
+          id: "SEASON_SUPPORT",
+          section: "관계",
+          priority: 80,
+          when: (a, b) => a.seasonTopElem === b.topElem || b.seasonTopElem === a.topElem,
+          evidence: "한쪽 계절 흐름이 상대 강점을 밀어주는 구조야.",
+          copies: ["요즘 특히 잘 맞는 궁합.", "같이 있을수록 흐름을 탄다."],
+        },
+        {
+          id: "SEASON_CLASH",
+          section: "관계",
+          priority: 58,
+          when: (a, b) => isSeasonClash(a.seasonTopElem, b.topElem) || isSeasonClash(b.seasonTopElem, a.topElem),
+          evidence: "계절 흐름과 상대 강점이 상극으로 부딪혀.",
+          copies: ["요즘 유독 안 맞는 느낌이 날 수 있어.", "시기 지나면 완화된다."],
+        },
+        {
+          id: "BOTH_STRONG_MOK",
+          section: "성향",
+          priority: 76,
+          when: (a, b) => a.elements["목"] >= 1.4 && b.elements["목"] >= 1.4,
+          evidence: "둘 다 목 기운이 강해서 성장/시도가 빠른 편이야.",
+          copies: ["시작은 빠르다. 마무리 체크만 하자.", "계획을 1개로 줄이면 훨씬 강해."],
+        },
+        {
+          id: "BOTH_STRONG_HWA",
+          section: "일",
+          priority: 76,
+          when: (a, b) => a.elements["화"] >= 1.4 && b.elements["화"] >= 1.4,
+          evidence: "둘 다 화 기운이 강해서 추진력이 좋다.",
+          copies: ["속도는 최고. 과열만 조심하면 된다.", "피드백 타이밍만 맞추자."],
+        },
+        {
+          id: "BOTH_STRONG_TO",
+          section: "돈",
+          priority: 74,
+          when: (a, b) => a.elements["토"] >= 1.4 && b.elements["토"] >= 1.4,
+          evidence: "둘 다 토 기운이 강해 안정감이 있다.",
+          copies: ["기초를 단단히 만들면 오래 간다.", "장기 계획에 강한 조합."],
+        },
+        {
+          id: "BOTH_STRONG_GEUM",
+          section: "돈",
+          priority: 74,
+          when: (a, b) => a.elements["금"] >= 1.4 && b.elements["금"] >= 1.4,
+          evidence: "둘 다 금 기운이 강해서 관리 감각이 좋다.",
+          copies: ["지출 통제가 잘 되는 조합.", "돈 얘기만 규칙으로 정하면 편해."],
+        },
+        {
+          id: "BOTH_STRONG_SU",
+          section: "건강",
+          priority: 74,
+          when: (a, b) => a.elements["수"] >= 1.4 && b.elements["수"] >= 1.4,
+          evidence: "둘 다 수 기운이 강해 회복 탄력이 좋다.",
+          copies: ["쉬는 타이밍만 맞추면 최강.", "수면만 지켜도 크게 이득."],
+        },
+        {
+          id: "BOTH_WEAK_MOK",
+          section: "성향",
+          priority: 60,
+          when: (a, b) => a.elements["목"] <= 0.7 && b.elements["목"] <= 0.7,
+          evidence: "둘 다 목 기운이 약해서 시작이 느릴 수 있어.",
+          copies: ["시작만 잘 잡으면 안정적이다.", "처음 1주일만 밀어주자."],
+        },
+        {
+          id: "BOTH_WEAK_HWA",
+          section: "일",
+          priority: 60,
+          when: (a, b) => a.elements["화"] <= 0.7 && b.elements["화"] <= 0.7,
+          evidence: "둘 다 화 기운이 약해 추진력이 떨어질 수 있어.",
+          copies: ["실행 속도만 의식적으로 올리자.", "일단 시작하면 흐름이 붙는다."],
+        },
+        {
+          id: "BOTH_WEAK_TO",
+          section: "건강",
+          priority: 60,
+          when: (a, b) => a.elements["토"] <= 0.7 && b.elements["토"] <= 0.7,
+          evidence: "둘 다 토 기운이 약해 리듬이 흔들릴 수 있어.",
+          copies: ["루틴이 답이다.", "식사/수면만 고정하면 안정된다."],
+        },
+        {
+          id: "BOTH_WEAK_GEUM",
+          section: "돈",
+          priority: 58,
+          when: (a, b) => a.elements["금"] <= 0.7 && b.elements["금"] <= 0.7,
+          evidence: "둘 다 금 기운이 약해 관리가 느슨해질 수 있어.",
+          copies: ["지출 규칙만 세우자.", "큰돈은 공동 결정으로."],
+        },
+        {
+          id: "BOTH_WEAK_SU",
+          section: "건강",
+          priority: 58,
+          when: (a, b) => a.elements["수"] <= 0.7 && b.elements["수"] <= 0.7,
+          evidence: "둘 다 수 기운이 약해 회복이 느릴 수 있어.",
+          copies: ["쉬는 날을 예약하자.", "수면과 물 섭취가 핵심."],
+        },
+        {
+          id: "A_STRONG_MOK",
+          section: "관계",
+          priority: 62,
+          when: (a, b) => a.elements["목"] >= 1.5 && b.elements["목"] <= 0.8,
+          evidence: "A의 목 기운이 강해 방향을 제시하는 쪽이야.",
+          copies: ["A가 시작하면 B가 안정적으로 따라간다.", "역할만 명확히 하면 좋아."],
+        },
+        {
+          id: "A_STRONG_HWA",
+          section: "일",
+          priority: 62,
+          when: (a, b) => a.elements["화"] >= 1.5 && b.elements["화"] <= 0.8,
+          evidence: "A의 추진력이 더 강해.",
+          copies: ["속도 차이만 조절하면 된다.", "A가 먼저 치고 B가 정리."],
+        },
+        {
+          id: "A_STRONG_TO",
+          section: "돈",
+          priority: 62,
+          when: (a, b) => a.elements["토"] >= 1.5 && b.elements["토"] <= 0.8,
+          evidence: "A가 안정과 관리 쪽을 잡아주기 좋아.",
+          copies: ["계획은 A가 세우고 B가 실행하면 안정적.", "장기 계획에 강해."],
+        },
+        {
+          id: "A_STRONG_GEUM",
+          section: "돈",
+          priority: 62,
+          when: (a, b) => a.elements["금"] >= 1.5 && b.elements["금"] <= 0.8,
+          evidence: "A가 돈 관리 감각이 더 뚜렷해.",
+          copies: ["재정 관리 역할 분담이 필요해.", "큰돈은 A가 체크하면 안전."],
+        },
+        {
+          id: "A_STRONG_SU",
+          section: "건강",
+          priority: 62,
+          when: (a, b) => a.elements["수"] >= 1.5 && b.elements["수"] <= 0.8,
+          evidence: "A가 회복/정서 쪽을 잘 받쳐줘.",
+          copies: ["A의 리듬을 참고하면 컨디션이 좋아져.", "휴식 약속을 만들자."],
+        },
+        {
+          id: "B_STRONG_MOK",
+          section: "관계",
+          priority: 62,
+          when: (a, b) => b.elements["목"] >= 1.5 && a.elements["목"] <= 0.8,
+          evidence: "B의 목 기운이 강해 방향을 제시하는 쪽이야.",
+          copies: ["B가 시작하면 A가 안정적으로 따라간다.", "역할만 명확히 하면 좋아."],
+        },
+        {
+          id: "B_STRONG_HWA",
+          section: "일",
+          priority: 62,
+          when: (a, b) => b.elements["화"] >= 1.5 && a.elements["화"] <= 0.8,
+          evidence: "B의 추진력이 더 강해.",
+          copies: ["속도 차이만 조절하면 된다.", "B가 먼저 치고 A가 정리."],
+        },
+        {
+          id: "B_STRONG_TO",
+          section: "돈",
+          priority: 62,
+          when: (a, b) => b.elements["토"] >= 1.5 && a.elements["토"] <= 0.8,
+          evidence: "B가 안정과 관리 쪽을 잡아주기 좋아.",
+          copies: ["계획은 B가 세우고 A가 실행하면 안정적.", "장기 계획에 강해."],
+        },
+        {
+          id: "B_STRONG_GEUM",
+          section: "돈",
+          priority: 62,
+          when: (a, b) => b.elements["금"] >= 1.5 && a.elements["금"] <= 0.8,
+          evidence: "B가 돈 관리 감각이 더 뚜렷해.",
+          copies: ["재정 관리 역할 분담이 필요해.", "큰돈은 B가 체크하면 안전."],
+        },
+        {
+          id: "B_STRONG_SU",
+          section: "건강",
+          priority: 62,
+          when: (a, b) => b.elements["수"] >= 1.5 && a.elements["수"] <= 0.8,
+          evidence: "B가 회복/정서 쪽을 잘 받쳐줘.",
+          copies: ["B의 리듬을 참고하면 컨디션이 좋아져.", "휴식 약속을 만들자."],
         },
         {
           id: "BRANCH_LIUHE",
@@ -604,7 +1355,7 @@
         {
           id: "BRANCH_SAMHAP",
           section: "일",
-          priority: 78,
+          priority: 80,
           when: (a, b) => isSamhap(a.dayBranch, b.dayBranch),
           evidence: "삼합 구조라 목표를 향해 힘이 모여.",
           copies: ["같은 목표만 있으면 폭발력이 좋다.", "프로젝트 궁합이 최고야."],
@@ -626,7 +1377,7 @@
           copies: ["작은 말이 크게 들릴 수 있다.", "사실 확인 먼저 하면 괜찮아."],
         },
         {
-          id: "SELF_PUNISH",
+          id: "BRANCH_SELF_PUNISH",
           section: "건강",
           priority: 55,
           when: (a, b) => a.dayBranch === b.dayBranch && isSelfPunish(a.dayBranch),
@@ -634,20 +1385,124 @@
           copies: ["참는 게 문제 포인트.", "기분은 그날그날 푸는 게 답."],
         },
         {
+          id: "BRANCH_SAME",
+          section: "관계",
+          priority: 70,
+          when: (a, b) => a.dayBranch === b.dayBranch,
+          evidence: "일지가 같아서 감정 코드가 비슷해.",
+          copies: ["같이 있으면 말이 줄어도 통한다.", "단, 고집이 부딪히면 멈추자."],
+        },
+        {
+          id: "BRANCH_ELEM_SAME",
+          section: "성향",
+          priority: 66,
+          when: (a, b) => BRANCH_ELEM[a.dayBranch] === BRANCH_ELEM[b.dayBranch],
+          evidence: "일지 오행이 같아 감정 표현 방식이 유사해.",
+          copies: ["말이 잘 통하는 조합.", "표현 방식이 비슷해 오해가 적다."],
+        },
+        {
+          id: "BRANCH_ELEM_CLASH",
+          section: "관계",
+          priority: 60,
+          when: (a, b) => OVERCOME[BRANCH_ELEM[a.dayBranch]] === BRANCH_ELEM[b.dayBranch],
+          evidence: "일지 오행이 상극이라 기분이 부딪힐 수 있어.",
+          copies: ["감정 올라오면 한 박자 쉬자.", "중요한 얘기는 컨디션 좋은 날."],
+        },
+        {
           id: "MONEY_STYLE_MATCH",
           section: "돈",
-          priority: 75,
-          when: (a, b) => Math.abs(a.elements["금"] - b.elements["금"]) <= 0.3,
-          evidence: "돈에 대한 감각이 비슷한 편이야.",
-          copies: ["금전 스트레스 적은 조합.", "공동 지출 기준만 정하면 된다."],
+          priority: 74,
+          when: (a, b) => Math.abs(a.moneyStyle - b.moneyStyle) <= 0.4,
+          evidence: "돈 쓰는 기준이 비슷해서 스트레스가 적어.",
+          copies: ["공동 지출 기준만 정하면 된다.", "금전 갈등이 적은 조합."],
+        },
+        {
+          id: "MONEY_STYLE_DIFF",
+          section: "돈",
+          priority: 62,
+          when: (a, b) => Math.abs(a.moneyStyle - b.moneyStyle) >= 1.0,
+          evidence: "돈 쓰는 기준이 꽤 다를 수 있어.",
+          copies: ["규칙만 정하면 문제 없다.", "큰돈은 함께, 작은 건 각자."],
+        },
+        {
+          id: "MONEY_SAVING_GOOD",
+          section: "돈",
+          priority: 76,
+          when: (a, b) => a.elements["토"] >= 1.2 && b.elements["토"] >= 1.2,
+          evidence: "둘 다 토가 받쳐서 안정형 저축에 강해.",
+          copies: ["장기 계획 세우기 좋다.", "적금/비상금 관리에 강한 조합."],
+        },
+        {
+          id: "MONEY_LEAK_RISK",
+          section: "돈",
+          priority: 58,
+          when: (a, b) => a.elements["금"] <= 0.7 && b.elements["금"] <= 0.7,
+          evidence: "둘 다 금 기운이 약해 지출 통제가 느슨할 수 있어.",
+          copies: ["자동이체/한도 설정이 답이야.", "소액이라도 기록해두면 훨씬 안정돼."],
+        },
+        {
+          id: "WORK_SPEED_MATCH",
+          section: "일",
+          priority: 74,
+          when: (a, b) => Math.abs(a.elements["화"] - b.elements["화"]) <= 0.3,
+          evidence: "일 처리 속도가 비슷해 협업이 편해.",
+          copies: ["속도 조절 스트레스가 적어.", "같은 페이스로 달리면 최고."],
         },
         {
           id: "WORK_SPEED_DIFF",
           section: "일",
-          priority: 63,
-          when: (a, b) => Math.abs(a.elements["화"] - b.elements["화"]) >= 0.6,
-          evidence: "일 처리 속도 차이가 꽤 있는 편이야.",
-          copies: ["속도 차이일 뿐 방향은 같다.", "기한만 명확히 맞추자."],
+          priority: 62,
+          when: (a, b) => Math.abs(a.elements["화"] - b.elements["화"]) >= 0.8,
+          evidence: "일 처리 속도 차이가 커서 마찰이 생길 수 있어.",
+          copies: ["기한만 분명하게 맞추자.", "속도 차이는 역할 분담으로 해결된다."],
+        },
+        {
+          id: "WORK_IDEA_SUPPORT",
+          section: "일",
+          priority: 72,
+          when: (a, b) => (a.elements["목"] >= 1.3 && b.elements["화"] >= 1.3) || (b.elements["목"] >= 1.3 && a.elements["화"] >= 1.3),
+          evidence: "한쪽은 아이디어, 한쪽은 실행에 강해.",
+          copies: ["기획과 실행이 잘 맞는 조합.", "역할만 명확히 하면 속도가 난다."],
+        },
+        {
+          id: "WORK_STRESS_CLASH",
+          section: "일",
+          priority: 60,
+          when: (a, b) => a.elements["화"] >= 1.5 && b.elements["금"] <= 0.8 && b.elements["화"] >= 1.5 && a.elements["금"] <= 0.8,
+          evidence: "둘 다 속도는 빠른데 제어가 약해.",
+          copies: ["과열만 조심하면 성과는 확실해.", "체크리스트를 한 장씩만 써도 좋아."],
+        },
+        {
+          id: "HEALTH_RECOVERY_GOOD",
+          section: "건강",
+          priority: 76,
+          when: (a, b) => a.elements["수"] >= 1.2 && b.elements["수"] >= 1.2,
+          evidence: "둘 다 회복 탄력이 좋은 편이야.",
+          copies: ["쉬는 날만 맞추면 컨디션이 확 좋아진다.", "수면만 지켜도 반은 성공."],
+        },
+        {
+          id: "HEALTH_RHYTHM_GAP",
+          section: "건강",
+          priority: 58,
+          when: (a, b) => Math.abs(a.elements["수"] - b.elements["수"]) >= 0.8,
+          evidence: "회복 리듬 차이가 커서 피로가 엇갈릴 수 있어.",
+          copies: ["컨디션 좋은 날에 중요한 일 배치.", "각자 쉬는 타이밍을 존중하자."],
+        },
+        {
+          id: "HEALTH_DIGEST",
+          section: "건강",
+          priority: 58,
+          when: (a, b) => a.elements["토"] <= 0.8 && b.elements["토"] <= 0.8,
+          evidence: "둘 다 토 기운이 약해 컨디션이 흔들릴 수 있어.",
+          copies: ["식사/수면 루틴만 잡아도 안정된다.", "무리한 약속을 줄이자."],
+        },
+        {
+          id: "HEALTH_BALANCE_HELP",
+          section: "건강",
+          priority: 70,
+          when: (a, b) => (a.elements["토"] >= 1.3 && b.elements["수"] >= 1.3) || (b.elements["토"] >= 1.3 && a.elements["수"] >= 1.3),
+          evidence: "한쪽의 안정감과 한쪽의 회복력이 잘 맞아.",
+          copies: ["생활 리듬을 공유하면 컨디션이 좋아진다.", "규칙적인 휴식이 강점."],
         },
       ];
 
@@ -701,6 +1556,8 @@
 
       function buildPerson(person) {
         const { top, weak } = getTopWeak(person.elements);
+        const monthBranch = person.monthBranch || "";
+        const seasonTopElem = monthBranch ? BRANCH_MAIN_ELEM[monthBranch] : "";
         return {
           ...person,
           topElem: top,
@@ -708,6 +1565,8 @@
           topScore: person.elements[top],
           weakScore: person.elements[weak],
           balance: calcBalance(person.elements),
+          seasonTopElem,
+          moneyStyle: person.elements["금"] + person.elements["수"],
         };
       }
 
@@ -745,12 +1604,12 @@
       function generateSummary(score) {
         if (score >= 85) return "전반적으로 궁합이 강해. 기본 결이 잘 맞고, 장기적으로 안정적이야.";
         if (score >= 70) return "좋은 편이야. 포인트 몇 가지만 맞추면 훨씬 편해질 수 있어.";
-        if (score >= 55) return "무난해. 규칙만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
+        if (score >= 55) return "무난해. 약속만 잘 세우면 충분히 좋은 관계로 갈 수 있어.";
         return "노력이 필요한 궁합이야. 대신 기준만 맞추면 의외로 단단해질 수 있어.";
       }
 
       /* ======================================================
-  4. 톤 분기
+  6. 톤 분기
 ====================================================== */
       const TONE = {
         couple: {
@@ -791,7 +1650,7 @@
       }
 
       /* ======================================================
-  5. 섹션 레이더 렌더
+  7. 섹션 레이더 렌더
 ====================================================== */
       function renderRadar(scores) {
         const svg = sectionRadarSvg;
@@ -863,7 +1722,7 @@
       }
 
       /* ======================================================
-  6. 신년운세 월별
+  8. 신년운세 월별
 ====================================================== */
       function pickMonthlyCopy(ctx) {
         const { month, seasonElem, top, weak, relTop, relWeak } = ctx;
@@ -941,7 +1800,7 @@
       }
 
       /* ======================================================
-  7. 렌더
+  9. 렌더
 ====================================================== */
       function renderSummary(totalScore, firedRules, toneKey, coupleElements) {
         const summary = generateSummary(totalScore);
@@ -956,9 +1815,7 @@
           `발동 룰: ${firedRules.length}개`,
           TONE[toneKey]?.title || "커플 모드",
         ];
-        summaryPills.innerHTML = pills
-          .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
-          .join("");
+        summaryPills.innerHTML = pills.map((p) => `<span class="pill">${escapeHtml(p)}</span>`).join("");
       }
 
       function renderRules(firedRules, toneKey, tokens) {
@@ -967,15 +1824,10 @@
           return;
         }
 
-        const topElem = tokens?.topElem || "";
-        const weakElem = tokens?.weakElem || "";
-
         ruleList.innerHTML = firedRules
           .sort((a, b) => b.tunedPriority - a.tunedPriority)
           .map((r) => {
-            const evidence = applyTone(r.evidence, toneKey)
-              .replace("{topElem}", topElem)
-              .replace("{weakElem}", weakElem);
+            const evidence = applyTone(fillTokens(r.evidence, tokens), toneKey);
             const copy = applyTone(r.copies[0], toneKey);
             const extra = r.section === "돈" ? toneExtraTip("money", toneKey) : toneExtraTip("conflict", toneKey);
             return `
@@ -991,9 +1843,22 @@
           .join("");
       }
 
+      function renderPillars(targetEl, result) {
+        if (!result) {
+          targetEl.textContent = "—";
+          return;
+        }
+        const p = result.pillars;
+        targetEl.innerHTML = `입력: ${result.input.kst}<br/>
+          연: ${p.year.text} / 월: ${p.month.text}<br/>
+          일: ${p.day.text} / 시: ${p.hour.text}`;
+      }
+
       function renderAll() {
-        const a = buildPerson(A);
-        const b = buildPerson(B);
+        if (!state.A || !state.B) return;
+
+        const a = buildPerson(state.A);
+        const b = buildPerson(state.B);
         const toneKey = toneSelect.value;
         const firedRules = evaluateRules(a, b);
         const sectionScores = calcSectionScores(firedRules);
@@ -1002,16 +1867,29 @@
         const coupleStats = getTopWeak(coupleElements);
 
         renderSummary(totalScore, firedRules, toneKey, coupleElements);
-        renderTodayCoupleBox();
+        renderTodayCoupleBox(a, b);
         renderRadar(sectionScores);
-        renderRules(firedRules, toneKey, { topElem: coupleStats.top, weakElem: coupleStats.weak });
+        renderRules(firedRules, toneKey, {
+          topElem: coupleStats.top,
+          weakElem: coupleStats.weak,
+          A_topElem: a.topElem,
+          B_topElem: b.topElem,
+          A_weakElem: a.weakElem,
+          B_weakElem: b.weakElem,
+          A_branch: a.dayBranch,
+          B_branch: b.dayBranch,
+          A_season: a.seasonTopElem,
+          B_season: b.seasonTopElem,
+        });
         renderMonthly({ elements: coupleElements });
+        renderPillars(aPillarsEl, state.aResult);
+        renderPillars(bPillarsEl, state.bResult);
 
         return { totalScore, firedRules, sectionScores, coupleElements };
       }
 
       /* ======================================================
-  8. 공유 카드
+  10. 공유 카드
 ====================================================== */
       function roundRect(ctx, x, y, w, h, r, fill) {
         ctx.beginPath();
@@ -1094,12 +1972,16 @@
       }
 
       async function shareCard() {
+        if (!state.A || !state.B) {
+          alert("A/B 입력 후 계산해줘.");
+          return;
+        }
         const toneKey = toneSelect.value;
-        const state = renderAll();
-        const topElem = getTopWeak(state.coupleElements).top;
+        const stateSnapshot = renderAll();
+        const topElem = getTopWeak(stateSnapshot.coupleElements).top;
         const blob = await generateShareCard({
           title: "궁합 리포트",
-          score: state.totalScore,
+          score: stateSnapshot.totalScore,
           summary: summaryMain.textContent,
           todayLine: todayCoupleLine.textContent,
           topElem,
@@ -1121,6 +2003,123 @@
       }
 
       /* ======================================================
+  11. PDF 저장 (html2canvas + jsPDF)
+====================================================== */
+      async function savePdfPretty() {
+        if (!state.A || !state.B) {
+          alert("A/B 입력 후 계산해줘.");
+          return;
+        }
+        if (!window.html2canvas || !window.jspdf) {
+          alert("PDF 라이브러리가 준비되지 않았어.");
+          return;
+        }
+        const area = document.getElementById("pdfArea");
+        const canvas = await html2canvas(area, {
+          scale: 2,
+          backgroundColor: null,
+          useCORS: true,
+          logging: false,
+        });
+        const imgData = canvas.toDataURL("image/png", 1.0);
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: "p", unit: "mm", format: "a4" });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgW = pageW;
+        const imgH = (canvas.height * imgW) / canvas.width;
+
+        if (imgH <= pageH) {
+          pdf.addImage(imgData, "PNG", 0, 0, imgW, imgH);
+        } else {
+          let y = 0;
+          let remaining = imgH;
+          while (remaining > 0) {
+            pdf.addImage(imgData, "PNG", 0, -y, imgW, imgH);
+            remaining -= pageH;
+            y += pageH;
+            if (remaining > 0) pdf.addPage();
+          }
+        }
+
+        const fileName = `궁합리포트_${new Date().toISOString().slice(0, 10)}.pdf`;
+        pdf.save(fileName);
+      }
+
+      /* ======================================================
+  12. 입력/계산 파이프라인
+====================================================== */
+      function loadInputs() {
+        try {
+          return JSON.parse(localStorage.getItem(INPUT_KEY) || "{}");
+        } catch {
+          return {};
+        }
+      }
+      function saveInputs(data) {
+        localStorage.setItem(INPUT_KEY, JSON.stringify(data));
+      }
+
+      function setInputs(data) {
+        if (!data) return;
+        aDate.value = data.aDate || "";
+        aTime.value = data.aTime || "";
+        aZiMode.value = data.aZiMode || "2300";
+        aHiddenMode.value = data.aHiddenMode || "on";
+        bDate.value = data.bDate || "";
+        bTime.value = data.bTime || "";
+        bZiMode.value = data.bZiMode || "2300";
+        bHiddenMode.value = data.bHiddenMode || "on";
+        toneSelect.value = data.tone || "couple";
+      }
+
+      function getInputData() {
+        return {
+          aDate: aDate.value,
+          aTime: aTime.value,
+          aZiMode: aZiMode.value,
+          aHiddenMode: aHiddenMode.value,
+          bDate: bDate.value,
+          bTime: bTime.value,
+          bZiMode: bZiMode.value,
+          bHiddenMode: bHiddenMode.value,
+          tone: toneSelect.value,
+        };
+      }
+
+      function computePair() {
+        const data = getInputData();
+        if (!data.aDate || !data.aTime || !data.bDate || !data.bTime) {
+          alert("A/B 날짜와 시간을 모두 입력해줘.");
+          return;
+        }
+        saveInputs(data);
+
+        const aBirth = parseKSTDateTime(data.aDate, data.aTime);
+        const bBirth = parseKSTDateTime(data.bDate, data.bTime);
+
+        const aResult = computeSajuFiveElements(aBirth, { ziMode: data.aZiMode, hiddenMode: data.aHiddenMode });
+        const bResult = computeSajuFiveElements(bBirth, { ziMode: data.bZiMode, hiddenMode: data.bHiddenMode });
+
+        state.aResult = aResult;
+        state.bResult = bResult;
+        state.A = {
+          name: "A",
+          elements: aResult.elements.raw,
+          dayBranch: aResult.pillars.day.branch,
+          monthBranch: aResult.pillars.month.branch,
+        };
+        state.B = {
+          name: "B",
+          elements: bResult.elements.raw,
+          dayBranch: bResult.pillars.day.branch,
+          monthBranch: bResult.pillars.month.branch,
+        };
+
+        renderAll();
+      }
+
+      /* ======================================================
   INIT
 ====================================================== */
       function init() {
@@ -1128,7 +2127,11 @@
         tuneStrength.value = String(cfg.strength ?? 1);
         tuneLabel.textContent = Number(tuneStrength.value).toFixed(1);
         updateTuneStatus();
-        renderAll();
+        const saved = loadInputs();
+        setInputs(saved);
+        if (saved.aDate && saved.aTime && saved.bDate && saved.bTime) {
+          computePair();
+        }
       }
 
       document.addEventListener("click", (e) => {
@@ -1154,9 +2157,18 @@
         renderAll();
       });
 
-      toneSelect.addEventListener("change", renderAll);
-      todayLuckBtn.addEventListener("click", renderTodayCoupleBox);
+      toneSelect.addEventListener("change", () => {
+        saveInputs(getInputData());
+        renderAll();
+      });
+
+      todayLuckBtn.addEventListener("click", () => {
+        if (state.A && state.B) renderTodayCoupleBox(buildPerson(state.A), buildPerson(state.B));
+      });
+
       shareBtn.addEventListener("click", shareCard);
+      pdfBtn.addEventListener("click", savePdfPretty);
+      calcBtn.addEventListener("click", computePair);
 
       init();
     </script>
