@@ -3569,11 +3569,11 @@
       }
 
       function renderMonthly(person) {
+        const t = window.t || ((key, vars = {}) => key);
         monthlyList.innerHTML = makeMonthlyLuck(person)
           .map(
             (m) => `
             <div class="rule-card">
-              const t = window.t || ((key, vars = {}) => key);
               <div class="row" style="justify-content: space-between; align-items: center;">
                 <div class="section-title">${t("monthlyFlow", { month: m.month, seasonElem: m.seasonElem })}</div>
                 <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
@@ -3613,7 +3613,6 @@
               ${
                 m.tip
                   ? `<div style="margin-top: 12px; padding: 12px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
-                     const t = window.t || ((key, vars = {}) => key);
                      <p style="font-size: 14px; margin: 0; line-height: 1.8; font-weight: 600; color: rgba(15, 23, 42, 0.9);">
                        <span style="color: rgba(34, 197, 94, 0.9);">${t("monthlyTip")}</span> ${escapeHtml(
                          m.tip
@@ -3623,7 +3622,6 @@
                   : ""
               }
               <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
-                const t = window.t || ((key, vars = {}) => key);
                 <button class="btn compact" data-month="${
                   m.month
                 }" data-month-index="${
