@@ -2,7 +2,7 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <title>사주풀이 · 궁합 · 오늘운세 · 신년운세</title>
+    <title data-i18n-title="metaTitle">사주풀이 · 궁합 · 오늘운세 · 신년운세</title>
     <meta
       property="og:image"
       content="https://dummyimage.com/1200x630/0b1220/ffffff&text=SAJU"
@@ -904,12 +904,54 @@
         text-align: center;
 }
   </style>
+  <style>
+    .lang-switch {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      display: inline-flex;
+      gap: 0;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(10, 15, 26, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+    .lang-switch button {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 44px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .lang-switch button.active {
+      background: #6366f1;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.4);
+    }
+    .lang-switch button:not(.active):hover {
+      background: rgba(99, 102, 241, 0.2);
+      color: rgba(255, 255, 255, 0.9);
+    }
+  </style>
 </head>
 
   <body>
+    <div class="lang-switch" role="tablist" aria-label="Language switcher">
+      <button type="button" data-lang="ko" class="active">KR</button>
+      <button type="button" data-lang="en">EN</button>
+    </div>
     <div class="wrap">
       <div class="hero">
-        <div class="badge service-name">사주풀이</div>
+        <div class="badge service-name" data-i18n="serviceName">사주풀이</div>
         <div style="display: flex; gap: 8px; align-items: center">
           <div class="badge" id="todayBadge"></div>
           <a
@@ -918,6 +960,7 @@
             rel="noopener noreferrer"
             class="btn outline compact"
             style="text-decoration: none; white-space: nowrap"
+            data-i18n="btnOtherServices"
           >
             다른 서비스 보기
           </a>
@@ -937,21 +980,21 @@
                 "
               >
                 <span class="logo-emoji" aria-hidden="true"></span>
-                <span class="logo-text">사주풀이</span>
+                <span class="logo-text" data-i18n="serviceName">사주풀이</span>
               </h1>
-              <p class="mini">
+              <p class="mini" data-i18n="menuDesc">
                 신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를 보여줄게.
               </p>
             </div>
           </div>
           <div class="menu-grid" style="margin-top: 32px">
             <button class="menu-btn" data-mode="newyear">
-              <span class="menu-title">신년운세</span>
-              <small>2026년 한 해의 흐름을<br />월별로 살펴보기</small>
+              <span class="menu-title" data-i18n="menuNewYear">신년운세</span>
+              <small data-i18n="menuNewYearDesc">2026년 한 해의 흐름을<br />월별로 살펴보기</small>
             </button>
             <button class="menu-btn" data-mode="today">
-              <span class="menu-title">오늘의 운세</span>
-              <small>오늘 하루의 기운과<br />행동 가이드를 확인하기</small>
+              <span class="menu-title" data-i18n="menuToday">오늘의 운세</span>
+              <small data-i18n="menuTodayDesc">오늘 하루의 기운과<br />행동 가이드를 확인하기</small>
             </button>
           </div>
         </div>
@@ -968,7 +1011,7 @@
             gap: 12px;
           "
         >
-          <button class="btn outline" id="backToMenu" style="margin: 0">
+          <button class="btn outline" id="backToMenu" style="margin: 0" data-i18n="btnBackToMenu">
             메뉴로
           </button>
           <button
@@ -980,6 +1023,7 @@
               color: rgba(239, 68, 68, 0.9);
               background: rgba(239, 68, 68, 0.05);
             "
+            data-i18n="btnClearSaved"
           >
             저장 초기화
           </button>
@@ -995,7 +1039,7 @@
           <div class="input-container">
             <div class="grid-2" style="margin-top: 20px">
               <div class="rule-card" id="panelA">
-                <h3>출생 정보</h3>
+                <h3 data-i18n="inputBirthInfo">출생 정보</h3>
                 <div class="row">
                   <input id="aDate" type="date" />
                   <select id="aHourBranch">
@@ -1016,13 +1060,13 @@
                 <div class="row hidden" style="margin-top: 8px">
                   <label class="mini">
                     <input id="aTimeUnknown" type="checkbox" />
-                    시간 모름(시주 제외)
+                    <span data-i18n="inputTimeUnknown">시간 모름(시주 제외)</span>
                   </label>
                 </div>
                 <div class="row" style="margin-top: 8px">
                   <select id="aGender">
-                    <option value="male" selected>남자</option>
-                    <option value="female">여자</option>
+                    <option value="male" selected data-i18n="genderMale">남자</option>
+                    <option value="female" data-i18n="genderFemale">여자</option>
                   </select>
                 </div>
                 <div class="row hidden" style="margin-top: 8px">
@@ -1063,7 +1107,7 @@
               </div>
 
               <div class="rule-card" id="panelB">
-                <h3>상대 정보</h3>
+                <h3 data-i18n="inputPartnerInfo">상대 정보</h3>
                 <div class="row">
                   <input id="bDate" type="date" />
                   <select id="bHourBranch">
@@ -6015,25 +6059,26 @@
       }
 
       function configureInputForMode(mode) {
+        const t = window.t || ((key, vars = {}) => key);
         const gridContainer = panelA.parentElement;
         if (mode === "compat") {
-          inputTitle.textContent = "궁합 입력";
-          inputDesc.textContent = "A/B 출생 정보 입력 → 궁합 계산";
+          inputTitle.textContent = t("inputTitleCompat");
+          inputDesc.textContent = t("inputDescCompat");
           panelB.classList.remove("hidden");
           gridContainer.style.display = "grid";
           gridContainer.style.gridTemplateColumns = "repeat(2, minmax(0, 1fr))";
           gridContainer.style.justifyItems = "stretch";
           panelA.style.maxWidth = "none";
         } else if (mode === "newyear") {
-          inputTitle.textContent = "신년운세 입력";
-          inputDesc.textContent = "한 사람 출생 정보 입력 → 2026 흐름";
+          inputTitle.textContent = t("inputTitleNewYear");
+          inputDesc.textContent = t("inputDescNewYear");
           panelB.classList.add("hidden");
           gridContainer.style.display = "flex";
           gridContainer.style.justifyContent = "center";
           panelA.style.maxWidth = "500px";
         } else {
-          inputTitle.textContent = "오늘운세 입력";
-          inputDesc.textContent = "한 사람 출생 정보 입력 → 오늘 한 줄";
+          inputTitle.textContent = t("inputTitleToday");
+          inputDesc.textContent = t("inputDescToday");
           panelB.classList.add("hidden");
           gridContainer.style.display = "flex";
           gridContainer.style.justifyContent = "center";
@@ -6049,13 +6094,14 @@
 
       async function computePair() {
         try {
+          const t = window.t || ((key, vars = {}) => key);
           const data = getInputData();
           if (!data.aDate || !data.aHourBranch) {
-            alert("A 날짜와 12간지를 선택해줘.");
+            alert(t("alertADateRequired"));
             return;
           }
           if (state.mode === "compat" && (!data.bDate || !data.bHourBranch)) {
-            alert("B 날짜와 12간지를 선택해줘.");
+            alert(t("alertBDateRequired"));
             return;
           }
           saveInputs(data);
@@ -6181,14 +6227,172 @@
           await new Promise((r) => setTimeout(r, 400));
         } catch (error) {
           console.error("계산 중 오류 발생:", error);
-          alert(
-            "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: " + error.message
-          );
+          const t = window.t || ((key, vars = {}) => key);
+          alert(t("alertError", { error: error.message }));
         } finally {
           loadingOverlay.classList.remove("active");
           loadingOverlay.setAttribute("aria-hidden", "true");
         }
       }
+
+      // =========================
+      // i18n
+      // =========================
+      const translations = {
+        ko: {
+          metaTitle: "사주풀이 · 궁합 · 오늘운세 · 신년운세",
+          serviceName: "사주풀이",
+          btnOtherServices: "다른 서비스 보기",
+          menuDesc: "신년운세/오늘운세 중 선택하면 단계별로 입력받고 결과를 보여줄게.",
+          menuNewYear: "신년운세",
+          menuNewYearDesc: "2026년 한 해의 흐름을<br />월별로 살펴보기",
+          menuToday: "오늘의 운세",
+          menuTodayDesc: "오늘 하루의 기운과<br />행동 가이드를 확인하기",
+          btnBackToMenu: "메뉴로",
+          btnClearSaved: "저장 초기화",
+          inputBirthInfo: "출생 정보",
+          inputPartnerInfo: "상대 정보",
+          inputTimeUnknown: "시간 모름(시주 제외)",
+          genderMale: "남자",
+          genderFemale: "여자",
+          inputDesc: "날짜와 시간(12간지)을 입력한 뒤 성별만 선택하면 돼.",
+          inputTitleNewYear: "신년운세 입력",
+          inputDescNewYear: "한 사람 출생 정보 입력 → 2026 흐름",
+          inputTitleToday: "오늘운세 입력",
+          inputDescToday: "한 사람 출생 정보 입력 → 오늘 한 줄",
+          inputTitleCompat: "궁합 입력",
+          inputDescCompat: "A/B 출생 정보 입력 → 궁합 계산",
+          alertADateRequired: "A 날짜와 12간지를 선택해줘.",
+          alertBDateRequired: "B 날짜와 12간지를 선택해줘.",
+          alertError: "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: {error}",
+        },
+        en: {
+          metaTitle: "Fortune Telling · Compatibility · Today's Fortune · New Year Fortune",
+          serviceName: "Fortune Telling",
+          btnOtherServices: "View Other Services",
+          menuDesc: "Select New Year Fortune or Today's Fortune, and I'll guide you step by step to show the results.",
+          menuNewYear: "New Year Fortune",
+          menuNewYearDesc: "View the flow of 2026<br />month by month",
+          menuToday: "Today's Fortune",
+          menuTodayDesc: "Check today's energy and<br />action guide",
+          btnBackToMenu: "Back to Menu",
+          btnClearSaved: "Clear Saved",
+          inputBirthInfo: "Birth Information",
+          inputPartnerInfo: "Partner Information",
+          inputTimeUnknown: "Time unknown (exclude hour)",
+          genderMale: "Male",
+          genderFemale: "Female",
+          inputDesc: "Enter date and time (12 zodiac signs), then select gender.",
+          inputTitleNewYear: "New Year Fortune Input",
+          inputDescNewYear: "Enter one person's birth info → 2026 flow",
+          inputTitleToday: "Today's Fortune Input",
+          inputDescToday: "Enter one person's birth info → today's one-liner",
+          inputTitleCompat: "Compatibility Input",
+          inputDescCompat: "Enter A/B birth info → compatibility calculation",
+          alertADateRequired: "Please select A date and 12 zodiac signs.",
+          alertBDateRequired: "Please select B date and 12 zodiac signs.",
+          alertError: "An error occurred during calculation. Please check your input.\nError: {error}",
+        },
+      };
+
+      const defaultLang = "ko";
+      const supportedLangs = ["ko", "en"];
+      let currentLang = defaultLang;
+
+      function t(key, vars = {}) {
+        const langTable = translations[currentLang] || translations.ko;
+        let template = langTable?.[key] ?? translations.ko?.[key] ?? key;
+        if (typeof template !== "string") return template;
+        Object.keys(vars).forEach((k) => {
+          template = template.replace(new RegExp(`\\{${k}\\}`, "g"), vars[k]);
+        });
+        return template;
+      }
+
+      function applyTranslations() {
+        document.title = t("metaTitle");
+        document.documentElement.lang = currentLang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          el.textContent = t(el.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+          el.innerHTML = t(el.dataset.i18nHtml);
+        });
+        document.querySelectorAll("[data-i18n-title]").forEach((el) => {
+          if (el.tagName === "TITLE") {
+            el.textContent = t(el.dataset.i18nTitle);
+          } else {
+            el.title = t(el.dataset.i18nTitle);
+          }
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+          el.setAttribute("aria-label", t(el.dataset.i18nAria));
+        });
+        document.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+          el.setAttribute("alt", t(el.dataset.i18nAlt));
+        });
+        // Update select options
+        document.querySelectorAll('select[id="aGender"] option, select[id="bGender"] option').forEach((opt) => {
+          if (opt.value === "male") opt.textContent = t("genderMale");
+          if (opt.value === "female") opt.textContent = t("genderFemale");
+        });
+      }
+
+      function detectLang() {
+        const params = new URLSearchParams(window.location.search);
+        const paramLang = params.get("lang");
+        if (supportedLangs.includes(paramLang)) return paramLang;
+        const stored = localStorage.getItem("preferredLang");
+        if (supportedLangs.includes(stored)) return stored;
+        const intlLocale =
+          typeof Intl === "object" && typeof Intl.DateTimeFormat === "function"
+            ? Intl.DateTimeFormat().resolvedOptions().locale
+            : "";
+        const sources = [
+          ...(navigator.languages || []),
+          navigator.language,
+          navigator.userLanguage,
+          intlLocale,
+        ]
+          .filter(Boolean)
+          .map((locale) => locale.toLowerCase());
+        const hasKorean = sources.some((locale) => locale.startsWith("ko"));
+        return hasKorean ? "ko" : "en";
+      }
+
+      function setLang(lang, options = {}) {
+        const nextLang = supportedLangs.includes(lang) ? lang : defaultLang;
+        currentLang = nextLang;
+        window.currentLang = currentLang;
+        document.documentElement.lang = nextLang;
+        localStorage.setItem("preferredLang", nextLang);
+        document.querySelectorAll(".lang-switch button").forEach((button) => {
+          button.classList.toggle("active", button.dataset.lang === nextLang);
+        });
+        applyTranslations();
+        if (options.updateUrl) {
+          const url = new URL(window.location.href);
+          url.searchParams.set("lang", nextLang);
+          window.history.replaceState({}, "", url);
+        }
+        // Update dynamic content if needed
+        if (window.configureInputForMode && window.state) {
+          configureInputForMode(state.mode);
+        }
+      }
+
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.addEventListener("click", () => {
+          setLang(button.dataset.lang, { updateUrl: true });
+        });
+      });
+
+      setLang(detectLang(), { updateUrl: false });
+
+      // Make t() function and currentLang globally available
+      window.t = t;
+      window.currentLang = currentLang;
+      window.setLang = setLang;
 
       /* ======================================================
   INIT
