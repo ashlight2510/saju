@@ -1204,13 +1204,13 @@
       <!-- Step 3: 결과 -->
       <section id="stepResult" class="step">
         <div class="row" style="margin-bottom: 12px">
-          <button class="btn outline" id="backToInput">입력 수정</button>
-          <button class="btn outline" id="restartFlow">메뉴로</button>
+          <button class="btn outline" id="backToInput" data-i18n="btnInputModify">입력 수정</button>
+          <button class="btn outline" id="restartFlow" data-i18n="btnRestart">메뉴로</button>
         </div>
 
         <div id="pdfArea" class="pdf-area">
           <div class="card" id="resultElementsCard" style="padding: 40px">
-            <h2 style="font-size: 28px; margin-bottom: 24px">오행 기운 분석</h2>
+            <h2 style="font-size: 28px; margin-bottom: 24px" data-i18n="resultElementsTitle">오행 기운 분석</h2>
             <p
               class="lead"
               id="elementsSummary"
@@ -1237,22 +1237,22 @@
             </p>
           </div>
           <div class="card" id="resultDeepCard">
-            <h2>심화 분석</h2>
+            <h2 data-i18n="resultDeepTitle">심화 분석</h2>
             <div id="deepAnalysis"></div>
           </div>
           <div class="card" id="resultLuckCard">
-            <h2>대운 · 세운</h2>
+            <h2 data-i18n="resultLuckTitle">대운 · 세운</h2>
             <div id="luckFlow"></div>
           </div>
           <div class="card" id="resultReportCard">
-            <h2>본질 리포트</h2>
+            <h2 data-i18n="resultReportTitle">본질 리포트</h2>
             <div id="reportContent"></div>
           </div>
           <div class="card" id="resultSummaryCard">
             <div class="card-head">
               <div>
-                <h2 id="resultTitle">궁합 요약</h2>
-                <p class="mini" id="summarySub">
+                <h2 id="resultTitle" data-i18n="resultSummaryTitle">궁합 요약</h2>
+                <p class="mini" id="summarySub" data-i18n="summarySub">
                   입력 시간대 기준 · 절기/오행 규칙
                 </p>
               </div>
@@ -1263,7 +1263,7 @@
           </div>
 
           <div class="card" id="resultTodayCard">
-            <h2 style="margin-bottom: 20px; text-align: left">
+            <h2 style="margin-bottom: 20px; text-align: left" data-i18n="resultTodayTitle">
               🔮 오늘의 운세
             </h2>
             <p
@@ -1284,17 +1284,17 @@
 
           <div class="grid-2" id="resultCompatGrid">
             <div class="card" id="resultRadarCard">
-              <h2>섹션별 균형</h2>
+              <h2 data-i18n="resultRadarTitle">섹션별 균형</h2>
               <svg
                 id="sectionRadarSvg"
                 class="radar"
                 viewBox="0 0 320 320"
               ></svg>
-              <p class="mini" id="sectionRadarLegend">관계의 전체 밸런스</p>
+              <p class="mini" id="sectionRadarLegend" data-i18n="radarLegend">관계의 전체 밸런스</p>
             </div>
 
             <div class="card" id="resultABCard">
-              <h2>A/B 사주 요약</h2>
+              <h2 data-i18n="resultABTitle">A/B 사주 요약</h2>
               <div class="grid-2" style="gap: 8px">
                 <div>
                   <div class="section-title">A</div>
@@ -1309,21 +1309,21 @@
           </div>
 
           <div class="card" id="resultRulesCard">
-            <h2>궁합 포인트</h2>
+            <h2 data-i18n="resultRulesTitle">궁합 포인트</h2>
             <div id="ruleList"></div>
           </div>
 
           <div class="card" id="resultMonthlyCard">
-            <h2>2026 신년운세 (월별)</h2>
+            <h2 data-i18n="resultMonthlyTitle">2026 신년운세 (월별)</h2>
             <div id="monthlyList"></div>
           </div>
         </div>
 
         <div class="card" id="shareCard" style="margin-top: 48px">
-          <h2>공유 · PDF</h2>
+          <h2 data-i18n="shareCardTitle">공유 · PDF</h2>
           <div class="row">
-            <button class="btn" id="shareBtn">공유</button>
-            <button class="btn outline" id="pdfBtn">PDF 저장</button>
+            <button class="btn" id="shareBtn" data-i18n="btnShare">공유</button>
+            <button class="btn outline" id="pdfBtn" data-i18n="btnPDF">PDF 저장</button>
           </div>
           <p class="mini share-note" id="shareStatus"></p>
           <canvas
@@ -1339,8 +1339,8 @@
     <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
       <div class="loading-card">
         <div class="spinner"></div>
-        <div class="lead" style="margin-bottom: 6px">오행 균형 계산 중</div>
-        <div class="mini">절기 기준으로 정밀하게 맞추는 중이야…</div>
+        <div class="lead" style="margin-bottom: 6px" data-i18n="loadingTitle">오행 균형 계산 중</div>
+        <div class="mini" data-i18n="loadingDesc">절기 기준으로 정밀하게 맞추는 중이야…</div>
       </div>
     </div>
 
@@ -1352,6 +1352,7 @@
   0. 기본 DOM
 ====================================================== */
       const todayBadge = document.getElementById("todayBadge");
+      const t = window.t || ((key, vars = {}) => key);
       todayBadge.textContent = "신토정비결";
 
       const stepMenu = document.getElementById("stepMenu");
@@ -3572,10 +3573,9 @@
           .map(
             (m) => `
             <div class="rule-card">
+              const t = window.t || ((key, vars = {}) => key);
               <div class="row" style="justify-content: space-between; align-items: center;">
-                <div class="section-title">${m.month}월 · ${
-              m.seasonElem
-            } 흐름</div>
+                <div class="section-title">${t("monthlyFlow", { month: m.month, seasonElem: m.seasonElem })}</div>
                 <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
                   m.tags
                 )}</div>
@@ -3613,8 +3613,9 @@
               ${
                 m.tip
                   ? `<div style="margin-top: 12px; padding: 12px; background: rgba(34, 197, 94, 0.08); border-radius: 6px; border-left: 3px solid rgba(34, 197, 94, 0.5);">
+                     const t = window.t || ((key, vars = {}) => key);
                      <p style="font-size: 14px; margin: 0; line-height: 1.8; font-weight: 600; color: rgba(15, 23, 42, 0.9);">
-                       <span style="color: rgba(34, 197, 94, 0.9);">💡 팁:</span> ${escapeHtml(
+                       <span style="color: rgba(34, 197, 94, 0.9);">${t("monthlyTip")}</span> ${escapeHtml(
                          m.tip
                        )}
                      </p>
@@ -3622,12 +3623,13 @@
                   : ""
               }
               <div style="margin-top: 16px; display: flex; justify-content: flex-end;">
+                const t = window.t || ((key, vars = {}) => key);
                 <button class="btn compact" data-month="${
                   m.month
                 }" data-month-index="${
               m.month - 1
             }" style="font-size: 12px; padding: 6px 12px;">
-                  📋 공유하기
+                  ${t("btnShareMonthly")}
                 </button>
               </div>
             </div>`
@@ -3665,36 +3667,41 @@
         const monthLabel =
           monthLabels[monthData.month] || `${monthData.month}월`;
 
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         // 태그 텍스트 추출
         const [luckTag, mode, seasonElem] = monthData.tags || [];
         const luckText =
-          luckTag === "길" ? "길운" : luckTag === "흉" ? "흉운" : "중운";
+          luckTag === "길" ? t("luckGood") : luckTag === "흉" ? t("luckBad") : t("luckNeutral");
         const modeText = monthModeText(mode);
-        const tagsText = `${luckText} · ${modeText} · ${seasonElem} 기운`;
+        const tagsText = `${luckText} · ${modeText} · ${t("luckEnergy", { elem: seasonElem })}`;
 
-        let text = `🔮 ${monthLabel} 운세\n\n`;
-        text += `${monthData.summary}\n\n`;
+        let details = "";
+        if (monthData.monthDetails) details += `${monthData.monthDetails}\n\n`;
+        if (monthData.extra) details += `${monthData.extra}\n\n`;
+        if (monthData.detail) details += `${monthData.detail}\n\n`;
+        if (monthData.tip) details += `${t("monthlyTip")} ${monthData.tip}\n\n`;
 
-        if (monthData.monthDetails) {
-          text += `${monthData.monthDetails}\n\n`;
+        let text;
+        if (lang === "en") {
+          text = t("monthlyShareText", {
+            monthLabel: monthLabel,
+            summary: monthData.summary,
+            details: details,
+            tags: tagsText
+          });
+        } else {
+          text = `🔮 ${monthLabel} 운세\n\n`;
+          text += `${monthData.summary}\n\n`;
+          text += details;
+          text += `태그: ${tagsText}\n`;
+          text += `\n#사주풀이 #신년운세 #${monthLabel}운세\n\n`;
+          text += `🔮 사주풀이 서비스: https://saju.funnyfunny.cloud/`;
         }
-        if (monthData.extra) {
-          text += `${monthData.extra}\n\n`;
-        }
-        if (monthData.detail) {
-          text += `${monthData.detail}\n\n`;
-        }
-        if (monthData.tip) {
-          text += `💡 팁: ${monthData.tip}\n\n`;
-        }
-
-        text += `태그: ${tagsText}\n`;
-        text += `\n#사주풀이 #신년운세 #${monthLabel}운세\n\n`;
-        text += `🔮 사주풀이 서비스: https://saju.funnyfunny.cloud/`;
 
         try {
           await navigator.clipboard.writeText(text);
-          alert(`${monthLabel} 운세가 클립보드에 복사되었습니다!`);
+          alert(t("monthlyShareCopied", { monthLabel }));
         } catch (err) {
           // 클립보드 API가 없거나 실패한 경우
           const textarea = document.createElement("textarea");
@@ -3705,9 +3712,9 @@
           textarea.select();
           try {
             document.execCommand("copy");
-            alert(`${monthLabel} 운세가 클립보드에 복사되었습니다!`);
+            alert(t("monthlyShareCopied", { monthLabel }));
           } catch (e) {
-            prompt("복사할 내용:", text);
+            prompt(lang === "en" ? "Copy content:" : "복사할 내용:", text);
           }
           document.body.removeChild(textarea);
         }
@@ -3717,16 +3724,18 @@
   9. 렌더
 ====================================================== */
       function renderSummary(totalScore, firedRules, toneKey, coupleElements) {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const summary = generateSummary(totalScore);
-        totalScoreEl.textContent = `${totalScore}점`;
+        totalScoreEl.textContent = lang === "en" ? `${totalScore} points` : `${totalScore}점`;
         summaryMain.textContent = softenText(summary);
-        summarySub.textContent = "입력 시간대 기준 · 절기/오행 규칙";
+        summarySub.textContent = t("summarySub");
 
         const { top, weak } = getTopWeak(coupleElements);
         const pills = [
-          `핵심 오행: ${top}`,
-          `약한 오행: ${weak}`,
-          `발동 룰: ${firedRules.length}개`,
+          t("summaryPillCore", { top }),
+          t("summaryPillWeak", { weak }),
+          t("summaryPillRules", { count: firedRules.length }),
         ];
         summaryPills.innerHTML = pills
           .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
@@ -3734,8 +3743,9 @@
       }
 
       function renderRules(firedRules, toneKey, tokens) {
+        const t = window.t || ((key, vars = {}) => key);
         if (!firedRules.length) {
-          ruleList.innerHTML = `<p class="mini">발동된 룰이 아직 없어. 입력값을 확인해줘.</p>`;
+          ruleList.innerHTML = `<p class="mini">${t("ruleNoRules")}</p>`;
           return;
         }
         const ruleLabel = (id) => {
@@ -3791,12 +3801,13 @@
               r.section === "돈"
                 ? toneExtraTip("money")
                 : toneExtraTip("conflict");
+            const t = window.t || ((key, vars = {}) => key);
             const strength = Math.round(r.activationScore * 100);
             const insight =
               r.section === "돈"
-                ? "돈 흐름은 규칙 합의가 있을수록 안정된다."
+                ? t("ruleInsightMoney")
                 : r.section === "건강"
-                ? "리듬이 맞을수록 컨디션 회복이 빠르다."
+                ? t("ruleInsightHealth")
                 : r.section === "일"
                 ? "속도보다 방향 정렬이 성과를 만든다."
                 : r.section === "관계"
@@ -4518,22 +4529,41 @@
       }
 
       function renderDeepBlock(label, person) {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const yongshin = getYongshinSuggestion(person);
-        const yongText = yongshin.length
-          ? yongshin.map((y) => `${y.elem}(${y.reason})`).join(", ")
-          : "—";
+        let yongText;
+        if (lang === "en") {
+          yongText = yongshin.length
+            ? yongshin.map((y) => {
+                const reasonMap = {
+                  [`약한 ${person.weakElem} 보완`]: `Supplement weak ${person.weakElem}`,
+                  [`강한 ${person.topElem} 조절`]: `Control strong ${person.topElem}`,
+                  "균형 유지": "Maintain balance"
+                };
+                return `${y.elem}(${reasonMap[y.reason] || y.reason})`;
+              }).join(", ")
+            : "—";
+        } else {
+          yongText = yongshin.length
+            ? yongshin.map((y) => `${y.elem}(${y.reason})`).join(", ")
+            : "—";
+        }
         const season =
           person.monthBranch && person.seasonTopElem
             ? `${person.monthBranch}(${person.seasonTopElem})`
             : "—";
-        const seasonLine =
-          person.seasonTopElem && person.topElem === person.seasonTopElem
-            ? "월령과 강점이 같아서 자연스럽게 힘이 실리는 흐름이야."
-            : "월령과 강점이 달라서 조율과 보완이 중요해.";
-        const currentLine = formatElemLine("현재 오행:", person.elements);
+        const seasonLine = person.seasonTopElem && person.topElem === person.seasonTopElem
+          ? t("deepSeasonSame")
+          : t("deepSeasonDifferent");
+        const currentLine = formatElemLine(t("deepCurrent"), person.elements);
         const dayStemLine = person.dayStem
-          ? `일간: ${person.dayStem}(${person.dayElem}) · ${person.strength}`
-          : "일간: —";
+          ? t("deepDayStem", {
+              dayStem: person.dayStem,
+              dayElem: person.dayElem,
+              strength: person.strength
+            })
+          : t("deepDayStem", { dayStem: "—", dayElem: "—", strength: "—" });
         const branches = [
           person.yearBranch,
           person.monthBranch,
@@ -4543,23 +4573,30 @@
         const hap = listInternalPairs(branches, LIUHE);
         const chung = listInternalPairs(branches, CHUNG);
         const hyeong = listInternalHyeong(branches);
-        const relationLine = `합: ${hap.length ? hap.join(", ") : "—"} · 충: ${
-          chung.length ? chung.join(", ") : "—"
-        } · 형: ${hyeong.length ? hyeong.join(", ") : "—"}`;
-        const relationExplain = `합은 서로 돕는 결이라 호흡이 부드럽고, 충은 부딪힘이 생겨 타이밍 조절이 필요해. 형은 마찰이나 긴장이 생기기 쉬운 결이야. ${
-          hyeong.length
-            ? `현재 형: ${hyeong.join(
-                ", "
-              )}이니까 말투/속도를 줄이면 충돌이 줄어들어.`
-            : "형이 적어서 큰 마찰은 덜해."
-        }`;
+        const relationLine = t("deepRelation", {
+          hap: hap.length ? hap.join(", ") : "—",
+          chung: chung.length ? chung.join(", ") : "—",
+          hyeong: hyeong.length ? hyeong.join(", ") : "—"
+        });
+        let relationExplain;
+        if (lang === "en") {
+          relationExplain = t("deepRelationExplain", {
+            hyeongNote: hyeong.length
+              ? t("deepRelationHyeongNote", { hyeong: hyeong.join(", ") })
+              : t("deepRelationHyeongNone")
+          });
+        } else {
+          relationExplain = t("deepRelationExplain", {
+            hyeongNote: hyeong.length
+              ? t("deepRelationHyeongNote", { hyeong: hyeong.join(", ") })
+              : t("deepRelationHyeongNone")
+          });
+        }
         return `
           <div class="rule-card">
             <div class="mini">${escapeHtml(dayStemLine)}</div>
-            <div class="mini">용신: ${escapeHtml(yongText)}</div>
-            <div class="mini">격국: 월지 ${escapeHtml(
-              season
-            )} 중심. ${escapeHtml(seasonLine)}</div>
+            <div class="mini">${t("deepYongshin", { yongText: escapeHtml(yongText) })}</div>
+            <div class="mini">${t("deepGyeokguk", { season: escapeHtml(season), seasonLine: escapeHtml(seasonLine) })}</div>
             <div class="mini">${escapeHtml(currentLine)}</div>
             <div class="mini">${escapeHtml(relationLine)}</div>
             <div class="mini">${escapeHtml(relationExplain)}</div>
@@ -4835,7 +4872,19 @@
         수: "정보/환경",
       };
       function elemMeaning(elem) {
-        return ELEM_MEANING[elem] || "기운";
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
+        if (lang === "en") {
+          const map = {
+            목: t("elemWood"),
+            화: t("elemFire"),
+            토: t("elemEarth"),
+            금: t("elemMetal"),
+            수: t("elemWater"),
+          };
+          return map[elem] || t("elemGeneric");
+        }
+        return ELEM_MEANING[elem] || t("elemGeneric");
       }
       function hasFinalConsonant(word) {
         if (!word) return false;
@@ -4927,13 +4976,14 @@
         return { year, pillar, yearElem, mode, yearTenGod };
       }
       function yearStrategy(mode) {
-        if (mode === "push") return { todo: "확장/추진", avoid: "우유부단" };
+        const t = window.t || ((key, vars = {}) => key);
+        if (mode === "push") return { todo: t("strategyPush"), avoid: t("avoidPush") };
         if (mode === "pushPlus")
-          return { todo: "확장+회복 동시", avoid: "무리한 확장" };
+          return { todo: t("strategyPushPlus"), avoid: t("avoidPushPlus") };
         if (mode === "recover")
-          return { todo: "정리/회복", avoid: "새 판 벌리기" };
-        if (mode === "brake") return { todo: "속도 조절", avoid: "과속/모험" };
-        return { todo: "기본 유지", avoid: "급변" };
+          return { todo: t("strategyRecover"), avoid: t("avoidRecover") };
+        if (mode === "brake") return { todo: t("strategyBrake"), avoid: t("avoidBrake") };
+        return { todo: t("strategySteady"), avoid: t("avoidSteady") };
       }
       function renderStructuredReport(person, result) {
         const scaled = scaleElements(person.elements, 150);
@@ -4949,7 +4999,8 @@
         const gwanSalSummary = tenStats.gwanMix ? "관살혼잡" : "관살 단정";
         const sikSummary = tenStats.hasSikshin ? "식신 존재" : "식신 약함";
         const waterPct = elementPercent(person.elements, "수");
-        const genderLabel = person.gender === "female" ? "여자" : "남자";
+        const t = window.t || ((key, vars = {}) => key);
+        const genderLabel = person.gender === "female" ? t("genderFemale") : t("genderMale");
 
         const branches = [
           person.yearBranch,
@@ -4964,73 +5015,102 @@
           chung.length ? chung.join(", ") : "—"
         } · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
 
+        const t = window.t || ((key, vars = {}) => key);
         const topMeaning = elemMeaning(person.topElem);
-        const coreDef = `이 사주는 ${person.topElem} 기운이 두드러지고 ${
-          person.weakElem
-        } 기운이 약한 구조로, ${topMeaning}${topicParticle(
-          topMeaning
-        )} 강점이지만 ${elemMeaning(
-          person.weakElem
-        )}에서 반복 갈등이 생기는 형이다.`;
-        const coreEvidence = `근거: 오행 분포 ${formatScaledElements(
-          scaled.scaled
-        )} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${
-          profile.mid
-        } / ${profile.weak}.`;
-        const coreDerived = `파생: ${person.topElem} 기운 쪽으로 몰려 반응은 빠르지만, ${person.weakElem} 기운의 약점이 드러나는 순간 판단이 흔들린다.`;
+        const weakMeaning = elemMeaning(person.weakElem);
+        const lang = window.currentLang || "ko";
+        let coreDef, coreEvidence, coreDerived;
+        if (lang === "en") {
+          coreDef = `This fortune has prominent ${person.topElem} energy and weak ${person.weakElem} energy structure. ${topMeaning} is a strength, but conflicts repeatedly arise in ${weakMeaning}.`;
+          coreEvidence = `Evidence: Five Elements distribution ${formatScaledElements(scaled.scaled)} (based on total ${scaled.total}). Strong/Mid/Weak ${profile.strong} / ${profile.mid} / ${profile.weak}.`;
+          coreDerived = `Derived: Reacts quickly as energy concentrates toward ${person.topElem}, but judgment wavers when the weakness of ${person.weakElem} energy is revealed.`;
+        } else {
+          coreDef = `이 사주는 ${person.topElem} 기운이 두드러지고 ${person.weakElem} 기운이 약한 구조로, ${topMeaning}${topicParticle(topMeaning)} 강점이지만 ${weakMeaning}에서 반복 갈등이 생기는 형이다.`;
+          coreEvidence = `근거: 오행 분포 ${formatScaledElements(scaled.scaled)} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${profile.mid} / ${profile.weak}.`;
+          coreDerived = `파생: ${person.topElem} 기운 쪽으로 몰려 반응은 빠르지만, ${person.weakElem} 기운의 약점이 드러나는 순간 판단이 흔들린다.`;
+        }
 
         const weakMeaning = elemMeaning(person.weakElem);
-        const conflictOne = `${person.topElem} 기운이 강해서 ${elemMeaning(
-          person.topElem
-        )}에 의존하려는 습관이 커진다. 그런데 ${
-          person.weakElem
-        } 기운이 약해서 ${weakMeaning}${subjectParticle(
-          weakMeaning
-        )} 흔들릴 때 선택이 뒤집힌다.`;
-        const conflictTwo = tenStats.gwanMix
-          ? "관이 혼잡하니까 규칙을 지키려는 마음과 벗어나려는 마음이 동시에 올라와 결정이 갈라진다."
-          : tenStats.gwanCount >= 2
-          ? "관이 많아서 책임을 떠안는 방향으로 굳어지는데, 신강이면 통제 집착이 생겨 갈등이 반복된다."
-          : "관이 약한 편이면 기준이 쉽게 흔들려 관계/직업 선택이 들쭉날쭉해진다.";
+        const topMeaningForConflict = elemMeaning(person.topElem);
+        let conflictOne, conflictTwo;
+        if (lang === "en") {
+          conflictOne = `${person.topElem} energy is strong, so the habit of relying on ${topMeaningForConflict} grows. However, ${person.weakElem} energy is weak, so when ${weakMeaning} wavers, choices are reversed.`;
+          conflictTwo = tenStats.gwanMix
+            ? "Gwan is mixed, so the desire to follow rules and the desire to break free arise simultaneously, splitting decisions."
+            : tenStats.gwanCount >= 2
+            ? "Gwan is many, so it solidifies toward taking responsibility, but if strong, control obsession arises and conflicts repeat."
+            : "Gwan is relatively weak, so standards easily waver and relationship/career choices become inconsistent.";
+        } else {
+          conflictOne = `${person.topElem} 기운이 강해서 ${topMeaningForConflict}에 의존하려는 습관이 커진다. 그런데 ${person.weakElem} 기운이 약해서 ${weakMeaning}${subjectParticle(weakMeaning)} 흔들릴 때 선택이 뒤집힌다.`;
+          conflictTwo = tenStats.gwanMix
+            ? "관이 혼잡하니까 규칙을 지키려는 마음과 벗어나려는 마음이 동시에 올라와 결정이 갈라진다."
+            : tenStats.gwanCount >= 2
+            ? "관이 많아서 책임을 떠안는 방향으로 굳어지는데, 신강이면 통제 집착이 생겨 갈등이 반복된다."
+            : "관이 약한 편이면 기준이 쉽게 흔들려 관계/직업 선택이 들쭉날쭉해진다.";
+        }
 
-        const moneyRisk = `재물: ${
-          person.weakElem === "금" || tenStats.jaeCount <= 1
-            ? "보상 체감이 약해서 돈이 새기 쉽다."
-            : "수입은 들어오는데 관리가 느슨해지기 쉽다."
-        } 근거: ${jaeSummary} · ${
-          person.weakElem
-        } 기운 약. 행동: 월 기준 수치화 + 고정 정산 루틴을 만들어.`;
-        const workRisk = `직업: ${
-          tenStats.gwanCount >= 2
-            ? "책임이 과도하게 몰리고 역할이 확장된다."
-            : "역할 경계가 흐려져 잡무로 소모된다."
-        } 근거: ${gwanSummary}. 행동: 역할 범위를 문서로 고정하고, 아닌 일은 거절해.`;
-        const relationRisk = `관계: ${
-          hyeong.length || chung.length
-            ? "마찰 포인트가 반복돼 감정이 쉽게 상한다."
-            : "큰 충돌은 적지만 작은 불씨가 쌓인다."
-        } 근거: ${relationLine}. 행동: 감정은 24시간 뒤에 정리해서 말해.`;
+        let moneyRisk, workRisk, relationRisk;
+        if (lang === "en") {
+          moneyRisk = `Wealth: ${
+            person.weakElem === "금" || tenStats.jaeCount <= 1
+              ? "Reward perception is weak, so money easily leaks."
+              : "Income comes in but management easily becomes loose."
+          } Evidence: ${jaeSummary} · ${person.weakElem} energy weak. Action: Quantify by month + create fixed settlement routine.`;
+          workRisk = `Career: ${
+            tenStats.gwanCount >= 2
+              ? "Responsibility is excessively concentrated and roles expand."
+              : "Role boundaries blur and consumed by miscellaneous tasks."
+          } Evidence: ${gwanSummary}. Action: Fix role scope in writing and reject non-role tasks.`;
+          relationRisk = `Relationships: ${
+            hyeong.length || chung.length
+              ? "Friction points repeat and emotions are easily hurt."
+              : "Major conflicts are few but small sparks accumulate."
+          } Evidence: ${relationLine}. Action: Organize emotions after 24 hours before speaking.`;
+        } else {
+          moneyRisk = `재물: ${
+            person.weakElem === "금" || tenStats.jaeCount <= 1
+              ? "보상 체감이 약해서 돈이 새기 쉽다."
+              : "수입은 들어오는데 관리가 느슨해지기 쉽다."
+          } 근거: ${jaeSummary} · ${person.weakElem} 기운 약. 행동: 월 기준 수치화 + 고정 정산 루틴을 만들어.`;
+          workRisk = `직업: ${
+            tenStats.gwanCount >= 2
+              ? "책임이 과도하게 몰리고 역할이 확장된다."
+              : "역할 경계가 흐려져 잡무로 소모된다."
+          } 근거: ${gwanSummary}. 행동: 역할 범위를 문서로 고정하고, 아닌 일은 거절해.`;
+          relationRisk = `관계: ${
+            hyeong.length || chung.length
+              ? "마찰 포인트가 반복돼 감정이 쉽게 상한다."
+              : "큰 충돌은 적지만 작은 불씨가 쌓인다."
+          } 근거: ${relationLine}. 행동: 감정은 24시간 뒤에 정리해서 말해.`;
+        }
 
         const strongElem =
           profile.strong !== "—" ? profile.strong : person.topElem;
         const midElem = profile.mid !== "—" ? profile.mid : person.topElem;
-        const strengthUse = `강한 오행(${strongElem})은 ${strongElem
-          .split(" · ")
-          .map((e) => elemMeaning(e))
-          .join(
-            "·"
-          )}에 쓰면 효율이 높다. 중간 오행(${midElem})은 실행 속도와 유지력을 보조하는 쪽으로 붙여.`;
-        const workStyle = `일 처리 방식은 "정보를 모으고 -> 기준을 자르고 -> 한 번에 밀어붙이기"가 맞다. 커리어는 반복성과 구조가 있는 기획/운영/관리 쪽이 유리하다.`;
-
-        const romanceReason = `연애가 어려운 이유는 ${jaeSummary}과 ${person.topElem} 기운 과다로 확신이 늦게 붙고, 반응이 과해지기 때문이다.`;
-        const matchCondition = `잘 맞는 상대는 감정 기복이 적고 생활 리듬이 일정하며, 말보다 약속을 지키는 사람이다.`;
-
-        const jobDirection = `안정적인 직장이 유리한 이유는 ${gwanSummary} 구조가 규칙 안에서 성과를 내는 방식이기 때문이다.`;
-        const moneyDirection = `투자/모험이 불리한 이유는 ${
-          person.weakElem === "금" || tenStats.jaeCount <= 1
-            ? "결과 체감이 약해 손익 판단이 늦어지기 때문"
-            : "리스크 관리가 느슨해지기 때문"
-        }이다. 재물은 속도가 아니라 구조로 늘린다: 지출 기준, 수입 분배, 정산 주기를 고정해.`;
+        let strengthUse, workStyle, romanceReason, matchCondition, jobDirection, moneyDirection;
+        if (lang === "en") {
+          strengthUse = `Strong Five Elements (${strongElem}) are highly efficient when used in ${strongElem.split(" · ").map((e) => elemMeaning(e)).join("·")}. Mid Five Elements (${midElem}) should be attached to assist execution speed and maintenance.`;
+          workStyle = `Work processing method is "gather information -> set criteria -> push through at once." Career is favorable in planning/operations/management with repetition and structure.`;
+          romanceReason = `Romance is difficult because ${jaeSummary} and excessive ${person.topElem} energy cause confidence to attach late and reactions to become excessive.`;
+          matchCondition = `A good match is someone with few emotional fluctuations, consistent life rhythm, and who keeps promises rather than just words.`;
+          jobDirection = `Stable workplace is favorable because ${gwanSummary} structure produces results within rules.`;
+          moneyDirection = `Investment/adventure is unfavorable because ${
+            person.weakElem === "금" || tenStats.jaeCount <= 1
+              ? "result perception is weak, delaying profit/loss judgment"
+              : "risk management becomes loose"
+          }. Wealth increases through structure, not speed: fix spending standards, income distribution, settlement cycle.`;
+        } else {
+          strengthUse = `강한 오행(${strongElem})은 ${strongElem.split(" · ").map((e) => elemMeaning(e)).join("·")}에 쓰면 효율이 높다. 중간 오행(${midElem})은 실행 속도와 유지력을 보조하는 쪽으로 붙여.`;
+          workStyle = `일 처리 방식은 "정보를 모으고 -> 기준을 자르고 -> 한 번에 밀어붙이기"가 맞다. 커리어는 반복성과 구조가 있는 기획/운영/관리 쪽이 유리하다.`;
+          romanceReason = `연애가 어려운 이유는 ${jaeSummary}과 ${person.topElem} 기운 과다로 확신이 늦게 붙고, 반응이 과해지기 때문이다.`;
+          matchCondition = `잘 맞는 상대는 감정 기복이 적고 생활 리듬이 일정하며, 말보다 약속을 지키는 사람이다.`;
+          jobDirection = `안정적인 직장이 유리한 이유는 ${gwanSummary} 구조가 규칙 안에서 성과를 내는 방식이기 때문이다.`;
+          moneyDirection = `투자/모험이 불리한 이유는 ${
+            person.weakElem === "금" || tenStats.jaeCount <= 1
+              ? "결과 체감이 약해 손익 판단이 늦어지기 때문"
+              : "리스크 관리가 느슨해지기 때문"
+          }이다. 재물은 속도가 아니라 구조로 늘린다: 지출 기준, 수입 분배, 정산 주기를 고정해.`;
+        }
 
         const tzOffsetMinutes = person.tzOffsetMinutes ?? 540;
         const dstMode = person.dstMode || "off";
@@ -5038,97 +5118,114 @@
         const decades = summarizeDecades(flows).slice(0, 2);
         const decadeLines = decades.map((d) => {
           const strategy = yearStrategy(d.mode);
-          return `${d.range}: ${yearModeText(d.mode)}. 해야 할 것: ${
-            strategy.todo
-          }. 피해야 할 것: ${strategy.avoid}.`;
+          if (lang === "en") {
+            return `${d.range}: ${yearModeText(d.mode)}. To do: ${strategy.todo}. To avoid: ${strategy.avoid}.`;
+          }
+          return `${d.range}: ${yearModeText(d.mode)}. 해야 할 것: ${strategy.todo}. 피해야 할 것: ${strategy.avoid}.`;
         });
         const y2026 = yearModeFor(person, 2026);
         const y2026Strategy = yearStrategy(y2026.mode);
-        const yearLine2026 = `2026년: ${yearModeText(
-          y2026.mode
-        )}. 해야 할 것: ${y2026Strategy.todo}. 피해야 할 것: ${
-          y2026Strategy.avoid
-        }.`;
+        let yearLine2026;
+        if (lang === "en") {
+          yearLine2026 = `2026: ${yearModeText(y2026.mode)}. To do: ${y2026Strategy.todo}. To avoid: ${y2026Strategy.avoid}.`;
+        } else {
+          yearLine2026 = `2026년: ${yearModeText(y2026.mode)}. 해야 할 것: ${y2026Strategy.todo}. 피해야 할 것: ${y2026Strategy.avoid}.`;
+        }
 
-        const finalAttitudes = [
-          "판단 기준은 감정이 아니라 룰로 고정해.",
-          "속도보다 루틴을 고정해.",
-          "관계는 약속 지키고 선을 분명히 하면 유지돼.",
-        ];
+        let finalAttitudes;
+        if (lang === "en") {
+          finalAttitudes = [
+            "Fix judgment criteria with rules, not emotions.",
+            "Fix routines rather than speed.",
+            "Relationships are maintained by keeping promises and setting clear boundaries.",
+          ];
+        } else {
+          finalAttitudes = [
+            "판단 기준은 감정이 아니라 룰로 고정해.",
+            "속도보다 루틴을 고정해.",
+            "관계는 약속 지키고 선을 분명히 하면 유지돼.",
+          ];
+        }
 
+        let waterPctNote;
+        if (lang === "en") {
+          waterPctNote = `Water energy ratio: ${waterPct}% · This ratio is greatly influenced by environment/situation, so setting standards first reduces wavering.`;
+        } else {
+          waterPctNote = `수 기운 비중: ${waterPct}% · 이 비중은 환경/상황 영향이 큰 편이라 기준을 먼저 잡아야 흔들림이 줄어.`;
+        }
+        let finalNote;
+        if (lang === "en") {
+          finalNote = "Walking calmly also builds good results.";
+        } else {
+          finalNote = "차분히 걸어가도 좋은 결과가 쌓여.";
+        }
         return `
           <div class="rule-card">
-            <div class="section-title">본질 리포트</div>
-            <div class="mini">기본 정보: ${genderLabel} · 일간 ${
-          person.dayStem || "—"
-        }(${person.dayElem || "—"}) · 강약 ${
-          person.strength || "—"
-        } · ${relationLine}</div>
+            <div class="section-title">${t("reportCoreTitle")}</div>
+            <div class="mini">${t("reportBasicInfo", {
+              gender: genderLabel,
+              dayStem: person.dayStem || "—",
+              dayElem: person.dayElem || "—",
+              strength: person.strength || "—",
+              relationLine: relationLine
+            })}</div>
             <br>
             <div class="report-section">
-              <h3>1️⃣ 사주 구조 핵심 요약</h3>
+              <h3>${t("reportSection1")}</h3>
               <p class="mini">${escapeHtml(softenText(coreDef))}</p>
               <p class="mini">${escapeHtml(softenText(coreEvidence))}</p>
               <p class="mini">${escapeHtml(softenText(coreDerived))}</p>
-              <p class="mini">정리된 구조를 알면 방향이 더 선명해져.</p>
+              <p class="mini">${t("reportNote1")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>2️⃣ 이 사주의 평생 핵심 과제</h3>
+              <h3>${t("reportSection2")}</h3>
               <p class="mini">1) ${escapeHtml(softenText(conflictOne))}</p>
               <p class="mini">2) ${escapeHtml(softenText(conflictTwo))}</p>
-              <p class="mini">과제를 알면 선택이 더 부드러워져.</p>
+              <p class="mini">${t("reportNote2")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>3️⃣ 꼭 챙겨야 할 포인트 3가지</h3>
+              <h3>${t("reportSection3")}</h3>
               <p class="mini">${escapeHtml(softenText(moneyRisk))}</p>
               <p class="mini">${escapeHtml(softenText(workRisk))}</p>
               <p class="mini">${escapeHtml(softenText(relationRisk))}</p>
-              <p class="mini">지킬 포인트를 잡으면 운이 더 안정돼.</p>
+              <p class="mini">${t("reportNote3")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>4️⃣ 강점 활용 전략 (현실 적용)</h3>
+              <h3>${t("reportSection4")}</h3>
               <p class="mini">${escapeHtml(softenText(strengthUse))}</p>
               <p class="mini">${escapeHtml(softenText(workStyle))}</p>
-              <p class="mini">${escapeHtml(
-                softenText(
-                  `수 기운 비중: ${waterPct}% · 이 비중은 환경/상황 영향이 큰 편이라 기준을 먼저 잡아야 흔들림이 줄어.`
-                )
-              )}</p>
-              <p class="mini">강점을 살리면 성과가 자연스럽게 따라와.</p>
+              <p class="mini">${escapeHtml(softenText(waterPctNote))}</p>
+              <p class="mini">${t("reportNote4")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>5️⃣ 관계 해석 (중요)</h3>
+              <h3>${t("reportSection5")}</h3>
               <p class="mini">${escapeHtml(softenText(romanceReason))}</p>
               <p class="mini">${escapeHtml(softenText(matchCondition))}</p>
-              <p class="mini">관계는 천천히 다져도 충분히 좋아져.</p>
+              <p class="mini">${t("reportNote5")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>6️⃣ 직업·재물 방향</h3>
+              <h3>${t("reportSection6")}</h3>
               <p class="mini">${escapeHtml(softenText(jobDirection))}</p>
               <p class="mini">${escapeHtml(softenText(moneyDirection))}</p>
-              <p class="mini">좋은 방향을 고르면 흐름이 더 편안해져.</p>
+              <p class="mini">${t("reportNote6")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>7️⃣ 대운·세운 해석 (전략 중심)</h3>
-              <p class="mini">${escapeHtml(
-                softenText(decadeLines.join(" "))
-              )}</p>
+              <h3>${t("reportSection7")}</h3>
+              <p class="mini">${escapeHtml(softenText(decadeLines.join(" ")))}</p>
               <p class="mini">${escapeHtml(softenText(yearLine2026))}</p>
-              <p class="mini">흐름을 읽으면 기회가 더 잘 보여.</p>
+              <p class="mini">${t("reportNote7")}</p>
             </div>
             <br>
             <div class="report-section">
-              <h3>8️⃣ 최종 총평 (현실적인 조언)</h3>
-              <p class="mini">${escapeHtml(
-                softenText(finalAttitudes.join(" "))
-              )}</p>
-              <p class="mini">차분히 걸어가도 좋은 결과가 쌓여.</p>
+              <h3>${t("reportSection8")}</h3>
+              <p class="mini">${escapeHtml(softenText(finalAttitudes.join(" ")))}</p>
+              <p class="mini">${finalNote}</p>
             </div>
           </div>
         `;
@@ -5192,25 +5289,27 @@
       }
 
       function yearModeText(mode) {
+        const t = window.t || ((key, vars = {}) => key);
         const map = {
-          push: "확장/추진에 유리",
-          pushPlus: "성과+회복 동시",
-          recover: "정리/회복에 유리",
-          brake: "속도 조절 추천",
-          steady: "기본 유지",
+          push: t("yearModePush"),
+          pushPlus: t("yearModePushPlus"),
+          recover: t("yearModeRecover"),
+          brake: t("yearModeBrake"),
+          steady: t("yearModeSteady"),
         };
-        return map[mode] || "기본 유지";
+        return map[mode] || t("yearModeSteady");
       }
 
       function monthModeText(mode) {
+        const t = window.t || ((key, vars = {}) => key);
         const map = {
-          push: "추진",
-          pushPlus: "추진+회복",
-          recover: "회복",
-          brake: "조절",
-          steady: "유지",
+          push: t("monthModePush"),
+          pushPlus: t("monthModePushPlus"),
+          recover: t("monthModeRecover"),
+          brake: t("monthModeBrake"),
+          steady: t("monthModeSteady"),
         };
-        return map[mode] || "유지";
+        return map[mode] || t("monthModeSteady");
       }
 
       function formatMonthTags(tags) {
@@ -5940,8 +6039,9 @@
           alert("입력 후 계산해줘.");
           return;
         }
+        const t = window.t || ((key, vars = {}) => key);
         if (!window.html2canvas || !window.jspdf) {
-          alert("PDF 라이브러리가 준비되지 않았어.");
+          alert(t("alertPDFNotReady"));
           return;
         }
 
@@ -6265,6 +6365,112 @@
           alertADateRequired: "A 날짜와 12간지를 선택해줘.",
           alertBDateRequired: "B 날짜와 12간지를 선택해줘.",
           alertError: "계산 중 오류가 생겼어. 입력값 확인해줘.\n오류: {error}",
+          // 오행 의미
+          elemWood: "성장/기획",
+          elemFire: "추진/표현",
+          elemEarth: "안정/관리",
+          elemMetal: "결과/보상",
+          elemWater: "정보/환경",
+          elemGeneric: "기운",
+          // 연도 모드
+          yearModePush: "확장/추진에 유리",
+          yearModePushPlus: "성과+회복 동시",
+          yearModeRecover: "정리/회복에 유리",
+          yearModeBrake: "속도 조절 추천",
+          yearModeSteady: "기본 유지",
+          // 연도 전략
+          strategyPush: "확장/추진",
+          strategyPushPlus: "확장+회복 동시",
+          strategyRecover: "정리/회복",
+          strategyBrake: "속도 조절",
+          strategySteady: "기본 유지",
+          avoidPush: "우유부단",
+          avoidPushPlus: "무리한 확장",
+          avoidRecover: "새 판 벌리기",
+          avoidBrake: "과속/모험",
+          avoidSteady: "급변",
+          // 월별 모드
+          monthModePush: "추진",
+          monthModePushPlus: "추진+회복",
+          monthModeRecover: "회복",
+          monthModeBrake: "조절",
+          monthModeSteady: "유지",
+          // 결과 화면 제목
+          resultElementsTitle: "오행 기운 분석",
+          resultDeepTitle: "심화 분석",
+          resultLuckTitle: "대운 · 세운",
+          resultReportTitle: "본질 리포트",
+          resultSummaryTitle: "궁합 요약",
+          resultTodayTitle: "🔮 오늘의 운세",
+          resultRulesTitle: "궁합 포인트",
+          resultMonthlyTitle: "2026 신년운세 (월별)",
+          resultRadarTitle: "섹션별 균형",
+          resultABTitle: "A/B 사주 요약",
+          shareCardTitle: "공유 · PDF",
+          btnShare: "공유",
+          btnPDF: "PDF 저장",
+          btnInputModify: "입력 수정",
+          btnRestart: "메뉴로",
+          btnShareMonthly: "📋 공유하기",
+          // 로딩
+          loadingTitle: "오행 균형 계산 중",
+          loadingDesc: "절기 기준으로 정밀하게 맞추는 중이야…",
+          // 리포트 섹션
+          reportSection1: "1️⃣ 사주 구조 핵심 요약",
+          reportSection2: "2️⃣ 이 사주의 평생 핵심 과제",
+          reportSection3: "3️⃣ 꼭 챙겨야 할 포인트 3가지",
+          reportSection4: "4️⃣ 강점 활용 전략 (현실 적용)",
+          reportSection5: "5️⃣ 관계 해석 (중요)",
+          reportSection6: "6️⃣ 직업·재물 방향",
+          reportSection7: "7️⃣ 대운·세운 해석 (전략 중심)",
+          reportSection8: "8️⃣ 최종 총평 (현실적인 조언)",
+          reportBasicInfo: "기본 정보: {gender} · 일간 {dayStem}({dayElem}) · 강약 {strength} · {relationLine}",
+          reportCoreTitle: "본질 리포트",
+          reportNote1: "정리된 구조를 알면 방향이 더 선명해져.",
+          reportNote2: "과제를 알면 선택이 더 부드러워져.",
+          reportNote3: "지킬 포인트를 잡으면 운이 더 안정돼.",
+          reportNote4: "강점을 살리면 성과가 자연스럽게 따라와.",
+          reportNote5: "관계는 천천히 다져도 충분히 좋아져.",
+          reportNote6: "좋은 방향을 고르면 흐름이 더 편안해져.",
+          reportNote7: "흐름을 읽으면 기회가 더 잘 보여.",
+          reportNote8: "차분히 걸어가도 좋은 결과가 쌓여.",
+          // 심화 분석
+          deepDayStem: "일간: {dayStem}({dayElem}) · {strength}",
+          deepYongshin: "용신: {yongText}",
+          deepGyeokguk: "격국: 월지 {season} 중심. {seasonLine}",
+          deepCurrent: "현재 오행:",
+          deepRelation: "합: {hap} · 충: {chung} · 형: {hyeong}",
+          deepRelationExplain: "합은 서로 돕는 결이라 호흡이 부드럽고, 충은 부딪힘이 생겨 타이밍 조절이 필요해. 형은 마찰이나 긴장이 생기기 쉬운 결이야. {hyeongNote}",
+          deepRelationHyeongNote: "현재 형: {hyeong}이니까 말투/속도를 줄이면 충돌이 줄어들어.",
+          deepRelationHyeongNone: "형이 적어서 큰 마찰은 덜해.",
+          deepSeasonSame: "월령과 강점이 같아서 자연스럽게 힘이 실리는 흐름이야.",
+          deepSeasonDifferent: "월령과 강점이 달라서 조율과 보완이 중요해.",
+          // 월별 운세
+          monthlyFlow: "{month}월 · {seasonElem} 흐름",
+          monthlyTip: "💡 팁:",
+          monthlyShareCopied: "{monthLabel} 운세가 클립보드에 복사되었습니다!",
+          monthlyShareText: "🔮 {monthLabel} 운세\n\n{summary}\n\n{details}\n\n태그: {tags}\n\n#사주풀이 #신년운세 #{monthLabel}운세\n\n🔮 사주풀이 서비스: https://saju.funnyfunny.cloud/",
+          // 운세 태그
+          luckGood: "길운",
+          luckBad: "흉운",
+          luckNeutral: "중운",
+          luckEnergy: "{elem} 기운",
+          // 궁합 룰
+          ruleNoRules: "발동된 룰이 아직 없어. 입력값을 확인해줘.",
+          ruleInsightMoney: "돈 흐름은 규칙 합의가 있을수록 안정된다.",
+          ruleInsightHealth: "리듬이 맞을수록 컨디션 회복이 빠르다.",
+          // 오늘의 운세
+          todayFortune: "오늘의 운세",
+          // 기타
+          summarySub: "입력 시간대 기준 · 절기/오행 규칙",
+          summaryPillCore: "핵심 오행: {top}",
+          summaryPillWeak: "약한 오행: {weak}",
+          summaryPillRules: "발동 룰: {count}개",
+          radarLegend: "관계의 전체 밸런스",
+          // 알림
+          alertInputRequired: "입력 후 계산해줘.",
+          alertPDFNotReady: "PDF 라이브러리가 준비되지 않았어.",
+          alertMonthCopied: "{monthLabel} 운세가 클립보드에 복사되었습니다!",
         },
         en: {
           metaTitle: "Fortune Telling · Compatibility · Today's Fortune · New Year Fortune",
@@ -6292,6 +6498,112 @@
           alertADateRequired: "Please select A date and 12 zodiac signs.",
           alertBDateRequired: "Please select B date and 12 zodiac signs.",
           alertError: "An error occurred during calculation. Please check your input.\nError: {error}",
+          // Element meanings
+          elemWood: "Growth/Planning",
+          elemFire: "Drive/Expression",
+          elemEarth: "Stability/Management",
+          elemMetal: "Result/Reward",
+          elemWater: "Information/Environment",
+          elemGeneric: "Energy",
+          // Year modes
+          yearModePush: "Favorable for expansion/drive",
+          yearModePushPlus: "Achievement + recovery simultaneously",
+          yearModeRecover: "Favorable for organization/recovery",
+          yearModeBrake: "Speed control recommended",
+          yearModeSteady: "Maintain basics",
+          // Year strategies
+          strategyPush: "Expansion/Drive",
+          strategyPushPlus: "Expansion + recovery simultaneously",
+          strategyRecover: "Organization/Recovery",
+          strategyBrake: "Speed control",
+          strategySteady: "Maintain basics",
+          avoidPush: "Indecision",
+          avoidPushPlus: "Excessive expansion",
+          avoidRecover: "Starting new ventures",
+          avoidBrake: "Speed/Adventure",
+          avoidSteady: "Sudden changes",
+          // Month modes
+          monthModePush: "Drive",
+          monthModePushPlus: "Drive + Recovery",
+          monthModeRecover: "Recovery",
+          monthModeBrake: "Control",
+          monthModeSteady: "Maintain",
+          // Result screen titles
+          resultElementsTitle: "Five Elements Energy Analysis",
+          resultDeepTitle: "Deep Analysis",
+          resultLuckTitle: "Major/Minor Fortune",
+          resultReportTitle: "Core Report",
+          resultSummaryTitle: "Compatibility Summary",
+          resultTodayTitle: "🔮 Today's Fortune",
+          resultRulesTitle: "Compatibility Points",
+          resultMonthlyTitle: "2026 New Year Fortune (Monthly)",
+          resultRadarTitle: "Section Balance",
+          resultABTitle: "A/B Fortune Summary",
+          shareCardTitle: "Share · PDF",
+          btnShare: "Share",
+          btnPDF: "Save PDF",
+          btnInputModify: "Modify Input",
+          btnRestart: "Back to Menu",
+          btnShareMonthly: "📋 Share",
+          // Loading
+          loadingTitle: "Calculating Five Elements Balance",
+          loadingDesc: "Precisely adjusting based on seasonal periods…",
+          // Report sections
+          reportSection1: "1️⃣ Core Summary of Fortune Structure",
+          reportSection2: "2️⃣ Lifetime Core Challenges",
+          reportSection3: "3️⃣ Three Key Points to Keep",
+          reportSection4: "4️⃣ Strength Utilization Strategy (Practical Application)",
+          reportSection5: "5️⃣ Relationship Interpretation (Important)",
+          reportSection6: "6️⃣ Career · Wealth Direction",
+          reportSection7: "7️⃣ Major/Minor Fortune Interpretation (Strategy Focus)",
+          reportSection8: "8️⃣ Final Summary (Practical Advice)",
+          reportBasicInfo: "Basic Info: {gender} · Day Stem {dayStem}({dayElem}) · Strength {strength} · {relationLine}",
+          reportCoreTitle: "Core Report",
+          reportNote1: "Knowing the organized structure makes the direction clearer.",
+          reportNote2: "Knowing the challenges makes choices smoother.",
+          reportNote3: "Grasping the points to keep makes fortune more stable.",
+          reportNote4: "Utilizing strengths naturally brings results.",
+          reportNote5: "Relationships can become good even if built slowly.",
+          reportNote6: "Choosing good directions makes the flow more comfortable.",
+          reportNote7: "Reading the flow makes opportunities more visible.",
+          reportNote8: "Walking calmly also builds good results.",
+          // Deep analysis
+          deepDayStem: "Day Stem: {dayStem}({dayElem}) · {strength}",
+          deepYongshin: "Yongshin: {yongText}",
+          deepGyeokguk: "Gyeokguk: Month Branch {season} centered. {seasonLine}",
+          deepCurrent: "Current Five Elements:",
+          deepRelation: "Hap: {hap} · Chung: {chung} · Hyeong: {hyeong}",
+          deepRelationExplain: "Hap is a bond that helps each other, making breathing smooth. Chung creates conflicts, requiring timing control. Hyeong is a bond that easily creates friction or tension. {hyeongNote}",
+          deepRelationHyeongNote: "Current Hyeong: {hyeong}, so reducing tone/speed reduces conflicts.",
+          deepRelationHyeongNone: "Hyeong is few, so major friction is less.",
+          deepSeasonSame: "Month order and strength are the same, so power naturally flows.",
+          deepSeasonDifferent: "Month order and strength differ, so coordination and supplementation are important.",
+          // Monthly fortune
+          monthlyFlow: "{month} Month · {seasonElem} Flow",
+          monthlyTip: "💡 Tip:",
+          monthlyShareCopied: "{monthLabel} fortune copied to clipboard!",
+          monthlyShareText: "🔮 {monthLabel} Fortune\n\n{summary}\n\n{details}\n\nTags: {tags}\n\n#FortuneTelling #NewYearFortune #{monthLabel}Fortune\n\n🔮 Fortune Telling Service: https://saju.funnyfunny.cloud/",
+          // Fortune tags
+          luckGood: "Good Fortune",
+          luckBad: "Bad Fortune",
+          luckNeutral: "Neutral Fortune",
+          luckEnergy: "{elem} Energy",
+          // Compatibility rules
+          ruleNoRules: "No rules activated yet. Please check your input.",
+          ruleInsightMoney: "Money flow becomes more stable with rule agreements.",
+          ruleInsightHealth: "The more rhythm matches, the faster condition recovery.",
+          // Today's fortune
+          todayFortune: "Today's Fortune",
+          // Others
+          summarySub: "Based on input timezone · Seasonal period/Five Elements rules",
+          summaryPillCore: "Core Element: {top}",
+          summaryPillWeak: "Weak Element: {weak}",
+          summaryPillRules: "Activated Rules: {count}",
+          radarLegend: "Overall relationship balance",
+          // Alerts
+          alertInputRequired: "Please calculate after input.",
+          alertPDFNotReady: "PDF library is not ready.",
+          alertMonthCopied: "{monthLabel} fortune copied to clipboard!",
         },
       };
 
