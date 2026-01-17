@@ -3551,7 +3551,46 @@
         ] : ["", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
         const monthLabel = monthLabels[month] || (lang === "en" ? `Month ${month}` : `${month}월`);
 
-        const templates = {
+        const templates = lang === "en" ? {
+          push: {
+            길: [
+              `${monthLabel} Good Fortune and Monthly Energy knock together, so even empty-handed you have the energy to succeed. Authority begins to enter, so gaining position and responsibility won't be lacking. If it's time to have children, there will be good news, and even within the family there will be news of pregnancy or marriage. If you welcome a new family member this year, the whole family will be fortunate, so welcome them as a noble person.`,
+              `${monthLabel} Energy is clear and fresh, bringing joy to everyone you meet. Love is good, family has joy, and new things bring busyness, so there's nothing bad. However, you may deal with minor illnesses due to health issues, so beware of overwork. The start is good, a sign that the year will be good. Meeting a noble person brings wealth, so it's not huge but a month with good income.`,
+            ],
+            중: [
+              `${monthLabel} Auspicious energy enters, blocking misfortune and finally allowing you to hold great intentions, so there's much busyness and much effort needed. If you don't work, you'll gain nothing, so if there are things to prepare, don't rely on others and move directly. The better connections you have, the more help you'll receive. Great Fortune slowly begins to enter, so you can feel the energy becoming lively.`,
+            ],
+          },
+          pushPlus: {
+            길: [
+              `${monthLabel} is a time with much affection, a time to love deeply. If you have a family, be careful not to let your eyes wander to other genders. My eyes are good, but it's also a beautiful time when the other looks at me. Popularity is high, your strengths are highlighted, and you'll receive praise from many. Good men and women will have good meetings with new encounters or lovers, receiving and giving proposals. Good results will come.`,
+            ],
+          },
+          brake: {
+            흉: [
+              `${monthLabel} A tiger that has exhausted its courage goes out to the field, becoming only prey for hunters. Ambition leads, so mistakes can be made, requiring caution in all things. Don't step forward, but show wisdom by lowering yourself, then there will be no aftermath. The southeast direction is the fortunate direction, where wealth dwells. This year the north is fortunate, but this month the southeast is the fortunate direction. If you restrain yourself, you'll lose nothing, so it's not too late to wait for the next.`,
+              `${monthLabel} If you don't put your wealth deep in your pocket, there will definitely be someone targeting it. Never make transactions about wealth with others. A patient will appear in the family, making it a month of worry. This month is a major turning point, and if you expand work newly, the solution won't be visible, so you must show much wisdom in waiting for the time. Resting is never too late.`,
+              `${monthLabel} The sun sets in the western mountains, the road ahead is far, like a step as busy as moving chopsticks. Two people's hearts differ, so work cannot be completed. The heart is the problem, and the problem is greed. There may be losses or conflicts, so be careful but don't approach Wood Star (木姓) in all things. The sun passes over the middle slope, the road ahead is far, and the pass to cross is still far away. Two people's hearts differ, so this seems to be the final difficulty. Greed must be abandoned, but this is also not easy.`,
+            ],
+            중: [
+              `${monthLabel} Misfortune transforms into fortune, so worldly affairs are peaceful and the mind is calm. Rarely, worries disappear, making it good to make new plans. However, rushing becomes harmful, so if you rush about busily outside, there will be loss. The final storm will come once more, so don't let your guard down just because it's fortunate. Being at home and making new plans makes the future even better, so keep this in mind.`,
+            ],
+          },
+          recover: {
+            중: [
+              `${monthLabel} Heaven and earth harmonize, so the benefit will arise as wealth or work. It's a fortune of abandoning small things to take big things, so you can forget existing things. Don't rush new investments yet. There's more good than bad, so if you calculate profit and loss, gains will definitely be large, but bringing in new wealth has risks, so restraint is needed. Going west is unfavorable, so beware and avoid moving in the western direction.`,
+              `${monthLabel} is a situation like rain falling on a dry spring. Finally, blocked things resolve and you feel refreshed. Things that were problems show signs of solution. The start of the year determines the whole year, and this year shows signs that things will resolve well. Your position and status greatly improve, preparing you to put your intentions into action. It's also a time to meet good connections, so interpersonal exchanges will increase.`,
+              `${monthLabel} There's someone around with wandering energy bothering you, so wealth doesn't go out but there's energy for the heart to be hurt. A close friend relies on you, so things arise that you must help with. If you take a big heart and help sincerely, good things will come later for both friend and self. If you accumulate hidden virtue to make it future joy, it's not misfortune but a time to accumulate virtue, so think of future virtue rather than your own and send it. Great joy will come soon.`,
+              `${monthLabel} Upper and lower are harmonious, so there are no problems at home. Harmony is the start of good fortune, so worries of worried family members will disappear. You've obtained the hexagram of a yellow dragon playing with a pearl, so you can achieve what you want to achieve. However, it's not yet the time, leaving regret, so don't rush to put things into practice. Don't forget to prepare thoroughly.`,
+            ],
+          },
+          steady: {
+            중: [
+              `${monthLabel} is a month where maintaining wins. Just keeping basics is enough. Just take care of 3 routines (sleep/meals/organization). It's a time to gather small gains and turn them into great fortune. Minor Fortune is calm, so sincerity is fortune.`,
+              `${monthLabel} Small improvements are better than big changes. Going with a 5% improvement goal brings steady wins. Reducing greed actually brings gains. Minor Fortune is stable, so small sincerity becomes great fortune.`,
+            ],
+          },
+        } : {
           push: {
             길: [
               `${monthLabel} 길운과 월성이 함께 문을 두드리니 맨손으로도 성공할 기운이야. 관록이 들기 시작하니 지위와 책임을 얻어도 부족함이 없어. 자손을 얻어야 할 시기라면 좋은 소식이 있을 거고, 가족 중에서라도 새 식구의 잉태나 혼인 소식이 있을 거야. 올해 새 식구를 맞이하게 되면 온 가족이 길해질 거니 귀인으로 맞이하자.`,
