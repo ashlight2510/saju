@@ -2004,11 +2004,12 @@
       }
 
       function renderTodayCoupleBox(aPerson, bPerson) {
+        const tFunc = window.t || ((key, vars = {}) => key);
         const t = todayAdvantage(aPerson, bPerson);
         todayCoupleLine.textContent = t.line;
         todayCoupleMeta.textContent = `A ${t.scoreA} vs B ${
           t.scoreB
-        } (오늘 오행: ${t.keys.join("/")})`;
+        } (${tFunc("todayElements")}: ${t.keys.join("/")})`;
       }
 
       /* ======================================================
