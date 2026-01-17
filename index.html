@@ -3885,16 +3885,23 @@
 
       function makeElementEvidence(elements, breakdown, top, low) {
         if (!breakdown) return "";
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const sum = (obj, key) => Math.round((obj?.[key] || 0) * 10) / 10;
+        const stemsLabel = lang === "en" ? "Stems" : "천간";
+        const branchesLabel = lang === "en" ? "Branches" : "지지";
+        const hiddenLabel = lang === "en" ? "Hidden" : "장간";
+        const seasonLabel = lang === "en" ? "Season" : "월령";
+        const weakLabel = lang === "en" ? "Weak" : "약한";
         const format = (elem) =>
-          `${elem} ${Math.round((elements[elem] || 0) * 10) / 10} = 천간 ${sum(
+          `${elem} ${Math.round((elements[elem] || 0) * 10) / 10} = ${stemsLabel} ${sum(
             breakdown.stems,
             elem
-          )} · 지지 ${sum(breakdown.branches, elem)} · 장간 ${sum(
+          )} · ${branchesLabel} ${sum(breakdown.branches, elem)} · ${hiddenLabel} ${sum(
             breakdown.hidden,
             elem
-          )} · 월령 ${sum(breakdown.season, elem)}`;
-        return `${format(top)} / 약한 ${format(low)}`;
+          )} · ${seasonLabel} ${sum(breakdown.season, elem)}`;
+        return `${format(top)} / ${weakLabel} ${format(low)}`;
       }
 
       function elementDeltaLines(elements) {
@@ -3932,14 +3939,28 @@
         return lines;
       }
       function getElementProsCons(topElem, lowElem) {
-        const pros = {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
+        const pros = lang === "en" ? {
+          목: "Strong in planning/growth, has good eyes for seeing flow long-term.",
+          화: "Strong in drive/expression, speed and energy attach well.",
+          토: "Strong in stability/management, has power to firmly establish foundations.",
+          금: "Strong in results/organization, fast in completion and achievement perception.",
+          수: "Strong in information/environment, responds flexibly to changes.",
+        } : {
           목: "기획/성장에 강점이 있어 흐름을 길게 보는 눈이 좋아.",
           화: "추진/표현에 강점이 있어 속도와 에너지가 잘 붙어.",
           토: "안정/관리에 강점이 있어 기반을 단단히 다지는 힘이 있어.",
           금: "결과/정리에 강점이 있어 마무리와 성과 체감이 빠른 편이야.",
           수: "정보/환경에 강점이 있어 변화에 유연하게 대응해.",
         };
-        const cons = {
+        const cons = lang === "en" ? {
+          목: "If biased toward planning, execution can slow. Moving quickly even if small is good.",
+          화: "As speed is fast, overheating is easy. Pace control protects results.",
+          토: "If stability is strong, change response can slow. Opening up from small changes is good.",
+          금: "If result focus is strong, pressure can increase. Enjoying the process makes it go longer.",
+          수: "As flexibility is great, standards can blur. Setting standards first is good.",
+        } : {
           목: "기획에 치우치면 실행이 느려질 수 있어. 작게라도 바로 움직이면 좋아.",
           화: "속도가 빠른 만큼 과열되기 쉬워. 페이스 조절이 성과를 지켜줘.",
           토: "안정이 강하면 변화 대응이 느릴 수 있어. 작은 변화부터 열어두면 좋아.",
@@ -3947,9 +3968,9 @@
           수: "유연함이 큰 만큼 기준이 흐려질 수 있어. 기준을 먼저 잡아두면 좋아.",
         };
         const prosText =
-          pros[topElem] || "강점이 분명해서 방향만 잡으면 성과가 잘 나와.";
+          pros[topElem] || (lang === "en" ? "Strengths are clear, so setting direction brings good results." : "강점이 분명해서 방향만 잡으면 성과가 잘 나와.");
         const consText =
-          cons[lowElem] || "약한 구간은 루틴으로 채우면 흐름이 안정돼.";
+          cons[lowElem] || (lang === "en" ? "Filling weak sections with routines stabilizes flow." : "약한 구간은 루틴으로 채우면 흐름이 안정돼.");
         return { prosText, consText };
       }
 
@@ -6236,7 +6257,7 @@
             ? hourBranchToTime(data.aHourBranch)
             : "12:00";
           if (!data.aDate) {
-            throw new Error("A 날짜가 비어 있어.");
+            throw new Error(lang === "en" ? "A date is empty." : "A 날짜가 비어 있어.");
           }
           const aBirth = parseLocalDateTime(
             data.aDate,
@@ -6246,7 +6267,9 @@
           );
           if (!aBirth || isNaN(aBirth.getTime())) {
             throw new Error(
-              "A 날짜/시간 파싱 실패: " + data.aDate + " " + aTimeStr
+              lang === "en" 
+                ? `A date/time parsing failed: ${data.aDate} ${aTimeStr}`
+                : `A 날짜/시간 파싱 실패: ${data.aDate} ${aTimeStr}`
             );
           }
           const aHourBranch = aIncludeHour ? data.aHourBranch : null;
@@ -6290,7 +6313,7 @@
               ? hourBranchToTime(data.bHourBranch)
               : "12:00";
             if (!data.bDate) {
-              throw new Error("B 날짜가 비어 있어.");
+              throw new Error(lang === "en" ? "B date is empty." : "B 날짜가 비어 있어.");
             }
             const bBirth = parseLocalDateTime(
               data.bDate,
@@ -6300,7 +6323,9 @@
             );
             if (!bBirth || isNaN(bBirth.getTime())) {
               throw new Error(
-                "B 날짜/시간 파싱 실패: " + data.bDate + " " + bTimeStr
+                lang === "en"
+                  ? `B date/time parsing failed: ${data.bDate} ${bTimeStr}`
+                  : `B 날짜/시간 파싱 실패: ${data.bDate} ${bTimeStr}`
               );
             }
             const bHourBranch = bIncludeHour ? data.bHourBranch : null;
@@ -6313,7 +6338,7 @@
               hourBranchOverride: bHourBranch,
             });
             if (!bResult || !bResult.elements || !bResult.pillars) {
-              throw new Error("B 사주 계산 실패");
+              throw new Error(lang === "en" ? "B fortune calculation failed." : "B 사주 계산 실패");
             }
             state.bResult = bResult;
             state.B = {
