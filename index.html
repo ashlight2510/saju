@@ -3912,20 +3912,21 @@
       }
 
       function elementAdvice(profile) {
+        const t = window.t || ((key, vars = {}) => key);
         const lines = [];
         if (profile.strong !== "—") {
           lines.push(
-            `강한 오행 활용: ${profile.strong} 쪽을 메인 축으로 밀면 효율이 좋아.`
+            t("elementsAnalysisStrongUse", { elems: profile.strong })
           );
         }
         if (profile.mid !== "—") {
           lines.push(
-            `중간 오행 조율: ${profile.mid} 쪽이 완충 역할이라 밸런스를 잡아줘.`
+            t("elementsAnalysisMidBalance", { elems: profile.mid })
           );
         }
         if (profile.weak !== "—") {
           lines.push(
-            `약한 오행 보완: ${profile.weak} 쪽은 생활 루틴/환경으로 채우면 체감이 커.`
+            t("elementsAnalysisWeakSupplement", { elems: profile.weak })
           );
         }
         return lines;
@@ -4287,18 +4288,20 @@
             pct: Math.round((values[topIdx] / totalSum) * 100)
           }),
           t("elementsAnalysisWeakDesc", { elem: low }),
-          `성향 요약: ${personality.replace(
-            "흥이 떨어지면 동력이 급감할 수 있어.",
-            "흥이 떨어지면 동력이 줄 수 있어."
-          )}`,
+          t("elementsAnalysisPersonality", { 
+            personality: personality.replace(
+              "흥이 떨어지면 동력이 급감할 수 있어.",
+              "흥이 떨어지면 동력이 줄 수 있어."
+            )
+          }),
           ...elementAdvice(profile),
           meta.includeHour === false
-            ? "시주 미포함: 시간 정보가 없어 시주의 영향은 제외했어."
+            ? t("elementsAnalysisHourExcluded")
             : meta.includeHour === "partial"
-            ? "시주 일부 미포함: 한쪽은 시간 정보가 없어 시주가 제외됐어."
+            ? t("elementsAnalysisHourPartial")
             : null,
           meta.boundaryText ? meta.boundaryText : null,
-          `균형 팁: 상생 흐름으로 ${top} 기운을 살리고, ${low} 기운을 받쳐줄 생활 습관 하나만 고정하면 흐름이 안정돼.`,
+          t("elementsAnalysisBalanceTip", { top, low }),
         ].filter(Boolean);
         const detailText = detailLines
           .map((l) => escapeHtml(l))
@@ -4311,22 +4314,36 @@
       }
 
       function getElementPersonality(top, low) {
-        const topMap = {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
+        const topMap = lang === "en" ? {
+          목: "Expansive. Strong in ideas/pioneering, moves quickly.",
+          화: "Expressive. Strong in drive/passion, leads the atmosphere.",
+          토: "Stable. Centered on coordination/management, trust is an asset.",
+          금: "Precise. Clear standards/principles, decisions are quick.",
+          수: "Analytical. Reads information/flow, responds flexibly.",
+        } : {
           목: "확장형. 아이디어/개척에 강하고, 빠르게 움직여.",
           화: "표현형. 추진/열정이 강하고, 분위기를 주도해.",
           토: "안정형. 조율/관리 중심이며, 신뢰가 자산이야.",
           금: "정밀형. 기준/원칙이 뚜렷하고, 결정이 빠른 편이야.",
           수: "분석형. 정보/흐름을 읽고, 유연하게 대응해.",
         };
-        const lowMap = {
+        const lowMap = lang === "en" ? {
+          목: "New attempts are easy but completion may be weak.",
+          화: "When interest drops, momentum can drop sharply.",
+          토: "When routines are disrupted, it can become unstable.",
+          금: "When decision criteria waver, stress can increase.",
+          수: "Excessive information search can delay decisions.",
+        } : {
           목: "새로운 시도는 쉬는데 마무리가 약해질 수 있어.",
           화: "흥이 떨어지면 동력이 급감할 수 있어.",
           토: "루틴이 흐트러지면 불안정해질 수 있어.",
           금: "결정 기준이 흔들리면 스트레스가 커질 수 있어.",
           수: "과한 정보 탐색으로 결정이 늦어질 수 있어.",
         };
-        const topLine = topMap[top] || "기질의 중심이 되는 성향이 또렷해.";
-        const lowLine = lowMap[low] || "약한 축을 보완하면 안정감이 올라가.";
+        const topLine = topMap[top] || (lang === "en" ? "The core tendency of temperament is clear." : "기질의 중심이 되는 성향이 또렷해.");
+        const lowLine = lowMap[low] || (lang === "en" ? "Supplementing weak axis increases stability." : "약한 축을 보완하면 안정감이 올라가.");
         return `${topLine} ${lowLine}`;
       }
 
@@ -4987,13 +5004,13 @@
         const tenStats = getTenGodStats(person);
         const gwanSummary =
           tenStats.gwanCount >= 2
-            ? "관(정관/편관) 다수"
+            ? t("tenGodGwanMany")
             : tenStats.gwanCount === 1
-            ? "관 존재"
-            : "관 약함";
-        const jaeSummary = tenStats.jaeCount <= 1 ? "재성 약함" : "재성 보통";
-        const gwanSalSummary = tenStats.gwanMix ? "관살혼잡" : "관살 단정";
-        const sikSummary = tenStats.hasSikshin ? "식신 존재" : "식신 약함";
+            ? t("tenGodGwanExists")
+            : t("tenGodGwanWeak");
+        const jaeSummary = tenStats.jaeCount <= 1 ? t("tenGodJaeWeak") : t("tenGodJaeNormal");
+        const gwanSalSummary = tenStats.gwanMix ? t("tenGodGwanSalMixed") : t("tenGodGwanSalClean");
+        const sikSummary = tenStats.hasSikshin ? t("tenGodSikExists") : t("tenGodSikWeak");
         const waterPct = elementPercent(person.elements, "수");
         const t = window.t || ((key, vars = {}) => key);
         const lang = window.currentLang || "ko";
@@ -5309,11 +5326,12 @@
 
       function formatMonthTags(tags) {
         if (!tags || !Array.isArray(tags) || tags.length < 3) return "";
+        const t = window.t || ((key, vars = {}) => key);
         const [luckTag, mode, seasonElem] = tags;
         const luckText =
-          luckTag === "길" ? "길운" : luckTag === "흉" ? "흉운" : "중운";
+          luckTag === "길" ? t("luckGood") : luckTag === "흉" ? t("luckBad") : t("luckNeutral");
         const modeText = monthModeText(mode);
-        const elemText = `${seasonElem} 기운`;
+        const elemText = t("luckEnergyText", { elem: seasonElem });
 
         // 색상 클래스 결정
         const luckClass =
@@ -6511,6 +6529,26 @@
           luckYearLine: "{year}년 {pillar}({yearElem}) · {mode}",
           strategyToDo: "해야 할 것",
           strategyToAvoid: "피해야 할 것",
+          // 오행 분석 상세
+          elementsAnalysisPersonality: "성향 요약: {personality}",
+          elementsAnalysisBalanceTip: "균형 팁: 상생 흐름으로 {top} 기운을 살리고, {low} 기운을 받쳐줄 생활 습관 하나만 고정하면 흐름이 안정돼.",
+          elementsAnalysisStrongUse: "강한 오행 활용: {elems} 쪽을 메인 축으로 밀면 효율이 좋아.",
+          elementsAnalysisMidBalance: "중간 오행 조율: {elems} 쪽이 완충 역할이라 밸런스를 잡아줘.",
+          elementsAnalysisWeakSupplement: "약한 오행 보완: {elems} 쪽은 생활 루틴/환경으로 채우면 체감이 커.",
+          elementsAnalysisHourExcluded: "시주 미포함: 시간 정보가 없어 시주의 영향은 제외했어.",
+          elementsAnalysisHourPartial: "시주 일부 미포함: 한쪽은 시간 정보가 없어 시주가 제외됐어.",
+          // 십신 관련
+          tenGodGwanMany: "관(정관/편관) 다수",
+          tenGodGwanExists: "관 존재",
+          tenGodGwanWeak: "관 약함",
+          tenGodJaeWeak: "재성 약함",
+          tenGodJaeNormal: "재성 보통",
+          tenGodGwanSalMixed: "관살혼잡",
+          tenGodGwanSalClean: "관살 단정",
+          tenGodSikExists: "식신 존재",
+          tenGodSikWeak: "식신 약함",
+          // 월별 운세 태그
+          luckEnergyText: "{elem} 기운",
           // 추가 번역
           inputTitle: "입력",
           shintoNote: "신토정비결 기준으로 계산해.",
@@ -6710,6 +6748,26 @@
           luckYearLine: "{year} Year {pillar}({yearElem}) · {mode}",
           strategyToDo: "To do",
           strategyToAvoid: "To avoid",
+          // Elements analysis details
+          elementsAnalysisPersonality: "Personality Summary: {personality}",
+          elementsAnalysisBalanceTip: "Balance Tip: By activating {top} energy through mutual generation flow and supporting {low} energy with one fixed lifestyle habit, the flow becomes stable.",
+          elementsAnalysisStrongUse: "Strong Elements Utilization: Pushing {elems} as the main axis brings high efficiency.",
+          elementsAnalysisMidBalance: "Mid Elements Coordination: {elems} acts as a buffer to maintain balance.",
+          elementsAnalysisWeakSupplement: "Weak Elements Supplementation: Filling {elems} with lifestyle routines/environment increases perceived effect.",
+          elementsAnalysisHourExcluded: "Hour excluded: No time information, so hour influence is excluded.",
+          elementsAnalysisHourPartial: "Hour partially excluded: One side has no time information, so hour is excluded.",
+          // Ten Gods related
+          tenGodGwanMany: "Gwan (正官/偏官) many",
+          tenGodGwanExists: "Gwan exists",
+          tenGodGwanWeak: "Gwan weak",
+          tenGodJaeWeak: "Jae weak",
+          tenGodJaeNormal: "Jae normal",
+          tenGodGwanSalMixed: "Gwan-Sal mixed",
+          tenGodGwanSalClean: "Gwan-Sal clean",
+          tenGodSikExists: "Sik exists",
+          tenGodSikWeak: "Sik weak",
+          // Monthly fortune tags
+          luckEnergyText: "{elem} energy",
           // Additional translations
           inputTitle: "Input",
           shintoNote: "Calculated based on Shinto Jeongbi Gyeol standards.",
