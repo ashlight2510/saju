@@ -1948,6 +1948,7 @@
       }
 
       function todayLuckLine(person) {
+        const lang = window.currentLang || "ko";
         const flow = getTodayElementFlow();
         const myTop = person.topElem;
         const myWeak = person.weakElem;
@@ -1963,25 +1964,41 @@
           myTop === flow.stemElem ||
           myTop === flow.branchElem
         ) {
-          mainText =
-            "오늘은 네 기운이 잘 받쳐주는 날이야. 중요한 일은 오늘 처리하면 좋아.";
-          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 잘 맞아서 추진력이 붙는 날이야. 결정을 내리거나 중요한 일을 시작하기에 좋은 타이밍이야. 여유 있게 움직이면 좋은 결과가 따라올 거야.`;
-          tipText = `💡 팁: 오늘은 ${myTop} 기운을 활용하는 일을 우선순위로 잡아. 큰 결정이나 중요한 약속을 잡기에 좋은 날이야.`;
+          if (lang === "en") {
+            mainText = "Today is a day when your energy is well supported. It's good to handle important things today.";
+            detailText = `Today's Five Elements (${flow.stemElem}/${flow.branchElem}) match well with your strength (${myTop}), making it a day with momentum. It's a good timing to make decisions or start important things. Moving with ease will bring good results.`;
+            tipText = `💡 Tip: Today, prioritize tasks that utilize ${myTop} energy. It's a good day to make big decisions or important appointments.`;
+          } else {
+            mainText = "오늘은 네 기운이 잘 받쳐주는 날이야. 중요한 일은 오늘 처리하면 좋아.";
+            detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 잘 맞아서 추진력이 붙는 날이야. 결정을 내리거나 중요한 일을 시작하기에 좋은 타이밍이야. 여유 있게 움직이면 좋은 결과가 따라올 거야.`;
+            tipText = `💡 팁: 오늘은 ${myTop} 기운을 활용하는 일을 우선순위로 잡아. 큰 결정이나 중요한 약속을 잡기에 좋은 날이야.`;
+          }
         } else if (relTop === "극" || relTop === "눌림") {
-          mainText =
-            "오늘은 속도를 조금 줄이면 더 편안해져. 확인을 먼저 하면 흐름이 좋아.";
-          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 마찰이 있을 수 있어. 서두르기보다 한 걸음 여유를 두고 흐름을 살피는 게 좋아. 큰 결정은 잠시 보류하고, 정리와 확인에 집중하면 더 안정적이야.`;
-          tipText = `💡 팁: 오늘은 ${myWeak} 보완에 집중해. 중요한 결정은 차분히 점검하고, 기존 일을 정리하는 데 시간을 써.`;
+          if (lang === "en") {
+            mainText = "Today, reducing speed a bit will make you more comfortable. Checking first makes the flow better.";
+            detailText = `Today's Five Elements (${flow.stemElem}/${flow.branchElem}) may have friction with your strength (${myTop}). Rather than rushing, it's good to take a step back and observe the flow. It's better to hold off on big decisions and focus on organizing and checking for more stability.`;
+            tipText = `💡 Tip: Today, focus on supplementing ${myWeak}. Check important decisions calmly and spend time organizing existing tasks.`;
+          } else {
+            mainText = "오늘은 속도를 조금 줄이면 더 편안해져. 확인을 먼저 하면 흐름이 좋아.";
+            detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 강점(${myTop})과 마찰이 있을 수 있어. 서두르기보다 한 걸음 여유를 두고 흐름을 살피는 게 좋아. 큰 결정은 잠시 보류하고, 정리와 확인에 집중하면 더 안정적이야.`;
+            tipText = `💡 팁: 오늘은 ${myWeak} 보완에 집중해. 중요한 결정은 차분히 점검하고, 기존 일을 정리하는 데 시간을 써.`;
+          }
         } else {
-          mainText = "오늘은 평온한 하루야. 기본만 지켜도 충분해.";
-          detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 기운과 중립적인 관계라 큰 변화보다는 안정적인 흐름이야. 여유 있게 루틴을 지키면서 작은 개선을 하는 게 좋아.`;
-          tipText = `💡 팁: 오늘은 수면/식사/정리 같은 기본 루틴을 잘 지키는 게 포인트야. 작은 개선에 집중하면 더 좋은 하루가 돼.`;
+          if (lang === "en") {
+            mainText = "Today is a peaceful day. Just keeping basics is enough.";
+            detailText = `Today's Five Elements (${flow.stemElem}/${flow.branchElem}) have a neutral relationship with your energy, so it's a stable flow rather than big changes. It's good to keep routines with ease while making small improvements.`;
+            tipText = `💡 Tip: Today, keeping basic routines like sleep/meals/organization is the point. Focusing on small improvements will make it a better day.`;
+          } else {
+            mainText = "오늘은 평온한 하루야. 기본만 지켜도 충분해.";
+            detailText = `오늘의 오행(${flow.stemElem}/${flow.branchElem})이 네 기운과 중립적인 관계라 큰 변화보다는 안정적인 흐름이야. 여유 있게 루틴을 지키면서 작은 개선을 하는 게 좋아.`;
+            tipText = `💡 팁: 오늘은 수면/식사/정리 같은 기본 루틴을 잘 지키는 게 포인트야. 작은 개선에 집중하면 더 좋은 하루가 돼.`;
+          }
         }
 
         return {
-          main: softenText(mainText),
-          detail: softenText(detailText),
-          tip: softenText(tipText),
+          main: lang === "en" ? mainText : softenText(mainText),
+          detail: lang === "en" ? detailText : softenText(detailText),
+          tip: lang === "en" ? tipText : softenText(tipText),
           todayElem: `${flow.stemElem}/${flow.branchElem}`,
         };
       }
@@ -5691,6 +5708,8 @@
       }
 
       function renderTodayOnly() {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const a = buildPerson(state.A);
         const todayLuck = todayLuckLine(a);
 
@@ -5708,12 +5727,12 @@
             </div>
             <div style="margin-top: 16px; padding: 12px; background: rgba(255, 255, 255, 0.6); border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.08);">
               <p style="font-size: 14px; margin: 0; line-height: 1.8; color: rgba(15, 23, 42, 0.8); text-align: left;">
-                <strong style="color: rgba(15, 23, 42, 0.9);">오늘 오행:</strong> ${escapeHtml(
+                <strong style="color: rgba(15, 23, 42, 0.9);">${t("todayElements")}:</strong> ${escapeHtml(
                   todayLuck.todayElem
                 )}<br/>
-                <strong style="color: rgba(15, 23, 42, 0.9);">내 강점:</strong> ${escapeHtml(
+                <strong style="color: rgba(15, 23, 42, 0.9);">${t("myStrength")}:</strong> ${escapeHtml(
                   a.topElem
-                )} · <strong style="color: rgba(15, 23, 42, 0.9);">내 약점:</strong> ${escapeHtml(
+                )} · <strong style="color: rgba(15, 23, 42, 0.9);">${t("myWeakness")}:</strong> ${escapeHtml(
           a.weakElem
         )}
               </p>
@@ -5918,12 +5937,13 @@
           currentY += tipLines * 38 + 40;
 
           // 오행 정보
+          const t = window.t || ((key, vars = {}) => key);
           ctx.font = "600 24px IBM Plex Sans KR";
           ctx.fillStyle = "rgba(15,23,42,0.75)";
-          ctx.fillText(`오늘 오행: ${payload.todayElem}`, cardX + 50, currentY);
+          ctx.fillText(`${t("todayElements")}: ${payload.todayElem}`, cardX + 50, currentY);
           currentY += 35;
           ctx.fillText(
-            `내 강점: ${payload.topElem} · 내 약점: ${payload.weakElem}`,
+            `${t("myStrength")}: ${payload.topElem} · ${t("myWeakness")}: ${payload.weakElem}`,
             cardX + 50,
             currentY
           );
@@ -6073,11 +6093,12 @@
             weakElem: weak,
           };
         }
+        const t = window.t || ((key, vars = {}) => key);
         const a = buildPerson(state.A);
         const todayLuck = todayLuckLine(a);
         const topElem = getTopWeak(state.A.elements).top;
         return {
-          title: "오늘의 운세",
+          title: t("todayFortune"),
           main: todayLuck.main,
           detail: todayLuck.detail,
           tip: todayLuck.tip,
@@ -6619,6 +6640,9 @@
           ruleInsightHealth: "리듬이 맞을수록 컨디션 회복이 빠르다.",
           // 오늘의 운세
           todayFortune: "오늘의 운세",
+          todayElements: "오늘 오행",
+          myStrength: "내 강점",
+          myWeakness: "내 약점",
           // 기타
           summarySub: "입력 시간대 기준 · 절기/오행 규칙",
           summaryPillCore: "핵심 오행: {top}",
@@ -6838,6 +6862,9 @@
           ruleInsightHealth: "The more rhythm matches, the faster condition recovery.",
           // Today's fortune
           todayFortune: "Today's Fortune",
+          todayElements: "Today's Elements",
+          myStrength: "My Strength",
+          myWeakness: "My Weakness",
           // Others
           summarySub: "Based on input timezone · Seasonal period/Five Elements rules",
           summaryPillCore: "Core Element: {top}",
