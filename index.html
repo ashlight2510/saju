@@ -1031,8 +1031,8 @@
         <div class="card" id="inputCard">
           <div class="card-head center">
             <div style="width: 100%">
-              <h1 id="inputTitle">입력</h1>
-              <p class="mini" id="inputDesc">출생 정보 입력 → 로컬 계산</p>
+              <h1 id="inputTitle" data-i18n="inputTitle">입력</h1>
+              <p class="mini" id="inputDesc"></p>
             </div>
           </div>
 
@@ -1103,7 +1103,7 @@
                     <option value="kr1988">한국 DST(1988) 반영</option>
                   </select>
                 </div>
-                <p class="mini">신토정비결 기준으로 계산해.</p>
+                <p class="mini" data-i18n="shintoNote">신토정비결 기준으로 계산해.</p>
               </div>
 
               <div class="rule-card" id="panelB">
@@ -1171,7 +1171,7 @@
                     <option value="kr1988">한국 DST(1988) 반영</option>
                   </select>
                 </div>
-                <p class="mini">신토정비결 기준으로 계산해.</p>
+                <p class="mini" data-i18n="shintoNote">신토정비결 기준으로 계산해.</p>
               </div>
             </div>
 
@@ -1194,6 +1194,7 @@
                 font-size: 16px;
                 font-weight: 700;
               "
+              data-i18n="btnCalculate"
             >
               확인하기
             </button>
@@ -1353,7 +1354,7 @@
 ====================================================== */
       const todayBadge = document.getElementById("todayBadge");
       // t function will be defined later at line 6609
-      if (todayBadge) todayBadge.textContent = "신토정비결";
+      // todayBadge will be set via applyTranslations()
 
       const stepMenu = document.getElementById("stepMenu");
       const stepInput = document.getElementById("stepInput");
@@ -3994,30 +3995,31 @@
             "계미|정사|정해|기유": { 목: 10, 화: 35, 토: 42, 금: 37, 수: 26 },
           };
           const anchorData = SHINTO_ANCHORS[meta.anchorKey];
-          const statusText = meta.anchorApplied ? "적용됨" : "미적용";
+          const t = window.t || ((key, vars = {}) => key);
+          const statusText = meta.anchorApplied ? t("shintoCorrectionApplied") : t("shintoCorrectionNotApplied");
           const statusClass = meta.anchorApplied ? "chip e-wood" : "chip";
 
           if (anchorData) {
             anchorInfoHtml = `
               <div style="margin: 16px 0; padding: 16px; background: rgba(99, 102, 241, 0.05); border-radius: var(--radius-sm); border: 1px solid rgba(99, 102, 241, 0.15);">
                 <div class="section-title" style="margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                  <span>🔮 신토정비결 보정</span>
+                  <span>🔮 ${t("shintoCorrectionTitle")}</span>
                   <span class="${statusClass}" style="font-size: 11px; padding: 4px 10px;">${statusText}</span>
                 </div>
                 <div style="margin-bottom: 12px;">
                   <table class="report-table" style="font-size: 13px;">
                     <thead>
                       <tr>
-                        <th style="width: 80px;">구분</th>
-                        <th>년</th>
-                        <th>월</th>
-                        <th>일</th>
-                        <th>시</th>
+                        <th style="width: 80px;">${t("tableHeaderCategory")}</th>
+                        <th>${t("tableHeaderYear")}</th>
+                        <th>${t("tableHeaderMonth")}</th>
+                        <th>${t("tableHeaderDay")}</th>
+                        <th>${t("tableHeaderHour")}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th>간지</th>
+                        <th>${t("tableHeaderStemBranch")}</th>
                         <td style="font-weight: 800; color: var(--accent);">${escapeHtml(
                           keyParts[0] || "—"
                         )}</td>
@@ -4038,18 +4040,18 @@
                   <table class="report-table" style="font-size: 13px; width: 100%;">
                     <thead>
                       <tr>
-                        <th style="width: 90px; text-align: center;">오행</th>
+                        <th style="width: 90px; text-align: center;">${t("tableHeaderElements")}</th>
                         <th style="width: 80px; text-align: center;">목</th>
                         <th style="width: 80px; text-align: center;">화</th>
                         <th style="width: 80px; text-align: center;">토</th>
                         <th style="width: 80px; text-align: center;">금</th>
                         <th style="width: 80px; text-align: center;">수</th>
-                        <th style="width: 70px; text-align: center;">합계</th>
+                        <th style="width: 70px; text-align: center;">${t("tableHeaderTotal")}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <th style="text-align: center; vertical-align: middle;">보정값</th>
+                        <th style="text-align: center; vertical-align: middle;">${t("tableHeaderCorrection")}</th>
                         <td style="text-align: center; vertical-align: middle; padding: 8px; border-radius: 6px; font-weight: 800; font-size: 14px; background: #e8f7e9; color: #0f3d2e;">${
                           anchorData.목
                         }</td>
@@ -4075,20 +4077,21 @@
                 <p class="mini" style="margin-top: 12px; padding: 12px; background: rgba(255, 255, 255, 0.5); border-radius: 8px; line-height: 1.6;">
                   ${
                     meta.anchorApplied
-                      ? "✅ <strong>신토정비결 보정 적용</strong><br/>너의 사주 간지 조합은 신토정비결(전통 사주 해석서)에 기록된 특별한 패턴이야. 일반 계산 대신 신토정비결에서 정한 오행 분포값을 써서 더 정확하게 보여줘."
-                      : "ℹ️ <strong>신토정비결 보정 미적용</strong><br/>너의 사주 간지 조합에 대한 신토정비결 기준 데이터가 없어서 일반 계산으로 오행을 산출했어."
+                      ? t("shintoCorrectionAppliedText")
+                      : t("shintoCorrectionNotAppliedText")
                   }
                 </p>
               </div>
             `;
           } else {
+            const t = window.t || ((key, vars = {}) => key);
             anchorInfoHtml = `
               <div style="margin: 12px 0;">
                 <div class="section-title" style="margin-bottom: 8px;">
-                  신토정비결 보정 <span class="chip" style="font-size: 11px; padding: 2px 8px;">미적용</span>
+                  ${t("shintoCorrectionTitle")} <span class="chip" style="font-size: 11px; padding: 2px 8px;">${t("shintoCorrectionNotApplied")}</span>
                 </div>
-                <p class="mini">간지: ${escapeHtml(meta.anchorKey)}</p>
-                <p class="mini">해당 간지 조합에 대한 신토정비결 보정 데이터가 없어.</p>
+                <p class="mini">${t("tableHeaderStemBranch")}: ${escapeHtml(meta.anchorKey)}</p>
+                <p class="mini">${t("shintoCorrectionNoData")}</p>
               </div>
             `;
           }
@@ -5498,7 +5501,8 @@
       function renderNewYear() {
         const a = buildPerson(state.A);
         const { top, weak } = getTopWeak(a.elements);
-        resultTitle.textContent = "신년운세 요약";
+        const t = window.t || ((key, vars = {}) => key);
+        resultTitle.textContent = t("resultNewYearSummary");
         renderElementsAnalysis(a.elements, state.aResult?.elements?.breakdown, {
           hiddenMode: state.aResult?.input?.hiddenMode,
           includeHour: state.A?.includeHour,
@@ -5947,8 +5951,9 @@
           const y2026 = yearModeFor(a, 2026);
           const strategy = yearStrategy(y2026.mode);
           const monthlyData = makeMonthlyLuck(a);
+          const t = window.t || ((key, vars = {}) => key);
 
-          let text = `🔮 2026 신년운세\n\n`;
+          let text = t("shareNewYearText");
           text += `${summaryMain.textContent}\n\n`;
           text += `2026년 ${y2026.pillar.text}(${
             y2026.yearElem
@@ -5962,10 +5967,10 @@
             const modeText = monthModeText(m.mode);
             const luckText =
               m.tags?.[0] === "길"
-                ? "길운"
+                ? t("luckGood")
                 : m.tags?.[0] === "흉"
-                ? "흉운"
-                : "중운";
+                ? t("luckBad")
+                : t("luckNeutral");
             text += `${m.month}월: ${luckText} · ${modeText} · ${m.summary}\n`;
           });
 
@@ -5973,7 +5978,7 @@
 
           try {
             await navigator.clipboard.writeText(text);
-            shareStatus.textContent = "신년운세가 클립보드에 복사되었어.";
+            shareStatus.textContent = t("shareNewYearCopied");
           } catch (err) {
             // 클립보드 API가 없거나 실패한 경우
             const textarea = document.createElement("textarea");
@@ -5984,10 +5989,10 @@
             textarea.select();
             try {
               document.execCommand("copy");
-              shareStatus.textContent = "신년운세가 클립보드에 복사되었어.";
+              shareStatus.textContent = t("shareNewYearCopied");
             } catch (e) {
-              prompt("복사할 내용:", text);
-              shareStatus.textContent = "텍스트를 확인해줘.";
+              prompt(t("copyPrompt"), text);
+              shareStatus.textContent = t("shareStatusAfterCopy");
             }
             document.body.removeChild(textarea);
           }
@@ -6080,14 +6085,15 @@
         }
 
         // 모드별 파일명 설정
+        const t = window.t || ((key, vars = {}) => key);
         const dateStr = new Date().toISOString().slice(0, 10);
         let fileName;
         if (state.mode === "today") {
-          fileName = `오늘의운세_${dateStr}.pdf`;
+          fileName = t("pdfFileNameToday", { date: dateStr });
         } else if (state.mode === "newyear") {
-          fileName = `신년운세_${dateStr}.pdf`;
+          fileName = t("pdfFileNameNewYear", { date: dateStr });
         } else {
-          fileName = `궁합리포트_${dateStr}.pdf`;
+          fileName = t("pdfFileNameCompat", { date: dateStr });
         }
 
         pdf.save(fileName);
@@ -6466,6 +6472,34 @@
           alertInputRequired: "입력 후 계산해줘.",
           alertPDFNotReady: "PDF 라이브러리가 준비되지 않았어.",
           alertMonthCopied: "{monthLabel} 운세가 클립보드에 복사되었습니다!",
+          // 추가 번역
+          inputTitle: "입력",
+          shintoNote: "신토정비결 기준으로 계산해.",
+          btnCalculate: "확인하기",
+          todayBadge: "신토정비결",
+          shintoCorrectionTitle: "신토정비결 보정",
+          shintoCorrectionApplied: "적용됨",
+          shintoCorrectionNotApplied: "미적용",
+          shintoCorrectionAppliedText: "✅ <strong>신토정비결 보정 적용</strong><br/>너의 사주 간지 조합은 신토정비결(전통 사주 해석서)에 기록된 특별한 패턴이야. 일반 계산 대신 신토정비결에서 정한 오행 분포값을 써서 더 정확하게 보여줘.",
+          shintoCorrectionNotAppliedText: "ℹ️ <strong>신토정비결 보정 미적용</strong><br/>너의 사주 간지 조합에 대한 신토정비결 기준 데이터가 없어서 일반 계산으로 오행을 산출했어.",
+          shintoCorrectionNoData: "해당 간지 조합에 대한 신토정비결 보정 데이터가 없어.",
+          tableHeaderCategory: "구분",
+          tableHeaderYear: "년",
+          tableHeaderMonth: "월",
+          tableHeaderDay: "일",
+          tableHeaderHour: "시",
+          tableHeaderStemBranch: "간지",
+          tableHeaderElements: "오행",
+          tableHeaderTotal: "합계",
+          tableHeaderCorrection: "보정값",
+          resultNewYearSummary: "신년운세 요약",
+          shareNewYearCopied: "신년운세가 클립보드에 복사되었어.",
+          shareNewYearText: "🔮 2026 신년운세\n\n",
+          copyPrompt: "복사할 내용:",
+          shareStatusAfterCopy: "텍스트를 확인해줘.",
+          pdfFileNameToday: "오늘의운세_{date}.pdf",
+          pdfFileNameNewYear: "신년운세_{date}.pdf",
+          pdfFileNameCompat: "궁합리포트_{date}.pdf",
         },
         en: {
           metaTitle: "Fortune Telling · Compatibility · Today's Fortune · New Year Fortune",
@@ -6599,6 +6633,34 @@
           alertInputRequired: "Please calculate after input.",
           alertPDFNotReady: "PDF library is not ready.",
           alertMonthCopied: "{monthLabel} fortune copied to clipboard!",
+          // Additional translations
+          inputTitle: "Input",
+          shintoNote: "Calculated based on Shinto Jeongbi Gyeol standards.",
+          btnCalculate: "Calculate",
+          todayBadge: "Shinto Jeongbi Gyeol",
+          shintoCorrectionTitle: "Shinto Jeongbi Gyeol Correction",
+          shintoCorrectionApplied: "Applied",
+          shintoCorrectionNotApplied: "Not Applied",
+          shintoCorrectionAppliedText: "✅ <strong>Shinto Jeongbi Gyeol Correction Applied</strong><br/>Your fortune stem-branch combination is a special pattern recorded in Shinto Jeongbi Gyeol (traditional fortune interpretation book). Instead of general calculation, we use the five elements distribution values set by Shinto Jeongbi Gyeol to show more accurately.",
+          shintoCorrectionNotAppliedText: "ℹ️ <strong>Shinto Jeongbi Gyeol Correction Not Applied</strong><br/>There is no Shinto Jeongbi Gyeol standard data for your fortune stem-branch combination, so the five elements were calculated using general calculation.",
+          shintoCorrectionNoData: "There is no Shinto Jeongbi Gyeol correction data for this stem-branch combination.",
+          tableHeaderCategory: "Category",
+          tableHeaderYear: "Year",
+          tableHeaderMonth: "Month",
+          tableHeaderDay: "Day",
+          tableHeaderHour: "Hour",
+          tableHeaderStemBranch: "Stem-Branch",
+          tableHeaderElements: "Elements",
+          tableHeaderTotal: "Total",
+          tableHeaderCorrection: "Correction",
+          resultNewYearSummary: "New Year Fortune Summary",
+          shareNewYearCopied: "New Year fortune has been copied to clipboard.",
+          shareNewYearText: "🔮 2026 New Year Fortune\n\n",
+          copyPrompt: "Copy content:",
+          shareStatusAfterCopy: "Please check the text.",
+          pdfFileNameToday: "TodayFortune_{date}.pdf",
+          pdfFileNameNewYear: "NewYearFortune_{date}.pdf",
+          pdfFileNameCompat: "CompatibilityReport_{date}.pdf",
         },
       };
 
@@ -6643,6 +6705,13 @@
           if (opt.value === "male") opt.textContent = t("genderMale");
           if (opt.value === "female") opt.textContent = t("genderFemale");
         });
+        // Update todayBadge
+        const todayBadge = document.getElementById("todayBadge");
+        if (todayBadge) todayBadge.textContent = t("todayBadge");
+        // Update inputDesc if configureInputForMode exists
+        if (window.configureInputForMode && window.state) {
+          configureInputForMode(state.mode);
+        }
       }
 
       function detectLang() {
