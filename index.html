@@ -3957,14 +3957,16 @@
       }
 
       function formatElemLine(prefix, obj, totalSum = null) {
+        const lang = window.currentLang || "ko";
         const order = ["목", "화", "토", "금", "수"];
         const lead = prefix ? `${prefix} ` : "";
         return `${lead}${order
           .map((k) => {
             const v = Math.round((obj[k] || 0) * 10) / 10;
-            if (!totalSum) return `${k} ${v}`;
+            const elemName = getElementName(k);
+            if (!totalSum) return `${elemName} ${v}`;
             const p = Math.round(((obj[k] || 0) / totalSum) * 1000) / 10;
-            return `${k} ${v}(${p}%)`;
+            return `${elemName} ${v}(${p}%)`;
           })
           .join(" · ")}`;
       }
@@ -4696,11 +4698,11 @@
           yongText = yongshin.length
             ? yongshin.map((y) => {
                 const reasonMap = {
-                  [`약한 ${person.weakElem} 보완`]: `Supplement weak ${person.weakElem}`,
-                  [`강한 ${person.topElem} 조절`]: `Control strong ${person.topElem}`,
+                  [`약한 ${person.weakElem} 보완`]: `Supplement weak ${getElementName(person.weakElem)}`,
+                  [`강한 ${person.topElem} 조절`]: `Control strong ${getElementName(person.topElem)}`,
                   "균형 유지": "Maintain balance"
                 };
-                return `${y.elem}(${reasonMap[y.reason] || y.reason})`;
+                return `${getElementName(y.elem)}(${reasonMap[y.reason] || y.reason})`;
               }).join(", ")
             : "—";
         } else {
@@ -4710,7 +4712,7 @@
         }
         const season =
           person.monthBranch && person.seasonTopElem
-            ? `${person.monthBranch}(${person.seasonTopElem})`
+            ? `${person.monthBranch}(${getElementName(person.seasonTopElem)})`
             : "—";
         const seasonLine = person.seasonTopElem && person.topElem === person.seasonTopElem
           ? t("deepSeasonSame")
@@ -4719,7 +4721,7 @@
         const dayStemLine = person.dayStem
           ? t("deepDayStem", {
               dayStem: person.dayStem,
-              dayElem: person.dayElem,
+              dayElem: getElementName(person.dayElem || "—"),
               strength: person.strength
             })
           : t("deepDayStem", { dayStem: "—", dayElem: "—", strength: "—" });
