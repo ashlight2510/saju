@@ -5013,7 +5013,6 @@
           chung.length ? chung.join(", ") : "—"
         } · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
 
-        const t = window.t || ((key, vars = {}) => key);
         const topMeaning = elemMeaning(person.topElem);
         const weakMeaning = elemMeaning(person.weakElem);
         const lang = window.currentLang || "ko";
@@ -5027,8 +5026,6 @@
           coreEvidence = `근거: 오행 분포 ${formatScaledElements(scaled.scaled)} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${profile.mid} / ${profile.weak}.`;
           coreDerived = `파생: ${person.topElem} 기운 쪽으로 몰려 반응은 빠르지만, ${person.weakElem} 기운의 약점이 드러나는 순간 판단이 흔들린다.`;
         }
-
-        const weakMeaning = elemMeaning(person.weakElem);
         const topMeaningForConflict = elemMeaning(person.topElem);
         let conflictOne, conflictTwo;
         if (lang === "en") {
