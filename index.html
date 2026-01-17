@@ -3953,6 +3953,7 @@
       }
 
       function renderElementsAnalysis(elements, breakdown, meta = {}) {
+        const t = window.t || ((key, vars = {}) => key);
         const keys = ["목", "화", "토", "금", "수"];
         const values = keys.map((k) => elements[k] || 0);
         const maxVal = Math.max(...values, 1);
@@ -3974,8 +3975,6 @@
           acc[k] = Math.round(((elements[k] || 0) / totalSum) * 1000) / 10;
           return acc;
         }, {});
-
-        const t = window.t || ((key, vars = {}) => key);
         elementsSummary.textContent = `${t("elementsAnalysisSummary", { top, low })} ${softenText(
           prosText
         )} ${softenText(consText)}`;
@@ -3996,7 +3995,6 @@
             "계미|정사|정해|기유": { 목: 10, 화: 35, 토: 42, 금: 37, 수: 26 },
           };
           const anchorData = SHINTO_ANCHORS[meta.anchorKey];
-          const t = window.t || ((key, vars = {}) => key);
           const statusText = meta.anchorApplied ? t("shintoCorrectionApplied") : t("shintoCorrectionNotApplied");
           const statusClass = meta.anchorApplied ? "chip e-wood" : "chip";
 
@@ -4085,7 +4083,6 @@
               </div>
             `;
           } else {
-            const t = window.t || ((key, vars = {}) => key);
             anchorInfoHtml = `
               <div style="margin: 12px 0;">
                 <div class="section-title" style="margin-bottom: 8px;">
@@ -4099,7 +4096,6 @@
         }
 
         // 오행 정보 표 생성
-        const t = window.t || ((key, vars = {}) => key);
         elementsTableHtml = `
           <div style="margin: 16px 0;">
             <div class="section-title" style="margin-bottom: 12px;">${t("elementsAnalysisTitle")}</div>
