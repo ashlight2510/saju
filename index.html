@@ -3632,13 +3632,15 @@
         };
 
         const modeTemplates = templates[mode] || templates.steady;
+        const luckKey = luckTag === "길" ? "길" : luckTag === "흉" ? "흉" : "중";
         const luckTemplates =
-          modeTemplates[luckTag] ||
-          modeTemplates.중 ||
+          modeTemplates[luckKey] ||
+          modeTemplates["중"] ||
           modeTemplates[Object.keys(modeTemplates)[0]];
         const seed = `${month}|${seasonElem}|${mode}|${luckTag}`;
         const idx = hashToIndex(seed, luckTemplates.length);
-        return casualizeText(luckTemplates[idx] || "");
+        const text = luckTemplates[idx] || "";
+        return lang === "en" ? text : casualizeText(text);
       }
 
       function makeMonthlyLuck(person) {
