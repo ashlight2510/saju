@@ -4996,6 +4996,7 @@
         const sikSummary = tenStats.hasSikshin ? "식신 존재" : "식신 약함";
         const waterPct = elementPercent(person.elements, "수");
         const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const genderLabel = person.gender === "female" ? t("genderFemale") : t("genderMale");
 
         const branches = [
@@ -5013,7 +5014,6 @@
 
         const topMeaning = elemMeaning(person.topElem);
         const weakMeaning = elemMeaning(person.weakElem);
-        const lang = window.currentLang || "ko";
         let coreDef, coreEvidence, coreDerived;
         if (lang === "en") {
           coreDef = `This fortune has prominent ${person.topElem} energy and weak ${person.weakElem} energy structure. ${topMeaning} is a strength, but conflicts repeatedly arise in ${weakMeaning}.`;
