@@ -1046,18 +1046,7 @@
                 <div class="row">
                   <input id="aDate" type="date" min="1900-01-01" max="2099-12-31" />
                   <select id="aHourBranch">
-                    <option value="자">자 (00:00-01:30)</option>
-                    <option value="축">축 (01:31-03:30)</option>
-                    <option value="인">인 (03:31-05:30)</option>
-                    <option value="묘">묘 (05:31-07:30)</option>
-                    <option value="진">진 (07:31-09:30)</option>
-                    <option value="사">사 (09:31-11:30)</option>
-                    <option value="오">오 (11:31-13:30)</option>
-                    <option value="미">미 (13:31-15:30)</option>
-                    <option value="신">신 (15:31-17:30)</option>
-                    <option value="유">유 (17:31-19:30)</option>
-                    <option value="술">술 (19:31-21:30)</option>
-                    <option value="해">해 (21:31-23:30)</option>
+                    <!-- Options will be populated by JavaScript -->
                   </select>
                 </div>
                 <div class="row hidden" style="margin-top: 8px">
@@ -1112,18 +1101,7 @@
                 <div class="row">
                   <input id="bDate" type="date" min="1900-01-01" max="2099-12-31" />
                   <select id="bHourBranch">
-                    <option value="자">자 (00:00-01:30)</option>
-                    <option value="축">축 (01:31-03:30)</option>
-                    <option value="인">인 (03:31-05:30)</option>
-                    <option value="묘">묘 (05:31-07:30)</option>
-                    <option value="진">진 (07:31-09:30)</option>
-                    <option value="사">사 (09:31-11:30)</option>
-                    <option value="오">오 (11:31-13:30)</option>
-                    <option value="미">미 (13:31-15:30)</option>
-                    <option value="신">신 (15:31-17:30)</option>
-                    <option value="유">유 (17:31-19:30)</option>
-                    <option value="술">술 (19:31-21:30)</option>
-                    <option value="해">해 (21:31-23:30)</option>
+                    <!-- Options will be populated by JavaScript -->
                   </select>
                 </div>
                 <div class="row hidden" style="margin-top: 8px">
@@ -7006,6 +6984,8 @@
           if (opt.value === "male") opt.textContent = t("genderMale");
           if (opt.value === "female") opt.textContent = t("genderFemale");
         });
+        // Update hour branch options
+        updateHourBranchOptions();
         // Update todayBadge
         const todayBadge = document.getElementById("todayBadge");
         if (todayBadge) todayBadge.textContent = t("todayBadge");
@@ -7064,6 +7044,9 @@
       window.t = t;
       window.currentLang = currentLang;
       window.setLang = setLang;
+      
+      // Initialize hour branch options
+      updateHourBranchOptions();
 
       /* ======================================================
   INIT
