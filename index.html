@@ -4247,8 +4247,8 @@
           <div style="margin: 16px 0;">
             <div class="section-title" style="margin-bottom: 12px;">${t("elementsAnalysisTitle")}</div>
             <div class="pill-row" style="margin-bottom: 12px;">
-              <span class="pill emphasis">${t("elementsAnalysisDayStem", { dayElem: escapeHtml(meta.dayElem || "—") })}</span>
-              <span class="pill emphasis">${t("elementsAnalysisDistribution", { top: escapeHtml(top) })}</span>
+              <span class="pill emphasis">${t("elementsAnalysisDayStem", { dayElem: escapeHtml(getElementName(meta.dayElem || "—")) })}</span>
+              <span class="pill emphasis">${t("elementsAnalysisDistribution", { top: escapeHtml(getElementName(top)) })}</span>
             </div>
             ${
               meta.birthText
