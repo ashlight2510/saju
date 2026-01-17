@@ -3972,6 +3972,7 @@
       }
 
       function makeElementProfile(elements) {
+        const lang = window.currentLang || "ko";
         const order = ["목", "화", "토", "금", "수"];
         const total = order.reduce((s, k) => s + (elements[k] || 0), 0);
         const avg = total / 5;
@@ -3986,9 +3987,9 @@
           else mid.push(k);
         });
         return {
-          strong: strong.length ? strong.join(" · ") : "—",
-          mid: mid.length ? mid.join(" · ") : "—",
-          weak: weak.length ? weak.join(" · ") : "—",
+          strong: strong.length ? (lang === "en" ? strong.map(k => getElementName(k)).join(" · ") : strong.join(" · ")) : "—",
+          mid: mid.length ? (lang === "en" ? mid.map(k => getElementName(k)).join(" · ") : mid.join(" · ")) : "—",
+          weak: weak.length ? (lang === "en" ? weak.map(k => getElementName(k)).join(" · ") : weak.join(" · ")) : "—",
           avg: Math.round(avg * 10) / 10,
         };
       }
@@ -4432,10 +4433,10 @@
 
         const detailLines = [
           t("elementsAnalysisStrongDesc", { 
-            elem: top, 
+            elem: getElementName(top), 
             pct: Math.round((values[topIdx] / totalSum) * 100)
           }),
-          t("elementsAnalysisWeakDesc", { elem: low }),
+          t("elementsAnalysisWeakDesc", { elem: getElementName(low) }),
           t("elementsAnalysisPersonality", { 
             personality: personality.replace(
               "흥이 떨어지면 동력이 급감할 수 있어.",
@@ -4449,7 +4450,7 @@
             ? t("elementsAnalysisHourPartial")
             : null,
           meta.boundaryText ? meta.boundaryText : null,
-          t("elementsAnalysisBalanceTip", { top, low }),
+          t("elementsAnalysisBalanceTip", { top: getElementName(top), low: getElementName(low) }),
         ].filter(Boolean);
         const detailText = detailLines
           .map((l) => escapeHtml(l))
@@ -5091,8 +5092,9 @@
         return { scaled, total: targetTotal, sum };
       }
       function formatScaledElements(scaled) {
+        const lang = window.currentLang || "ko";
         const order = ["목", "화", "토", "금", "수"];
-        return order.map((k) => `${k} ${scaled[k] ?? 0}`).join(" · ");
+        return order.map((k) => `${lang === "en" ? getElementName(k) : k} ${scaled[k] ?? 0}`).join(" · ");
       }
       function elementPercent(elements, elem) {
         const total = Object.values(elements).reduce((a, b) => a + b, 0) || 1;
@@ -5181,9 +5183,9 @@
         const weakMeaning = elemMeaning(person.weakElem);
         let coreDef, coreEvidence, coreDerived;
         if (lang === "en") {
-          coreDef = `This fortune has prominent ${person.topElem} energy and weak ${person.weakElem} energy structure. ${topMeaning} is a strength, but conflicts repeatedly arise in ${weakMeaning}.`;
+          coreDef = `This fortune has prominent ${getElementName(person.topElem)} energy and weak ${getElementName(person.weakElem)} energy structure. ${topMeaning} is a strength, but conflicts repeatedly arise in ${weakMeaning}.`;
           coreEvidence = `Evidence: Five Elements distribution ${formatScaledElements(scaled.scaled)} (based on total ${scaled.total}). Strong/Mid/Weak ${profile.strong} / ${profile.mid} / ${profile.weak}.`;
-          coreDerived = `Derived: Reacts quickly as energy concentrates toward ${person.topElem}, but judgment wavers when the weakness of ${person.weakElem} energy is revealed.`;
+          coreDerived = `Derived: Reacts quickly as energy concentrates toward ${getElementName(person.topElem)}, but judgment wavers when the weakness of ${getElementName(person.weakElem)} energy is revealed.`;
         } else {
           coreDef = `이 사주는 ${person.topElem} 기운이 두드러지고 ${person.weakElem} 기운이 약한 구조로, ${topMeaning}${topicParticle(topMeaning)} 강점이지만 ${weakMeaning}에서 반복 갈등이 생기는 형이다.`;
           coreEvidence = `근거: 오행 분포 ${formatScaledElements(scaled.scaled)} (총점 ${scaled.total} 기준). 강/중/약 ${profile.strong} / ${profile.mid} / ${profile.weak}.`;
@@ -5192,7 +5194,7 @@
         const topMeaningForConflict = elemMeaning(person.topElem);
         let conflictOne, conflictTwo;
         if (lang === "en") {
-          conflictOne = `${person.topElem} energy is strong, so the habit of relying on ${topMeaningForConflict} grows. However, ${person.weakElem} energy is weak, so when ${weakMeaning} wavers, choices are reversed.`;
+          conflictOne = `${getElementName(person.topElem)} energy is strong, so the habit of relying on ${topMeaningForConflict} grows. However, ${getElementName(person.weakElem)} energy is weak, so when ${weakMeaning} wavers, choices are reversed.`;
           conflictTwo = tenStats.gwanMix
             ? "Gwan is mixed, so the desire to follow rules and the desire to break free arise simultaneously, splitting decisions."
             : tenStats.gwanCount >= 2
@@ -5213,7 +5215,7 @@
             person.weakElem === "금" || tenStats.jaeCount <= 1
               ? "Reward perception is weak, so money easily leaks."
               : "Income comes in but management easily becomes loose."
-          } Evidence: ${jaeSummary} · ${person.weakElem} energy weak. Action: Quantify by month + create fixed settlement routine.`;
+          } Evidence: ${jaeSummary} · ${getElementName(person.weakElem)} energy weak. Action: Quantify by month + create fixed settlement routine.`;
           workRisk = `Career: ${
             tenStats.gwanCount >= 2
               ? "Responsibility is excessively concentrated and roles expand."
@@ -5247,9 +5249,12 @@
         const midElem = profile.mid !== "—" ? profile.mid : person.topElem;
         let strengthUse, workStyle, romanceReason, matchCondition, jobDirection, moneyDirection;
         if (lang === "en") {
-          strengthUse = `Strong Five Elements (${strongElem}) are highly efficient when used in ${strongElem.split(" · ").map((e) => elemMeaning(e)).join("·")}. Mid Five Elements (${midElem}) should be attached to assist execution speed and maintenance.`;
+          const strongElemsEng = strongElem !== "—" ? strongElem.split(" · ").map((e) => getElementName(e.trim())).join(" · ") : getElementName(person.topElem);
+          const strongElemsOrig = strongElem !== "—" ? strongElem.split(" · ").map((e) => e.trim()) : [person.topElem];
+          const midElemsEng = midElem !== "—" ? midElem.split(" · ").map((e) => getElementName(e.trim())).join(" · ") : getElementName(person.topElem);
+          strengthUse = `Strong Five Elements (${strongElemsEng}) are highly efficient when used in ${strongElemsOrig.map((e) => elemMeaning(e)).join("·")}. Mid Five Elements (${midElemsEng}) should be attached to assist execution speed and maintenance.`;
           workStyle = `Work processing method is "gather information -> set criteria -> push through at once." Career is favorable in planning/operations/management with repetition and structure.`;
-          romanceReason = `Romance is difficult because ${jaeSummary} and excessive ${person.topElem} energy cause confidence to attach late and reactions to become excessive.`;
+          romanceReason = `Romance is difficult because ${jaeSummary} and excessive ${getElementName(person.topElem)} energy cause confidence to attach late and reactions to become excessive.`;
           matchCondition = `A good match is someone with few emotional fluctuations, consistent life rhythm, and who keeps promises rather than just words.`;
           jobDirection = `Stable workplace is favorable because ${gwanSummary} structure produces results within rules.`;
           moneyDirection = `Investment/adventure is unfavorable because ${
@@ -5325,7 +5330,7 @@
             <div class="mini">${t("reportBasicInfo", {
               gender: genderLabel,
               dayStem: person.dayStem || "—",
-              dayElem: person.dayElem || "—",
+              dayElem: lang === "en" ? getElementName(person.dayElem || "—") : (person.dayElem || "—"),
               strength: person.strength || "—",
               relationLine: relationLine
             })}</div>
@@ -5682,14 +5687,14 @@
         totalScoreEl.textContent = "—";
         summarySub.textContent = t("newYearFlowDesc");
         summaryMain.textContent = t("newYearSummaryText", {
-          top,
-          weak,
+          top: getElementName(top),
+          weak: getElementName(weak),
           dayStem: a.dayStem || "—",
           strength: a.strength
         });
         summaryPills.innerHTML = [
-          t("newYearPillCore", { top }),
-          t("newYearPillWeak", { weak }),
+          t("newYearPillCore", { top: getElementName(top) }),
+          t("newYearPillWeak", { weak: getElementName(weak) }),
           t("newYearPillMonthly"),
         ]
           .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
