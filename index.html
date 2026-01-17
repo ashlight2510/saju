@@ -6957,6 +6957,38 @@
         return template;
       }
 
+      function updateHourBranchOptions() {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
+        const hourBranches = [
+          { value: "자", ko: "자 (00:00-01:30)", en: "Rat (00:00-01:30)" },
+          { value: "축", ko: "축 (01:31-03:30)", en: "Ox (01:31-03:30)" },
+          { value: "인", ko: "인 (03:31-05:30)", en: "Tiger (03:31-05:30)" },
+          { value: "묘", ko: "묘 (05:31-07:30)", en: "Rabbit (05:31-07:30)" },
+          { value: "진", ko: "진 (07:31-09:30)", en: "Dragon (07:31-09:30)" },
+          { value: "사", ko: "사 (09:31-11:30)", en: "Snake (09:31-11:30)" },
+          { value: "오", ko: "오 (11:31-13:30)", en: "Horse (11:31-13:30)" },
+          { value: "미", ko: "미 (13:31-15:30)", en: "Goat (13:31-15:30)" },
+          { value: "신", ko: "신 (15:31-17:30)", en: "Monkey (15:31-17:30)" },
+          { value: "유", ko: "유 (17:31-19:30)", en: "Rooster (17:31-19:30)" },
+          { value: "술", ko: "술 (19:31-21:30)", en: "Dog (19:31-21:30)" },
+          { value: "해", ko: "해 (21:31-23:30)", en: "Pig (21:31-23:30)" },
+        ];
+
+        [aHourBranch, bHourBranch].forEach((select) => {
+          if (!select) return;
+          const currentValue = select.value || "자";
+          select.innerHTML = "";
+          hourBranches.forEach((branch) => {
+            const option = document.createElement("option");
+            option.value = branch.value;
+            option.textContent = lang === "en" ? branch.en : branch.ko;
+            select.appendChild(option);
+          });
+          select.value = currentValue;
+        });
+      }
+
       function applyTranslations() {
         document.title = t("metaTitle");
         document.documentElement.lang = currentLang;
