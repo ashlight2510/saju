@@ -3679,12 +3679,13 @@
 
       function renderMonthly(person) {
         const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         monthlyList.innerHTML = makeMonthlyLuck(person)
           .map(
             (m) => `
             <div class="rule-card">
               <div class="row" style="justify-content: space-between; align-items: center;">
-                <div class="section-title">${t("monthlyFlow", { month: m.month, seasonElem: m.seasonElem })}</div>
+                <div class="section-title">${t("monthlyFlow", { month: m.month, seasonElem: lang === "en" ? getElementName(m.seasonElem) : m.seasonElem })}</div>
                 <div style="margin-left: auto; display: flex; align-items: center; justify-content: flex-end; gap: 6px; flex-wrap: wrap;">${formatMonthTags(
                   m.tags
                 )}</div>
@@ -5480,11 +5481,12 @@
       function formatMonthTags(tags) {
         if (!tags || !Array.isArray(tags) || tags.length < 3) return "";
         const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const [luckTag, mode, seasonElem] = tags;
         const luckText =
           luckTag === "길" ? t("luckGood") : luckTag === "흉" ? t("luckBad") : t("luckNeutral");
         const modeText = monthModeText(mode);
-        const elemText = t("luckEnergyText", { elem: seasonElem });
+        const elemText = t("luckEnergyText", { elem: lang === "en" ? getElementName(seasonElem) : seasonElem });
 
         // 색상 클래스 결정
         const luckClass =
