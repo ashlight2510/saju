@@ -1352,8 +1352,8 @@
   0. 기본 DOM
 ====================================================== */
       const todayBadge = document.getElementById("todayBadge");
-      const t = window.t || ((key, vars = {}) => key);
-      todayBadge.textContent = "신토정비결";
+      // t function will be defined later at line 6609
+      if (todayBadge) todayBadge.textContent = "신토정비결";
 
       const stepMenu = document.getElementById("stepMenu");
       const stepInput = document.getElementById("stepInput");
