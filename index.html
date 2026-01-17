@@ -3975,7 +3975,8 @@
           return acc;
         }, {});
 
-        elementsSummary.textContent = `오행 분석: ${top} 기운이 가장 강하고, ${low} 기운이 상대적으로 약한 편이야. ${softenText(
+        const t = window.t || ((key, vars = {}) => key);
+        elementsSummary.textContent = `${t("elementsAnalysisSummary", { top, low })} ${softenText(
           prosText
         )} ${softenText(consText)}`;
         renderElementsRadar(elements);
@@ -4098,20 +4099,17 @@
         }
 
         // 오행 정보 표 생성
+        const t = window.t || ((key, vars = {}) => key);
         elementsTableHtml = `
           <div style="margin: 16px 0;">
-            <div class="section-title" style="margin-bottom: 12px;">📊 오행 분석</div>
+            <div class="section-title" style="margin-bottom: 12px;">${t("elementsAnalysisTitle")}</div>
             <div class="pill-row" style="margin-bottom: 12px;">
-              <span class="pill emphasis">일간 기준: ${escapeHtml(
-                meta.dayElem || "—"
-              )} 기운 인간(본질)</span>
-              <span class="pill emphasis">오행 분포: ${escapeHtml(
-                top
-              )} 강세(환경)</span>
+              <span class="pill emphasis">${t("elementsAnalysisDayStem", { dayElem: escapeHtml(meta.dayElem || "—") })}</span>
+              <span class="pill emphasis">${t("elementsAnalysisDistribution", { top: escapeHtml(top) })}</span>
             </div>
             ${
               meta.birthText
-                ? `<p class="mini" style="margin-bottom: 12px;"><strong>출생:</strong> ${escapeHtml(
+                ? `<p class="mini" style="margin-bottom: 12px;"><strong>${t("elementsAnalysisBirth")}</strong> ${escapeHtml(
                     meta.birthText
                   )}</p>`
                 : ""
@@ -4119,18 +4117,18 @@
             <table class="report-table" style="font-size: 13px; margin-bottom: 12px;">
               <thead>
                 <tr>
-                  <th style="width: 100px;">구분</th>
+                  <th style="width: 100px;">${t("elementsAnalysisTableCategory")}</th>
                   <th style="width: 80px; text-align: center;">목</th>
                   <th style="width: 80px; text-align: center;">화</th>
                   <th style="width: 80px; text-align: center;">토</th>
                   <th style="width: 80px; text-align: center;">금</th>
                   <th style="width: 80px; text-align: center;">수</th>
-                  <th style="width: 70px; text-align: center;">합계</th>
+                  <th style="width: 70px; text-align: center;">${t("elementsAnalysisTableTotal")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th style="vertical-align: middle;">분포(%)</th>
+                  <th style="vertical-align: middle;">${t("elementsAnalysisTableDistribution")}</th>
                   <td style="text-align: center; vertical-align: middle; font-weight: 700;">${
                     percent["목"]
                   }%</td>
@@ -4149,7 +4147,7 @@
                   <td style="text-align: center; vertical-align: middle; font-weight: 800; color: var(--accent);">100%</td>
                 </tr>
                 <tr>
-                  <th style="vertical-align: middle;">점수(150)</th>
+                  <th style="vertical-align: middle;">${t("elementsAnalysisTableScore")}</th>
                   <td style="text-align: center; vertical-align: middle; padding: 6px; border-radius: 4px; font-weight: 800; background: #e8f7e9; color: #0f3d2e;">${
                     rounded["목"]
                   }</td>
@@ -4168,7 +4166,7 @@
                   <td style="text-align: center; vertical-align: middle; font-weight: 800; color: var(--accent);">150</td>
                 </tr>
                 <tr>
-                  <th style="vertical-align: middle;">평균 대비</th>
+                  <th style="vertical-align: middle;">${t("elementsAnalysisTableAvg")}</th>
                   ${["목", "화", "토", "금", "수"]
                     .map((k) => {
                       const v = Math.round((elements[k] || 0) * 10) / 10;
@@ -4190,7 +4188,7 @@
               <table class="report-table" style="font-size: 12px; margin-bottom: 12px;">
                 <thead>
                   <tr>
-                    <th style="width: 100px;">구분</th>
+                    <th style="width: 100px;">${t("elementsAnalysisBreakdown")}</th>
                     <th style="width: 80px; text-align: center;">목</th>
                     <th style="width: 80px; text-align: center;">화</th>
                     <th style="width: 80px; text-align: center;">토</th>
@@ -4200,7 +4198,7 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th>천간</th>
+                    <th>${t("elementsAnalysisStems")}</th>
                     ${["목", "화", "토", "금", "수"]
                       .map((k) => {
                         const v =
@@ -4214,7 +4212,7 @@
                       .join("")}
                   </tr>
                   <tr>
-                    <th>지지 본기</th>
+                    <th>${t("elementsAnalysisBranches")}</th>
                     ${["목", "화", "토", "금", "수"]
                       .map((k) => {
                         const v =
@@ -4231,7 +4229,7 @@
                     meta.hiddenMode === "on"
                       ? `
                   <tr>
-                    <th>장간</th>
+                    <th>${t("elementsAnalysisHidden")}</th>
                     ${["목", "화", "토", "금", "수"]
                       .map((k) => {
                         const v =
@@ -4248,7 +4246,7 @@
                       : ""
                   }
                   <tr>
-                    <th>월령 가중</th>
+                    <th>${t("elementsAnalysisSeason")}</th>
                     ${["목", "화", "토", "금", "수"]
                       .map((k) => {
                         const v =
@@ -4268,18 +4266,18 @@
             }
             <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
               <div class="chip" style="padding: 8px 12px;">
-                <strong>강:</strong> ${profile.strong || "—"}
+                <strong>${t("elementsAnalysisStrong")}</strong> ${profile.strong || "—"}
               </div>
               <div class="chip" style="padding: 8px 12px;">
-                <strong>중:</strong> ${profile.mid || "—"}
+                <strong>${t("elementsAnalysisMid")}</strong> ${profile.mid || "—"}
               </div>
               <div class="chip" style="padding: 8px 12px;">
-                <strong>약:</strong> ${profile.weak || "—"}
+                <strong>${t("elementsAnalysisWeak")}</strong> ${profile.weak || "—"}
               </div>
             </div>
             ${
               evidenceLine
-                ? `<p class="mini" style="padding: 8px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; margin-bottom: 12px;"><strong>근거:</strong> ${escapeHtml(
+                ? `<p class="mini" style="padding: 8px; background: rgba(99, 102, 241, 0.05); border-radius: 8px; margin-bottom: 12px;"><strong>${t("elementsAnalysisEvidence")}</strong> ${escapeHtml(
                     evidenceLine
                   )}</p>`
                 : ""
@@ -4288,10 +4286,11 @@
         `;
 
         const detailLines = [
-          `강한 ${top}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 ${top} 기운은 현재 전체의 약 ${Math.round(
-            (values[topIdx] / totalSum) * 100
-          )}% 수준이야.`,
-          `약한 ${low}: 루틴/환경 보완으로 충분히 메꿀 수 있어. ${low} 기운은 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.`,
+          t("elementsAnalysisStrongDesc", { 
+            elem: top, 
+            pct: Math.round((values[topIdx] / totalSum) * 100)
+          }),
+          t("elementsAnalysisWeakDesc", { elem: low }),
           `성향 요약: ${personality.replace(
             "흥이 떨어지면 동력이 급감할 수 있어.",
             "흥이 떨어지면 동력이 줄 수 있어."
@@ -5517,16 +5516,17 @@
         renderDeepAnalysisCard(a, null);
         renderLuckFlowCard(a, null);
         totalScoreEl.textContent = "—";
-        summarySub.textContent = "2026 흐름 · 상세 해석";
-        summaryMain.textContent = `2026년은 ${top} 기운이 힘을 얻고, ${weak}을(를) 보완하면 복이 따르는 해야. 일간 ${
-          a.dayStem || "—"
-        }의 강약은 ${
-          a.strength
-        }이니까, 무리한 확장보다 기준을 세우고 한 가지 목표를 끝까지 밀어야 실이 적어. 세운의 결을 읽고 속도를 조절하면 기회가 쌓이고 결과가 단단해져.`;
+        summarySub.textContent = t("newYearFlowDesc");
+        summaryMain.textContent = t("newYearSummaryText", {
+          top,
+          weak,
+          dayStem: a.dayStem || "—",
+          strength: a.strength
+        });
         summaryPills.innerHTML = [
-          `핵심 오행: ${top}`,
-          `약한 오행: ${weak}`,
-          "2026 월별 흐름",
+          t("newYearPillCore", { top }),
+          t("newYearPillWeak", { weak }),
+          t("newYearPillMonthly"),
         ]
           .map((p) => `<span class="pill">${escapeHtml(p)}</span>`)
           .join("");
@@ -6478,6 +6478,33 @@
           shareCardCopied: "카드를 생성하고 클립보드에 복사했어.",
           shareCardCreated: "카드를 생성했어. 다운로드를 확인해줘.",
           inputTimeNote: "※ 입력 시간은 한국 기준으로 계산해.",
+          // 오행 분석 관련
+          elementsAnalysisTitle: "📊 오행 분석",
+          elementsAnalysisSummary: "오행 분석: {top} 기운이 가장 강하고, {low} 기운이 상대적으로 약한 편이야.",
+          elementsAnalysisDayStem: "일간 기준: {dayElem} 기운 인간(본질)",
+          elementsAnalysisDistribution: "오행 분포: {top} 강세(환경)",
+          elementsAnalysisBirth: "출생:",
+          elementsAnalysisTableCategory: "구분",
+          elementsAnalysisTableTotal: "합계",
+          elementsAnalysisTableDistribution: "분포(%)",
+          elementsAnalysisTableScore: "점수(150)",
+          elementsAnalysisTableAvg: "평균 대비",
+          elementsAnalysisBreakdown: "구분",
+          elementsAnalysisStems: "천간",
+          elementsAnalysisBranches: "지지 본기",
+          elementsAnalysisHidden: "장간",
+          elementsAnalysisSeason: "월령 가중",
+          elementsAnalysisStrong: "강:",
+          elementsAnalysisMid: "중:",
+          elementsAnalysisWeak: "약:",
+          elementsAnalysisEvidence: "근거:",
+          elementsAnalysisStrongDesc: "강한 {elem}: 집중/추진 쪽으로 쓰면 성과가 빨라져. 특히 {elem} 기운은 현재 전체의 약 {pct}% 수준이야.",
+          elementsAnalysisWeakDesc: "약한 {elem}: 루틴/환경 보완으로 충분히 메꿀 수 있어. {elem} 기운은 지금 가장 낮은 구간이라 의식적으로 챙기는 게 좋아.",
+          newYearFlowDesc: "2026 흐름 · 상세 해석",
+          newYearSummaryText: "2026년은 {top} 기운이 힘을 얻고, {weak}을(를) 보완하면 복이 따르는 해야. 일간 {dayStem}의 강약은 {strength}이니까, 무리한 확장보다 기준을 세우고 한 가지 목표를 끝까지 밀어야 실이 적어. 세운의 결을 읽고 속도를 조절하면 기회가 쌓이고 결과가 단단해져.",
+          newYearPillCore: "핵심 오행: {top}",
+          newYearPillWeak: "약한 오행: {weak}",
+          newYearPillMonthly: "2026 월별 흐름",
           // 추가 번역
           inputTitle: "입력",
           shintoNote: "신토정비결 기준으로 계산해.",
@@ -6642,6 +6669,33 @@
           shareCardCopied: "Card created and copied to clipboard.",
           shareCardCreated: "Card created. Please check the download.",
           inputTimeNote: "※ Input time is calculated based on Korea standard time.",
+          // Elements analysis related
+          elementsAnalysisTitle: "📊 Five Elements Analysis",
+          elementsAnalysisSummary: "Five Elements Analysis: {top} energy is strongest, and {low} energy is relatively weak.",
+          elementsAnalysisDayStem: "Day Stem Based: {dayElem} energy person (essence)",
+          elementsAnalysisDistribution: "Five Elements Distribution: {top} strong (environment)",
+          elementsAnalysisBirth: "Birth:",
+          elementsAnalysisTableCategory: "Category",
+          elementsAnalysisTableTotal: "Total",
+          elementsAnalysisTableDistribution: "Distribution (%)",
+          elementsAnalysisTableScore: "Score (150)",
+          elementsAnalysisTableAvg: "vs Average",
+          elementsAnalysisBreakdown: "Category",
+          elementsAnalysisStems: "Heavenly Stems",
+          elementsAnalysisBranches: "Earthly Branches Base",
+          elementsAnalysisHidden: "Hidden Stems",
+          elementsAnalysisSeason: "Season Weight",
+          elementsAnalysisStrong: "Strong:",
+          elementsAnalysisMid: "Mid:",
+          elementsAnalysisWeak: "Weak:",
+          elementsAnalysisEvidence: "Evidence:",
+          elementsAnalysisStrongDesc: "Strong {elem}: Using it for focus/drive brings faster results. Especially {elem} energy is about {pct}% of the total now.",
+          elementsAnalysisWeakDesc: "Weak {elem}: Can be filled enough with routine/environmental supplementation. {elem} energy is the lowest range now, so it's good to consciously take care of it.",
+          newYearFlowDesc: "2026 Flow · Detailed Interpretation",
+          newYearSummaryText: "2026 is a year where {top} energy gains strength, and supplementing {weak} brings fortune. Since the Day Stem {dayStem}'s strength is {strength}, setting standards and pushing one goal to the end rather than excessive expansion reduces loss. Reading the minor fortune's flow and adjusting speed accumulates opportunities and makes results solid.",
+          newYearPillCore: "Core Element: {top}",
+          newYearPillWeak: "Weak Element: {weak}",
+          newYearPillMonthly: "2026 Monthly Flow",
           // Additional translations
           inputTitle: "Input",
           shintoNote: "Calculated based on Shinto Jeongbi Gyeol standards.",
