@@ -5132,6 +5132,8 @@
         return { todo: t("strategySteady"), avoid: t("avoidSteady") };
       }
       function renderStructuredReport(person, result) {
+        const t = window.t || ((key, vars = {}) => key);
+        const lang = window.currentLang || "ko";
         const scaled = scaleElements(person.elements, 150);
         const profile = makeElementProfile(person.elements);
         const tenStats = getTenGodStats(person);
@@ -5145,8 +5147,6 @@
         const gwanSalSummary = tenStats.gwanMix ? t("tenGodGwanSalMixed") : t("tenGodGwanSalClean");
         const sikSummary = tenStats.hasSikshin ? t("tenGodSikExists") : t("tenGodSikWeak");
         const waterPct = elementPercent(person.elements, "수");
-        const t = window.t || ((key, vars = {}) => key);
-        const lang = window.currentLang || "ko";
         const genderLabel = person.gender === "female" ? t("genderFemale") : t("genderMale");
 
         const branches = [
