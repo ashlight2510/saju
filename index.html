@@ -3342,14 +3342,91 @@
 ====================================================== */
       function pickMonthlyCopy(ctx) {
         const { month, seasonElem, top, weak, relTop, relWeak, dayElem } = ctx;
+        const lang = window.currentLang || "ko";
         let mode = "steady";
         if (relTop === "생" || relTop === "동") mode = "push";
         if (relWeak === "생" || relWeak === "동")
           mode = mode === "push" ? "pushPlus" : "recover";
         if (relTop === "극" || relTop === "눌림") mode = "brake";
 
-        const monthLabel = `${month}월`;
-        const templates = {
+        const monthLabel = lang === "en" ? `Month ${month}` : `${month}월`;
+        const monthLabels = lang === "en" ? [
+          "", "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ] : ["", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+        const monthLabelFull = monthLabels[month] || monthLabel;
+        const templates = lang === "en" ? {
+          push: [
+            [
+              `${monthLabelFull} is a month where good fortune crosses the threshold. The flow is on my side, so pushing forward brings results.`,
+              "Finish one most important thing first, then organize the rest in order.",
+              "Small successes can be grown big, so don't miss opportunities.",
+              "Minor Fortune helps this month, so as much as you move, gains will follow.",
+            ],
+            [
+              `${monthLabelFull} is a month where momentum picks up. Perfect for handling postponed tasks.`,
+              "Finish one of contact/decision/organization this month and prepare for the next step.",
+              "The faster you move, the more luck attaches.",
+              "Opportunities are right in front of you, so stepping forward boldly brings fortune.",
+            ],
+          ],
+          pushPlus: [
+            [
+              `${monthLabelFull} is a month where good flow and recovery come together.`,
+              "You can be ambitious, but sleep and meals must be maintained.",
+              "Power attaches, so you can handle big tasks well enough.",
+              "Minor Fortune and energy mesh, making it a month that resolves quickly.",
+            ],
+            [
+              `${monthLabelFull} is a month where things resolve well and the mind becomes comfortable.`,
+              "Refining what exists rather than starting new brings greater value.",
+              "Small improvements return as great fortune.",
+              "Help is at hand, so don't spare sincerity.",
+            ],
+          ],
+          recover: [
+            [
+              `${monthLabelFull} is a month where recovery is fortune. Just catching your energy makes things resolve.`,
+              "Reduce excessive promises and add one routine.",
+              "A month of rest actually invites good fortune.",
+              "Minor Fortune demands breathing room, so first discipline body and mind.",
+            ],
+            [
+              `${monthLabelFull} is a month where organizing brings fortune.`,
+              "Organizing just one of space/money/schedule brings a sense of change.",
+              "The more you clear and remove, the clearer the energy becomes.",
+              "Minor Fortune flows as organizing energy, so the more you remove, the more beneficial.",
+            ],
+          ],
+          brake: [
+            [
+              `${monthLabelFull} is a month where rushing brings loss. Reducing speed is beneficial.`,
+              "Delay big decisions by just 2 weeks and check first.",
+              "Rushing becomes misfortune, stopping becomes fortune.",
+              "Minor Fortune applies brakes, so it's good to step back and observe.",
+            ],
+            [
+              `${monthLabelFull} is a month where caution is money.`,
+              "Check contracts/investments/impulse purchases once more.",
+              "Fortune dwells with those who keep.",
+              "Minor Fortune warns against overheating, so being careful is the way.",
+            ],
+          ],
+          steady: [
+            [
+              `${monthLabelFull} is a month where maintaining wins. Just keeping basics is enough.`,
+              "Just take care of 3 routines (sleep/meals/organization).",
+              "It's a time to gather small gains and turn them into great fortune.",
+              "Minor Fortune is calm, so sincerity is fortune.",
+            ],
+            [
+              `${monthLabelFull} is a month where small improvements are better than big changes.`,
+              "Going with a 5% improvement goal brings steady wins.",
+              "Reducing greed actually brings gains.",
+              "Minor Fortune is stable, so small sincerity becomes great fortune.",
+            ],
+          ],
+        } : {
           push: [
             [
               `${monthLabel}은 길운이 문턱을 넘는 달이야. 흐름이 내 편이니 밀어붙이면 성과가 나.`,
@@ -3467,22 +3544,12 @@
       }
 
       function generateMonthDetails(month, seasonElem, mode, luckTag, dayElem) {
-        const monthLabels = [
-          "",
-          "1월",
-          "2월",
-          "3월",
-          "4월",
-          "5월",
-          "6월",
-          "7월",
-          "8월",
-          "9월",
-          "10월",
-          "11월",
-          "12월",
-        ];
-        const monthLabel = monthLabels[month] || `${month}월`;
+        const lang = window.currentLang || "ko";
+        const monthLabels = lang === "en" ? [
+          "", "January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ] : ["", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"];
+        const monthLabel = monthLabels[month] || (lang === "en" ? `Month ${month}` : `${month}월`);
 
         const templates = {
           push: {
