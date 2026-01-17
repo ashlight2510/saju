@@ -5011,9 +5011,9 @@
         const hap = listInternalPairs(branches, LIUHE);
         const chung = listInternalPairs(branches, CHUNG);
         const hyeong = listInternalHyeong(branches);
-        const relationLine = `합 ${hap.length ? hap.join(", ") : "—"} · 충 ${
-          chung.length ? chung.join(", ") : "—"
-        } · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
+        const relationLine = lang === "en"
+          ? `Hap: ${hap.length ? hap.join(", ") : "—"} · Chung: ${chung.length ? chung.join(", ") : "—"} · Hyeong: ${hyeong.length ? hyeong.join(", ") : "—"}`
+          : `합 ${hap.length ? hap.join(", ") : "—"} · 충 ${chung.length ? chung.join(", ") : "—"} · 형 ${hyeong.length ? hyeong.join(", ") : "—"}`;
 
         const topMeaning = elemMeaning(person.topElem);
         const weakMeaning = elemMeaning(person.weakElem);
@@ -5118,7 +5118,8 @@
           if (lang === "en") {
             return `${d.range}: ${yearModeText(d.mode)}. To do: ${strategy.todo}. To avoid: ${strategy.avoid}.`;
           }
-          return `${d.range}: ${yearModeText(d.mode)}. 해야 할 것: ${strategy.todo}. 피해야 할 것: ${strategy.avoid}.`;
+          const t = window.t || ((key, vars = {}) => key);
+          return `${d.range}: ${yearModeText(d.mode)}. ${t("strategyToDo")}: ${strategy.todo}. ${t("strategyToAvoid")}: ${strategy.avoid}.`;
         });
         const y2026 = yearModeFor(person, 2026);
         const y2026Strategy = yearStrategy(y2026.mode);
@@ -5126,7 +5127,8 @@
         if (lang === "en") {
           yearLine2026 = `2026: ${yearModeText(y2026.mode)}. To do: ${y2026Strategy.todo}. To avoid: ${y2026Strategy.avoid}.`;
         } else {
-          yearLine2026 = `2026년: ${yearModeText(y2026.mode)}. 해야 할 것: ${y2026Strategy.todo}. 피해야 할 것: ${y2026Strategy.avoid}.`;
+          const t = window.t || ((key, vars = {}) => key);
+          yearLine2026 = `2026년: ${yearModeText(y2026.mode)}. ${t("strategyToDo")}: ${y2026Strategy.todo}. ${t("strategyToAvoid")}: ${y2026Strategy.avoid}.`;
         }
 
         let finalAttitudes;
@@ -5389,6 +5391,7 @@
       }
 
       function renderLuckBlock(person) {
+        const t = window.t || ((key, vars = {}) => key);
         const tzOffsetMinutes = person.tzOffsetMinutes ?? 540;
         const dstMode = person.dstMode || "off";
         const flows = buildYearFlows(person, tzOffsetMinutes, dstMode);
@@ -5396,24 +5399,23 @@
         const decadeSummary = decades
           .map((d) => `${d.range}: ${yearModeText(d.mode)}`)
           .join(" · ");
-        const daewoonNarrative = `대운은 10년 단위로 흐르는 큰 물줄기야. ${
-          decadeSummary || "—"
-        }의 결이 이어지니까, 이 시기에는 방향을 크게 잡고 흔들림을 줄여야 해. 큰 결정은 대운 흐름에 맞춰야 길이 열려.`;
+        const daewoonNarrative = t("luckMajorFortuneDesc", {
+          decadeSummary: decadeSummary || "—"
+        });
         const yearLines = flows
-          .map(
-            (f) =>
-              `${f.year}년 ${f.pillar.text}(${f.yearElem}) · ${yearModeText(
-                f.mode
-              )}`
-          )
+          .map((f) => t("luckYearLine", {
+            year: f.year,
+            pillar: f.pillar.text,
+            yearElem: f.yearElem,
+            mode: yearModeText(f.mode)
+          }))
           .join("<br/>");
-        const sewoonNarrative =
-          "세운은 해마다 결이 달라지는 흐름이야. 강한 해에는 확장과 실행을, 약한 해에는 정리와 회복을 택해야 실이 적어. 해마다 기운이 바뀌니까 같은 방법을 고집하지 말고 흐름에 맞춰 조율하는 게 좋아.";
+        const sewoonNarrative = t("luckMinorFortuneDesc");
 
         return `
           <div class="rule-card">
-            <div class="mini">대운(10년): ${escapeHtml(daewoonNarrative)}</div>
-            <div class="mini">세운(10년): ${yearLines}</div>
+            <div class="mini">${t("luckMajorFortune")} ${escapeHtml(daewoonNarrative)}</div>
+            <div class="mini">${t("luckMinorFortune")} ${yearLines}</div>
             <div class="mini">${escapeHtml(sewoonNarrative)}</div>
           </div>
         `;
@@ -6505,6 +6507,14 @@
           newYearPillCore: "핵심 오행: {top}",
           newYearPillWeak: "약한 오행: {weak}",
           newYearPillMonthly: "2026 월별 흐름",
+          // 대운/세운 관련
+          luckMajorFortune: "대운(10년):",
+          luckMajorFortuneDesc: "대운은 10년 단위로 흐르는 큰 물줄기야. {decadeSummary}의 결이 이어지니까, 이 시기에는 방향을 크게 잡고 흔들림을 줄여야 해. 큰 결정은 대운 흐름에 맞춰야 길이 열려.",
+          luckMinorFortune: "세운(10년):",
+          luckMinorFortuneDesc: "세운은 해마다 결이 달라지는 흐름이야. 강한 해에는 확장과 실행을, 약한 해에는 정리와 회복을 택해야 실이 적어. 해마다 기운이 바뀌니까 같은 방법을 고집하지 말고 흐름에 맞춰 조율하는 게 좋아.",
+          luckYearLine: "{year}년 {pillar}({yearElem}) · {mode}",
+          strategyToDo: "해야 할 것",
+          strategyToAvoid: "피해야 할 것",
           // 추가 번역
           inputTitle: "입력",
           shintoNote: "신토정비결 기준으로 계산해.",
@@ -6696,6 +6706,14 @@
           newYearPillCore: "Core Element: {top}",
           newYearPillWeak: "Weak Element: {weak}",
           newYearPillMonthly: "2026 Monthly Flow",
+          // Major/Minor Fortune related
+          luckMajorFortune: "Major Fortune (10 years):",
+          luckMajorFortuneDesc: "Major Fortune flows in 10-year units like a large stream. Since the pattern of {decadeSummary} continues, during this period you should set the direction broadly and reduce wavering. Major decisions should align with Major Fortune flow to open the path.",
+          luckMinorFortune: "Minor Fortune (10 years):",
+          luckMinorFortuneDesc: "Minor Fortune is a flow that changes pattern each year. In strong years choose expansion and execution, in weak years choose organization and recovery to reduce loss. Since energy changes each year, don't stick to the same method and coordinate according to the flow.",
+          luckYearLine: "{year} Year {pillar}({yearElem}) · {mode}",
+          strategyToDo: "To do",
+          strategyToAvoid: "To avoid",
           // Additional translations
           inputTitle: "Input",
           shintoNote: "Calculated based on Shinto Jeongbi Gyeol standards.",
