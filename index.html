@@ -5568,7 +5568,7 @@
           .map((f) => t("luckYearLine", {
             year: f.year,
             pillar: f.pillar.text,
-            yearElem: f.yearElem,
+            yearElem: getElementName(f.yearElem),
             mode: yearModeText(f.mode)
           }))
           .join("<br/>");
