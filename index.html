@@ -1079,9 +1079,7 @@
                     placeholder="대운 시작 나이"
                   />
                 </div>
-                <p class="mini">
-                  날짜와 시간(12간지)을 입력한 뒤 성별만 선택하면 돼.
-                </p>
+                <!-- inputDesc는 JavaScript에서 동적으로 설정됨 -->
                 <div class="row hidden" style="margin-top: 8px">
                   <select id="aHiddenMode">
                     <option value="on" selected>장간 반영</option>
@@ -1147,9 +1145,7 @@
                     placeholder="대운 시작 나이"
                   />
                 </div>
-                <p class="mini">
-                  날짜와 시간(12간지)을 입력한 뒤 성별만 선택하면 돼.
-                </p>
+                <!-- inputDesc는 JavaScript에서 동적으로 설정됨 -->
                 <div class="row hidden" style="margin-top: 8px">
                   <select id="bHiddenMode">
                     <option value="on" selected>장간 반영</option>
@@ -5940,7 +5936,8 @@
 
       async function shareCard() {
         if (!state.A) {
-          alert("입력 후 계산해줘.");
+          const t = window.t || ((key, vars = {}) => key);
+          alert(t("alertInputRequired"));
           return;
         }
 
@@ -6025,9 +6022,11 @@
           await navigator.clipboard.write([
             new ClipboardItem({ "image/png": blob }),
           ]);
-          shareStatus.textContent = "카드를 생성하고 클립보드에 복사했어.";
+          const t = window.t || ((key, vars = {}) => key);
+          shareStatus.textContent = t("shareCardCopied");
         } catch {
-          shareStatus.textContent = "카드를 생성했어. 다운로드를 확인해줘.";
+          const t = window.t || ((key, vars = {}) => key);
+          shareStatus.textContent = t("shareCardCreated");
         }
       }
 
@@ -6036,7 +6035,8 @@
 ====================================================== */
       async function savePdfPretty() {
         if (!state.A) {
-          alert("입력 후 계산해줘.");
+          const t = window.t || ((key, vars = {}) => key);
+          alert(t("alertInputRequired"));
           return;
         }
         const t = window.t || ((key, vars = {}) => key);
@@ -6471,6 +6471,8 @@
           alertInputRequired: "입력 후 계산해줘.",
           alertPDFNotReady: "PDF 라이브러리가 준비되지 않았어.",
           alertMonthCopied: "{monthLabel} 운세가 클립보드에 복사되었습니다!",
+          shareCardCopied: "카드를 생성하고 클립보드에 복사했어.",
+          shareCardCreated: "카드를 생성했어. 다운로드를 확인해줘.",
           // 추가 번역
           inputTitle: "입력",
           shintoNote: "신토정비결 기준으로 계산해.",
@@ -6632,6 +6634,8 @@
           alertInputRequired: "Please calculate after input.",
           alertPDFNotReady: "PDF library is not ready.",
           alertMonthCopied: "{monthLabel} fortune copied to clipboard!",
+          shareCardCopied: "Card created and copied to clipboard.",
+          shareCardCreated: "Card created. Please check the download.",
           // Additional translations
           inputTitle: "Input",
           shintoNote: "Calculated based on Shinto Jeongbi Gyeol standards.",
