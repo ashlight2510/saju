@@ -3503,10 +3503,14 @@
         const arr = templates[mode];
         const idx = hashToIndex(seed, arr.length);
         let [oneLine, tip, extra, detail] = arr[idx];
-        oneLine = casualizeText(oneLine);
-        tip = casualizeText(tip);
-        extra = casualizeText(extra);
-        detail = casualizeText(detail);
+        if (lang === "en") {
+          // 영어는 casualizeText 적용 안 함
+        } else {
+          oneLine = casualizeText(oneLine);
+          tip = casualizeText(tip);
+          extra = casualizeText(extra);
+          detail = casualizeText(detail);
+        }
         let luckTag = "중";
         if (dayElem) {
           const relDay = relationElem(seasonElem, dayElem);
